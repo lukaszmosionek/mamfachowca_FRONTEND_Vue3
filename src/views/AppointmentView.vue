@@ -1,26 +1,46 @@
 <template>
   <div class="p-6">
+   <Header />
+
     <h2 class="text-2xl font-bold mb-4">Moje wizyty</h2>
 
-    <ul v-if="appointments.length">
-      <li
-        v-for="appointment in appointments"
-        :key="appointment.id"
-        class="mb-4 border p-4 rounded shadow-sm"
-      >
-        <div class="font-semibold text-lg">{{ appointment.service.name }}</div>
-        <div>Usługodawca: {{ appointment.provider.name }}</div>
-        <div>Data: {{ formatDate(appointment.date) }}</div>
-      </li>
-    </ul>
+    <div v-if="appointments.length" class="overflow-x-auto">
+      <table class="min-w-full table-auto border border-gray-200 rounded-lg shadow-sm">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Usługa</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Usługodawca</th>
+            <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Data</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="appointment in appointments"
+            :key="appointment.id"
+            class="border-t hover:bg-gray-50 transition"
+          >
+            <td class="px-4 py-2 text-sm font-semibold text-gray-800">
+              {{ appointment.service.name }}
+            </td>
+            <td class="px-4 py-2 text-sm text-gray-700">
+              {{ appointment.provider.name }}
+            </td>
+            <td class="px-4 py-2 text-sm text-gray-700">
+              {{ formatDate(appointment.date) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <p v-else>Nie masz jeszcze umówionych wizyt.</p>
+    <p v-else class="text-gray-500">Nie masz jeszcze umówionych wizyt.</p>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
+import Header from '@/components/Header.vue'
 
 const appointments = ref<any[]>([])
 
