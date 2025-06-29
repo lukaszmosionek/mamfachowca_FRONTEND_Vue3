@@ -15,10 +15,12 @@ router.beforeEach(async (to, from, next) => {
   const requiredRole = to.meta.role
 
   if (requiresAuth && !auth.token) {
+     alert('Dostep tylko dla zalogowanych')
     return next({ name: 'Login' })
   }
 
   if (requiresAuth && requiredRole && auth.user?.role !== requiredRole) {
+    alert('Brak dostępu (403)')
     return next({ name: 'Home' }) // lub np. 403
   }
 

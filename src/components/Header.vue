@@ -30,6 +30,8 @@ import { computed } from "vue";
 const authStore = useAuthStore()
 const router = useRouter()
 
+console.log(authStore);
+
 const logout = async () => {
   await authStore.logout()
   router.push('/login')
