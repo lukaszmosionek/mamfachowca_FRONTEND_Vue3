@@ -3,7 +3,7 @@
     <Header />
 
     <main class="p-6 text-center">
-      <h2 class="text-3xl font-bold mb-4">Witamy w naszej aplikacji!</h2>
+      <h2 class="text-3xl  text-gray-700 font-bold mb-4">Witamy w naszej aplikacji!</h2>
       <p class="text-lg text-gray-700">
         Tutaj możesz umówić wizytę lub zarządzać swoimi usługami.
       </p>
