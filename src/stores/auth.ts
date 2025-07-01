@@ -24,7 +24,6 @@ export const useAuthStore = defineStore('auth', {
       this.user = null
       localStorage.removeItem('token')
       delete api.defaults.headers.common['Authorization']
-      router.push('/')
     },
     async register(payload: Record<string, any>) {
       const res = await api.post('/register', payload)

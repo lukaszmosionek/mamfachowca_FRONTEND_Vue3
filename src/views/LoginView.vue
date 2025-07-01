@@ -10,13 +10,13 @@
 
     <form @submit.prevent="handleLogin" class="space-y-4">
       <BaseInput v-model="email" type="email" label="Email" :errors="errors.errors?.email" />
-      <BaseInput v-model="password" type="password" label="Password" :errors="errors.errors?.password" />
+      <BaseInput v-model="password" type="password" label="Password" :errors="errors.errors?.password"/>
 
       <div v-if="!errors.errors && errors?.message" class="text-red-500">
         <span>{{ errors.message }}</span>
       </div>
 
-      <BaseButton name="Login" :loading="loading" />
+      <BaseButton name="Login" :loading="loading"/>
     </form>
 
   </div>
