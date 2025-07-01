@@ -9,39 +9,14 @@
     </div>
 
     <form @submit.prevent="handleLogin" class="space-y-4">
-      <input
-        v-model="email"
-        placeholder="Email"
-        class="mt-3 inline-block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
-      />
-      <div v-if="errors.errors?.email" class="text-red-500">
-        <span v-for="(msg, i) in errors.errors.email" :key="i">{{ msg }}</span>
-      </div>
-
-      <input
-        v-model="password"
-        type="password"
-        placeholder="Password"
-        class="mt-3 inline-block pt-3 w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
-      />
-      <div v-if="errors.errors?.password" class="text-red-500">
-        <span v-for="(msg, i) in errors.errors.password" :key="i">{{ msg }}</span>
-      </div>
+      <BaseInput v-model="email" type="email" label="Email" :errors="errors.errors?.email" />
+      <BaseInput v-model="password" type="password" label="Password" :errors="errors.errors?.password" />
 
       <div v-if="!errors.errors && errors?.message" class="text-red-500">
         <span>{{ errors.message }}</span>
       </div>
 
-      <button
-        type="submit"
-        :disabled="loading"
-        class=" d-block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition-colors flex items-center justify-center disabled:opacity-60 cursor-pointer ml-2"
-      >
-        <span v-if="loading" class="animate-spin rounded-full h-5 w-5 border-t-2 border-white mr-2"></span>
-        {{ loading ? 'Logowanie...' : 'Zaloguj' }}
-      </button>
-
-
+      <BaseButton name="Login" :loading="loading" />
     </form>
 
   </div>
@@ -54,6 +29,8 @@ import api from '@/services/api'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import Header from '@/components/Header.vue'
+import BaseInput from '@/components/BaseInput.vue'
+import BaseButton from '@/components/BaseButton.vue'
 
 const email = ref('')
 const password = ref('')
