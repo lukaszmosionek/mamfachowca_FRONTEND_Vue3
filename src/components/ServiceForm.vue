@@ -1,14 +1,48 @@
 <template>
-  <div>
-    <h3>{{ service ? 'Edytuj usługę' : 'Nowa usługa' }}</h3>
-    <form @submit.prevent="submit">
-      <input v-model="form.name" placeholder="Nazwa" />
-      <input v-model.number="form.price" placeholder="Cena" />
-      <input v-model.number="form.duration_minutes" placeholder="Czas (minuty)" />
-      <textarea v-model="form.description" placeholder="Opis"></textarea>
+  <div class="max-w-md mx-auto p-6 bg-white rounded-2xl shadow-md">
+    <h3 class="text-gray-600 text-xl font-semibold mb-4 text-center">
+      {{ service ? 'Edytuj usługę' : 'Nowa usługa' }}
+    </h3>
+    <form @submit.prevent="submit" class="space-y-4">
+      <input
+        v-model="form.name"
+        placeholder="Nazwa"
+        class="text-gray-600 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <input
+        v-model.number="form.price"
+        placeholder="Cena"
+        type="number"
+        class="text-gray-600 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <input
+        v-model.number="form.duration_minutes"
+        placeholder="Czas (minuty)"
+        type="number"
+        class="text-gray-600 w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <textarea
+        v-model="form.description"
+        placeholder="Opis"
+        rows="4"
+        class="text-gray-600 w-full px-4 py-2 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+      ></textarea>
 
-      <button type="submit">Zapisz</button>
-      <button type="button" @click="$emit('close')">Anuluj</button>
+      <div class="flex justify-end space-x-2 pt-4">
+        <button
+          type="button"
+          @click="$emit('close')"
+          class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+        >
+          Anuluj
+        </button>
+        <button
+          type="submit"
+          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+        >
+          Zapisz
+        </button>
+      </div>
     </form>
   </div>
 </template>

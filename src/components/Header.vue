@@ -1,7 +1,7 @@
 <template>
   <header class="bg-gray-800 text-white px-6 py-4 flex justify-between items-center">
     <h1 class="text-xl font-bold">
-      <RouterLink to="/">Moja Aplikacja</RouterLink>
+      <RouterLink to="/">Strona Główna</RouterLink>
     </h1>
     <nav class="flex items-center gap-4">
       <RouterLink v-if="!authStore.token" to="/login">Zaloguj</RouterLink>
@@ -10,13 +10,13 @@
       <RouterLink v-if="authStore.token && isClient" to="/appointments">Moje wizyty</RouterLink>
       <RouterLink v-if="authStore.token && isProvider" to="/my-services">Moje usługi</RouterLink>
 
-      <span v-if="authStore.user" class="font-semibold">{{ authStore.user.name }}</span>
+      <span v-if="authStore.user" class="font-semibold">{{ authStore.user.name }}({{ isProvider ? authStore.user.role : '' }})</span>
       <button
         v-if="authStore.token"
         @click="logout"
-        class="bg-red-500 px-3 py-1 rounded text-sm"
+        class="bg-red-500 px-3 py-1 rounded text-sm cursor-default"
       >
-        Wyloguj
+        Logout
       </button>
     </nav>
   </header>

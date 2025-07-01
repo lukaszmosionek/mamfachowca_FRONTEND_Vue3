@@ -2,9 +2,12 @@
   <div class="p-6">
    <Header />
 
-    <h2 class="text-2xl font-bold mb-4">Moje wizyty</h2>
+    <h2 class="text-gray-600 text-2xl font-bold mb-4">Moje wizyty</h2>
 
-    <div v-if="appointments.length" class="overflow-x-auto">
+    <div v-if="loading" class="text-center py-10 text-gray-500">
+        Ładowanie usług...
+    </div>
+    <div v-if="appointments.length && !loading" class="overflow-x-auto">
       <table class="min-w-full table-auto border border-gray-200 rounded-lg shadow-sm">
         <thead class="bg-gray-100">
           <tr>
@@ -41,12 +44,18 @@
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import Header from '@/components/Header.vue'
+const loading = ref(false)
 
 const appointments = ref<any[]>([])
 
 const loadAppointments = async () => {
-  const res = await api.get('/appointments')
-  appointments.value = res.data
+  loading.value = true
+  try {
+    const res = await api.get('/appointments')
+    appointments.value = res.data
+  } finally {
+    loading.value = false
+  }
 }
 
 const formatDate = (iso: string) => {

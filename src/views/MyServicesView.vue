@@ -1,7 +1,7 @@
 <template>
   <Header />
   <div class="max-w-4xl mx-auto p-6">
-    <h2 class="text-2xl font-semibold mb-4">Moje Usługi</h2>
+    <h2 class="text-gray-600 text-2xl font-semibold mb-4">Moje Usługi</h2>
 
     <ServiceForm v-if="showForm" :service="selectedService" @close="closeForm" @saved="loadServices" />
 
@@ -13,7 +13,10 @@
     </button>
 
     <div class="overflow-x-auto">
-      <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
+      <div v-if="loading" class="text-center py-10 text-gray-500">
+        Ładowanie usług...
+      </div>
+      <table v-if="!loading" class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
         <thead>
           <tr class="bg-gray-100 text-left text-sm uppercase text-gray-600">
             <th class="px-4 py-3">Nazwa</th>
@@ -61,10 +64,16 @@ import Header from '@/components/Header.vue'
 const services = ref([])
 const selectedService = ref(null)
 const showForm = ref(false)
+const loading = ref(false)
 
 const loadServices = async () => {
-  const res = await api.get('/services')
-  services.value = res.data
+  loading.value = true
+  try {
+    const res = await api.get('/services')
+    services.value = res.data
+  } finally {
+    loading.value = false
+  }
 }
 
 const createNew = () => {

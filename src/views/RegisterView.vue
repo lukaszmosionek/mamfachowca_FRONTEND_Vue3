@@ -1,4 +1,5 @@
 <template>
+  <Header />
   <div class="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-xl">
     <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Zarejestruj się</h2>
     <form @submit.prevent="handleRegister" class="space-y-4">
@@ -46,6 +47,7 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import Header from '@/components/Header.vue'
 
 const name = ref('')
 const email = ref('')
