@@ -1,8 +1,8 @@
 <template>
-  <div class="p-6">
-   <Header />
+  <div class="">
+ 
 
-    <h2 class="text-gray-600 text-2xl font-bold mb-4">Moje wizyty</h2>
+    <h2 class="text-gray-600 text-3xl font-bold mb-4 text-center mt-4">Moje wizyty</h2>
 
     <div v-if="loading" class="text-center py-10 text-gray-500">
         Ładowanie usług...

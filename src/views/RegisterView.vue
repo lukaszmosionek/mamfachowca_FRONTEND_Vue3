@@ -1,13 +1,12 @@
 <template>
-  <Header />
   <div class="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-xl">
     <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Registration</h2>
     <form @submit.prevent="handleRegister" class="space-y-4">
 
-      <BaseInput v-model="name" type="text" label="Name" :errors="errors.errors?.name" />
-      <BaseInput v-model="email" type="email" label="Email" :errors="errors.errors?.email" />
-      <BaseInput v-model="password" type="password" label="Password" :errors="errors.errors?.password" />
-      <BaseInput v-model="password_confirmation" type="password" label="Password confirmation" :errors="errors.errors?.password_confirmation" />
+      <BaseInput v-model="name" type="text" label="Name" placeholder="e.g. John Due" :errors="errors.errors?.name" />
+      <BaseInput v-model="email" type="email" label="Email" placeholder="e.g. john.due@example.com" :errors="errors.errors?.email" />
+      <BaseInput v-model="password" type="password" label="Password" placeholder="e.g. secretpassword" :errors="errors.errors?.password" />
+      <BaseInput v-model="password_confirmation" type="password" placeholder="e.g. secretpassword" label="Password confirmation" :errors="errors.errors?.password_confirmation" />
       <BaseSelect v-model="role" label="Rola" :options="{'client': 'Klient', 'provider':'Usługodawca'}" />
       <BaseButton name="Register" :loading="loading" />
     </form>
@@ -18,7 +17,6 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
-import Header from '@/components/Header.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseSelect from '@/components/BaseSelect.vue'

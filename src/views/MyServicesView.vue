@@ -1,7 +1,6 @@
 <template>
-  <Header />
-  <div class="p-6">
-    <h2 class="text-gray-600 text-2xl font-semibold mb-4 text-center">Moje Usługi</h2>
+  <div class="wrapper">
+    <h2 class="text-gray-600 text-2xl font-semibold mb-4 mt-4 text-center">Moje Usługi</h2>
 
     <ServiceForm v-if="showForm" :service="selectedService" @close="closeForm" @saved="loadServices" />
 
@@ -61,7 +60,6 @@
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import ServiceForm from '@/components/ServiceForm.vue'
-import Header from '@/components/Header.vue'
 
 const services = ref([])
 const selectedService = ref(null)

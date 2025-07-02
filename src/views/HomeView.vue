@@ -1,7 +1,5 @@
 <template>
   <div>
-    <Header />
-
     <main class="p-6 text-center">
       <h2 class="text-3xl  text-gray-700 font-bold mb-4">Witamy w naszej aplikacji!</h2>
       <p class="text-lg text-gray-700">
@@ -31,7 +29,6 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import Header from '@/components/Header.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const authStore = useAuthStore()
