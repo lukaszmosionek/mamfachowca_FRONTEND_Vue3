@@ -5,12 +5,14 @@
 
     <ServiceForm v-if="showForm" :service="selectedService" @close="closeForm" @saved="loadServices" />
 
-    <button
-      @click="createNew"
-      class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-right"
-    >
-      Dodaj nową usługę
-    </button>
+    <div class="text-right">
+      <button
+        @click="createNew"
+        class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      >
+        Dodaj nową usługę
+      </button>
+    </div>
 
     <div class="overflow-x-auto">
       <div v-if="loading" class="text-center py-10 text-gray-500">
@@ -55,7 +57,7 @@
 
 
 
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import ServiceForm from '@/components/ServiceForm.vue'
@@ -81,12 +83,12 @@ const createNew = () => {
   showForm.value = true
 }
 
-const editService = (s: any) => {
+const editService = (s) => {
   selectedService.value = s
   showForm.value = true
 }
 
-const deleteService = async (id: number) => {
+const deleteService = async (id) => {
   if (confirm('Na pewno chcesz usunąć?')) {
     await api.delete(`/services/${id}`)
     loadServices()

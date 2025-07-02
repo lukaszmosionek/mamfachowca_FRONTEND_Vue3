@@ -1,15 +1,16 @@
 <template>
   <Header />
-  <div class="max-w-md mx-auto mt-20 p-6 bg-white shadow-lg rounded-xl">
+  <div class="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
     <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Login</h2>
 
     <div class="text-center text-gray-800 space-y-1 mb-4">
+      <div class="text-gray-800 font-bold text-center mt-3">Default credentials </div>
       <div class="text-gray-800 text-center mt-3">provider@onet.pl | password </div>
       <div class="text-gray-800 text-center mt-3 mb-3">client@onet.pl | password</div>
     </div>
 
     <form @submit.prevent="handleLogin" class="space-y-4">
-      <BaseInput v-model="email" type="email" label="Email" :errors="errors.errors?.email" />
+      <BaseInput v-model="email" type="email" label="Email" :errors="errors?.errors?.email" />
       <BaseInput v-model="password" type="password" label="Password" :errors="errors.errors?.password"/>
 
       <div v-if="!errors.errors && errors?.message" class="text-red-500">
@@ -23,7 +24,7 @@
 </template>
 
 
-<script lang="ts" setup>
+<script setup>
 import { ref } from 'vue'
 import api from '@/services/api'
 import { useRouter } from 'vue-router'

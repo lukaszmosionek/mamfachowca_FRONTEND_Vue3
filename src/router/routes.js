@@ -1,5 +1,5 @@
 import HomeView from '@/views/HomeView.vue'
-import LoginView from '@/views/LoginView.vue'
+import LoginView from '/src/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import MyServicesView from '@/views/MyServicesView.vue'
 import AppointmentView from '@/views/AppointmentView.vue'
