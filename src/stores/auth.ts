@@ -7,7 +7,7 @@ const router = useRouter()
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     token: localStorage.getItem('token') || '',
-    user: null as null | Record<string, any>,
+    user: JSON.parse(localStorage.getItem('user')) || '',
   }),
   actions: {
     async login(email: string, password: string) {
@@ -16,13 +16,15 @@ export const useAuthStore = defineStore('auth', {
       this.user = res.data.data.user
 
       localStorage.setItem('token', this.token)
+      localStorage.setItem('user', JSON.stringify(this.user))
       api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
     },
     async logout() {
       await api.post('/logout')
       this.token = ''
-      this.user = null
+      this.user = ''
       localStorage.removeItem('token')
+      localStorage.removeItem('user')
       delete api.defaults.headers.common['Authorization']
     },
     async register(payload: Record<string, any>) {
@@ -30,6 +32,7 @@ export const useAuthStore = defineStore('auth', {
       this.token = res.data.data.token
       this.user = res.data.data.user
       localStorage.setItem('token', this.token)
+      localStorage.setItem('user', JSON.stringify(this.user))
       api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
     },
   },

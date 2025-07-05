@@ -2,7 +2,7 @@
   <div class="input-wrap">
     <label v-if="label" class="text-gray-800">{{ label }}</label>
     <input
-      type="text"
+      :type="type"
       :placeholder="placeholder"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
@@ -24,6 +24,10 @@ defineProps({
   modelValue: {
     type: String,
     default: "",
+  },
+  type: {
+    type: String,
+    default: "text",
   },
   placeholder: {
     type: String,

@@ -1,10 +1,10 @@
 <template>
-  <div class="">
+  <div class="wrapper">
 
 
     <h2 class="text-gray-600 text-3xl font-bold mb-4 text-center mt-4">Moje wizyty</h2>
 
-    <div v-if="loading" class="text-center py-10 text-gray-500">
+    <div v-if="loading && !appointments.length" class="text-center py-10 text-gray-500">
         Ładowanie usług...
     </div>
     <div v-if="appointments.length && !loading" class="overflow-x-auto">
@@ -36,14 +36,13 @@
       </table>
     </div>
 
-    <p v-else class="text-gray-500">Nie masz jeszcze umówionych wizyt.</p>
+    <p v-else class="text-gray-500 text-center mt-3">Nie masz jeszcze umówionych wizyt.</p>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
-import Header from '@/components/Header.vue'
 const loading = ref(false)
 
 const appointments = ref({})
