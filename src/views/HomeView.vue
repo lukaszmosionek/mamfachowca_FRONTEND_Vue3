@@ -82,7 +82,7 @@ const loadServices = async () => {
   loading.value = true
   try {
     const res = await api.get('/services/all')
-    services.value = res.data
+    services.value = res.data.data
   } finally {
     loading.value = false
   }

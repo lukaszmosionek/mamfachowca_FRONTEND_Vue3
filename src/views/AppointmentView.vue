@@ -52,7 +52,7 @@ const loadAppointments = async () => {
   loading.value = true
   try {
     const res = await api.get('/appointments')
-    appointments.value = res.data
+    appointments.value = res.data.data
   } finally {
     loading.value = false
   }
