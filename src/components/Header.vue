@@ -27,13 +27,8 @@
         {{ authStore.user.name }} ({{ isProvider ? authStore.user.role : '' }})
       </span>
 
-      <button
-        v-if="authStore.token"
-        @click="logout"
-        class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700"
-      >
-        Logout
-      </button>
+      <BaseButton :loading="loading" name="Logout"  class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit" v-if="authStore.token" @click="logout"/>
+
     </nav>
     </div>
   </header>
@@ -63,10 +58,11 @@
   </nav>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useAuthStore } from '@/stores/auth'
 import { useRouter, RouterLink } from 'vue-router'
 import { computed, ref } from 'vue'
+import BaseButton from '@/components/BaseButton.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -74,10 +70,18 @@ const router = useRouter()
 const isProvider = computed(() => authStore.user?.role === 'provider')
 const isClient = computed(() => authStore.user?.role === 'client')
 const mobileMenuOpen = ref(false)
+const loading = ref(false)
 
 const logout = async () => {
+  loading.value = true
   await authStore.logout()
-  router.push('/login')
+  try {
+    router.push('/login')
+  } catch (error) {
+    alert('API call error:', error.response?.data.data.message || error.message)
+  } finally {
+    loading.value = false
+  }
 }
 
 const handleLogout = async () => {

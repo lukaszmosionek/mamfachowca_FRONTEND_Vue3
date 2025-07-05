@@ -1,6 +1,6 @@
 <template>
   <div class="">
- 
+
 
     <h2 class="text-gray-600 text-3xl font-bold mb-4 text-center mt-4">Moje wizyty</h2>
 
@@ -40,13 +40,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import Header from '@/components/Header.vue'
 const loading = ref(false)
 
-const appointments = ref<any[]>([])
+const appointments = ref({})
 
 const loadAppointments = async () => {
   loading.value = true
@@ -58,7 +58,7 @@ const loadAppointments = async () => {
   }
 }
 
-const formatDate = (iso: string) => {
+const formatDate = (iso) => {
   const d = new Date(iso)
   return d.toLocaleString('pl-PL', {
     day: '2-digit',
