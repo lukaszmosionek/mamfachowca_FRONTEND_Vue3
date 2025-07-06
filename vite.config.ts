@@ -17,4 +17,6 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  base: '/',
+  // base: '/home/serwer2529876/public_html/mamfachowca.mosioneklukasz.pl',
 })

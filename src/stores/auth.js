@@ -10,10 +10,10 @@ export const useAuthStore = defineStore('auth', {
     user: JSON.parse(localStorage.getItem('user')) || '',
   }),
   actions: {
-    async login(email: string, password: string) {
+    async login(email, password) {
       const res = await api.post('/login', { email, password })
-      this.token = res.data.data.token
-      this.user = res.data.data.user
+      this.token = res.data.token
+      this.user = res.data.user
 
       localStorage.setItem('token', this.token)
       localStorage.setItem('user', JSON.stringify(this.user))
@@ -27,10 +27,10 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('user')
       delete api.defaults.headers.common['Authorization']
     },
-    async register(payload: Record<string, any>) {
+    async register(payload) {
       const res = await api.post('/register', payload)
-      this.token = res.data.data.token
-      this.user = res.data.data.user
+      this.token = res.data.token
+      this.user = res.data.user
       localStorage.setItem('token', this.token)
       localStorage.setItem('user', JSON.stringify(this.user))
       api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`

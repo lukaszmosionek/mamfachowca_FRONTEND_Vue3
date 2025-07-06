@@ -7,7 +7,11 @@ const api = axios.create({
 })
 
 api.interceptors.response.use(
-  response => response,
+  response => {
+    // Flatten deeply nested data
+    response.data = response?.data?.data ?? response.data
+    return response
+  },
   error => {
     // Log or transform the error
     if (!error.response) {

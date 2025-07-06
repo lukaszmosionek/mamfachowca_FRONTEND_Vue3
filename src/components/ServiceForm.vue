@@ -25,7 +25,7 @@
           Anuluj
         </button> -->
         <BaseButton name="Cancel" class="w-fit bg-gray-200 text-gray-800 hover:bg-gray-300" @click="$emit('close')"/>
-        <BaseButton name="Save" :loading="loading" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"/>
+        <BaseButton name="Save" :loading="loading" type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"/>
         <!-- <button
           type="submit"
           class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
@@ -38,14 +38,14 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, watch } from 'vue'
 import api from '@/services/api'
 import { defineProps, defineEmits } from 'vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 
-const props = defineProps<{ service: any | null }>()
+const props = defineProps()
 const emit = defineEmits(['saved', 'close'])
 const loading = ref(false)
 
@@ -80,11 +80,20 @@ const submit = async () => {
     } else {
       await api.post('/services', form.value)
     }
+       emit('saved')
+    emit('close')
+  } catch (error) {
+    // alert('API call error:', error.response?.data.data.message || error.message)
+    console.log(error)
+    if (error && error.message) {
+      errors.value = error
+    } else {
+      console.error('Unexpected error:', error)
+    }
   } finally {
     loading.value = false
+    // emit('saved')
+    // emit('close')
   }
-
-  emit('saved')
-  emit('close')
 }
 </script>

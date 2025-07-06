@@ -40,7 +40,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="s in services"
+            v-for="s in services.data"
             :key="s.id"
             class="border-t hover:bg-gray-50"
           >
@@ -70,7 +70,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, computed, onMounted } from "vue";
 import api from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
@@ -82,7 +82,7 @@ const loadServices = async () => {
   loading.value = true
   try {
     const res = await api.get('/services/all')
-    services.value = res.data.data
+    services.value = res.data
   } finally {
     loading.value = false
   }

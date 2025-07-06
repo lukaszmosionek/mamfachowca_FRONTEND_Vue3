@@ -78,7 +78,7 @@ const logout = async () => {
   try {
     router.push('/login')
   } catch (error) {
-    alert('API call error:', error.response?.data.data.message || error.message)
+    alert('API call error:', error?.message)
   } finally {
     loading.value = false
   }
