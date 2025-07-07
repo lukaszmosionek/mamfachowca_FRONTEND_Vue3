@@ -13,6 +13,8 @@ app.use(router)
 
 app.mount('#app')
 
+window.cl = console.log;
+
 import api from './services/api'
 
 const token = localStorage.getItem('token')
