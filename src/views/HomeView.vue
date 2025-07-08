@@ -64,7 +64,7 @@
             <td class="px-4 py-2 text-gray-600 font-medium">{{ s.name ?? 'loading..' }}</td>
             <td class="px-4 py-2 text-gray-600">{{ s.provider?.name ?? 'loading..' }}</td>
             <td class="px-4 py-2 text-gray-600">{{ s.price ? s.price+' USD' : 'loading..' }}</td>
-            <td class="px-4 py-2 text-gray-600"><a href="#"@click="showModal = true; form.serviceId = s.id">Book</a></td>
+            <td class="px-4 py-2 text-gray-600"><a href="#" @click="modalBook(s.id)">Book</a></td>
             <!-- <td class="px-4 py-2 text-gray-600"><a href="#"@click="showModal = true"  @click="bookService(s.id)">Book</a></td> -->
           </tr>
         </tbody>
@@ -87,7 +87,8 @@
 
     <template #footer>
       <button @click="showModal = false" class="px-4 py-2 bg-gray-300 rounded text-gray-600">Cancel</button>
-      <button @click="bookService(form.serviceId, form.date, form.time)" class="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
+      <!-- <button >Submit</button> -->
+      <BaseButton @click="bookService(form.serviceId, form.date, form.time)" :loading="loading" name="Book" class="px-4 py-2 bg-blue-500 text-white rounded"/>
     </template>
   </BaseModal>
 
@@ -105,6 +106,7 @@ import { useAuthStore } from '@/stores/auth'
 import Pagination from '@/components/Pagination.vue';
 import BaseModal from '@/components/BaseModal.vue';
 import BaseInput from '@/components/BaseInput.vue';
+import BaseButton from '@/components/BaseButton.vue';
 
 const showModal = ref(false)
 const router = useRouter();
@@ -117,6 +119,10 @@ const currentPage = ref(Number(route.query.currentPage) || 1);
 const totalPages = ref(10);
 
 const errors = ref('');
+
+const authStore = useAuthStore()
+const isProvider = computed(() => authStore.user?.role === 'provider')
+const isClient = computed(() => authStore.user?.role === 'client')
 
 const form = ref({
   providerId: '',
@@ -150,6 +156,19 @@ const loadServices = async (page, perPage) => {
   }
 }
 
+const modalBook = async (serviceId) => {
+  if(!authStore.token){
+    router.push('login')
+    return
+  }
+  if(authStore.user.role == 'provider'){
+    alert('Login as Client')
+    return
+  }
+  showModal.value = true
+  form.serviceId = serviceId
+}
+
 const applyFilters = () => {
   if (filters.value.name && filters.value.name.length < 3) return;
   currentPage.value = 1;
@@ -168,12 +187,11 @@ const loadProviders = async () => {
 
 const bookService = async (serviceId, formDate, formTime) => {
   try {
+    loading.value = true
     const res = await api.post('/appointments', {
-      // params: {
         service_id: serviceId,
         start_time: formTime,
         date: formDate
-      // }
     })
     showModal.value = false
     alert('Reservation booked succesfully')
@@ -182,6 +200,7 @@ const bookService = async (serviceId, formDate, formTime) => {
     errors.value = error
     console.error('Failed to load providers', error)
   }
+  loading.value = false
 }
 
 onMounted(() => {
@@ -205,7 +224,4 @@ const handlePageChange = (page) => {
   loadServices(page, perPage.value);
 };
 
-const authStore = useAuthStore()
-const isProvider = computed(() => authStore.user?.role === 'provider')
-const isClient = computed(() => authStore.user?.role === 'client')
 </script>
