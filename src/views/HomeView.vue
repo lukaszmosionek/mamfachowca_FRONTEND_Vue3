@@ -26,16 +26,32 @@
     </main>
 
     <div class="overflow-x-auto">
-      <!-- <div v-if="loading" class="text-center py-10 text-gray-500">
-        Services loading...
-      </div> -->
-      <!-- <table v-if="!loading" class="min-w-full bg-white border border-gray-200 rounded-lg shadow"> -->
+
+        <!-- add filtering -->
+        <div class="my-6 flex flex-wrap gap-4 justify-center">
+            <input
+              v-model="filters.name"
+              @input="applyFilters"
+              type="text"
+              placeholder="Search by name"
+              class="border px-4 py-2 rounded text-gray-600"
+            />
+            <select v-model="filters.providerId" @change="applyFilters" class="border px-4 py-2 rounded text-gray-600">
+              <option value="">All Providers</option>
+              <option v-for="p in providers" :key="p.id" :value="p.id">
+                {{ p.name }}
+              </option>
+            </select>
+          </div>
+
+
+
       <table  class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
         <thead>
           <tr class="bg-gray-100 text-left text-sm uppercase text-gray-600">
-            <th class="px-4 py-3">Name</th>
-            <th class="px-4 py-3">Price</th>
+            <th class="px-4 py-3 t">Name</th>
             <th class="px-4 py-3">Provider</th>
+            <th class="px-4 py-3">Price</th>
             <th class="px-4 py-3 text-right"></th>
           </tr>
         </thead>
@@ -45,24 +61,11 @@
             :key="s.id"
             class="border-t hover:bg-gray-50"
           >
-            <!-- <td class="px-4 py-2  text-white-600  font-medium rounded ">{{ s.name }}</td> -->
             <td class="px-4 py-2 text-gray-600 font-medium">{{ s.name ?? 'loading..' }}</td>
-            <td class="px-4 py-2 text-gray-600">{{ s.price ?? 'loading..' }}</td>
             <td class="px-4 py-2 text-gray-600">{{ s.provider?.name ?? 'loading..' }}</td>
-            <td class="px-4 py-2 space-x-2 text-right">
-              <!-- <button
-                @click="editService(s)"
-                class="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500"
-              >
-                Edytuj
-              </button>
-              <button
-                @click="deleteService(s.id)"
-                class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-              >
-                Usuń
-              </button> -->
-            </td>
+            <td class="px-4 py-2 text-gray-600">{{ s.price ? s.price+' USD' : 'loading..' }}</td>
+            <td class="px-4 py-2 text-gray-600"><a href="#"@click="showModal = true; form.serviceId = s.id">Book</a></td>
+            <!-- <td class="px-4 py-2 text-gray-600"><a href="#"@click="showModal = true"  @click="bookService(s.id)">Book</a></td> -->
           </tr>
         </tbody>
       </table>
@@ -77,6 +80,20 @@
     </div>
 
 
+
+  <BaseModal :show="showModal" title="Date and time of service" @close="showModal = false" class="space-y-4">
+    <BaseInput v-model="form.date" type="date" :errors="errors.errors?.date"/>
+    <BaseInput v-model="form.time" type="time" class="mt-2" :errors="errors.errors?.start_time"/>
+
+    <template #footer>
+      <button @click="showModal = false" class="px-4 py-2 bg-gray-300 rounded text-gray-600">Cancel</button>
+      <button @click="bookService(form.serviceId, form.date, form.time)" class="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
+    </template>
+  </BaseModal>
+
+    <!-- <button @click="showModal = true" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Open Modal</button> -->
+
+
   </div>
 </template>
 
@@ -86,7 +103,10 @@ import { ref, computed, onMounted, watch } from "vue";
 import api from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
 import Pagination from '@/components/Pagination.vue';
+import BaseModal from '@/components/BaseModal.vue';
+import BaseInput from '@/components/BaseInput.vue';
 
+const showModal = ref(false)
 const router = useRouter();
 const route = useRoute()
 
@@ -96,11 +116,33 @@ const services = ref(Array(perPage.value).fill({}));
 const currentPage = ref(Number(route.query.currentPage) || 1);
 const totalPages = ref(10);
 
+const errors = ref('');
+
+const form = ref({
+  providerId: '',
+  time: '',
+  time: '',
+});
+
+const filters = ref({
+  name: '',
+  providerId: ''
+});
+
+const providers = ref([]);
+
 
 const loadServices = async (page, perPage) => {
   loading.value = true
   try {
-    const res = await api.get('/services/all', { params: {page, per_page: perPage} } )
+    const res = await api.get('/services/all', {
+      params: {
+        page,
+        per_page: perPage,
+        name: filters.value.name || undefined,
+        provider_id: filters.value.providerId || undefined
+      }
+    })
     services.value = res.data
     totalPages.value = Math.ceil(res.data.meta.total / perPage);
   } finally {
@@ -108,8 +150,43 @@ const loadServices = async (page, perPage) => {
   }
 }
 
+const applyFilters = () => {
+  if (filters.value.name && filters.value.name.length < 3) return;
+  currentPage.value = 1;
+  services.value.data = Array(perPage.value).fill({});
+  loadServices(currentPage.value, perPage.value);
+};
+
+const loadProviders = async () => {
+  try {
+    const res = await api.get('/providers/all')
+    providers.value = res.data
+  } catch (err) {
+    console.error('Failed to load providers', err)
+  }
+}
+
+const bookService = async (serviceId, formDate, formTime) => {
+  try {
+    const res = await api.post('/appointments', {
+      // params: {
+        service_id: serviceId,
+        start_time: formTime,
+        date: formDate
+      // }
+    })
+    showModal.value = false
+    alert('Reservation booked succesfully')
+    // providers.value = res.data
+  } catch (error) {
+    errors.value = error
+    console.error('Failed to load providers', error)
+  }
+}
+
 onMounted(() => {
   loadServices(currentPage.value, perPage.value)
+  loadProviders()
 })
 
 watch([perPage, currentPage], () => {
