@@ -13,7 +13,7 @@ app.use(router)
 
 app.mount('#app')
 
-window.cl = console.log;
+window.l = console.log;
 
 import api from './services/api'
 

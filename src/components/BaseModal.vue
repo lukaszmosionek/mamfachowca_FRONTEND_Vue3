@@ -25,6 +25,9 @@
 </template>
 
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const emit =defineEmits(['close', 'submit'])
 defineProps({
   show: Boolean,
   title: {
@@ -33,5 +36,18 @@ defineProps({
   }
 })
 
-defineEmits(['close', 'submit'])
+function handleKeydown(event, prop) {
+  if (event.key === 'Escape') {
+    emit('close')
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
+
 </script>

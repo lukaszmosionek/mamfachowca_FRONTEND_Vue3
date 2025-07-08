@@ -17,6 +17,11 @@
 
     <!-- Desktop Nav -->
     <nav class="hidden md:flex items-center gap-4">
+       <button @click="clearCache" class="clear-button">
+          Clear Cache
+        </button>
+
+
       <RouterLink v-if="!authStore.token" to="/login">Login</RouterLink>
       <RouterLink v-if="!authStore.token" to="/register">Register</RouterLink>
 
@@ -78,7 +83,7 @@ const logout = async () => {
   try {
     router.push('/login')
   } catch (error) {
-    alert('API call error:', error?.message)
+    console.error('API call error:', error?.message)
   } finally {
     loading.value = false
   }
@@ -87,5 +92,16 @@ const logout = async () => {
 const handleLogout = async () => {
   mobileMenuOpen.value = false
   await logout()
+}
+
+function clearCache() {
+  // Remove specific auth/local data
+  localStorage.removeItem('token'); // or whatever key you're using
+
+  // OR: Clear all localStorage
+  localStorage.clear();
+
+  // Optional: Redirect to login or refresh the app
+  window.location.reload(); // or use Vue Router to redirect
 }
 </script>

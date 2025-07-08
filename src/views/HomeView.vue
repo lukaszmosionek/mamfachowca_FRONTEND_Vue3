@@ -82,7 +82,7 @@
 
 
   <BaseModal :show="showModal" title="Date and time of service" @close="showModal = false" class="space-y-4">
-    <BaseInput v-model="form.date" type="date" :errors="errors.errors?.date"/>
+    <BaseInput v-model="form.date" type="date" :min="today" :errors="errors.errors?.date"/>
     <BaseInput v-model="form.time" type="time" class="mt-2" :errors="errors.errors?.start_time"/>
 
     <template #footer>
@@ -111,6 +111,8 @@ import BaseButton from '@/components/BaseButton.vue';
 const showModal = ref(false)
 const router = useRouter();
 const route = useRoute()
+
+const today = new Date().toISOString().split('T')[0] // Format: YYYY-MM-DD
 
 const loading = ref(false)
 const perPage = ref(Number(route.query.perPage) || 10);
@@ -223,5 +225,7 @@ const handlePageChange = (page) => {
   services.value.data = Array(perPage.value).fill({});
   loadServices(page, perPage.value);
 };
+
+
 
 </script>
