@@ -11,6 +11,9 @@ import { createI18n } from 'vue-i18n'
 import pl from './locales/pl.json'
 import en from './locales/en.json'
 
+import Vue3Toastify from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
+
 // Create i18n instance
 const i18n = createI18n({
   legacy: false, // Use Composition API
@@ -27,6 +30,7 @@ if (token) {
 const app = createApp(App)
 app.use(createPinia())
 app.use(i18n)
+app.use(Vue3Toastify)
 app.use(router)
 app.mount('#app')
 

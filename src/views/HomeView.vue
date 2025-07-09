@@ -66,7 +66,7 @@
             <td class="px-4 py-2 text-gray-600">{{ s.provider?.name ?? 'loading..' }}</td>
             <td class="px-4 py-2 text-gray-600">{{ s.price ? s.price + ' USD' : 'loading..' }}</td>
             <td class="px-4 py-2 text-gray-600">
-              <a href="#" @click="modalBook(s.id)">{{ $t('Book') }}</a>
+              <a href="#" :data-id="s.id" @click="modalBook(s.id)">{{ $t('Book') }}</a>
             </td>
           </tr>
         </tbody>
@@ -107,7 +107,7 @@
           {{ $t('Cancel') }}
         </button>
         <BaseButton
-          @click="bookService(form.serviceId, form.date, form.time)"
+          @click="bookService"
           :loading="loading"
           :name="$t('Book')"
           class="px-4 py-2 bg-blue-500 text-white rounded"
@@ -127,6 +127,7 @@ import Pagination from '@/components/Pagination.vue';
 import BaseModal from '@/components/BaseModal.vue';
 import BaseInput from '@/components/BaseInput.vue';
 import BaseButton from '@/components/BaseButton.vue';
+import { toast } from 'vue3-toastify'
 
 const showModal = ref(false)
 const router = useRouter();
@@ -146,11 +147,7 @@ const authStore = useAuthStore()
 const isProvider = computed(() => authStore.user?.role === 'provider')
 const isClient = computed(() => authStore.user?.role === 'client')
 
-const form = ref({
-  providerId: '',
-  time: '',
-  time: '',
-});
+const form = ref({});
 
 const filters = ref({
   name: '',
@@ -184,11 +181,11 @@ const modalBook = async (serviceId) => {
     return
   }
   if(authStore.user.role == 'provider'){
-    alert('Login as Client')
+     toast.error('Login as Client')
     return
   }
   showModal.value = true
-  form.serviceId = serviceId
+  form.value.serviceId = serviceId
 }
 
 const applyFilters = () => {
@@ -207,16 +204,16 @@ const loadProviders = async () => {
   }
 }
 
-const bookService = async (serviceId, formDate, formTime) => {
+const bookService = async () => {
   try {
     loading.value = true
     const res = await api.post('/appointments', {
-        service_id: serviceId,
-        start_time: formTime,
-        date: formDate
+        service_id: form.value.serviceId,
+        start_time: form.value.time,
+        date: form.value.date
     })
     showModal.value = false
-    alert('Reservation booked succesfully')
+    toast.success('Reservation booked succesfully')
     // providers.value = res.data
   } catch (error) {
     errors.value = error

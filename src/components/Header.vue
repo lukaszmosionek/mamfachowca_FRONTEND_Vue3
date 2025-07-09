@@ -29,12 +29,8 @@
 
         <RouterLink v-if="authStore.token && isClient" to="/appointments">{{ $t('Appointments') }}</RouterLink>
         <RouterLink v-if="authStore.token && isProvider" to="/my-services">{{ $t('My services') }}</RouterLink>
-        <RouterLink v-if="authStore.token && isProvider" to="/account">{{ $t('Account') }}</RouterLink>
 
-        <span v-if="authStore.user" class="font-semibold">
-          {{ authStore.user.name }} ({{ isProvider ? authStore.user.role : '' }})
-        </span>
-
+        <RouterLink v-if="authStore.token" to="/account">{{ authStore.user.name }} ({{ isProvider ? authStore.user.role : '' }})</RouterLink>
         <BaseButton :loading="loading" :name="$t('Logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit" v-if="authStore.token" @click="logout"/>
 
       </nav>
@@ -73,6 +69,7 @@ import { useRouter, RouterLink } from 'vue-router'
 import { computed, ref } from 'vue'
 import BaseButton from '@/components/BaseButton.vue'
 import ChangeLanguage from './ChangeLanguage.vue'
+import { toast } from 'vue3-toastify'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -84,8 +81,8 @@ const loading = ref(false)
 
 const logout = async () => {
   loading.value = true
-  await authStore.logout()
   try {
+    await authStore.logout()
     router.push('/login')
   } catch (error) {
     console.error('API call error:', error?.message)
