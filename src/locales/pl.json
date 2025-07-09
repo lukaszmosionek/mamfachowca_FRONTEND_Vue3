@@ -28,6 +28,8 @@
   "Password confirmation": "Potwierdzenie hasła",
   "Role": "Rola",
   "Client": "Klient",
+  "client": "klient",
+  "provider": "usługodawca",
 
   "My appointments": "Moje wizyty",
   "Service": "Usługa",
@@ -39,6 +41,7 @@
   "Time (minutes)": "Czas (minuty)",
   "Description": "Opis",
   "Save": "Zapisz",
+  "Update": "Aktualizuj",
 
   "My Services": "Moje Usługi",
   "Add new service": "Dodaj nową usługę",
@@ -48,5 +51,7 @@
   "Delete": "Usuń",
 
   "Prev": "Poprzednia",
-  "Next": "Następna"
+  "Next": "Następna",
+
+  "Account": "Konto"
 }

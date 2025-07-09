@@ -30,4 +30,4 @@ app.use(i18n)
 app.use(router)
 app.mount('#app')
 
-window.l = console.log
+window.cl = console.log

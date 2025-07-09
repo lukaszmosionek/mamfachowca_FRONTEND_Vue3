@@ -29,6 +29,7 @@
 
         <RouterLink v-if="authStore.token && isClient" to="/appointments">{{ $t('Appointments') }}</RouterLink>
         <RouterLink v-if="authStore.token && isProvider" to="/my-services">{{ $t('My services') }}</RouterLink>
+        <RouterLink v-if="authStore.token && isProvider" to="/account">{{ $t('Account') }}</RouterLink>
 
         <span v-if="authStore.user" class="font-semibold">
           {{ authStore.user.name }} ({{ isProvider ? authStore.user.role : '' }})
