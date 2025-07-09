@@ -1,0 +1,52 @@
+{
+  "Welcome to our app!": "Witamy w naszej aplikacji!",
+  "Here you can make an appointment or manage your services.": "Tutaj możesz umówić wizytę lub zarządzać swoimi usługami.",
+  "Browse available services": "Przeglądaj dostępne usługi",
+  "Manage your services": "Zarządzaj swoimi usługami",
+  "Search by name": "Szukaj według nazwy",
+  "All Providers": "Wszyscy dostawcy",
+  "Name": "Nazwa",
+  "Provider": "Dostawca",
+  "Price": "Cena",
+  "Book": "Zarezerwuj",
+  "Date and time of service": "Data i godzina usługi",
+  "Cancel": "Anuluj",
+
+  "Home": "Strona główna",
+  "Clear Cache": "Wyczyść pamięć podręczną",
+  "Login": "Zaloguj się",
+  "Register": "Zarejestruj się",
+  "Appointments": "Wizyty",
+  "My services": "Moje usługi",
+  "Logout": "Wyloguj się",
+
+  "Email": "Email",
+  "Password": "Hasło",
+  "Default credentials": "Domyślne dane logowania",
+
+  "Registration": "Rejestracja",
+  "Password confirmation": "Potwierdzenie hasła",
+  "Role": "Rola",
+  "Client": "Klient",
+
+  "My appointments": "Moje wizyty",
+  "Service": "Usługa",
+  "Date": "Data",
+  "You don't have appointments yet.": "Nie masz jeszcze żadnych wizyt.",
+
+  "Edit service": "Edytuj usługę",
+  "New service": "Nowa usługa",
+  "Time (minutes)": "Czas (minuty)",
+  "Description": "Opis",
+  "Save": "Zapisz",
+
+  "My Services": "Moje Usługi",
+  "Add new service": "Dodaj nową usługę",
+  "Loading services...": "Ładowanie usług...",
+  "Price (PLN)": "Cena (zł)",
+  "Edit": "Edytuj",
+  "Delete": "Usuń",
+
+  "Prev": "Poprzednia",
+  "Next": "Następna"
+}

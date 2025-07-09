@@ -1,46 +1,50 @@
 <template>
   <div class="wrapper">
-
-
-    <h2 class="text-gray-600 text-3xl font-bold mb-4 text-center mt-4">My appointments</h2>
+    <h2 class="text-gray-600 text-3xl font-bold mb-4 text-center mt-4">
+      {{ $t('My appointments') }}
+    </h2>
 
     <div v-if="loading && !appointments.length" class="text-center py-10 text-gray-500">
-        Loading Services...
+      {{ $t('Loading services...') }}
     </div>
-    <div v-else>
-        <div v-if="appointments.length && !loading" class="overflow-x-auto">
-          <table class="min-w-full table-auto border border-gray-200 rounded-lg shadow-sm">
-            <thead class="bg-gray-100">
-              <tr>
-                <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Service</th>
-                <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Provider</th>
-                <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="appointment in appointments"
-                :key="appointment.id"
-                class="border-t hover:bg-gray-50 transition"
-              >
-                <td class="px-4 py-2 text-sm font-semibold text-gray-800">
-                  {{ appointment.service.name }}
-                </td>
-                <td class="px-4 py-2 text-sm text-gray-700">
-                  {{ appointment.provider.name }}
-                </td>
-                <td class="px-4 py-2 text-sm text-gray-700">
-                  {{ formatDate(appointment.date) }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
 
-        <p v-else class="text-gray-500 text-center mt-3">You don't have appointments yet.</p>
+    <div v-else>
+      <div v-if="appointments.length && !loading" class="overflow-x-auto">
+        <table class="min-w-full table-auto border border-gray-200 rounded-lg shadow-sm">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">{{ $t('Service') }}</th>
+              <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">{{ $t('Provider') }}</th>
+              <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">{{ $t('Date') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="appointment in appointments"
+              :key="appointment.id"
+              class="border-t hover:bg-gray-50 transition"
+            >
+              <td class="px-4 py-2 text-sm font-semibold text-gray-800">
+                {{ appointment.service.name }}
+              </td>
+              <td class="px-4 py-2 text-sm text-gray-700">
+                {{ appointment.provider.name }}
+              </td>
+              <td class="px-4 py-2 text-sm text-gray-700">
+                {{ formatDate(appointment.date) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p v-else class="text-gray-500 text-center mt-3">
+        {{ $t("You don't have appointments yet.") }}
+      </p>
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue'

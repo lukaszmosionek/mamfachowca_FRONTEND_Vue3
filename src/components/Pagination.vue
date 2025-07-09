@@ -7,7 +7,7 @@
           :disabled="currentPage === 1"
           class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
         >
-          Prev
+          {{ $t('Prev') }}
         </button>
       </li>
 
@@ -31,7 +31,7 @@
           :disabled="currentPage === totalPages"
           class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50"
         >
-          Next
+          {{ $t('Next') }}
         </button>
       </li>
     </ul>

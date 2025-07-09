@@ -1,0 +1,52 @@
+{
+  "Welcome to our app!": "Welcome to our app!",
+  "Here you can make an appointment or manage your services.": "Here you can make an appointment or manage your services.",
+  "Browse available services": "Browse available services",
+  "Manage your services": "Manage your services",
+  "Search by name": "Search by name",
+  "All Providers": "All Providers",
+  "Name": "Name",
+  "Provider": "Provider",
+  "Price": "Price",
+  "Book": "Book",
+  "Date and time of service": "Date and time of service",
+  "Cancel": "Cancel",
+
+  "Home": "Home",
+  "Clear Cache": "Clear Cache",
+  "Login": "Login",
+  "Register": "Register",
+  "Appointments": "Appointments",
+  "My services": "My services",
+  "Logout": "Logout",
+
+  "Email": "Email",
+  "Password": "Password",
+  "Default credentials": "Default credentials",
+
+  "Registration": "Registration",
+  "Password confirmation": "Password confirmation",
+  "Role": "Role",
+  "Client": "Client",
+
+  "My appointments": "My appointments",
+  "Service": "Service",
+  "Date": "Date",
+  "You don't have appointments yet.": "You don't have appointments yet.",
+
+  "Edit service": "Edit service",
+  "New service": "New service",
+  "Time (minutes)": "Time (minutes)",
+  "Description": "Description",
+  "Save": "Save",
+
+  "My Services": "My Services",
+  "Add new service": "Add new service",
+  "Loading services...": "Loading services...",
+  "Price (PLN)": "Price (PLN)",
+  "Edit": "Edit",
+  "Delete": "Delete",
+
+  "Prev": "Prev",
+  "Next": "Next"
+}

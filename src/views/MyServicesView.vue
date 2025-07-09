@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper">
-    <h2 class="text-gray-600 text-2xl font-semibold mb-4 mt-4 text-center">Moje Usługi</h2>
+    <h2 class="text-gray-600 text-2xl font-semibold mb-4 mt-4 text-center">{{ $t('My Services') }}</h2>
 
     <ServiceForm v-if="showForm" :service="selectedService" @close="closeForm" @saved="loadServices" />
 
@@ -9,19 +9,19 @@
         @click="createNew"
         class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
       >
-        Dodaj nową usługę
+        {{ $t('Add new service') }}
       </button>
     </div>
 
     <div class="overflow-x-auto">
       <div v-if="loading" class="text-center py-10 text-gray-500">
-        Ładowanie usług...
+        {{ $t('Loading services...') }}
       </div>
       <table v-if="!loading" class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
         <thead>
           <tr class="bg-gray-100 text-left text-sm uppercase text-gray-600">
-            <th class="px-4 py-3">Nazwa</th>
-            <th class="px-4 py-3">Cena (zł)</th>
+            <th class="px-4 py-3">{{ $t('Name') }}</th>
+            <th class="px-4 py-3">{{ $t('Price (PLN)') }}</th>
             <th class="px-4 py-3 text-right"></th>
           </tr>
         </thead>
@@ -38,13 +38,13 @@
                 @click="editService(s)"
                 class="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500"
               >
-                Edytuj
+                {{ $t('Edit') }}
               </button>
               <button
                 @click="deleteService(s.id)"
                 class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
               >
-                Usuń
+                {{ $t('Delete') }}
               </button>
             </td>
           </tr>
@@ -53,8 +53,6 @@
     </div>
   </div>
 </template>
-
-
 
 <script setup>
 import { ref, onMounted } from 'vue'

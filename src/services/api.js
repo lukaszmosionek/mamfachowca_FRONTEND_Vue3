@@ -5,6 +5,11 @@ const api = axios.create({
   withCredentials: true,
 })
 
+api.interceptors.request.use(config => {
+  config.headers['Accept-Language'] = localStorage.getItem('lang') ?? 'en'
+  return config
+})
+
 api.interceptors.response.use(
   response => {
     // Flatten deeply nested data

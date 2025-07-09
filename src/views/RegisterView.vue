@@ -1,17 +1,45 @@
 <template>
   <div class="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-xl">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Registration</h2>
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">{{ $t('Registration') }}</h2>
     <form @submit.prevent="handleRegister" class="space-y-4">
-
-      <BaseInput v-model="name" type="text" label="Name" placeholder="e.g. John Due" :errors="errors.errors?.name" />
-      <BaseInput v-model="email" type="email" label="Email" placeholder="e.g. john.due@example.com" :errors="errors.errors?.email" />
-      <BaseInput v-model="password" type="password" label="Password" placeholder="e.g. secretpassword" :errors="errors.errors?.password" />
-      <BaseInput v-model="password_confirmation" type="password" placeholder="e.g. secretpassword" label="Password confirmation" :errors="errors.errors?.password_confirmation" />
-      <BaseSelect v-model="role" label="Rola" :options="{'client': 'Klient', 'provider':'Usługodawca'}" />
-      <BaseButton name="Register" :loading="loading" />
+      <BaseInput
+        v-model="name"
+        type="text"
+        :label="$t('Name')"
+        placeholder="e.g. John Due"
+        :errors="errors.errors?.name"
+      />
+      <BaseInput
+        v-model="email"
+        type="email"
+        :label="$t('Email')"
+        placeholder="e.g. john.due@example.com"
+        :errors="errors.errors?.email"
+      />
+      <BaseInput
+        v-model="password"
+        type="password"
+        :label="$t('Password')"
+        placeholder="e.g. secretpassword"
+        :errors="errors.errors?.password"
+      />
+      <BaseInput
+        v-model="password_confirmation"
+        type="password"
+        placeholder="e.g. secretpassword"
+        :label="$t('Password confirmation')"
+        :errors="errors.errors?.password_confirmation"
+      />
+      <BaseSelect
+        v-model="role"
+        :label="$t('Role')"
+        :options="{ 'client': $t('Client'), 'provider': $t('Provider') }"
+      />
+      <BaseButton :name="$t('Register')" :loading="loading" />
     </form>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from 'vue'
