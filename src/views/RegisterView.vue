@@ -3,38 +3,49 @@
     <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">{{ $t('Registration') }}</h2>
     <form @submit.prevent="handleRegister" class="space-y-4">
       <BaseInput
-        v-model="name"
+        v-model="form.name"
         type="text"
         :label="$t('Name')"
         placeholder="e.g. John Due"
-        :errors="errors.errors?.name"
+        :errors="errors?.name"
       />
       <BaseInput
-        v-model="email"
+        v-model="form.email"
         type="email"
         :label="$t('Email')"
         placeholder="e.g. john.due@example.com"
-        :errors="errors.errors?.email"
+        :errors="errors?.email"
       />
       <BaseInput
-        v-model="password"
+        v-model="form.password"
         type="password"
         :label="$t('Password')"
         placeholder="e.g. secretpassword"
-        :errors="errors.errors?.password"
+        :errors="errors?.password"
       />
       <BaseInput
-        v-model="password_confirmation"
+        v-model="form.password_confirmation"
         type="password"
         placeholder="e.g. secretpassword"
         :label="$t('Password confirmation')"
-        :errors="errors.errors?.password_confirmation"
+        :errors="errors?.password_confirmation"
       />
       <BaseSelect
-        v-model="role"
+        v-model="form.role"
         :label="$t('Role')"
         :options="{ 'client': $t('Client'), 'provider': $t('Provider') }"
       />
+
+      <div v-if="form.role == 'provider'">
+        <h2 class="text-gray-600 text-xl text-center">Dostępność</h2>
+        <div class="availability space-y-4 mt-4">
+          <div v-for="(day, index) in daysOfWeek" :key="index" class="flex space-x-4 ">
+            <BaseInput v-model="form.availability.start[day]" :max="form.availability.end[day]" type="time" class=" w-full" :label="$t(day)+$t('from')" />
+            <BaseInput v-model="form.availability.end[day]" :min="form.availability.start[day]" type="time" class=" w-full" :label="$t('To')" />
+          </div>
+        </div>
+      </div>
+
       <BaseButton :name="$t('Register')" :loading="loading" />
     </form>
   </div>
@@ -49,40 +60,38 @@ import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseSelect from '@/components/BaseSelect.vue'
 
-const name = ref('')
-const email = ref('')
-const password = ref('')
-const password_confirmation = ref('')
-const role = ref('client')
-
 const store = useAuthStore()
 const router = useRouter()
 
 const errors = ref({})
 const loading = ref(false)
 
+const form = ref({
+  availability: {
+    start: {},
+    end: {}
+  },
+  role: 'client'
+})
+
+const daysOfWeek = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+
+daysOfWeek.forEach(day => {
+  form.value.availability.start[day] = ''
+  form.value.availability.end[day] = ''
+})
+
 const handleRegister = async () => {
   errors.value = {} // reset errors before submit
   loading.value = true
 
   try {
-    await store.register({
-      name: name.value,
-      email: email.value,
-      password: password.value,
-      password_confirmation: password_confirmation.value,
-      role: role.value,
-    })
+    await store.register( form.value )
     router.push('/')
   } catch (error) {
-    // alert('API call error:', error.response?.data.data.message || error.message)
-    if (error && error.message) {
-      errors.value = error
-    } else {
-      console.error('Unexpected error:', error)
-    }
-  } finally {
-    loading.value = false
+    errors.value = error.errors
   }
+
+  loading.value = false
 }
 </script>

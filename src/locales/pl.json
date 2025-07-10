@@ -53,5 +53,13 @@
   "Prev": "Poprzednia",
   "Next": "Następna",
 
-  "Account": "Konto"
+  "Account": "Konto",
+
+    "monday": "poniedziałek",
+    "tuesday": "wtorek",
+    "wednesday": "środa",
+    "thursday": "czwartek",
+    "friday": "piątek",
+    "saturday": "sobota",
+    "sunday": "niedziela"
 }
