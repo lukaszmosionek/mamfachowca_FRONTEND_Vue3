@@ -5,18 +5,11 @@
     <ServiceForm v-if="showForm" :service="selectedService" @close="closeForm" @saved="loadServices" />
 
     <div class="text-right">
-      <button
-        @click="createNew"
-        class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      >
-        {{ $t('Add new service') }}
-      </button>
+      <button @click="createNew"class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">{{ $t('Add new service') }}</button>
     </div>
 
     <div class="overflow-x-auto">
-      <div v-if="loading" class="text-center py-10 text-gray-500">
-        {{ $t('Loading services...') }}
-      </div>
+      <div v-if="loading" class="text-center py-10 text-gray-500">{{ $t('Loading services...') }}</div>
       <table v-if="!loading" class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
         <thead>
           <tr class="bg-gray-100 text-left text-sm uppercase text-gray-600">
@@ -26,26 +19,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="s in services"
-            :key="s.id"
-            class="border-t hover:bg-gray-50"
-          >
+          <tr v-for="s in services" :key="s.id" class="border-t hover:bg-gray-50">
             <td class="px-4 py-2 text-gray-600 font-medium">{{ s.name }}</td>
             <td class="px-4 py-2 text-gray-600">{{ s.price }}</td>
             <td class="px-4 py-2 space-x-2 text-right">
-              <button
-                @click="editService(s)"
-                class="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500"
-              >
-                {{ $t('Edit') }}
-              </button>
-              <button
-                @click="deleteService(s.id)"
-                class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-              >
-                {{ $t('Delete') }}
-              </button>
+              <button @click="editService(s)" class="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500">{{ $t('Edit') }}</button>
+              <button @click="deleteService(s.id)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">{{ $t('Delete') }}</button>
             </td>
           </tr>
         </tbody>

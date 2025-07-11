@@ -9,12 +9,7 @@
         <BaseInput v-model="form.price" :label="$t('Price')" placeholder="e.g. 100" :errors="errors.errors?.price" type="number"/>
         <BaseInput v-model="form.duration_minutes" :label="$t('Time (minutes)')" placeholder="e.g. 60" :errors="errors.errors?.duration_minutes" type="number"/>
 
-        <textarea
-          v-model="form.description"
-          :placeholder="$t('Description')"
-          rows="4"
-          class="text-gray-600 w-full px-4 py-2 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
-        ></textarea>
+        <textarea v-model="form.description" :placeholder="$t('Description')" rows="4" class="text-gray-600 w-full px-4 py-2 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
 
         <div class="flex justify-end space-x-2 pt-4">
           <BaseButton :name="$t('Cancel')" class="w-fit bg-gray-200 text-gray-800 hover:bg-gray-300" @click="$emit('close')" />
@@ -32,7 +27,9 @@ import { defineProps, defineEmits } from 'vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 
-const props = defineProps()
+const props = defineProps({
+  service: Object
+})
 const emit = defineEmits(['saved', 'close'])
 const loading = ref(false)
 
@@ -67,7 +64,7 @@ const submit = async () => {
     } else {
       await api.post('/services', form.value)
     }
-       emit('saved')
+    emit('saved')
     emit('close')
   } catch (error) {
     // alert('API call error:', error.response?.data.data.message || error.message)

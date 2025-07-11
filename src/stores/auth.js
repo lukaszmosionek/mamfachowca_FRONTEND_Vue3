@@ -10,8 +10,8 @@ export const useAuthStore = defineStore('auth', {
     user: JSON.parse(localStorage.getItem('user')) || '',
   }),
   actions: {
-    async login(email, password) {
-      const res = await api.post('/login', { email, password })
+    async login(form) {
+      const res = await api.post('/login', form)
       this.token = res.data.token
       this.user = res.data.user
 

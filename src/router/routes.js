@@ -3,7 +3,7 @@ import LoginView from '/src/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import MyServicesView from '@/views/MyServicesView.vue'
 import AppointmentView from '@/views/AppointmentView.vue'
-import AccountEdit from '@/views/AccountEdit.vue'
+import AccountEditView from '@/views/AccountEditView.vue'
 
 export default [
       { path: '/', name: 'Home', component: HomeView },
@@ -11,5 +11,5 @@ export default [
       { path: '/register', name: 'Register', component: RegisterView },
       { path: '/my-services', name: 'MyServices', component: MyServicesView, meta: { requiresAuth: true, role: 'provider' } },
       { path: '/appointments', name: 'Appointments', component: AppointmentView, meta: { requiresAuth: true, role: 'client' } },
-      { path: '/account', name: 'Account', component: AccountEdit, meta: { requiresAuth: true } },
+      { path: '/account', name: 'Account', component: AccountEditView, meta: { requiresAuth: true } },
 ]

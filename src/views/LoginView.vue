@@ -9,13 +9,8 @@
     </div>
 
     <form @submit.prevent="handleLogin" class="space-y-4">
-      <BaseInput v-model="email" type="email" :label="$t('Email')" :errors="errors?.errors?.email" />
-      <BaseInput v-model="password" type="password" :label="$t('Password')" :errors="errors.errors?.password"/>
-
-      <div v-if="!errors.errors && errors?.message" class="text-red-500">
-        <span>{{ errors.message }}</span>
-      </div>
-
+      <BaseInput v-model="form.email" type="text" :label="$t('Email')" :errors="errors?.email" />
+      <BaseInput v-model="form.password" type="password" :label="$t('Password')" :errors="errors?.password"/>
       <BaseButton :name="$t('Login')" :loading="loading"/>
     </form>
   </div>
@@ -30,8 +25,7 @@ import { useAuthStore } from '@/stores/auth'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 
-const email = ref('')
-const password = ref('')
+const form = ref({})
 const router = useRouter()
 const store = useAuthStore()
 
@@ -42,12 +36,12 @@ const handleLogin = async () => {
   errors.value = {} // reset errors before submit
   loading.value = true
   try {
-    await store.login(email.value, password.value)
+    await store.login(form.value)
     router.push('/')
   } catch (error) {
     // alert('API call error:', error.response?.data.data.message || error.message)
     if (error && error.message) {
-      errors.value = error
+      errors.value = error.errors
     } else {
       console.error('Unexpected error:', error)
     }
