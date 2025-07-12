@@ -28,14 +28,16 @@
             <th class="px-4 py-3">{{ $t('Name') }}</th>
             <th class="px-4 py-3">{{ $t('Provider') }}</th>
             <th class="px-4 py-3">{{ $t('Price') }}</th>
+            <th class="px-4 py-3">{{ $t('Duration') }}</th>
             <th class="px-4 py-3 text-right"></th>
           </tr>
         </thead>
         <tbody :class="loading ? 'opacity-50' : ''">
-          <tr v-for="(s, index) in services.data ?? services" :key="s.id" class="border-t hover:bg-gray-50">
+          <tr v-for="(s, index) in services.data ?? services" :key="s.id" :title="s.description" class="border-t hover:bg-gray-50">
             <td class="px-4 py-2 text-gray-600 font-medium">{{ s.name ?? 'loading..' }}</td>
             <td class="px-4 py-2 text-gray-600">{{ s.provider?.name ?? 'loading..' }}</td>
             <td class="px-4 py-2 text-gray-600">{{ s.price ? s.price + ' USD' : 'loading..' }}</td>
+            <td class="px-4 py-2 text-gray-600">{{ s.duration ?? 'loading...' }} min.</td>
             <td class="px-4 py-2 text-gray-600">
               <a href="#" :data-id="s.id" @click="modalBook(s.id, index)">{{ $t('Book') }}</a>
             </td>

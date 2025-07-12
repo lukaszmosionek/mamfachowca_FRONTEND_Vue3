@@ -10,7 +10,7 @@
       :class="errors?'border-red-800':''"
       class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-1"
     />
-    <div v-if="errors" class="text-red-500">
+    <div v-if="errors" class="text-red-500 mt-1 font-black">
       <span v-for="(msg, i) in errors" :key="i">{{ msg }}</span>
     </div>
   </div>
@@ -35,7 +35,7 @@ defineProps({
     default: "",
   },
   errors: {
-    type: Array,
+    type: [String, Array],
     default: () => [],
   },
 });

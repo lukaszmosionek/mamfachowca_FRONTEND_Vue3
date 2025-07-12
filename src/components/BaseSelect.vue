@@ -22,7 +22,7 @@ defineProps({
     default: "",
   },
   options: {
-    type: Array,
+    type: [Array, Object],
     default: () => [],
   },
 });

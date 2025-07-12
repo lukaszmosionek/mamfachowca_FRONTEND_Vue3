@@ -55,11 +55,14 @@
 
   "Account": "Konto",
 
-    "monday": "poniedziałek",
-    "tuesday": "wtorek",
-    "wednesday": "środa",
-    "thursday": "czwartek",
-    "friday": "piątek",
-    "saturday": "sobota",
-    "sunday": "niedziela"
+  "monday": "poniedziałek",
+  "tuesday": "wtorek",
+  "wednesday": "środa",
+  "thursday": "czwartek",
+  "friday": "piątek",
+  "saturday": "sobota",
+  "sunday": "niedziela",
+
+  "from": "od",
+  "To": "Do"
 }

@@ -52,11 +52,15 @@
 
   "Account": "Account",
 
-    "monday": "monday",
-    "tuesday": "tuesday",
-    "wednesday": "wednesday",
-    "thursday": "thursday",
-    "friday": "friday",
-    "saturday": "saturday",
-    "sunday": "sunday"
+  "monday": "monday",
+  "tuesday": "tuesday",
+  "wednesday": "wednesday",
+  "thursday": "thursday",
+  "friday": "friday",
+  "saturday": "saturday",
+  "sunday": "sunday",
+  
+  "from": "from",
+  "To": "To"
+  
 }

@@ -19,11 +19,11 @@
 
 <script setup>
 import { ref } from 'vue'
-import api from '@/services/api'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
+import { validateLogin } from '@/utils/validators.js'
 
 const form = ref({})
 const router = useRouter()
@@ -34,20 +34,19 @@ const loading = ref(false)
 
 const handleLogin = async () => {
   errors.value = {} // reset errors before submit
+
+  errors.value = validateLogin(form)
+  if( Object.keys(errors.value).length > 0 ) return
+
   loading.value = true
   try {
     await store.login(form.value)
     router.push('/')
   } catch (error) {
-    // alert('API call error:', error.response?.data.data.message || error.message)
-    if (error && error.message) {
-      errors.value = error.errors
-    } else {
-      console.error('Unexpected error:', error)
-    }
-  } finally {
-    loading.value = false
+    errors.value = error.errors
   }
+
+  loading.value = false
 
 }
 </script>
