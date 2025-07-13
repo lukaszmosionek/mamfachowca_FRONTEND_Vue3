@@ -15,6 +15,7 @@
           <li><a href="#" class="hover:text-white">About</a></li>
           <li><a href="#" class="hover:text-white">Services</a></li>
           <li><a href="#" class="hover:text-white">Contact</a></li>
+          <li class="w-fit"><ChangeLanguage/></li>
         </ul>
       </div>
 
@@ -41,7 +42,7 @@
 </template>
 
 <script setup>
-// No script logic needed unless dynamic content is required
+  import ChangeLanguage from './ChangeLanguage.vue'
 </script>
 
 <style scoped>
