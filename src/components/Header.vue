@@ -8,11 +8,7 @@
 
       <!-- Hamburger Icon (Mobile only) -->
       <button class="md:hidden" @click="mobileMenuOpen = !mobileMenuOpen">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
+        <img src="@/assets/hamburger-icon.svg" class="h-6 w-6" alt="Hamburger Icon (Mobile only)">
       </button>
 
       <!-- Desktop Nav -->
@@ -38,27 +34,23 @@
   </header>
 
   <!-- Mobile Menu (shown when hamburger is clicked) -->
-  <nav
-    v-if="mobileMenuOpen"
-    class="md:hidden bg-gray-700 text-white px-6 py-4 flex flex-col gap-2"
-  >
+  <nav v-if="mobileMenuOpen" class="md:hidden bg-gray-700 text-white px-6 py-4 flex flex-col gap-2">
+
     <RouterLink @click="mobileMenuOpen = false" v-if="!authStore.token" to="/login">{{ $t('Login') }}</RouterLink>
     <RouterLink @click="mobileMenuOpen = false" v-if="!authStore.token" to="/register">{{ $t('Register') }}</RouterLink>
 
     <RouterLink @click="mobileMenuOpen = false" v-if="authStore.token && isClient" to="/appointments">{{ $t('Appointments') }}</RouterLink>
     <RouterLink @click="mobileMenuOpen = false" v-if="authStore.token && isProvider" to="/my-services">{{ $t('My services') }}</RouterLink>
 
-    <span v-if="authStore.user" class="font-semibold mt-6">
+    <ChangeLanguage/>
+    <!-- <span v-if="authStore.user" class="font-semibold mt-6">
       {{ authStore.user.name }} ({{ isProvider ? authStore.user.role : '' }})
-    </span>
+    </span> -->
+    <RouterLink v-if="authStore.token" to="/account">{{ authStore.user.name }} ({{ isProvider ? authStore.user.role : '' }})</RouterLink>
+    <BaseButton :loading="loading" :name="$t('Logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700" v-if="authStore.token" @click="logout"/>
 
-    <button
-      v-if="authStore.token"
-      @click="handleLogout"
-      class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700"
-    >
-      {{ $t('Logout') }}
-    </button>
+
+    <!-- <button @click="handleLogout" v-if="authStore.token" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700">{{ $t('Logout') }}</button> -->
   </nav>
 </template>
 

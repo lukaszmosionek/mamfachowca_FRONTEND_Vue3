@@ -9,7 +9,7 @@ function validateEmail(email) {
   if (!emailRegex.test(email)) return 'Invalid email.'
 }
 
-function validatePassword(password, passwordConfirmation = null) {
+function validatePassword(password, isRegister) {
   const hasUpperCase = /[A-Z]/.test(password);
   const hasLowerCase = /[a-z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
@@ -17,16 +17,16 @@ function validatePassword(password, passwordConfirmation = null) {
 
   if (!password) return 'Password is required.'
   if (password.length < 3) return 'Password must be at least 3 characters.'
-  if (!hasUpperCase) return "Password must include at least one uppercase letter."
-  if (!hasLowerCase) return "Password must include at least one lowercase letter."
-  if (!hasNumber) return "Password must include at least one number."
-  if (!hasSpecialChar) return "Password must include at least one special character."
-  if (passwordConfirmation && password != passwordConfirmation) return 'Password and password confirmation must be the same.'
+  if (isRegister && !hasUpperCase) return "Password must include at least one uppercase letter."
+  if (isRegister && !hasLowerCase) return "Password must include at least one lowercase letter."
+  if (isRegister && !hasNumber) return "Password must include at least one number."
+  if (isRegister && !hasSpecialChar) return "Password must include at least one special character."
 }
 
-function validatePasswordConfirmation(passwordConfirmation) {
+function validatePasswordConfirmation(password, passwordConfirmation) {
   if (!passwordConfirmation) return 'Password confirmation is required.'
   if (passwordConfirmation.length < 3) return 'Password confirmation must be at least 3 characters.'
+  if (passwordConfirmation && password != passwordConfirmation) return 'Password and password confirmation must be the same.'
 }
 
 export function validateRegister(form) {
@@ -34,8 +34,8 @@ export function validateRegister(form) {
 
   errors.name = validateName(form.value.name)
   errors.email = validateEmail(form.value.email)
-  errors.password = validatePassword(form.value.password, form.value.password_confirmation)
-  errors.password_confirmation = validatePasswordConfirmation(form.value.password_confirmation)
+  errors.password = validatePassword(form.value.password, true)
+  errors.password_confirmation = validatePasswordConfirmation(form.value.password, form.value.password_confirmation)
 
   cleanUpEmptyErrorFields(errors)
 
@@ -46,7 +46,7 @@ export function validateLogin(form) {
   const errors = {} // reset errors before submit
 
   errors.email = validateEmail(form.value.email)
-  errors.password = validatePassword(form.value.password)
+  errors.password = validatePassword(form.value.password, false)
 
   cleanUpEmptyErrorFields(errors)
 
