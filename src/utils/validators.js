@@ -10,9 +10,18 @@ function validateEmail(email) {
 }
 
 function validatePassword(password, passwordConfirmation = null) {
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumber = /[0-9]/.test(password);
+  const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
   if (!password) return 'Password is required.'
-  if (passwordConfirmation && password != passwordConfirmation) return 'Password and password confirmation must be the same.'
   if (password.length < 3) return 'Password must be at least 3 characters.'
+  if (!hasUpperCase) return "Password must include at least one uppercase letter."
+  if (!hasLowerCase) return "Password must include at least one lowercase letter."
+  if (!hasNumber) return "Password must include at least one number."
+  if (!hasSpecialChar) return "Password must include at least one special character."
+  if (passwordConfirmation && password != passwordConfirmation) return 'Password and password confirmation must be the same.'
 }
 
 function validatePasswordConfirmation(passwordConfirmation) {
