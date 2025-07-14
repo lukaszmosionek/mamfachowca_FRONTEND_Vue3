@@ -6,7 +6,7 @@
       <BaseInput v-model="form.email" :label="$t('Email')" placeholder="e.g. john.due@example.com" :errors="errors?.email"/>
       <BaseInput v-model="form.password" wrapClass="password-input" :type="showPassword ? 'text' : 'password'" :label="$t('Password')" placeholder="e.g. secretpassword" :errors="errors?.password"/>
       <a href="#" @click="togglePassword">{{ showPassword ? 'Hide password' : 'Show password' }}</a>
-
+      <!-- <small class="text-gray-600">Password must contain at least one uppercase letter, one lowercase letter, and one number.</small> -->
       <BaseInput v-model="form.password_confirmation" :type="showPassword ? 'text' : 'password'" placeholder="e.g. secretpassword" :label="$t('Password confirmation')" :errors="errors?.password_confirmation"/>
       <BaseSelect v-model="form.role" :label="$t('Role')" :options="{ 'client': $t('Client'), 'provider': $t('Provider') }"/>
 

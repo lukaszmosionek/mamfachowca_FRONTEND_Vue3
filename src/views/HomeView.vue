@@ -1,14 +1,14 @@
 <template>
   <div class="wrapper">
-    <main class="p-6 text-center">
-      <h2 class="text-3xl text-gray-700 font-bold mb-4">{{ $t('Welcome to our app!') }}</h2>
+    <!-- <main class="p-6 text-center"> -->
+      <!-- <h2 class="text-3xl text-gray-700 font-bold mb-4">{{ $t('Welcome to our app!') }}</h2>
       <p class="text-lg text-gray-700">{{ $t('Here you can make an appointment or manage your services.') }}</p>
 
       <div class="mt-8">
         <RouterLink v-if="isClient" to="/appointments" class="bg-blue-600 text-white px-4 py-2 rounded">{{ $t('Browse available services') }}</RouterLink>
         <RouterLink v-if="isProvider" to="/my-services" class="bg-green-600 text-white px-4 py-2 rounded">{{ $t('Manage your services') }}</RouterLink>
-      </div>
-    </main>
+      </div> -->
+    <!-- </main> -->
 
     <div class="overflow-x-auto">
       <!-- add filtering -->

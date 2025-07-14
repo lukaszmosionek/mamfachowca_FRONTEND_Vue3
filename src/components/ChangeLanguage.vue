@@ -1,10 +1,10 @@
 <template>
   <div class="text-center py-4 text-gray-600 flex justify-center gap-4">
     <button @click="changeLanguage('en')" :class="{'opacity-100': locale === 'en', 'opacity-50': locale !== 'en'}">
-      🇬🇧
+      <img alt="Flag EN" src="@/assets/icons/flag-en.svg" width="20" height="20" />
     </button>
     <button @click="changeLanguage('pl')" :class="{'opacity-100': locale === 'pl', 'opacity-50': locale !== 'pl'}">
-      🇵🇱
+      <img alt="Flag PL" src="@/assets/icons/flag-pl.svg" width="20" height="20" />
     </button>
   </div>
 </template>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="7410" height="3900" viewBox="0 0 7410 3900">
+  <rect width="7410" height="3900" fill="#b22234"/>
+  <g fill="#fff">
+    <path d="M0 300h7410v300H0zm0 600h7410v300H0zm0 600h7410v300H0zm0 600h7410v300H0zm0 600h7410v300H0zm0 600h7410v300H0"/>
+  </g>
+  <rect width="2964" height="2100" fill="#3c3b6e"/>
+  <g fill="#fff">
+    <!-- 9 rows of 6 and 5 stars -->
+    <!-- For brevity, only a few stars shown; full star layout can be added if needed -->
+    <circle cx="247" cy="210" r="90"/>
+    <circle cx="741" cy="210" r="90"/>
+    <circle cx="1235" cy="210" r="90"/>
+    <circle cx="1729" cy="210" r="90"/>
+    <circle cx="2223" cy="210" r="90"/>
+    <circle cx="2717" cy="210" r="90"/>
+    <!-- Add more stars as needed -->
+  </g>
+</svg>

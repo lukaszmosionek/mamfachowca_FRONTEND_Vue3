@@ -4,11 +4,12 @@
     <div class="wrapper flex justify-between items-center">
       <h1 class="text-xl font-bold">
         <RouterLink to="/">{{ $t('Home') }}</RouterLink>
+        <!-- <RouterLink to="/"><img src="@/assets/logo_small.png" alt=""></RouterLink> -->
       </h1>
 
       <!-- Hamburger Icon (Mobile only) -->
       <button class="md:hidden" @click="mobileMenuOpen = !mobileMenuOpen">
-        <img src="@/assets/hamburger-icon.svg" class="h-6 w-6" alt="Hamburger Icon (Mobile only)">
+        <img src="@/assets/icons/hamburger-icon.svg" class="h-6 w-6" alt="Hamburger Icon (Mobile only)">
       </button>
 
       <!-- Desktop Nav -->

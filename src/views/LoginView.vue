@@ -11,7 +11,6 @@
     <form @submit.prevent="handleLogin" class="space-y-4">
       <BaseInput v-model="form.email" type="text" :label="$t('Email')" :errors="errors?.email" />
       <BaseInput v-model="form.password" type="password" :label="$t('Password')" :errors="errors?.password"/>
-      <small class="text-gray-600">big letter, small letter, number</small>
       <BaseButton :name="$t('Login')" :loading="loading"/>
     </form>
   </div>
