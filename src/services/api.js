@@ -20,9 +20,9 @@ api.interceptors.response.use(
     // Log or transform the error
     if (!error.response) {
       // Network error
-      setInterval(() => {
-        location.reload()
-      },2000);
+      // setInterval(() => {
+      //   location.reload()
+      // },2000);
       // alert('Network Error: Unable to connect to API.'+error);
       return Promise.reject({ message: 'Network Error: Unable to connect to API.' });
     }

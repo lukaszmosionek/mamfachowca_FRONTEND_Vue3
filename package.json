@@ -46,7 +46,7 @@
     "sass-embedded": "^1.89.2",
     "tailwindcss": "^4.1.11",
     "typescript": "~5.8.0",
-    "vite": "npm:rolldown-vite@latest",
+    "vite": "^5.2.10",
     "vue-tsc": "^2.2.10"
   }
 }
