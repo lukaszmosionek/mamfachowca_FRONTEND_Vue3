@@ -17,7 +17,9 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
     "axios": "^1.10.0",
+    "laravel-echo": "^2.1.6",
     "pinia": "^3.0.3",
+    "pusher-js": "^8.4.0",
     "sweetalert2": "^11.22.2",
     "vite-plugin-vue-devtools": "^7.7.7",
     "vue": "^3.5.17",

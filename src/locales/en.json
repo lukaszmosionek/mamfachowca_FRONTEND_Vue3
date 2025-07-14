@@ -61,6 +61,12 @@
   "sunday": "sunday",
   
   "from": "from",
-  "To": "To"
-  
+  "To": "To",
+  "Message": "Message",
+  "Send": "Send",
+  "No messages yet": "No messages yet",
+  "New message received:": "New message received:",
+  "Scroll to bottom": "Scroll to bottom",
+  "You": "You",
+  "Loading...": "Loading..."
 }

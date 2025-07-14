@@ -64,5 +64,12 @@
   "sunday": "niedziela",
 
   "from": "od",
-  "To": "Do"
+  "To": "Do",
+  "Message": "Wiadomość",
+  "Send": "Wyślij",
+  "No messages yet": "Brak wiadomości",
+  "New message received:": "Otrzymano nową wiadomość:",
+  "Scroll to bottom": "Przewiń na dół",
+  "You": "Ty",
+  "Loading...": "Ładowanie..."
 }
