@@ -40,6 +40,9 @@ import BaseInput from '@/components/BaseInput.vue'
 import { toast } from 'vue3-toastify'
 // const props = defineProps({ receiverId, currentUser })
 import { useI18n } from 'vue-i18n'
+import notificationSound from '@/assets/notification.wav'
+
+
 const { t } = useI18n()
 
 const messages = ref([])
@@ -88,6 +91,7 @@ onMounted(() => {
         messages.value.push(e.message)
         toast.success( t('New message received:') + ' ' + e.message.body.slice(0, 20) + '...')
         scrollToBottom()
+        playSound()
       }
     })
 })
@@ -101,5 +105,12 @@ async function scrollToBottom() {
       behavior: 'smooth'
     })
   }
+}
+
+function playSound() {
+  const audio = new Audio(notificationSound)
+  audio.play().catch(err => {
+    console.error("Play failed:", err)
+  });
 }
 </script>
