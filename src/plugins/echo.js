@@ -9,7 +9,7 @@ window.Echo = new Echo({
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     encrypted: true,
       forceTLS: true,
-    authEndpoint: import.meta.env.VITE_BACKEND_URL+'/broadcasting/auth',
+    authEndpoint: import.meta.env.VITE_BACKEND_URL+'/api/broadcasting/auth',
     auth: {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
