@@ -21,13 +21,15 @@
             {{ $t('Clear Cache') }}
         </button>
 
+        <NotificationDropdown />
+
         <RouterLink v-if="!authStore.token" to="/login">{{ $t('Login') }}</RouterLink>
         <RouterLink v-if="!authStore.token" to="/register">{{ $t('Register') }}</RouterLink>
 
         <RouterLink v-if="authStore.token && isClient" to="/appointments">{{ $t('Appointments') }}</RouterLink>
         <RouterLink v-if="authStore.token && isProvider" to="/my-services">{{ $t('My services') }}</RouterLink>
 
-        <RouterLink v-if="authStore.token" to="/account">{{ authStore.user.name }} ({{ isProvider ? authStore.user.role : '' }})</RouterLink>
+        <RouterLink v-if="authStore.token" to="/account">{{ authStore.user.name }} #{{ authStore.user.id }} ({{ isProvider ? authStore.user.role : '' }})</RouterLink>
         <BaseButton :loading="loading" :name="$t('Logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit" v-if="authStore.token" @click="logout"/>
 
       </nav>
@@ -63,6 +65,7 @@ import { computed, ref } from 'vue'
 import BaseButton from '@/components/BaseButton.vue'
 import ChangeLanguage from './ChangeLanguage.vue'
 import { toast } from 'vue3-toastify'
+import NotificationDropdown from '@/components/NotificationDropdown.vue'
 
 const authStore = useAuthStore()
 const router = useRouter()
