@@ -20,12 +20,17 @@ export const useAuthStore = defineStore('auth', {
       api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
     },
     async logout() {
-      await api.post('/logout')
+      try {
+        await api.post('/logout')
+      } catch (error) {
+        console.error('Logout failed:', error)
+      }
       this.token = ''
       this.user = ''
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       delete api.defaults.headers.common['Authorization']
+      router.push('/login')
     },
     async register(payload) {
       const res = await api.post('/register', payload)

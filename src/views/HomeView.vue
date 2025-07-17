@@ -35,7 +35,7 @@
         <tbody :class="loading ? 'opacity-50' : ''">
           <tr v-for="(s, index) in services.data ?? services" :key="s.id" :title="s.description" class="border-t hover:bg-gray-50">
             <td class="px-4 py-2 text-gray-600 font-medium">{{ s.name ?? 'loading..' }}</td>
-            <td class="px-4 py-2 text-gray-600">{{ s.provider?.name ?? 'loading..' }}</td>
+            <td class="px-4 py-2 text-gray-600">{{ s.provider?.name ?? 'loading..' }} <RouterLink :to="{ name: 'Chats', params: { id: s.provider?.id ?? 0 } }" class="text-blue-500 hover:underline">{{ $t('Send Message') }}</RouterLink></td>
             <td class="px-4 py-2 text-gray-600">{{ s.price ? s.price + ' USD' : 'loading..' }}</td>
             <td class="px-4 py-2 text-gray-600">{{ s.duration ?? 'loading...' }} min.</td>
             <td class="px-4 py-2 text-gray-600">

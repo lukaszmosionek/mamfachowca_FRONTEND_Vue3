@@ -21,7 +21,7 @@
             {{ $t('Clear Cache') }}
         </button>
 
-        <NotificationDropdown />
+        <NotificationDropdown v-if="authStore.token"/>
 
         <RouterLink v-if="!authStore.token" to="/login">{{ $t('Login') }}</RouterLink>
         <RouterLink v-if="!authStore.token" to="/register">{{ $t('Register') }}</RouterLink>
