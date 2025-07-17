@@ -69,8 +69,9 @@ const sendMessage = async () => {
   errors.value = {} // reset errors before submit
   loading.value = true
   try {
-    const res = await api.post(`/messages/${user.value.receiverUser.id}`, {
-      message: newMessage.value
+    const res = await api.post(`/messages`, {
+      message: newMessage.value,
+      receiver_id: user.value.receiverUser.id
     })
     newMessage.value = ''
     messages.value.push(res.data)
