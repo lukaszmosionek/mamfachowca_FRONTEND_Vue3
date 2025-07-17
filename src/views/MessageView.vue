@@ -83,6 +83,10 @@ const sendMessage = async () => {
 onMounted(() => {
   user.value.currentUser = JSON.parse(localStorage.getItem('user'))
 
+  if(route.params.id == user.value.currentUser.id) {
+    alert('You are chatting with yourself')
+  }
+
   fetchMessages()
 
   window.Echo.private(`private-chat.${user.value.currentUser.id}`)
