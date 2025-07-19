@@ -24,9 +24,12 @@ import { useAuthStore } from '@/stores/auth'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import { validateLogin } from '@/utils/validators.js'
+import { useRoute } from 'vue-router'
 
 const form = ref({})
 const router = useRouter()
+const route = useRoute()
+
 const store = useAuthStore()
 
 const errors = ref({})
@@ -41,7 +44,8 @@ const handleLogin = async () => {
   loading.value = true
   try {
     await store.login(form.value)
-    router.push('/')
+    const redirectPath = route.query.redirect ? decodeURIComponent(route.query.redirect) : router.resolve({ name: 'Home' }).href;
+    router.push(redirectPath)
   } catch (error) {
     errors.value = error.errors
   }

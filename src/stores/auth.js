@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import api from '@/services/api'
 import { useRouter } from 'vue-router'
 
-// const router = useRouter()
+const router = useRouter()
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -30,7 +30,7 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('token')
       localStorage.removeItem('user')
       delete api.defaults.headers.common['Authorization']
-      router.push('/login')
+      // router.push('/login')
     },
     async register(payload) {
       const res = await api.post('/register', payload)

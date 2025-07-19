@@ -68,7 +68,7 @@
 
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, onMounted, watch, nextTick } from "vue";
 import api from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
 import Pagination from '@/components/Pagination.vue';
@@ -110,7 +110,7 @@ const providers = ref([]);
 const loadServices = async (page, perPage) => {
   loading.value = true
   try {
-    const res = await api.get('/services/all', {
+    const res = await api.get('/services', {
       params: {
         page,
         per_page: perPage,
@@ -127,16 +127,30 @@ const loadServices = async (page, perPage) => {
 
 const modalBook = async (serviceId, index) => {
   if(!authStore.token){
-    router.push('login')
+
+    const params = new URLSearchParams({
+      ...route.query,
+      modal_id: serviceId,
+      modal_index: index
+    }).toString()
+
+    router.push({
+      name: 'Login',
+      query: { 'redirect': encodeURIComponent('/?' + params) }
+    })
     return
   }
   if(authStore.user.role == 'provider'){
      toast.error('Login as Client')
     return
   }
+
   showModal.value = true
-  availability.value = services.value[index].provider.availabilities
+  availability.value = services.value[Number(index)].provider.availabilities
   form.value.serviceId = serviceId
+  form.value.index = index
+
+  router.push({ query: { ...route.query, modal_id: serviceId, modal_index: index } })
 }
 
 const applyFilters = () => {
@@ -148,7 +162,7 @@ const applyFilters = () => {
 
 const loadProviders = async () => {
   try {
-    const res = await api.get('/providers/all')
+    const res = await api.get('/providers')
     providers.value = res.data
   } catch (err) {
     console.error('Failed to load providers', err)
@@ -174,6 +188,13 @@ const bookService = async () => {
 onMounted(() => {
   loadServices(currentPage.value, perPage.value)
   loadProviders()
+  setTimeout(() => {
+    nextTick(() => {
+      if (route.query.modal_id) {
+        modalBook(route.query.modal_id, route.query.modal_index);
+      }
+    });
+  }, 4000);
 })
 
 watch([perPage, currentPage], () => {

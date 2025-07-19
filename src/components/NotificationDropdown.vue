@@ -1,5 +1,5 @@
 <template>
-  <div class="relative inline-block text-left">
+  <div class="relative inline-block text-left" ref="container">
     <!-- Dropdown Button -->
     <button
       @click="isOpen = !isOpen"
@@ -45,17 +45,20 @@
 <script setup>
 // import { useNotificationStore } from '@/stores/notifications';
 // const { notifications } = useNotificationStore();
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
+import clickOutside from '@/utils/useClickOutside'
 
 import api from '@/services/api'
 
 const notifications = ref({})
 const user = ref({})
-const isOpen = ref('false')
+const isOpen = ref(false)
 const router = useRouter()
+const container = ref(null)
 
 onMounted(async () => {
+      document.addEventListener('click', handleClickOutside)
       user.value = JSON.parse(localStorage.getItem('user'))
 
       const res = await api.get('/notifications');
@@ -93,7 +96,18 @@ const clickNotification = async (data) => {
   //emit('notification-clicked', data);
 
 
+
 }
+
+function handleClickOutside(event) {
+  if (container.value && !container.value.contains(event.target)) {
+    isOpen.value = false
+  }
+}
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 
 
 </script>

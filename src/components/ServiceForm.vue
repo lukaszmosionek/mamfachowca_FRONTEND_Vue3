@@ -60,9 +60,9 @@ const submit = async () => {
 
   try {
     if (props.service) {
-      await api.put(`/services/${props.service.id}`, form.value)
+      await api.put(`/me/services/${props.service.id}`, form.value)
     } else {
-      await api.post('/services', form.value)
+      await api.post('/me/services', form.value)
     }
     emit('saved')
     emit('close')

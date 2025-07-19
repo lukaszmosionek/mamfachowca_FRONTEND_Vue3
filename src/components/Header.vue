@@ -66,9 +66,11 @@ import BaseButton from '@/components/BaseButton.vue'
 import ChangeLanguage from './ChangeLanguage.vue'
 import { toast } from 'vue3-toastify'
 import NotificationDropdown from '@/components/NotificationDropdown.vue'
+import { useRoute } from 'vue-router'
 
 const authStore = useAuthStore()
 const router = useRouter()
+const route = useRoute()
 
 const isProvider = computed(() => authStore.user?.role === 'provider')
 const isClient = computed(() => authStore.user?.role === 'client')
@@ -79,7 +81,8 @@ const logout = async () => {
   loading.value = true
   try {
     await authStore.logout()
-    router.push('/login')
+    router.push({ name: 'Login' })
+    toast.success('Logged out successfully')
   } catch (error) {
     console.error('API call error:', error?.message)
   } finally {

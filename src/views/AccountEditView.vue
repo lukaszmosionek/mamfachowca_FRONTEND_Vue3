@@ -29,7 +29,7 @@ const errors = ref({})
 const loading = ref(false)
 
 onMounted(async () => {
-  const res = await api.get('/user')
+  const res = await api.get('/me')
 // cl(res)
   form.value.name = res.data.name
   form.value.email = res.data.email
@@ -40,7 +40,7 @@ const updateUser = async () => {
   errors.value = {}
   loading.value = true
   try{
-    const res = await api.put('/user', form.value)
+    const res = await api.put('/me', form.value)
     alert('Profile Updated')
   }catch(error){
     errors.value = error?.errors

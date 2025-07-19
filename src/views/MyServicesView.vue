@@ -46,7 +46,7 @@ const loading = ref(false)
 const loadServices = async () => {
   loading.value = true
   try {
-    const res = await api.get('/services')
+    const res = await api.get('/me/services')
     services.value = res.data
   } finally {
     loading.value = false
@@ -65,7 +65,7 @@ const editService = (s) => {
 
 const deleteService = async (id) => {
   if (confirm('Na pewno chcesz usunąć?')) {
-    await api.delete(`/services/${id}`)
+    await api.delete(`/me/services/${id}`)
     loadServices()
   }
 }

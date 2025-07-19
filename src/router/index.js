@@ -15,8 +15,8 @@ router.beforeEach(async (to, from, next) => {
   const requiredRole = to.meta.role
 
   if (requiresAuth && !auth.token) {
-     alert('Dostep tylko dla zalogowanych')
-    return next({ name: 'Login' })
+    alert('Dostep tylko dla zalogowanych')
+    return next({ name: 'Login', query: { redirect: to.fullPath ?? from.fullPath } })
   }
 
   if (requiresAuth && requiredRole && auth.user?.role !== requiredRole) {
