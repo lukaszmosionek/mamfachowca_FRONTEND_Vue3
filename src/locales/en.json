@@ -52,14 +52,14 @@
 
   "Account": "Account",
 
-  "monday": "monday",
-  "tuesday": "tuesday",
-  "wednesday": "wednesday",
-  "thursday": "thursday",
-  "friday": "friday",
-  "saturday": "saturday",
-  "sunday": "sunday",
-  
+  "monday": "Monday",
+  "tuesday": "Tuesday",
+  "wednesday": "Wednesday",
+  "thursday": "Thursday",
+  "friday": "Friday",
+  "saturday": "Saturday",
+  "sunday": "Sunday",
+
   "from": "from",
   "To": "To",
   "Message": "Message",
@@ -68,5 +68,9 @@
   "New message received:": "New message received:",
   "Scroll to bottom": "Scroll to bottom",
   "You": "You",
-  "Loading...": "Loading..."
+  "Loading...": "Loading...",
+  "Logged out successfully": "Logged out successfully",
+  "Duration": "Duration",
+  "Send Message": "Send Message"
+
 }

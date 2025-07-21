@@ -4,7 +4,7 @@ import RegisterView from '@/views/RegisterView.vue'
 import MyServicesView from '@/views/MyServicesView.vue'
 import AppointmentView from '@/views/AppointmentView.vue'
 import AccountEditView from '@/views/AccountEditView.vue'
-import ChatView from '@/views/ChatView.vue'
+import MessagesView from '@/views/MessagesView.vue'
 
 export default [
       { path: '/', name: 'Home', component: HomeView },
@@ -13,5 +13,5 @@ export default [
       { path: '/my-services', name: 'MyServices', component: MyServicesView, meta: { requiresAuth: true, role: 'provider' } },
       { path: '/appointments', name: 'Appointments', component: AppointmentView, meta: { requiresAuth: true, role: 'client' } },
       { path: '/account', name: 'Account', component: AccountEditView, meta: { requiresAuth: true } },
-      { path: '/chats/user/:id', name: 'Chats', component: ChatView, meta: { requiresAuth: true } },
+      { path: '/users/:userId/messages/', name: 'Messages', component: MessagesView, meta: { requiresAuth: true } },
 ]

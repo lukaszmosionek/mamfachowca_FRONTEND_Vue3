@@ -61,7 +61,7 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth'
 import { useRouter, RouterLink } from 'vue-router'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import BaseButton from '@/components/BaseButton.vue'
 import ChangeLanguage from './ChangeLanguage.vue'
 import { toast } from 'vue3-toastify'
@@ -81,8 +81,7 @@ const logout = async () => {
   loading.value = true
   try {
     await authStore.logout()
-    router.push({ name: 'Login' })
-    toast.success('Logged out successfully')
+    router.push({ name: 'Login', query: { successMessage: 'Logged out successfully' } })
   } catch (error) {
     console.error('API call error:', error?.message)
   } finally {
@@ -105,4 +104,13 @@ function clearCache() {
   // Optional: Redirect to login or refresh the app
   window.location.reload(); // or use Vue Router to redirect
 }
+
+watch(() => route.query.successMessage, (newValue) => {
+  if( route.query.successMessage ) {
+    toast.success(route.query.successMessage)
+  }
+  if( route.query.errorMessage ) {
+    toast.error(route.query.errorMessage)
+  }
+})
 </script>
