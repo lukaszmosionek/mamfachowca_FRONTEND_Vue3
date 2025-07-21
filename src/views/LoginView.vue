@@ -4,8 +4,8 @@
 
     <div class="text-center text-gray-800 space-y-1 mb-4">
       <div class="text-gray-800 font-bold text-center mt-3">{{ $t('Default credentials') }}</div>
-      <div class="text-gray-800 text-center mt-3">provider@onet.pl | password</div>
-      <div class="text-gray-800 text-center mt-3 mb-3">client@onet.pl | password</div>
+      <div class="text-gray-800 text-center mt-3">provider@onet.pl | password <a class="cursor-pointer" @click="loginProvider()">login</a></div>
+      <div class="text-gray-800 text-center mt-3 mb-3">client@onet.pl | password <a class="cursor-pointer" @click="loginClient()">login</a></div>
     </div>
 
     <form @submit.prevent="handleLogin" class="space-y-4">
@@ -49,8 +49,17 @@ const handleLogin = async () => {
   } catch (error) {
     errors.value = error.errors
   }
-
   loading.value = false
+}
+const loginProvider = () => {
+  form.value.email = 'provider@onet.pl'
+  form.value.password = 'password'
+  handleLogin()
+}
 
+const loginClient = () => {
+  form.value.email = 'client@onet.pl'
+  form.value.password = 'password'
+  handleLogin()
 }
 </script>
