@@ -35,7 +35,7 @@
         <tbody :class="loading ? 'opacity-50' : ''">
           <tr v-for="(s, index) in services.data ?? services" :key="s.id" :title="s.description" class="border-t hover:bg-gray-50">
             <td class="px-4 py-2 text-gray-600 font-medium">{{ s.name ?? 'loading..' }}</td>
-            <td class="px-4 py-2 text-gray-600">{{ s.provider?.name ?? 'loading..' }} <RouterLink :to="{ name: 'Chats', params: { id: s.provider?.id ?? 0 } }" class="text-blue-500 hover:underline">{{ $t('Send Message') }}</RouterLink></td>
+            <td class="px-4 py-2 text-gray-600">{{ s.provider?.name ?? 'loading..' }} <RouterLink :to="{ name: 'Messages', params: { userId: s.provider?.id ?? 0 } }" class="text-blue-500 hover:underline">{{ $t('Send Message') }}</RouterLink></td>
             <td class="px-4 py-2 text-gray-600">{{ s.price ? s.price + ' USD' : 'loading..' }}</td>
             <td class="px-4 py-2 text-gray-600">{{ s.duration ?? 'loading...' }} min.</td>
             <td class="px-4 py-2 text-gray-600">
@@ -49,13 +49,34 @@
     </div>
 
     <BaseModal :show="showModal" :title="$t('Date and time of service')" @close="showModal = false" class="space-y-4">
-      <BaseInput v-model="form.date" type="date" :min="today" :errors="errors.errors?.date"/>
-      <BaseInput v-model="form.time" :min="minTime" :max="maxTime" type="time" class="mt-2":errors="errors.errors?.start_time" required/>
+      <!-- <BaseInput v-model="form.time" :min="minTime" :max="maxTime" type="time" class="mt-2":errors="errors.errors?.start_time" required/> -->
 
-      Dostepność usługodawcy:
-      <ul>
-        <li v-for="(a, index) in availability" :key="index">{{ $t(a.day_of_week) }}: {{ a.start_time }} - {{ a.end_time }}</li>
-      </ul>
+      <div class="flex gap-4 mt-4">
+        <BaseInput v-model="form.date" type="date" :label="$t('Date')" :min="today" :errors="errors.errors?.date"/>
+        <BaseSelect class="w-1/4" v-model="form.timeHour" :label="$t('Time')" :options="[8, 9, 10, 11, 12, 13, 14, 15, 16]"/>
+        <span class="text-gray-600 mt-8">:</span>
+        <BaseSelect class="w-1/4" v-model="form.timeMinute" label="&nbsp;" :options="[10, 20, 30, 40, 50]"/>
+      </div>
+
+      <div class="mt-4">
+        <span class="font-medium">{{ $t('Provider Availability') }}:</span>
+        <table class="min-w-full border border-gray-200 rounded">
+          <thead>
+            <tr class="bg-gray-50">
+              <th class="px-2 py-1 text-left">{{ $t('Day') }}</th>
+              <th class="px-2 py-1 text-left">{{ $t('Start Time') }}</th>
+              <th class="px-2 py-1 text-left">{{ $t('End Time') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(a, index) in availability" :key="index">
+              <td class="px-2 py-1">{{ $t(a.day_of_week) }}</td>
+              <td class="px-2 py-1">{{ a.start_time }}</td>
+              <td class="px-2 py-1">{{ a.end_time }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <template #footer>
         <button @click="showModal = false" class="px-4 py-2 bg-gray-300 rounded text-gray-600">{{ $t('Cancel') }}</button>
@@ -75,6 +96,7 @@ import Pagination from '@/components/Pagination.vue';
 import BaseModal from '@/components/BaseModal.vue';
 import BaseInput from '@/components/BaseInput.vue';
 import BaseButton from '@/components/BaseButton.vue';
+import BaseSelect from '@/components/BaseSelect.vue';
 import { toast } from 'vue3-toastify'
 
 const showModal = ref(false)
@@ -217,8 +239,11 @@ watch(() => form.value.date, () => {
         maxTime.value = el.end_time
       }
   });
-  form.value.time = ''
+  form.value.timeHour = ''
+  form.value.timeMinute = ''
 })
+
+watch(() => form.value.timeHour, () =>  { form.value.timeMinute = '' })
 
 const handlePageChange = (page) => {
   currentPage.value = page;
@@ -226,6 +251,25 @@ const handlePageChange = (page) => {
   loadServices(page, perPage.value);
 };
 
+  function generateTimes(start, end, stepMinutes) {
+    const times = [];
+    let [startHour, startMin] = start.split(":").map(Number);
+    let [endHour, endMin] = end.split(":").map(Number);
 
+    let current = new Date();
+    current.setHours(startHour, startMin, 0, 0);
+
+    const endTime = new Date();
+    endTime.setHours(endHour, endMin, 0, 0);
+
+    while (current <= endTime) {
+      let hours = String(current.getHours()).padStart(2, '0');
+      let minutes = String(current.getMinutes()).padStart(2, '0');
+      times.push(`${hours}:${minutes}`);
+      current.setMinutes(current.getMinutes() + stepMinutes);
+    }
+
+    return times;
+  }
 
 </script>
