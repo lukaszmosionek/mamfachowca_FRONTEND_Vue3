@@ -19,14 +19,22 @@ api.interceptors.response.use(
   error => {
     // Log or transform the error
     if (!error.response) {
-      // Network error
-      // setInterval(() => {
-      //   location.reload()
-      // },2000);
-      // alert('Network Error: Unable to connect to API.'+error);
-      return Promise.reject({ message: 'Network Error: Unable to connect to API.' });
+      return Promise.reject({
+        message: 'Network Error: Unable to connect to API.',
+        isNetworkError: true
+      });
     }
-    return Promise.reject(error.response.data || { message: 'An error occurred.' });
+
+    const msg = error.response?.data?.message?.toLowerCase() || '';
+    if (error.response && error.response.status === 404 && msg.includes('the route') && msg.includes('could not be found')) {
+        alert('API route not found (404). Please try again later.');
+    }
+
+    if (error.response.status === 500) {
+        alert('A server error occurred. Please try again later.');
+    }
+
+    return Promise.reject(error);
   }
 );
 

@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-md mx-auto p-4">
-    <h2 class="text-xl font-bold mb-4 text-gray-600">{{ $t('Edit Account') }}</h2>
+    <h2 class="text-xl text-center font-bold mb-4 text-gray-600">{{ $t('Edit Account') }}</h2>
 
     <form @submit.prevent="updateUser" class="space-y-4">
         <BaseInput :label="$t('Name')" v-model="form.name" :errors="errors?.name"/>
