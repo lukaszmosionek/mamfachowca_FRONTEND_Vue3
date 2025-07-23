@@ -52,10 +52,16 @@
       <!-- <BaseInput v-model="form.time" :min="minTime" :max="maxTime" type="time" class="mt-2":errors="errors.errors?.start_time" required/> -->
 
       <div class="flex gap-4 mt-4">
-        <BaseInput v-model="form.date" type="date" :label="$t('Date')" :min="today" :errors="errors.errors?.date"/>
+        <!-- <BaseInput v-model="form.date" type="date" :label="$t('Date')" :min="today" :errors="errors.errors?.date"/> -->
+
+        <div class="w-1/4">
+        <label for="date">{{ $t('Date') }}</label>
+          <Datepicker v-model="form.date" :disabled-dates="disabledDates" :enable-time-picker="false" :auto-apply="true"/>
+        </div>
+
         <BaseSelect class="w-1/4" v-model="form.timeHour" :label="$t('Time')" :options="[8, 9, 10, 11, 12, 13, 14, 15, 16]"/>
         <span class="text-gray-600 mt-8">:</span>
-        <BaseSelect class="w-1/4" v-model="form.timeMinute" label="&nbsp;" :options="[10, 20, 30, 40, 50]"/>
+        <BaseSelect class="w-1/4" v-model="form.timeMinute" label="&nbsp;" :options="[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]"/>
       </div>
 
       <div class="mt-4">
@@ -99,6 +105,9 @@ import BaseButton from '@/components/BaseButton.vue';
 import BaseSelect from '@/components/BaseSelect.vue';
 import { toast } from 'vue3-toastify'
 
+import Datepicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
+
 const showModal = ref(false)
 const router = useRouter();
 const route = useRoute()
@@ -128,6 +137,15 @@ const filters = ref({
 
 const providers = ref([]);
 
+// const disabledDates = (date) => { // Sunday (0) and Saturday (6)
+//   const day = date.getDay()
+//   return !( day === 0 || day === 5 )
+// }
+
+const disabledDates = ref((date) => {
+  // const dayNumbers = availability.value.map(el => el.day_of_week_number);
+  // return !dayNumbers.includes(date.getDay());
+});
 
 const loadServices = async (page, perPage) => {
   loading.value = true
@@ -171,6 +189,16 @@ const modalBook = async (serviceId, index) => {
   availability.value = services.value[Number(index)].provider.availabilities
   form.value.serviceId = serviceId
   form.value.index = index
+
+
+  const dayNumbers = availability.value.map(el => el.day_of_week_number);
+  console.log('dayNumbers:', dayNumbers);
+
+  disabledDates.value = (date) => {
+    // return true
+    // console.log('date.getDay():', date.getDay());
+    return !dayNumbers.includes(date.getDay());
+  };
 
   router.push({ query: { ...route.query, modal_id: serviceId, modal_index: index } })
 }
@@ -230,15 +258,9 @@ watch([perPage, currentPage], () => {
 })
 
 watch(() => form.value.date, () => {
-  const date = new Date(form.value.date);
-  const daysArray = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-  const chosenDay = daysArray[date.getDay()]
-  availability.value.forEach(el => {
-      if(el.day_of_week == chosenDay){
-        minTime.value = el.start_time
-        maxTime.value = el.end_time
-      }
-  });
+  const date = new Date(form.value.date).getDay(); // Get the day of the week (0-6, where 0 is Sunday)
+  console.log('date:', date);
+
   form.value.timeHour = ''
   form.value.timeMinute = ''
 })
