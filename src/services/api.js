@@ -5,6 +5,10 @@ const api = axios.create({
   withCredentials: true,
 })
 
+await api.get('/sanctum/csrf-cookie').catch(error => {
+  console.error('Failed to get CSRF cookie:', error);
+});
+
 api.interceptors.request.use(config => {
   config.headers['Accept-Language'] = localStorage.getItem('lang') ?? 'en'
   return config
