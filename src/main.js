@@ -14,6 +14,11 @@ import en from './locales/en.json'
 import Vue3Toastify from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
+// await axios.get(import.meta.env.VITE_BACKEND_URL+'/sanctum/csrf-cookie').catch(error => {
+// await api.get('/sanctum/csrf-cookie').catch(error => {
+//   console.error('Failed to get CSRF cookie:', error);
+// });
+
 // Create i18n instance
 const i18n = createI18n({
   legacy: false, // Use Composition API
