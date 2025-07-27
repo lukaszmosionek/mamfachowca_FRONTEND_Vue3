@@ -12,6 +12,12 @@
       <BaseInput v-model="form.email" type="text" :label="$t('Email')" :errors="errors?.email" />
       <BaseInput v-model="form.password" type="password" :label="$t('Password')" :errors="errors?.password"/>
       <BaseButton :name="$t('Login')" :loading="loading"/>
+      <div class="text-center text-gray-600 text-sm mt-4">
+        <router-link :to="{ name: 'ForgotPassword', query: { email: form.email } }" class="hover:underline">{{ $t('Forgot password?') }}</router-link>
+      </div>
+      <div class="text-center text-gray-600 text-sm mt-4">
+        <router-link :to="{ name: 'Register' }" class="hover:underline">{{ $t('Register') }}</router-link>
+      </div>
     </form>
   </div>
 </template>
