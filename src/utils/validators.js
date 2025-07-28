@@ -53,6 +53,18 @@ export function validateLogin(form) {
   return errors
 }
 
+export function validatePasswordReset(form) {
+  const errors = {} // reset errors before submit
+
+  errors.email = validateEmail(form.value.email)
+  errors.password = validatePassword(form.value.password, true)
+  errors.password_confirmation = validatePasswordConfirmation(form.value.password, form.value.password_confirmation)
+
+  cleanUpEmptyErrorFields(errors)
+
+  return errors
+}
+
 function cleanUpEmptyErrorFields(errors) {
   for (const key in errors) {
     if (!errors[key]) {

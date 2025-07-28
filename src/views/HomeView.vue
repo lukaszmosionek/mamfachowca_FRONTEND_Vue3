@@ -24,7 +24,7 @@
 
       <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
         <thead>
-          <tr class="bg-gray-100 text-left text-sm uppercase text-gray-600">
+          <tr class="bg-gray-100 text-left text-sm uppercase text-gray-600 height-96">
             <th class="px-4 py-3">{{ $t('Name') }}</th>
             <th class="px-4 py-3">{{ $t('Provider') }}</th>
             <th class="px-4 py-3">{{ $t('Price') }}</th>

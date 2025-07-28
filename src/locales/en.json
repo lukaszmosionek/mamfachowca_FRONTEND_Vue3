@@ -71,6 +71,12 @@
   "Loading...": "Loading...",
   "Logged out successfully": "Logged out successfully",
   "Duration": "Duration",
-  "Send Message": "Send Message"
+  "Send Message": "Send Message",
+
+  "Reset Password": "Reset Password",
+  "New Password": "New Password",
+  "Confirm Password": "Confirm Password",
+  "Password reset link sent to your email": "Password reset link sent to your email",
+  "Password reset successful": "Password reset successful"
 
 }

@@ -6,10 +6,21 @@
 
     <div class="form-container">
       <form @submit.prevent="submit">
-        <BaseInput v-model="email" type="email" :label="$t('Email')" :value="route.query.email" disabled />
-        <BaseInput v-model="password" type="password" :label="$t('New Password')" />
-        <BaseInput v-model="password_confirmation" type="password" :label="$t('Confirm Password')" />
-        <BaseButton class="mt-4" :name="$t('Reset Password')" />
+        <BaseInput v-model="form.email" :errors="errors.email" type="email" :label="$t('Email')" :value="route.query.email" disabled />
+        <BaseInput v-model="form.password" :errors="errors.password" :type="passwordVisible ? 'text' : 'password'" :label="$t('New Password')" />
+        <BaseInput v-model="form.password_confirmation" :errors="errors.password_confirmation" :type="passwordVisible ? 'text' : 'password'" :label="$t('Confirm Password')" />
+
+        <input
+          type="checkbox"
+          @click="passwordVisible = !passwordVisible"
+          class="mt-4" id="password-toggle"
+        />
+        <label for="password-toggle" class="text-sm text-gray-600 cursor-pointer">
+          {{ passwordVisible ? ' Hide Password' : ' Show Password' }}
+        </label>
+        <p class="text-xs text-gray-500 mt-1">Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.</p>
+
+        <BaseButton class="mt-4" :name="$t('Reset Password')" :loading="loading" />
         <p v-if="message">{{ message }}</p>
       </form>
     </div>
@@ -22,30 +33,37 @@ import api from '@/services/api'
 import { useRoute } from 'vue-router'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
+import { validatePasswordReset } from '@/utils/validators.js'
+import Swal from 'sweetalert2'
 
-const email = ref('')
-const password = ref('')
-const password_confirmation = ref('')
-const token = ref('')
+const form = ref({})
+const errors = ref({})
 const message = ref('')
+const loading = ref(false)
+const passwordVisible = ref(false)
 const route = useRoute()
 
 onMounted(() => {
-  token.value = route.query.token || ''
-  email.value = route.query.email || ''
+  form.value.token = route.query.token || ''
+  form.value.email = route.query.email || ''
 })
 
 const submit = async () => {
+
+  errors.value = validatePasswordReset(form)
+  if( Object.keys(errors.value).length > 0 ) return
+
+  loading.value = true
   try {
-    const res = await api.post('/reset-password', {
-      email: email.value,
-      password: password.value,
-      password_confirmation: password_confirmation.value,
-      token: token.value,
-    })
+    const res = await api.post('/reset-password', form.value)
     message.value = res.data.message
   } catch (err) {
-    message.value = err.response.data.message
+    console.error(err)
+    // Swal.fire('Error', 'Failed to reset password. Please try again.', 'error');
+    errors.value = err.response.data.errors
+    if( Object.keys(errors.value).length == 0 ) Swal.fire('Error', err.response.data.message+'. Failed to reset password. Please try again.', 'error');
+  } finally {
+    loading.value = false
   }
 }
 </script>
