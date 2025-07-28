@@ -2,22 +2,26 @@
   <div class="wrapper">
 
       {{ $t('Date and time of service') }}
-      <h1 class="text-4xl">{{ services.name ?? '...' }}</h1>
+      <h1 class="text-4xl">{{ service.name ?? '...' }}</h1>
+      <p>{{ service.description }}</p>
 
       <!-- <BaseInput v-model="form.time" :min="minTime" :max="maxTime" type="time" class="mt-2":errors="errors.errors?.start_time" required/> -->
 
       <h2 class="mt-2 text-2xl">Book a service</h2>
-      <div class="flex gap-4 mt-2">
+      <div class="flex gap-4 mt-2 w-full mx-auto">
         <!-- <BaseInput v-model="form.date" type="date" :label="$t('Date')" :min="today" :errors="errors.errors?.date"/> -->
 
-        <div class="w-1/4">
+        <div class="w-48">
           <label for="date">{{ $t('Date') }}</label>
-          <Datepicker v-model="form.date" :disabled-dates="disabledDates" :enable-time-picker="false" :auto-apply="true"/>
+          <Datepicker v-model="form.date" :disabled-dates="disabledDates" :enable-time-picker="false" :auto-apply="true" class="mt-1.5 rounded-md"/>
+          <div v-if="errors && Object.keys(errors?.date).length > 0" class="text-red-500 mt-1 font-black">
+              <span v-for="(msg, i) in errors?.date" :key="i">{{ msg }}</span>
+          </div>
         </div>
 
-        <BaseSelect class="w-1/4" v-model="form.timeHour" :label="$t('Time')" :options="[8, 9, 10, 11, 12, 13, 14, 15, 16]"/>
+        <BaseSelect class="w-24" v-model="form.timeHour" :errors="errors?.start_time" :label="$t('Time')" :options="hours"/>
         <span class="text-gray-600 mt-8">:</span>
-        <BaseSelect class="w-1/4" v-model="form.timeMinute" label="&nbsp;" :options="[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]"/>
+        <BaseSelect class="w-24" v-model="form.timeMinute" :errors="errors?.start_time" label="&nbsp;" :options="filteredMinutes"/>
       </div>
 
       <div class="mt-4">
@@ -51,9 +55,8 @@
 
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
-import { ref, computed, onMounted, watch, nextTick } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import api from '@/services/api'
-import { useAuthStore } from '@/stores/auth'
 import BaseButton from '@/components/BaseButton.vue';
 import BaseSelect from '@/components/BaseSelect.vue';
 import { toast } from 'vue3-toastify'
@@ -61,126 +64,105 @@ import { toast } from 'vue3-toastify'
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
-const showModal = ref(false)
 const router = useRouter();
 const route = useRoute()
-const minTime = ref('')
-const maxTime = ref('')
-
-const today = new Date().toISOString().split('T')[0] // Format: YYYY-MM-DD
 
 const loading = ref(false)
-const perPage = ref(Number(route.query.perPage) || 10);
-const services = ref(Array(perPage.value).fill({}));
-const currentPage = ref(Number(route.query.currentPage) || 1);
-const totalPages = ref(10);
 const errors = ref('');
 const availability = ref({});
 
-const authStore = useAuthStore()
-const isProvider = computed(() => authStore.user?.role === 'provider')
-const isClient = computed(() => authStore.user?.role === 'client')
-
 const form = ref({});
-const providers = ref([]);
+const service = ref({});
 
-// const disabledDates = (date) => { // Sunday (0) and Saturday (6)
-//   const day = date.getDay()
-//   return !( day === 0 || day === 5 )
-// }
+const filteredMinutes =  ref([]);
 
-const disabledDates = ref((date) => {
-  // const dayNumbers = availability.value.map(el => el.day_of_week_number);
-  // return !dayNumbers.includes(date.getDay());
-});
+const disabledDates = ref((date) => {});
 
-const loadServices = async (page, perPage) => {
+const minutes = ref([5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]);
+const hours = ref([8, 9, 10, 11, 12, 13, 14, 15, 16]);
+
+const loadService = async () => {
   loading.value = true
   try {
     const res = await api.get('/services/'+parseInt(route.params.serviceId))
-    services.value = res.data
+    service.value = res.data
     availability.value = res.data.provider.availabilities;
+
+    const dayNumbers = availability.value.map(el => Number(el.day_of_week_number) );
+
+    disabledDates.value = (date) => {
+      return !Object.values(dayNumbers).includes(date.getDay());
+    };
+
   } finally {
     loading.value = false
   }
 }
 
-const modalBook = async (serviceId, index) => {
-  if(!authStore.token){
-
-    const params = new URLSearchParams({
-      ...route.query,
-      modal_id: serviceId,
-      modal_index: index
-    }).toString()
-
-    router.push({
-      name: 'Login',
-      query: { 'redirect': encodeURIComponent('/?' + params) }
-    })
-    return
-  }
-  if(authStore.user.role == 'provider'){
-     toast.error('Login as Client')
-    return
-  }
-
-  showModal.value = true
-  availability.value = services.value[Number(index)].provider.availabilities
-  form.value.serviceId = serviceId
-  form.value.index = index
-
-
-  const dayNumbers = availability.value.map(el => el.day_of_week_number);
-  console.log('dayNumbers:', dayNumbers);
-
-  disabledDates.value = (date) => {
-    // return true
-    // console.log('date.getDay():', date.getDay());
-    return !dayNumbers.includes(date.getDay());
-  };
-
-  router.push({ query: { ...route.query, modal_id: serviceId, modal_index: index } })
-}
-
-
 const bookService = async () => {
   try {
     loading.value = true
     const res = await api.post('/appointments', {
-        service_id: form.value.serviceId,
+        service_id: route.params.serviceId,
         start_time: form.value.time,
         date: form.value.date
     })
-    showModal.value = false
     toast.success('Reservation booked succesfully')
   } catch (error) {
-    errors.value = error
+    errors.value = error.response.data.errors
   }
   loading.value = false
 }
 
 onMounted(() => {
-  loadServices(currentPage.value, perPage.value)
-  setTimeout(() => {
-    nextTick(() => {
-      if (route.query.modal_id) {
-        modalBook(route.query.modal_id, route.query.modal_index);
-      }
-    });
-  }, 4000);
+  loadService()
+  filteredMinutes.value = minutes.value
 })
 
 
 watch(() => form.value.date, () => {
-  const date = new Date(form.value.date).getDay(); // Get the day of the week (0-6, where 0 is Sunday)
-  console.log('date:', date);
+
+  if(form.value.date){
+    const time = getTimeFromAvailability(form.value.date)
+
+    hours.value = [];
+    for (let i = time['startTime']['hour']; i <= time['endTime']['hour']; i++) {
+      hours.value.push(i);
+    }
+  }
 
   form.value.timeHour = ''
   form.value.timeMinute = ''
 })
 
-watch(() => form.value.timeHour, () =>  { form.value.timeMinute = '' })
+watch(() => form.value.timeHour, () =>  {
+  filteredMinutes.value = minutes.value
+
+  if(form.value.date){
+    const time = getTimeFromAvailability(form.value.date)
+    if( form.value.timeHour == time['startTime']['hour'] ){
+      filteredMinutes.value =  minutes.value.filter(n => n >= time['startTime']['minute'] );
+    }
+    if( form.value.timeHour == time['endTime']['hour'] ){
+      filteredMinutes.value = minutes.value.filter(n => n <= time['endTime']['minute'] );
+    }
+  }
+
+  form.value.timeMinute = ''
+})
+
+function getTimeFromAvailability(date){
+  const dayNumber = new Date(date).getDay(); // Get the day of the week (0-6, where 0 is Sunday)
+  const day = availability.value.find(item => Number(item.day_of_week_number) === dayNumber);
+
+  const startTime = (day.start_time.split(":")) // 10:10
+  const endTime = (day.end_time.split(":")) // 16:10
+
+  return{
+    'startTime' : { 'hour' : Number(startTime[0]), 'minute': Number(startTime[1]) },
+    'endTime' : { 'hour' : Number(endTime[0]), 'minute': Number(endTime[1]) }
+  };
+}
 
 
 </script>
