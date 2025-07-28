@@ -7,6 +7,7 @@ import AccountEditView from '@/views/AccountEditView.vue'
 import MessagesView from '@/views/MessagesView.vue'
 import ResetPasswordView from '@/views/ResetPassword.vue'
 import ForgotPasswordView from '@/views/ForgotPassword.vue'
+import BookServiceView from '@/views/BookServiceView.vue'
 
 export default [
       { path: '/', name: 'Home', component: HomeView },
@@ -18,4 +19,5 @@ export default [
       { path: '/users/:userId/messages/', name: 'Messages', component: MessagesView, meta: { requiresAuth: true } },
       { path: '/reset-password', name: 'ResetPassword', component: ResetPasswordView },
       { path: '/forgot-password', name: 'ForgotPassword', component: ForgotPasswordView },
+      { path: '/services/:serviceId', name: 'BookServiceView', component: BookServiceView },
 ]
