@@ -14,14 +14,13 @@
 
       <div>
         <h2 class="text-lg font-semibold text-gray-800 mb-1">{{ s.name }}</h2>
-        <p class="text-sm text-gray-500 mb-2">{{ s.description }}</p>
+        <p class="text-sm text-gray-500 mb-2 hidden md:block">{{ s.description }}</p>
         <img v-if="!s.description" src="/src/assets/icons/loading.svg"></img>
-        <div class="flex items-center text-sm text-gray-600 space-x-2">
-          <span>🚗</span>
+        <div class="text-sm text-gray-600">
+          <!-- <span>🚗</span> -->
           <div>Service duration: {{ s.duration }} min.</div>
           <div>Provider: <a href="#">{{ s?.provider?.name }}</a></div>
-                  <a href="#" :data-id="s.id" @click="modalBook(s.id, index)"></a>
-                  <BaseButton @click="router.push({ name: 'BookServiceView', params:{serviceId: s.id} })" :name="$t('Book')"/>
+          <BaseButton @click="router.push({ name: 'BookServiceView', params:{serviceId: s.id} })" :name="$t('Book')" class="float-right"/>
         </div>
       </div>
 

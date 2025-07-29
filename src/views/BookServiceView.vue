@@ -24,7 +24,12 @@
         <BaseSelect class="w-24" v-model="form.timeMinute" :errors="errors?.start_time" label="&nbsp;" :options="filteredMinutes"/>
       </div>
 
-      <div class="mt-4">
+      <div class="flex mt-4 float-right">
+        <button @click="router.back()" class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2">⬅ {{ $t('Go Back') }}</button>
+        <BaseButton @click="bookService" :loading="loading" :name="$t('Book')" class="ml-2 mt-2 px-4 py-2 bg-blue-500 text-white rounded"/>
+      </div>
+
+      <div class="mt-16">
         <span class="font-medium">{{ $t('Provider Availability') }}:</span>
         <table class="min-w-full border border-gray-200 rounded">
           <thead>
@@ -42,11 +47,6 @@
             </tr>
           </tbody>
         </table>
-      </div>
-
-      <div class="flex">
-        <button @click="router.back()" class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2">⬅ {{ $t('Go Back') }}</button>
-        <BaseButton @click="bookService" :loading="loading" :name="$t('Book')" class="ml-2 mt-2 px-4 py-2 bg-blue-500 text-white rounded"/>
       </div>
 
   </div>

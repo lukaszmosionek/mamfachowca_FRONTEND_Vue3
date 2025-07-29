@@ -5,8 +5,11 @@
   max-width: 1280px;
   width: 100%;
   margin: 0 auto;
-  /* padding: 2rem; */
+
   font-weight: normal;
+  /* @media (max-width: 768px) {
+    padding: 1rem;
+  } */
 }
 
 a,
@@ -34,6 +37,7 @@ a,
     /* grid-template-columns: 1fr 1fr; */
     /* padding: 0 2rem; */
   /* } */
+
 }
 
 @media (max-width: 800px) {
