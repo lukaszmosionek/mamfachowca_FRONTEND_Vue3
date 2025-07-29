@@ -27,7 +27,7 @@
       <!-- Cena i serduszko -->
       <div class="flex justify-between items-center mt-4">
         <span class="text-lg font-bold text-gray-800">{{ s.price }} zł</span>
-        <span class="text-gray-400 hover:text-red-500 cursor-pointer text-xl">♡</span>
+        <span @click="toggleFavorite(s.id, $event)" class="text-gray-400 hover:text-red-500 cursor-pointer text-3xl">{{ s.is_favorited ? '♥' : '♡' }}</span>
       </div>
 
     </div>
@@ -39,14 +39,37 @@
 import { ref } from 'vue';
 import BaseButton from './BaseButton.vue';
 import { useRouter } from 'vue-router';
+import api from '@/services/api'
+import { useAuthStore } from '@/stores/auth'
+import { toast } from 'vue3-toastify';
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
+const loading = ref(false)
+const authStore = useAuthStore()
 const router = useRouter();
 const props = defineProps({
   services: {
     type: Array,
     required: true
+  },
+  myFavorites: {
+    type: Array
   }
 });
+
+const toggleFavorite = async (itemId, event) => {
+if( !authStore.token ) return toast(t('Login to add to favorites'))
+  const el = event.currentTarget;
+  event.currentTarget.classList.add('animate-bounce');
+
+  const res = await api.post(`/favorites/${itemId}`)
+  const service = props.services.find(s => s.id === itemId);
+  if (service) {
+    service.is_favorited = res.data.favorited;
+  }
+  el.classList.remove('animate-bounce');
+}
 </script>
 
 <style scoped>

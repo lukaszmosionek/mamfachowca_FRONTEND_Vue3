@@ -13,7 +13,7 @@
         </select>
       </div>
 
-      <HomeTile :services="services" />
+      <HomeTile :services="services" :myFavorites="myFavorites" />
       <Pagination :currentPage="currentPage" :totalPages="totalPages" @page-changed="handlePageChange"/>
     </div>
 
@@ -29,6 +29,9 @@ import Pagination from '@/components/Pagination.vue';
 
 import '@vuepic/vue-datepicker/dist/main.css'
 import HomeTile from '@/components/HomeTile.vue';
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
 
 const router = useRouter();
 const route = useRoute()
@@ -38,8 +41,7 @@ const perPage = ref(Number(route.query.perPage) || 10);
 const services = ref(Array(perPage.value).fill({}));
 const currentPage = ref(Number(route.query.currentPage) || 1);
 const totalPages = ref(10);
-
-const form = ref({});
+const myFavorites = ref({});
 
 const filters = ref({
   name: '',
@@ -59,8 +61,20 @@ const loadServices = async (page, perPage) => {
         provider_id: filters.value.providerId || undefined
       }
     })
+
     services.value = res.data.data
     totalPages.value = res.data.total_pages;
+
+    if( authStore.token ){
+      myFavorites.value = (await api.get('/favorites')).data
+
+      const service = services.value.find(s => myFavorites.value.includes(s.id) );
+      if (service) {
+        service.is_favorited = true;
+      }
+    }
+
+
   } finally {
     loading.value = false
   }
