@@ -3,23 +3,27 @@
   <header class="bg-gray-800 text-white px-6 py-4">
     <div class="wrapper flex justify-between items-center">
       <h1 class="text-xl font-bold">
-        <RouterLink to="/">{{ $t('Home') }}</RouterLink>
+        <RouterLink :to="{ name: 'Home'}">{{ $t('Home') }}</RouterLink>
         <!-- <RouterLink to="/"><img src="@/assets/logo_small.png" alt=""></RouterLink> -->
       </h1>
 
+      <div class="md:hidden flex gap-2">
+      <ChangeLanguage/>
+      <RouterLink v-if="authStore.token" :to="{ name: 'Favorites' }" class="text-3xl">♡</RouterLink>
       <!-- Hamburger Icon (Mobile only) -->
-      <button class="md:hidden" @click="mobileMenuOpen = !mobileMenuOpen">
+      <button class="" @click="mobileMenuOpen = !mobileMenuOpen">
         <img src="@/assets/icons/hamburger-icon.svg" class="h-6 w-6" alt="Hamburger Icon (Mobile only)">
       </button>
+      </div>
 
       <!-- Desktop Nav -->
       <nav class="hidden md:flex items-center gap-4">
 
         <ChangeLanguage/>
 
-        <button @click="clearCache" class="clear-button">
+        <!-- <button @click="clearCache" class="clear-button">
             {{ $t('Clear Cache') }}
-        </button>
+        </button> -->
 
         <RouterLink v-if="authStore.token" :to="{ name: 'Favorites' }" class="text-3xl">♡</RouterLink>
 
@@ -41,17 +45,15 @@
   <!-- Mobile Menu (shown when hamburger is clicked) -->
   <nav v-if="mobileMenuOpen" class="md:hidden bg-gray-700 text-white px-6 py-4 flex flex-col gap-2">
 
-    <RouterLink @click="mobileMenuOpen = false" v-if="!authStore.token" to="/login">{{ $t('Login') }}</RouterLink>
-    <RouterLink @click="mobileMenuOpen = false" v-if="!authStore.token" to="/register">{{ $t('Register') }}</RouterLink>
+    <RouterLink @click="mobileMenuOpen = false" v-if="!authStore.token" :to="{ name: 'Login' }">{{ $t('Login') }}</RouterLink>
+    <RouterLink @click="mobileMenuOpen = false" v-if="!authStore.token" :to="{ name: 'Register' }">{{ $t('Register') }}</RouterLink>
 
-    <RouterLink @click="mobileMenuOpen = false" v-if="authStore.token && isClient" to="/appointments">{{ $t('Appointments') }}</RouterLink>
-    <RouterLink @click="mobileMenuOpen = false" v-if="authStore.token && isProvider" to="/my-services">{{ $t('My services') }}</RouterLink>
-
-    <ChangeLanguage/>
+    <RouterLink @click="mobileMenuOpen = false" v-if="authStore.token && isClient"  :to="{ name: 'Appointments' }">{{ $t('Appointments') }}</RouterLink>
+    <RouterLink @click="mobileMenuOpen = false" v-if="authStore.token && isProvider" :to="{ name: 'MyServices' }">{{ $t('My services') }}</RouterLink>
     <!-- <span v-if="authStore.user" class="font-semibold mt-6">
       {{ authStore.user.name }} ({{ isProvider ? authStore.user.role : '' }})
     </span> -->
-    <RouterLink v-if="authStore.token" to="/account">{{ authStore.user.name }} ({{ isProvider ? authStore.user.role : '' }})</RouterLink>
+    <RouterLink v-if="authStore.token" :to="{ name: 'Account' }">{{ $t('Account')+' - '+authStore.user.name }} ({{ isProvider ? authStore.user.role : '' }})</RouterLink>
     <BaseButton :loading="loading" :name="$t('Logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700" v-if="authStore.token" @click="logout"/>
 
 

@@ -19,7 +19,7 @@
         <div class="text-sm text-gray-600">
           <!-- <span>🚗</span> -->
           <div>Service duration: {{ s.duration }} min.</div>
-          <div>Provider: <a href="#">{{ s?.provider?.name }}</a></div>
+          <div>Provider: <a href="#">{{ s?.provider?.name }}</a> <RouterLink class="text-2xl" :to="{ name: 'Messages', params: { userId: s?.provider?.id ?? 0 } }">&#9993;</RouterLink> </div>
           <BaseButton @click="router.push({ name: 'BookServiceView', params:{serviceId: s.id} })" :name="$t('Book')" class="float-right"/>
         </div>
       </div>
