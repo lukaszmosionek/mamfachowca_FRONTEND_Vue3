@@ -1,5 +1,5 @@
 import HomeView from '@/views/HomeView.vue'
-import LoginView from '/src/views/LoginView.vue'
+import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import MyServicesView from '@/views/MyServicesView.vue'
 import AppointmentView from '@/views/AppointmentView.vue'
@@ -8,6 +8,7 @@ import MessagesView from '@/views/MessagesView.vue'
 import ResetPasswordView from '@/views/ResetPassword.vue'
 import ForgotPasswordView from '@/views/ForgotPassword.vue'
 import BookServiceView from '@/views/BookServiceView.vue'
+import FavoritesView from '@/views/FavoritesView.vue'
 
 export default [
       { path: '/', name: 'Home', component: HomeView },
@@ -20,4 +21,5 @@ export default [
       { path: '/account', name: 'Account', component: AccountEditView, meta: { requiresAuth: true } },
       { path: '/users/:userId/messages/', name: 'Messages', component: MessagesView, meta: { requiresAuth: true } },
       { path: '/services/:serviceId', name: 'BookServiceView', component: BookServiceView, meta: { requiresAuth: true }  },
+      { path: '/favorites', name: 'Favorites', component: FavoritesView, meta: { requiresAuth: true }  },
 ]

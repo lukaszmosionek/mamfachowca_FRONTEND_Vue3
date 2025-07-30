@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 import BaseButton from './BaseButton.vue';
 import { useRouter } from 'vue-router';
 import api from '@/services/api'
@@ -44,6 +44,7 @@ import { useAuthStore } from '@/stores/auth'
 import { toast } from 'vue3-toastify';
 import { useI18n } from 'vue-i18n'
 
+const emit = defineEmits(['service-toggled']);
 const { t } = useI18n()
 const loading = ref(false)
 const authStore = useAuthStore()
@@ -52,9 +53,6 @@ const props = defineProps({
   services: {
     type: Array,
     required: true
-  },
-  myFavorites: {
-    type: Array
   }
 });
 
@@ -69,6 +67,7 @@ if( !authStore.token ) return toast(t('Login to add to favorites'))
     service.is_favorited = res.data.favorited;
   }
   el.classList.remove('animate-bounce');
+  emit('service-toggled', itemId);
 }
 </script>
 

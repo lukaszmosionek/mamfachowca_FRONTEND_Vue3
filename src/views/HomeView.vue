@@ -13,7 +13,7 @@
         </select>
       </div>
 
-      <HomeTile :services="services" :myFavorites="myFavorites" />
+      <HomeTile :services="services" />
       <Pagination :currentPage="currentPage" :totalPages="totalPages" @page-changed="handlePageChange"/>
     </div>
 
@@ -53,26 +53,19 @@ const providers = ref([]);
 const loadServices = async (page, perPage) => {
   loading.value = true
   try {
+    const user = JSON.parse(localStorage.getItem('user'))
     const res = await api.get('/services', {
       params: {
         page,
         per_page: perPage,
         name: filters.value.name || undefined,
-        provider_id: filters.value.providerId || undefined
+        provider_id: filters.value.providerId || undefined,
+        user_id: user ? user.id : null
       }
     })
 
     services.value = res.data.data
     totalPages.value = res.data.total_pages;
-
-    if( authStore.token ){
-      myFavorites.value = (await api.get('/favorites')).data
-
-      const service = services.value.find(s => myFavorites.value.includes(s.id) );
-      if (service) {
-        service.is_favorited = true;
-      }
-    }
 
 
   } finally {
