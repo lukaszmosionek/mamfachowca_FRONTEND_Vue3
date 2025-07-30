@@ -15,7 +15,7 @@
             <tr>
               <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">{{ $t('Service') }}</th>
               <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">{{ $t('Provider') }}</th>
-              <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">{{ $t('Date') }}</th>
+              <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">{{ $t('Start Time') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -25,13 +25,13 @@
               class="border-t hover:bg-gray-50 transition"
             >
               <td class="px-4 py-2 text-sm font-semibold text-gray-800">
-                {{ appointment.service.name }}
+                <RouterLink class="" :to="{ name: 'BookServiceView', params: { serviceId: appointment?.service?.id ?? 0 } }">{{ appointment.service.name }}</RouterLink>
               </td>
               <td class="px-4 py-2 text-sm text-gray-700">
-                {{ appointment.provider.name }}
+                {{ appointment.provider.name }} <RouterLink class="text-2xl" :to="{ name: 'Messages', params: { userId: appointment?.provider?.id ?? 0 } }">&#9993;</RouterLink>
               </td>
               <td class="px-4 py-2 text-sm text-gray-700">
-                {{ formatDate(appointment.date) }}
+                {{ formatDate(appointment.date)+' '+appointment.start_time }}
               </td>
             </tr>
           </tbody>
