@@ -1,16 +1,18 @@
 <!-- ForgotPassword.vue -->
 <template>
   <div class="forgot-password-container wrapper">
-    <h1>Forgot Password</h1>
-    <p>Please enter your email address to receive a password reset link.</p>
+    <div class="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">{{ $t('Forgot Password') }}</h2>
+      <p>Please enter your email address to receive a password reset link.</p>
 
-    <div class="form-container">
-      <form @submit.prevent="submit">
-        <!-- <input v-model="email" type="email" class="border border-gray-300 p-2 rounded" placeholder="Enter your email" required /> -->
-        <BaseInput v-model="email" type="email" :errors="error.email" label="Email" />
-        <BaseButton class="mt-4" :disabled="!email" name="Send Reset Link" />
-        <p v-if="message">{{ message }}</p>
-      </form>
+      <div class="form-container mt-4">
+        <form @submit.prevent="submit">
+          <!-- <input v-model="email" type="email" class="border border-gray-300 p-2 rounded" placeholder="Enter your email" required /> -->
+          <BaseInput v-model="email" type="email" :errors="error.email" label="Email" />
+          <BaseButton class="mt-4" :disabled="!email" name="Send Reset Link" />
+          <p v-if="message">{{ message }}</p>
+        </form>
+      </div>
     </div>
   </div>
 </template>
