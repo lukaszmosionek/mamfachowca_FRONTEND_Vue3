@@ -11,7 +11,6 @@
   "Book": "Book",
   "Date and time of service": "Date and time of service",
   "Cancel": "Cancel",
-
   "Home": "Home",
   "Clear Cache": "Clear Cache",
   "Login": "Login",
@@ -19,39 +18,31 @@
   "Appointments": "Appointments",
   "My services": "My services",
   "Logout": "Logout",
-
   "Email": "Email",
   "Password": "Password",
   "Default credentials": "Default credentials",
-
   "Registration": "Registration",
   "Password confirmation": "Password confirmation",
   "Role": "Role",
   "Client": "Client",
-
   "My appointments": "My appointments",
   "Service": "Service",
   "Date": "Date",
   "You don't have appointments yet.": "You don't have appointments yet.",
-
   "Edit service": "Edit service",
   "New service": "New service",
   "Time (minutes)": "Time (minutes)",
   "Description": "Description",
   "Save": "Save",
-
   "My Services": "My Services",
   "Add new service": "Add new service",
   "Loading services...": "Loading services...",
   "Price (PLN)": "Price (PLN)",
   "Edit": "Edit",
   "Delete": "Delete",
-
   "Prev": "Prev",
   "Next": "Next",
-
   "Account": "Account",
-
   "monday": "Monday",
   "tuesday": "Tuesday",
   "wednesday": "Wednesday",
@@ -59,7 +50,6 @@
   "friday": "Friday",
   "saturday": "Saturday",
   "sunday": "Sunday",
-
   "from": "from",
   "To": "To",
   "Message": "Message",
@@ -72,11 +62,18 @@
   "Logged out successfully": "Logged out successfully",
   "Duration": "Duration",
   "Send Message": "Send Message",
-
   "Reset Password": "Reset Password",
   "New Password": "New Password",
   "Confirm Password": "Confirm Password",
   "Password reset link sent to your email": "Password reset link sent to your email",
-  "Password reset successful": "Password reset successful"
-
+  "Password reset successful": "Password reset successful",
+  "Per Page": "Per Page",
+  "price": "price {amount}",
+  "empty": "empty",
+  "Book a service": "Book a service",
+  "Day": "Day",
+  "Start Time": "Start time",
+  "End Time": "End time",
+  "pending": "pending",
+  "Go Back": "Go back"
 }

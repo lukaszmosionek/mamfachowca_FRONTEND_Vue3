@@ -11,7 +11,6 @@
   "Book": "Zarezerwuj",
   "Date and time of service": "Data i godzina usługi",
   "Cancel": "Anuluj",
-
   "Home": "Strona główna",
   "Clear Cache": "Wyczyść pamięć podręczną",
   "Login": "Zaloguj się",
@@ -19,42 +18,34 @@
   "Appointments": "Wizyty",
   "My services": "Moje usługi",
   "Logout": "Wyloguj się",
-
   "Email": "Email",
   "Password": "Hasło",
   "Default credentials": "Domyślne dane logowania",
-
   "Registration": "Rejestracja",
   "Password confirmation": "Potwierdzenie hasła",
   "Role": "Rola",
   "Client": "Klient",
   "client": "klient",
   "provider": "usługodawca",
-
   "My appointments": "Moje wizyty",
   "Service": "Usługa",
   "Date": "Data",
   "You don't have appointments yet.": "Nie masz jeszcze żadnych wizyt.",
-
   "Edit service": "Edytuj usługę",
   "New service": "Nowa usługa",
   "Time (minutes)": "Czas (minuty)",
   "Description": "Opis",
   "Save": "Zapisz",
   "Update": "Aktualizuj",
-
   "My Services": "Moje Usługi",
   "Add new service": "Dodaj nową usługę",
   "Loading services...": "Ładowanie usług...",
   "Price (PLN)": "Cena (zł)",
   "Edit": "Edytuj",
   "Delete": "Usuń",
-
   "Prev": "Poprzednia",
   "Next": "Następna",
-
   "Account": "Konto",
-
   "monday": "poniedziałek",
   "tuesday": "wtorek",
   "wednesday": "środa",
@@ -62,7 +53,6 @@
   "friday": "piątek",
   "saturday": "sobota",
   "sunday": "niedziela",
-
   "from": "od",
   "To": "Do",
   "Message": "Wiadomość",
@@ -71,5 +61,11 @@
   "New message received:": "Otrzymano nową wiadomość:",
   "Scroll to bottom": "Przewiń na dół",
   "You": "Ty",
-  "Loading...": "Ładowanie..."
+  "Loading...": "Ładowanie...",
+  "Book a service": "Zarezerwuj usługe",
+  "Day": "Dzień",
+  "Start Time": "Czas rozpoczęcia",
+  "End Time": "Czas zakończenia",
+  "pending": "Oczekuje",
+  "Go Back": "Wracać"
 }

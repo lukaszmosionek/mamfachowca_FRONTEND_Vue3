@@ -1,0 +1,57 @@
+import { createI18n } from 'vue-i18n'
+import en from './locales/en.json'
+import pl from './locales/pl.json'
+
+const i18n = createI18n({
+  legacy: false, // Use Composition API
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages: {
+    en,
+    pl
+  },
+  datetimeFormats: {
+    en: {
+      short: {
+        year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true  // 12h format
+      },
+      long: {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true
+      },
+      timeOnly: {
+        hour: 'numeric', minute: '2-digit', hour12: true // or false for 24h
+      },
+      hourOnly: {
+        hour: 'numeric', hour12: true // or false for 24h
+      }
+    },
+    pl: {
+      short: {
+        year: 'numeric', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: false // 24h format
+      },
+      long: {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: false
+      },
+      timeOnly: {
+        hour: '2-digit', minute: '2-digit', hour12: false
+      },
+      hourOnly: {
+        hour: 'numeric', hour12: false // or false for 24h
+      }
+    }
+  },
+  numberFormats: {
+    en: {
+      currency: {
+        style: 'currency', currency: 'USD'
+      }
+    },
+    pl: {
+      currency: {
+        style: 'currency', currency: 'PLN'
+      }
+    }
+  }
+})
+
+export default i18n

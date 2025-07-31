@@ -6,11 +6,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import api from './services/api'
-
-import { createI18n } from 'vue-i18n'
-import pl from './locales/pl.json'
-import en from './locales/en.json'
-
+import i18n from './i18n' // Import from i18n.ts
 import Vue3Toastify from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 
@@ -19,13 +15,6 @@ import 'vue3-toastify/dist/index.css'
 //   console.error('Failed to get CSRF cookie:', error);
 // });
 
-// Create i18n instance
-const i18n = createI18n({
-  legacy: false, // Use Composition API
-  locale: 'en',
-  fallbackLocale: 'en',
-  messages: { pl, en }
-})
 
 const token = localStorage.getItem('token')
 if (token) {
