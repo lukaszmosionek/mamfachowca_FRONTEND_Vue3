@@ -2,7 +2,7 @@
 <div class="max-w-5xl mx-auto bg-white rounded shadow-md overflow-hidden flex mt-5" v-for="(s, index) in services?.data ?? services" :key="s.id">
 
     <!-- Zdjęcie -->
-    <div class="relative w-1/3">
+    <div class="relative w-1/3 w-80 h-80">
       <img :src="s.photos?.[0]?.photo_path ?? noPhoto" alt="{{ s.name }}" class="w-full h-full object-cover">
       <div class="absolute bottom-2 left-2 bg-teal-500 text-white text-xs font-bold px-2 py-1 rounded">
         WYRÓŻNIONE
@@ -14,7 +14,7 @@
 
       <div>
         <h2 class="text-lg font-semibold text-gray-800 mb-1">{{ s.name }}</h2>
-        <p class="text-sm text-gray-500 mb-2 hidden md:block">{{ s.description }}</p>
+        <p class="text-sm text-gray-500 mb-2 hidden md:block">{{ s?.description?.slice(0, 200)+'...' }}</p>
         <div v-if="!s.description" class="spinner"></div>
         <div class="text-sm text-gray-600" v-if="s?.provider">
           <!-- <span>🚗</span> -->
