@@ -1,9 +1,9 @@
 <template>
-<div class="max-w-5xl mx-auto bg-white rounded shadow-md overflow-hidden flex mt-5" v-for="(s, index) in services.data ?? services" :key="s.id">
+<div class="max-w-5xl mx-auto bg-white rounded shadow-md overflow-hidden flex mt-5" v-for="(s, index) in services?.data ?? services" :key="s.id">
 
     <!-- Zdjęcie -->
     <div class="relative w-1/3">
-      <img :src="s.photos?.[0]?.photo_path ?? 'src/assets/no-photo.jpg'" alt="Ford S-Max" class="w-full h-full object-cover">
+      <img :src="s.photos?.[0]?.photo_path ?? noPhoto" alt="{{ s.name }}" class="w-full h-full object-cover">
       <div class="absolute bottom-2 left-2 bg-teal-500 text-white text-xs font-bold px-2 py-1 rounded">
         WYRÓŻNIONE
       </div>
@@ -15,18 +15,18 @@
       <div>
         <h2 class="text-lg font-semibold text-gray-800 mb-1">{{ s.name }}</h2>
         <p class="text-sm text-gray-500 mb-2 hidden md:block">{{ s.description }}</p>
-        <img v-if="!s.description" src="/src/assets/icons/loading.svg"></img>
-        <div class="text-sm text-gray-600">
+        <div v-if="!s.description" class="spinner"></div>
+        <div class="text-sm text-gray-600" v-if="s?.provider">
           <!-- <span>🚗</span> -->
-          <div>Service duration: {{ s.duration }} min.</div>
-          <div>Provider: <a href="#">{{ s?.provider?.name }}</a> <RouterLink class="text-2xl" :to="{ name: 'Messages', params: { userId: s?.provider?.id ?? 0 } }">&#9993;</RouterLink> </div>
+          <div>Service duration: {{ s.duration_minutes }} min.</div>
+          <div>Provider: <RouterLink class="" :to="{ name: 'Profile', params: { userId: s?.provider?.id ?? 0 } }">{{ s?.provider?.name }}</RouterLink> <RouterLink class="text-2xl" :to="{ name: 'Messages', params: { userId: s?.provider?.id ?? 0 } }">&#9993;</RouterLink> </div>
           <BaseButton @click="router.push({ name: 'BookServiceView', params:{serviceId: s.id} })" :name="$t('Book')" class="float-right"/>
         </div>
       </div>
 
       <!-- Cena i serduszko -->
-      <div class="flex justify-between items-center mt-4">
-        <span class="text-lg font-bold text-gray-800">{{ s.price }} zł</span>
+      <div class="flex justify-between items-center mt-4" v-if="s.price">
+        <span  class="text-lg font-bold text-gray-800">{{ s.price }} zł</span>
         <span @click="toggleFavorite(s.id, $event)" class="text-gray-400 hover:text-red-500 cursor-pointer text-3xl">{{ s.is_favorited ? '♥' : '♡' }}</span>
       </div>
 
@@ -43,6 +43,7 @@ import api from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
 import { toast } from 'vue3-toastify';
 import { useI18n } from 'vue-i18n'
+import noPhoto from '@/assets/no-photo.jpg';
 
 const emit = defineEmits(['service-toggled']);
 const { t } = useI18n()

@@ -1,24 +1,27 @@
 <template>
   <div class="wrapper">
     <h1 class="text-4xl text-center mt-3 font-bold">Favorites</h1>
+    <div v-if="loading" class="spinner"></div>
+    <div v-else>
 
-    <div v-if="services.length" class="overflow-x-auto">
+      <div v-if="services.length" class="overflow-x-auto">
       <!-- add filtering -->
-      <div class="my-6 flex flex-wrap gap-4 justify-center">
-          <input v-model="filters.name" @input="applyFilters" type="text" :placeholder="$t('Search by name')" class="border px-4 py-2 rounded w-full  md:w-1/4"/>
-          <select v-model="filters.providerId"  @change="applyFilters" class="border px-4 py-2 rounded w-full  md:w-1/4">
-              <option value="">{{ $t('All Providers') }}</option>
-              <option v-for="p in providers" :key="p.id" :value="p.id">
-              {{ p.name }}
-              </option>
-          </select>
+        <div class="my-6 flex flex-wrap gap-4 justify-center">
+            <input v-model="filters.name" @input="applyFilters" type="text" :placeholder="$t('Search by name')" class="border px-4 py-2 rounded w-full  md:w-1/4"/>
+            <select v-model="filters.providerId"  @change="applyFilters" class="border px-4 py-2 rounded w-full  md:w-1/4">
+                <option value="">{{ $t('All Providers') }}</option>
+                <option v-for="p in providers" :key="p.id" :value="p.id">
+                {{ p.name }}
+                </option>
+            </select>
+        </div>
+        <!-- add filtering -->
+
+        <HomeTile :services="services" @service-toggled="handleServiceToggled"/>
+        <Pagination :currentPage="currentPage" :totalPages="totalPages" @page-changed="handlePageChange"/>
       </div>
-
-      <HomeTile :services="services" @service-toggled="handleServiceToggled"/>
-      <Pagination :currentPage="currentPage" :totalPages="totalPages" @page-changed="handlePageChange"/>
+      <div v-else class="text-center mt-8">{{ $t('No Favorites yet') }}</div>
     </div>
-
-    <div v-else class="text-center mt-8">{{ $t('No Favorites') }}</div>
 
   </div>
 </template>

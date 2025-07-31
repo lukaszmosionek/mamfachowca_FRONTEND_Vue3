@@ -28,7 +28,8 @@
                 <RouterLink class="" :to="{ name: 'BookServiceView', params: { serviceId: appointment?.service?.id ?? 0 } }">{{ appointment.service.name }}</RouterLink>
               </td>
               <td class="px-4 py-2 text-sm text-gray-700">
-                {{ appointment.provider.name }} <RouterLink class="text-2xl" :to="{ name: 'Messages', params: { userId: appointment?.provider?.id ?? 0 } }">&#9993;</RouterLink>
+                <RouterLink class="" :to="{ name: 'Profile', params: { userId: appointment?.provider?.id ?? 0 } }">{{ appointment.provider.name }}</RouterLink>
+                <RouterLink class="text-2xl" :to="{ name: 'Messages', params: { userId: appointment?.provider?.id ?? 0 } }">&#9993;</RouterLink>
               </td>
               <td class="px-4 py-2 text-sm text-gray-700">
                 {{ formatDate(appointment.date)+' '+appointment.start_time }}
