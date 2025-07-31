@@ -1,5 +1,7 @@
 <template>
-  <nav class="flex justify-center mt-4" v-if="totalPages > 1">
+  <div class="relative mt-4">
+
+  <nav class="flex justify-center" v-if="totalPages > 1">
     <ul class="inline-flex items-center -space-x-px">
       <li>
         <button
@@ -10,7 +12,6 @@
           {{ $t('Prev') }}
         </button>
       </li>
-
       <li v-for="page in pagesToShow" :key="page">
         <button
           @click="changePage(page)"
@@ -36,12 +37,22 @@
       </li>
     </ul>
   </nav>
+
+  <select :value="perPage" @change="updatePerPage" class="absolute right-0 top-0 border px-4 py-2 rounded w-full  md:w-1/12">
+    <option v-for="(s, index) in [5,10,15]" :key="index" :value="s" selected="selected">{{s}} - {{ $t('Per Page') }} </option>
+  </select>
+
+  </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
 
 const props = defineProps({
+  perPage: {
+    type: Number,
+    required: true
+  },
   currentPage: {
     type: Number,
     required: true
@@ -52,21 +63,40 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['page-changed']);
+const emit = defineEmits(['page-changed'])
+// const { updateQueryParam } = updateQueryParam()
 
-const changePage = (page,) => {
+const changePage = (page) => {
   if (page >= 1 && page <= props.totalPages) {
-    emit('page-changed', page,);
+    emit('page-changed',{page});
+    updateQueryParam('page', page);
   }
-};
+}
 
 const pagesToShow = computed(() => {
   const range = [];
-  const start = Math.max(props.currentPage - 2, 1);
-  const end = Math.min(props.currentPage + 2, props.totalPages);
+  const start = Math.max(props.currentPage - 3, 1);
+  const end = Math.min(props.currentPage + 3, props.totalPages);
   for (let i = start; i <= end; i++) {
     range.push(i);
   }
   return range;
 });
+
+function updatePerPage(event) {
+  const perPage = parseInt(event.target.value)
+
+  // Emit the new value to parent
+  emit('page-changed', {perPage});
+
+  // Update query string
+  updateQueryParam( 'perPage', perPage )
+}
+
+
+function updateQueryParam(key, value) {
+  const url = new URL(window.location.href)
+  url.searchParams.set(key, value)
+  window.history.pushState({}, '', url)
+}
 </script>
