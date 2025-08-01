@@ -6,7 +6,8 @@
 
       <!-- Zdjęcie -->
       <div class="relative w-80 h-80">
-        <img :src="s.photos?.[0]?.photo_path ?? noPhoto" alt="{{ s.name }}" class="w-full h-full object-cover">
+        <img :src="s.photos?.[0]?.photo_path ?? noPhoto" alt="{{ s.name }}" class="w-full h-full object-cover"
+          loading="lazy">
         <div class="absolute bottom-2 left-2 bg-teal-500 text-white text-xs font-bold px-2 py-1 rounded">
           WYRÓŻNIONE
         </div>

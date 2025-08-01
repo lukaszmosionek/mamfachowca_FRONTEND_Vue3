@@ -4,8 +4,9 @@
     <div class="">
       <!-- add filtering -->
       <div class="my-6 flex flex-wrap gap-4 justify-center">
-        <input v-model="filters.name" @input="applyFilters" type="text" :placeholder="$t('Search by name')" class="border px-4 py-2 rounded w-full  md:w-1/4"/>
-        <select v-model="filters.providerId"  @change="applyFilters" class="border px-4 py-2 rounded w-full  md:w-1/4">
+        <input v-model="filters.name" @input="applyFilters" type="text" :placeholder="$t('Search by name')"
+          class="border px-4 py-2 rounded w-full  md:w-1/4" />
+        <select v-model="filters.providerId" @change="applyFilters" class="border px-4 py-2 rounded w-full  md:w-1/4">
           <option value="">{{ $t('All Providers') }}</option>
           <option v-for="p in providers" :key="p.id" :value="p.id">
             {{ p.name }}
@@ -14,7 +15,8 @@
       </div>
 
       <HomeTile :services="services" :isLoading="isLoading" />
-      <Pagination :currentPage="currentPage" :totalPages="totalPages" @page-changed="handlePageChange" :perPage="Number(filters.per_page)"/>
+      <Pagination :currentPage="currentPage" :totalPages="totalPages" @page-changed="handlePageChange"
+        :perPage="Number(filters.per_page)" />
     </div>
 
   </div>
@@ -75,7 +77,7 @@ const loadServices = async (page, perPage) => {
 
 const applyFilters = () => {
   if (filters.value.name && filters.value.name.length < 3) return;
-  services.value.data = Array(filters.value.per_page).fill({});
+  services.value = Array(filters.value.per_page).fill({});
   loadServices(currentPage.value, filters.value.per_page);
 };
 
@@ -93,10 +95,10 @@ onMounted(() => {
   loadProviders()
 })
 
-const handlePageChange = ({page, perPage}) => {
-  if(perPage) filters.value.per_page = perPage
-  if(page) currentPage.value = page
-  services.value.data = Array(filters.value.per_page).fill({})
+const handlePageChange = ({ page, perPage }) => {
+  if (perPage) filters.value.per_page = perPage
+  if (page) currentPage.value = page
+  services.value = Array(Number(filters.value.per_page)).fill({});
   loadServices(page, filters.value.per_page)
 };
 
