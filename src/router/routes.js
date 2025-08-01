@@ -18,7 +18,7 @@ export default [
       { path: '/forgot-password', name: 'ForgotPassword', component: ForgotPasswordView },
       { path: '/reset-password', name: 'ResetPassword', component: ResetPasswordView },
       { path: '/my-services', name: 'MyServices', component: MyServicesView, meta: { requiresAuth: true, role: 'provider' } },
-      { path: '/appointments', name: 'Appointments', component: AppointmentView, meta: { requiresAuth: true, role: 'client' } },
+      { path: '/appointments', name: 'Appointments', component: AppointmentView, meta: { requiresAuth: true } },
       { path: '/account', name: 'Account', component: AccountEditView, meta: { requiresAuth: true } },
       { path: '/users/:userId/messages/', name: 'Messages', component: MessagesView, meta: { requiresAuth: true } },
       { path: '/services/:serviceId', name: 'BookServiceView', component: BookServiceView, meta: { requiresAuth: true }  },

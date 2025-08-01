@@ -67,5 +67,7 @@
   "Start Time": "Czas rozpoczęcia",
   "End Time": "Czas zakończenia",
   "pending": "Oczekuje",
-  "Go Back": "Wracać"
+  "Go Back": "Wracać",
+  "Accept": "Akceptuj",
+  "Status": "Status"
 }

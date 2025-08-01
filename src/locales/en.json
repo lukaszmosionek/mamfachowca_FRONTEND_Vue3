@@ -75,5 +75,7 @@
   "Start Time": "Start time",
   "End Time": "End time",
   "pending": "pending",
-  "Go Back": "Go back"
+  "Go Back": "Go back",
+  "Accept": "Accept",
+  "Status": "Status"
 }
