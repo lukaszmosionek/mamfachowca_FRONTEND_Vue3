@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
 
-    <div class="overflow-x-auto">
+    <div class="">
       <!-- add filtering -->
       <div class="my-6 flex flex-wrap gap-4 justify-center">
         <input v-model="filters.name" @input="applyFilters" type="text" :placeholder="$t('Search by name')" class="border px-4 py-2 rounded w-full  md:w-1/4"/>
@@ -13,13 +13,12 @@
         </select>
       </div>
 
-      <HomeTile :services="services" />
-      <Pagination :currentPage="currentPage" :totalPages="totalPages" @page-changed="handlePageChange"/>
+      <HomeTile :services="services" :isLoading="isLoading" />
+      <Pagination :currentPage="currentPage" :totalPages="totalPages" @page-changed="handlePageChange" :perPage="Number(filters.per_page)"/>
     </div>
 
   </div>
 </template>
-
 
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
@@ -36,28 +35,30 @@ const authStore = useAuthStore()
 const router = useRouter();
 const route = useRoute()
 
-const loading = ref(false)
-const perPage = ref(Number(route.query.perPage) || 10);
-const services = ref(Array(perPage.value).fill({}));
-const currentPage = ref(Number(route.query.currentPage) || 1);
+const filters = ref({
+  name: '',
+  providerId: '',
+  per_page: route.query.perPage || 10
+});
+
+const isLoading = ref(false)
+const services = ref(Array(filters.value.per_page).fill({}));
+const currentPage = ref(Number(route.query.page) || 1);
 const totalPages = ref(10);
 const myFavorites = ref({});
 
-const filters = ref({
-  name: '',
-  providerId: ''
-});
+
 
 const providers = ref([]);
 
 const loadServices = async (page, perPage) => {
-  loading.value = true
+  isLoading.value = true
   try {
     const user = JSON.parse(localStorage.getItem('user'))
     const res = await api.get('/services', {
       params: {
-        page,
-        per_page: perPage,
+        page: page || null,
+        per_page: perPage || null,
         name: filters.value.name || undefined,
         provider_id: filters.value.providerId || undefined,
         user_id: user ? user.id : null
@@ -66,19 +67,16 @@ const loadServices = async (page, perPage) => {
 
     services.value = res.data.data
     totalPages.value = res.data.total_pages;
-
-
   } finally {
-    loading.value = false
+    isLoading.value = false
   }
 }
 
 
 const applyFilters = () => {
   if (filters.value.name && filters.value.name.length < 3) return;
-  currentPage.value = 1;
-  services.value.data = Array(perPage.value).fill({});
-  loadServices(currentPage.value, perPage.value);
+  services.value.data = Array(filters.value.per_page).fill({});
+  loadServices(currentPage.value, filters.value.per_page);
 };
 
 const loadProviders = async () => {
@@ -91,24 +89,15 @@ const loadProviders = async () => {
 }
 
 onMounted(() => {
-  loadServices(currentPage.value, perPage.value)
+  loadServices(currentPage.value, filters.value.per_page)
   loadProviders()
 })
 
-watch([perPage, currentPage], () => {
-  router.push({
-    query: {
-      ...route.query,
-      currentPage: currentPage.value,
-      perPage: perPage.value,
-    }
-  })
-})
-
-const handlePageChange = (page) => {
-  currentPage.value = page;
-  services.value.data = Array(perPage.value).fill({});
-  loadServices(page, perPage.value);
+const handlePageChange = ({page, perPage}) => {
+  if(perPage) filters.value.per_page = perPage
+  if(page) currentPage.value = page
+  services.value.data = Array(filters.value.per_page).fill({})
+  loadServices(page, filters.value.per_page)
 };
 
 </script>

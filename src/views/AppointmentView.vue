@@ -16,6 +16,7 @@
               <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">{{ $t('Service') }}</th>
               <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">{{ $t('Provider') }}</th>
               <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">{{ $t('Start Time') }}</th>
+              <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">{{ $t('Status') }}</th>
             </tr>
           </thead>
           <tbody>
@@ -33,6 +34,9 @@
               </td>
               <td class="px-4 py-2 text-sm text-gray-700">
                 {{ formatDate(appointment.date)+' '+appointment.start_time }}
+              </td>
+              <td class="px-4 py-2 text-sm text-gray-700">
+                {{ $t(appointment.status) }}
               </td>
             </tr>
           </tbody>
