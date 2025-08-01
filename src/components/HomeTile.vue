@@ -1,8 +1,10 @@
 <template>
-<div class="max-w-5xl mx-auto bg-white rounded shadow-md overflow-hidden flex mt-5" v-for="(s, index) in services?.data ?? services" :key="s.id">
+<!-- <!-- <div v-if="!services" class="text-center mt-4">{{ $t('No services') }}</div> -->
+<div v-if="services">
+<div class="mx-auto bg-white rounded shadow-md overflow-hidden flex mt-5" v-for="(s, index) in services" :key="s.id">
 
     <!-- Zdjęcie -->
-    <div class="relative w-1/3 w-80 h-80">
+    <div class="relative w-80 h-80">
       <img :src="s.photos?.[0]?.photo_path ?? noPhoto" alt="{{ s.name }}" class="w-full h-full object-cover">
       <div class="absolute bottom-2 left-2 bg-teal-500 text-white text-xs font-bold px-2 py-1 rounded">
         WYRÓŻNIONE
@@ -10,28 +12,33 @@
     </div>
 
     <!-- Opis -->
-    <div class="w-2/3 p-4 flex flex-col justify-between">
+    <div class="flex-1 ">
+    <div class="p-4 flex flex-col justify-between h-full">
 
       <div>
-        <h2 class="text-lg font-semibold text-gray-800 mb-1">{{ s.name }}</h2>
-        <p class="text-sm text-gray-500 mb-2 hidden md:block">{{ s?.description?.slice(0, 200)+'...' }}</p>
-        <div v-if="!s.description" class="spinner"></div>
-        <div class="text-sm text-gray-600" v-if="s?.provider">
+        <h2 class="text-lg font-semibold text-gray-800">{{ s.name }}</h2>
+        <p v-if="!isLoading" class="text-sm text-gray-500 hidden md:block">{{ s?.description?.slice(0, 00)+'...' }}</p>
+        <div v-if="isLoading" class="spinner"></div>
+        <div class="text-sm text-gray-600 mt-4" v-if="s?.provider">
           <!-- <span>🚗</span> -->
-          <div>Service duration: {{ s.duration_minutes }} min.</div>
+          <div>Service duration: {{ s.duration }} min.</div>
           <div>Provider: <RouterLink class="" :to="{ name: 'Profile', params: { userId: s?.provider?.id ?? 0 } }">{{ s?.provider?.name }}</RouterLink> <RouterLink class="text-2xl" :to="{ name: 'Messages', params: { userId: s?.provider?.id ?? 0 } }">&#9993;</RouterLink> </div>
           <BaseButton @click="router.push({ name: 'BookServiceView', params:{serviceId: s.id} })" :name="$t('Book')" class="float-right"/>
         </div>
       </div>
 
       <!-- Cena i serduszko -->
-      <div class="flex justify-between items-center mt-4" v-if="s.price">
-        <span  class="text-lg font-bold text-gray-800">{{ s.price }} zł</span>
+      <div class="flex justify-between items-center mt-1" v-if="s.price">
+        <span class="text-lg font-bold text-gray-800">{{ n( Number(s.price), 'currency') }}</span>
         <span @click="toggleFavorite(s.id, $event)" class="text-gray-400 hover:text-red-500 cursor-pointer text-3xl">{{ s.is_favorited ? '♥' : '♡' }}</span>
       </div>
 
     </div>
+    </div>
+
   </div>
+</div>
+<div v-else class="text-center mt-4">{{ $t('No services') }}</div>
 
 </template>
 
@@ -46,7 +53,7 @@ import { useI18n } from 'vue-i18n'
 import noPhoto from '@/assets/no-photo.jpg';
 
 const emit = defineEmits(['service-toggled']);
-const { t } = useI18n()
+const { t, d, n } = useI18n()
 const loading = ref(false)
 const authStore = useAuthStore()
 const router = useRouter();
@@ -54,6 +61,10 @@ const props = defineProps({
   services: {
     type: Array,
     required: true
+  },
+  isLoading: {
+    type: Boolean,
+    default: false
   }
 });
 
