@@ -3,7 +3,7 @@
   <header class="bg-gray-800 text-white px-6 py-4">
     <div class="wrapper flex justify-between items-center">
       <h1 class="text-xl font-bold">
-        <RouterLink :to="{ name: 'Home' }">{{ $t('Home') }}</RouterLink>
+        <RouterLink :to="{ name: 'Home', params: {}, query: {} }">{{ $t('Home') }}</RouterLink>
         <!-- <RouterLink to="/"><img src="@/assets/logo_small.png" alt=""></RouterLink> -->
       </h1>
 
@@ -25,7 +25,7 @@
             {{ $t('Clear Cache') }}
         </button> -->
 
-        <RouterLink v-if="authStore.token" :to="{ name: 'Favorites' }" class="text-3xl">♡</RouterLink>
+        <RouterLink v-if="authStore.token" :to="{ name: 'Favorites', params: {} }" class="text-3xl">♡</RouterLink>
 
         <NotificationDropdown v-if="authStore.token" />
 

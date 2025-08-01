@@ -4,9 +4,11 @@
       {{ $t('My appointments') }}
     </h2>
 
-    <!-- <div v-else> -->
-    <!-- <div v-if="appointments.length && !loading" class=""> -->
-    <table v-if="appointments" class="min-w-full table-auto border border-gray-200 rounded-lg shadow-sm"
+    <p v-if="!appointments.length && !loading" class="text-gray-500 text-center mt-3">
+      {{ $t("You don't have appointments yet.") }}
+    </p>
+
+    <table v-if="appointments.length" class="min-w-full table-auto border border-gray-200 rounded-lg shadow-sm"
       :class="{ 'opacity-50': loading }">
       <thead class="bg-gray-100">
         <tr>
@@ -64,15 +66,7 @@
       <div class="spinner"></div>
     </div>
 
-    <Pagination :currentPage="pagination.page" :totalPages="pagination.total" @page-changed="handlePageChange"
-      :perPage="pagination.per_page" />
-
-    <!-- </div> -->
-
-    <!-- <p v-else class="text-gray-500 text-center mt-3">
-      {{ $t("You don't have appointments yet.") }}
-    </p> -->
-    <!-- </div> -->
+    <Pagination  @page-changed="handlePageChange" :pagination="pagination"  />
   </div>
 </template>
 
@@ -93,11 +87,10 @@ const route = useRoute()
 const changeStatusLoadingId = ref([])
 const { t, d, n } = useI18n()
 const pagination = ref({
-  'page': 10,
-  'total': 10,
-  'per_page': 10,
+  page: 1,
+  last_page: 10,
+  per_page: 10,
 })
-// const appointments = ref(Array(10).fill({}));
 const appointments = ref({});
 
 const loadAppointments = async (loadingState = true) => {
@@ -105,7 +98,7 @@ const loadAppointments = async (loadingState = true) => {
   try {
     const res = await api.get('/appointments', { params: pagination.value })
     appointments.value = res.data.appointments
-    pagination.value.total = res.data.last_page
+    pagination.value.last_page = res.data.last_page
   } catch (error) {
     toast(t('Can\'t load appointments. Try again later'))
   } finally {
@@ -145,7 +138,7 @@ onMounted(() => {
   // Use Number() and fallback defaults
   pagination.value.page = Number(query.page) || 1
   pagination.value.per_page = Number(query.per_page) || 10
-  pagination.value.total = Number(query.total) || 10
+  pagination.value.last_page = Number(query.last_page) || 0
 
   loadAppointments()
 })
@@ -153,7 +146,6 @@ onMounted(() => {
 const handlePageChange = ({ page, perPage }) => {
   if (perPage) pagination.value.per_page = perPage
   if (page) pagination.value.page = page
-  // appointments.value = Array(Number(pagination.value.per_page)).fill({});
   loadAppointments()
 };
 </script>

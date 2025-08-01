@@ -1,10 +1,10 @@
 <template>
-  <div class="relative mt-4">
+  <div class="relative mt-4" v-if="isShow">
 
-    <nav class="flex justify-center" v-if="totalPages > 1">
+    <nav class="flex justify-center" v-if="pagination.last_page > 1">
       <ul class="inline-flex items-center -space-x-px">
         <li>
-          <button @click="changePage(currentPage - 1)" :disabled="currentPage === 1"
+          <button @click="changePage(pagination.page - 1)" :disabled="pagination.page === 1"
             class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50">
             {{ $t('Prev') }}
           </button>
@@ -12,7 +12,7 @@
         <li v-for="page in pagesToShow" :key="page">
           <button @click="changePage(page)" :class="[
             'px-3 py-2 leading-tight border',
-            currentPage === page
+            pagination.page === page
               ? 'bg-blue-500 text-white border-blue-500'
               : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-100 hover:text-gray-700',
           ]">
@@ -21,7 +21,7 @@
         </li>
 
         <li>
-          <button @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages"
+          <button @click="changePage(pagination.page + 1)" :disabled="pagination.page === pagination.last_page"
             class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50">
             {{ $t('Next') }}
           </button>
@@ -29,9 +29,10 @@
       </ul>
     </nav>
 
-    <select :value="perPage" @change="updatePerPage"
-      class="absolute right-0 top-0 border px-4 py-2 rounded w-full  md:w-1/12">
-      <option v-for="(s, index) in [5, 10, 15]" :key="index" :value="s" selected="selected">{{ s }} - {{ $t('Per Page') }}
+    <select :value="pagination.per_page" @change="updatePerPage" v-if="pagination.last_page > 1"
+      class="absolute right-0 top-0 border px-4 py-2 rounded w-full  w-1/12">
+      <option v-for="(s, index) in [5, 10, 15]" :key="index" :value="s" selected="selected">{{ s }} - {{ $t('Per Page')
+        }}
       </option>
     </select>
 
@@ -40,19 +41,19 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router'
 
+const router = useRouter()
+const route = useRoute()
 const props = defineProps({
-  perPage: {
-    type: Number,
-    required: true
+  pagination: {
+    type: Object,
+    required: true,
   },
-  currentPage: {
-    type: Number,
-    required: true
-  },
-  totalPages: {
-    type: Number,
-    required: true
+  isShow: {
+    type: Boolean,
+    required: false,
+    default: true
   }
 });
 
@@ -60,16 +61,17 @@ const emit = defineEmits(['page-changed'])
 // const { updateQueryParam } = updateQueryParam()
 
 const changePage = (page) => {
-  if (page >= 1 && page <= props.totalPages) {
+  if (page >= 1 && page <= props.pagination.last_page) {
     emit('page-changed', { page });
-    updateQueryParam('page', page);
+    updateQueryParams({page})
   }
 }
 
 const pagesToShow = computed(() => {
   const range = [];
-  const start = Math.max(props.currentPage - 3, 1);
-  const end = Math.min(props.currentPage + 3, props.totalPages);
+  const start = Math.max(props.pagination.page - 3, 2);
+  const end = Math.min(props.pagination.page + 3, props.pagination.last_page);
+  range.push(1); // Always add page 1
   for (let i = start; i <= end; i++) {
     range.push(i);
   }
@@ -83,13 +85,15 @@ function updatePerPage(event) {
   emit('page-changed', { perPage });
 
   // Update query string
-  updateQueryParam('perPage', perPage)
+  updateQueryParams({perPage})
 }
 
-
-function updateQueryParam(key, value) {
-  const url = new URL(window.location.href)
-  url.searchParams.set(key, value)
-  window.history.pushState({}, '', url)
+function updateQueryParams(params) {
+  router.push({
+    query: {
+      ...route.query,
+      ...params
+    }
+  })
 }
 </script>
