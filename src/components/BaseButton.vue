@@ -1,12 +1,10 @@
 <template>
-  <button
-    :type="type"
-    :disabled="loading"
-    v-bind="$attrs"
+  <button :type="type" :disabled="loading" v-bind="$attrs"
     class="d-block bg-blue-600 active:scale-95 hover:bg-blue-700 text-white font-semibold py-2 px-2 rounded-md transition-colors flex items-center justify-center disabled:opacity-60 cursor-pointer"
-  >
-  <span v-if="loading" class="animate-spin rounded-full h-5 w-5 border-t-2 border-white mr-2"></span>
+    :class="{ 'bg-red-600 hover:bg-red-700': makeRed }">
+    <span v-if="loading" class="animate-spin rounded-full h-5 w-5 border-t-2 border-white mr-2"></span>
     {{ name }}
+    <slot />
   </button>
 </template>
 
@@ -14,7 +12,7 @@
 defineProps({
   name: {
     type: [String, Boolean],
-    default: false,
+    default: '',
   },
   nameLoading: {
     type: [String, Boolean],
@@ -27,8 +25,11 @@ defineProps({
   type: {
     type: String,
     default: "submit",
+  },
+  makeRed: {
+    type: Boolean,
+    default: false
   }
 });
 
 </script>
-
