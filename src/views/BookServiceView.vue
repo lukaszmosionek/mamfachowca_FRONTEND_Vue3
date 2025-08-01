@@ -18,7 +18,7 @@
           </div>
       </div>
 
-        <BaseSelect class="w-24" v-model="form.timeHour" :errors="errors?.start_time" :label="$t('Time')" :options="hours"/>
+        <BaseSelect class="w-24" v-model="form.timeHour" :isAssociativeArray="true" :errors="errors?.start_time" :label="$t('Time')" :options="hours"/>
         <span class="text-gray-600 mt-8">:</span>
         <BaseSelect class="w-24" v-model="form.timeMinute" :errors="errors?.start_time" label="&nbsp;" :options="filteredMinutes"/>
     </div>
@@ -50,7 +50,7 @@ import Swal from 'sweetalert2';
 
 const router = useRouter();
 const route = useRoute()
-const { t } = useI18n()
+const { t, d } = useI18n()
 
 const loading = ref(false)
 const errors = ref('');
@@ -64,7 +64,7 @@ const filteredMinutes =  ref([]);
 const disabledDates = ref((date) => {});
 
 const minutes = ref(['05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55']);
-const hours = ref(['08', '09', '10', '11', '12', '13', '14', '15', '16']);
+const hours = ref({});
 
 const loadService = async () => {
   loading.value = true
@@ -102,8 +102,12 @@ const bookService = async () => {
 }
 
 onMounted(() => {
+  for (let i = 8; i <= 16; i++) {
+    hours.value[i] = convertTime(i)
+  }
   loadService()
   filteredMinutes.value = minutes.value
+
 })
 
 
@@ -114,7 +118,7 @@ watch(() => form.value.date, () => {
 
     hours.value = [];
     for (let i = time['startTime']['hour']; i <= time['endTime']['hour']; i++) {
-      hours.value.push(i.toString().padStart(2, '0'));
+      hours.value.push( convertTime(i) );
     }
   }
 
@@ -151,5 +155,11 @@ function getTimeFromAvailability(date){
   };
 }
 
+function convertTime(timeString) {
+  const today = new Date().toISOString().split('T')[0]
+  timeString = timeString.toString().padStart(2, '0')
+  const dateISO =  new Date(`${today}T${timeString}:00:00`)
+  return d( dateISO, 'hourOnly')
+}
 
 </script>
