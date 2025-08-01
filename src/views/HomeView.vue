@@ -98,7 +98,7 @@ onMounted(() => {
 const handlePageChange = ({ page, perPage }) => {
   if (perPage) filters.value.per_page = perPage
   if (page) currentPage.value = page
-  services.value = Array(Number(filters.value.per_page)).fill({});
+  // services.value = Array(Number(filters.value.per_page)).fill({});
   loadServices(page, filters.value.per_page)
 };
 

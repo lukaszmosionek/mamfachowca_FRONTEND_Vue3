@@ -1,8 +1,8 @@
 <template>
   <!-- <!-- <div v-if="!services" class="text-center mt-4">{{ $t('No services') }}</div> -->
   <div v-if="services">
-    <div class="mx-auto bg-white rounded shadow-md overflow-hidden flex mt-5" v-for="(s, index) in services"
-      :key="s.id">
+    <div class="mx-auto bg-white rounded shadow-md overflow-hidden flex mt-5 w-full relative"
+      :class="{ 'opacity-50': isLoading }" v-for="(s, index) in services" :key="s.id">
 
       <!-- Zdjęcie -->
       <div class="relative w-80 h-80">
@@ -14,15 +14,14 @@
       </div>
 
       <!-- Opis -->
-      <div class="flex-1 ">
+      <div class="flex-1 w-full">
         <div class="p-4 flex flex-col justify-between h-full">
 
           <div>
             <h2 class="text-lg font-semibold text-gray-800">{{ s.name }}</h2>
-            <p v-if="!isLoading" class="text-sm text-gray-500 hidden md:block">{{ s?.description?.slice(0, 200) +
-              '...' }}
-            </p>
-            <div v-if="isLoading" class="spinner"></div>
+            <p class="text-sm text-gray-500 hidden md:block">{{ s?.description ? s?.description?.slice(0, 200) + '...' :
+              ''
+            }}</p>
             <div class="text-sm text-gray-600 mt-4" v-if="s?.provider">
               <!-- <span>🚗</span> -->
               <div>Service duration: {{ s.duration }} min.</div>
@@ -43,17 +42,24 @@
               class="text-gray-400 hover:text-red-500 cursor-pointer text-3xl">{{ s.is_favorited ? '♥' : '♡' }}</span>
           </div>
 
+          <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center">
+            <div class="spinner"></div>
+          </div>
+
         </div>
       </div>
 
+
     </div>
+
+
   </div>
   <div v-else class="text-center mt-4">{{ $t('No services') }}</div>
 
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, watch } from 'vue';
 import BaseButton from './BaseButton.vue';
 import { useRouter } from 'vue-router';
 import api from '@/services/api'
@@ -91,6 +97,7 @@ const toggleFavorite = async (itemId, event) => {
   el.classList.remove('animate-bounce');
   emit('service-toggled', itemId);
 }
+
 </script>
 
 <style scoped>
