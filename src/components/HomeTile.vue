@@ -5,12 +5,13 @@
       :class="{ 'opacity-50': isLoading }" v-for="(s, index) in services" :key="s.id">
 
       <!-- Zdjęcie -->
-      <div class="relative w-40 h-40 md:w-80 md:h-80">
-        <img :src="s.photos?.[0]?.photo_path ?? noPhoto" alt="{{ s.name }}" class="w-full h-full object-cover"
+      <div class="w-40 h-40 md:w-80 md:h-80">
+        <!-- <img :src="s.photos?.[0]?.photo_path ?? noPhoto" alt="{{ s.name }}" class="w-full h-full object-cover"
           loading="lazy">
         <div class="absolute bottom-2 left-2 bg-teal-500 text-white text-xs font-bold px-2 py-1 rounded">
           WYRÓŻNIONE
-        </div>
+        </div> -->
+        <PhotoCarousel  :images="s.photos" height="h-80" class=""></PhotoCarousel>
       </div>
       <!-- Zdjęcie -->
       <!-- Opis -->
@@ -18,13 +19,13 @@
         <div class="p-4 flex justify-between h-full">
 
         <div class="flex flex-col justify-between">
-          <h2 class="md:text-lg font-semibold text-gray-800">{{ s?.name ? s?.name?.slice(0, 20) + '...' :'' }}</h2>
+          <h2 class="font-semibold text-gray-800 md:text-xl text-xs">{{ s?.name }}</h2>
           <p class="text-sm text-gray-500 hidden md:block">{{ s?.description ? s?.description?.slice(0, 200) + '...' :''}}</p>
-          <div class="md:text-sm text-gray-600" v-if="s?.provider">
-            <div>Service duration: {{ s.duration }} min.</div>
-            <div class="">Provider: <RouterLink class="" :to="{ name: 'Profile', params: { userId: s?.provider?.id ?? 0 } }">{{s?.provider?.name }}</RouterLink><RouterLink class="text-2xl" :to="{ name: 'Messages', params: { userId: s?.provider?.id ?? 0 } }">&#9993;</RouterLink></div>
+          <div class="text-gray-600 text-xs" v-if="s?.provider">
+            <div><span class="hidden md:block">Service duration:</span> {{ s.duration }} min.</div>
+            <div class=""><span class="hidden md:block">Provider:</span> <RouterLink class="" :to="{ name: 'Profile', params: { userId: s?.provider?.id ?? 0 } }">{{s?.provider?.name }}</RouterLink><RouterLink class="text-2xl" :to="{ name: 'Messages', params: { userId: s?.provider?.id ?? 0 } }">&#9993;</RouterLink></div>
           </div>
-          <span class="md:text-lg font-bold text-gray-800">{{ s.price ? n(Number(s.price), 'currency') : '' }}</span>
+          <span class=" font-bold text-gray-800">{{ s.price ? n(Number(s.price), 'currency') : '' }}</span>
         </div>
         <!-- Opis -->
         <!-- Cena i serduszko -->
@@ -53,6 +54,7 @@ import { useAuthStore } from '@/stores/auth'
 import { toast } from 'vue3-toastify';
 import { useI18n } from 'vue-i18n'
 import noPhoto from '@/assets/no-photo.jpg';
+import PhotoCarousel from './PhotoCarousel.vue';
 
 const emit = defineEmits(['service-toggled']);
 const { t, d, n } = useI18n()
