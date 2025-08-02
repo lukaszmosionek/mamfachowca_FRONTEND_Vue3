@@ -79,5 +79,11 @@
   "Accept": "Accept",
   "confirmed": "confirmed",
   "cancelled": "cancelled",
-  "Status": "Status"
+  "Status": "Status",
+  "Profile": "Profile",
+  "Provider Availability": "Provider Availability",
+  "No services": "No services",
+  "Messages": "Messages",
+  "Forgot password?": "Forgot password?",
+  "People you have chatted with": "People you have chatted with"
 }
