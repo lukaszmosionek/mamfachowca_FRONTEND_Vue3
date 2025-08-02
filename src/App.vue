@@ -5,19 +5,23 @@ import Footer from '@/components/Footer.vue'
 </script>
 
 <template>
-    <main class="">
-      <Header />
-      <RouterView />
+  <div class="min-h-screen flex flex-col bg-gray-100 text-gray-900">
+    <main class="flex-grow">
+        <Header />
+        <div class="wrapper">
+            <RouterView />
+        </div>
     </main>
     <Footer />
+  </div>
 </template>
 
 <style scoped>
-body{
+ /* body{
   background-color: aliceblue!important;
-}
+}  */
 
-header {
+/* header {
   line-height: 1.5;
   max-height: 100vh;
 }
@@ -77,5 +81,5 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
-}
+} */
 </style>
