@@ -4,7 +4,6 @@
     <div class="wrapper flex justify-between items-center">
       <h1 class="text-xl font-bold">
         <RouterLink :to="{ name: 'Home', params: {}, query: {} }">{{ $t('Home') }}</RouterLink>
-        <!-- <RouterLink to="/"><img src="@/assets/logo_small.png" alt=""></RouterLink> -->
       </h1>
 
       <div class="md:hidden flex gap-2">
@@ -25,24 +24,19 @@
             {{ $t('Clear Cache') }}
         </button> -->
 
-        <RouterLink v-if="authStore.token" :to="{ name: 'Favorites', params: {} }" class="text-3xl">♡</RouterLink>
+        <RouterLink v-if="isLogged" :to="{ name: 'Favorites', params: {} }" class="text-3xl">♡</RouterLink>
 
-        <NotificationDropdown v-if="authStore.token" />
+        <NotificationDropdown v-if="isLogged" />
 
-        <RouterLink v-if="!authStore.token" :to="{ name: 'Login' }">{{ $t('Login') }}</RouterLink>
-        <RouterLink v-if="!authStore.token" :to="{ name: 'Register' }">{{ $t('Register') }}</RouterLink>
+        <RouterLink v-if="!isLogged" :to="{ name: 'Login' }">{{ $t('Login') }}</RouterLink>
+        <RouterLink v-if="!isLogged" :to="{ name: 'Register' }">{{ $t('Register') }}</RouterLink>
 
-        <RouterLink v-if="authStore.token" :to="{ name: 'Appointments' }">{{ $t('Appointments') }}</RouterLink>
-        <RouterLink v-if="authStore.token && isProvider" :to="{ name: 'MyServices' }">{{ $t('My services') }}
-        </RouterLink>
+        <RouterLink v-if="isLogged" :to="{ name: 'Messages', params: {'userId': 1} }">{{ $t('Messages') }}</RouterLink>
+        <RouterLink v-if="isLogged" :to="{ name: 'Appointments' }">{{ $t('Appointments') }}</RouterLink>
+        <RouterLink v-if="isLogged && isProvider" :to="{ name: 'MyServices' }">{{ $t('My services') }}</RouterLink>
 
-        <RouterLink v-if="authStore.token" :to="{ name: 'Account' }"> {{ authStore.user.name }} #{ { authStore.user.id
-          }} ({{
-            isProvider ? authStore.user.role : ''
-          }})</RouterLink>
-        <BaseButton :loading="loading" :name="$t('Logout')"
-          class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit"
-          v-if="authStore.token" @click="logout" />
+        <RouterLink v-if="isLogged" :to="{ name: 'Account' }"> {{ authStore.user.name }} #{{ authStore.user.id}} ({{ authStore.user.role }})</RouterLink>
+        <BaseButton v-if="isLogged" @click="logout" :loading="loading" :name="$t('Logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit"/>
 
       </nav>
     </div>
@@ -51,23 +45,16 @@
   <!-- Mobile Menu (shown when hamburger is clicked) -->
   <nav v-if="mobileMenuOpen" class="md:hidden bg-gray-700 text-white px-6 py-4 flex flex-col gap-2">
 
-    <RouterLink @click="mobileMenuOpen = false" v-if="!authStore.token" :to="{ name: 'Login' }">{{ $t('Login') }}
-    </RouterLink>
-    <RouterLink @click="mobileMenuOpen = false" v-if="!authStore.token" :to="{ name: 'Register' }">{{ $t('Register') }}
-    </RouterLink>
+    <RouterLink @click="mobileMenuOpen = false" v-if="!isLogged" :to="{ name: 'Login' }">{{ $t('Login') }}</RouterLink>
+    <RouterLink @click="mobileMenuOpen = false" v-if="!isLogged" :to="{ name: 'Register' }">{{ $t('Register') }}</RouterLink>
 
-    <RouterLink @click="mobileMenuOpen = false" v-if="authStore.token && isClient" :to="{ name: 'Appointments' }">{{
-      $t('Appointments') }}</RouterLink>
-    <RouterLink @click="mobileMenuOpen = false" v-if="authStore.token && isProvider" :to="{ name: 'MyServices' }">{{
-      $t('My services') }}</RouterLink>
+    <RouterLink @click="mobileMenuOpen = false" v-if="isLogged && isClient" :to="{ name: 'Appointments' }">{{$t('Appointments') }}</RouterLink>
+    <RouterLink @click="mobileMenuOpen = false" v-if="isLogged && isProvider" :to="{ name: 'MyServices' }">{{$t('My services') }}</RouterLink>
     <!-- <span v-if="authStore.user" class="font-semibold mt-6">
       {{ authStore.user.name }} ({{ isProvider ? authStore.user.role : '' }})
     </span> -->
-    <RouterLink v-if="authStore.token" :to="{ name: 'Account' }">{{ $t('Account') + ' - ' + authStore.user.name }} ({{
-      isProvider ? authStore.user.role : '' }})</RouterLink>
-    <BaseButton :loading="loading" :name="$t('Logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700"
-      v-if="authStore.token" @click="logout" />
-
+    <RouterLink v-if="isLogged" :to="{ name: 'Account' }">{{ $t('Account') + ' - ' + authStore.user.name }} ({{isProvider ? authStore.user.role : '' }})</RouterLink>
+    <BaseButton :loading="loading" :name="$t('Logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700"v-if="authStore.token" @click="logout" />
 
     <!-- <button @click="handleLogout" v-if="authStore.token" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700">{{ $t('Logout') }}</button> -->
   </nav>
@@ -91,6 +78,7 @@ const route = useRoute()
 
 const isProvider = computed(() => authStore.user?.role === 'provider')
 const isClient = computed(() => authStore.user?.role === 'client')
+const isLogged = computed(() => authStore.user )
 const mobileMenuOpen = ref(false)
 const loading = ref(false)
 
