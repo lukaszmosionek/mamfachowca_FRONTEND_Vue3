@@ -12,8 +12,7 @@
       </div>
       <Availabilities :availabilities="user?.availabilities" />
       <HomeTile :services="services" :isLoading="isLoading" />
-      <Pagination :currentPage="pagination.page" :totalPages="pagination.total" @page-changed="handlePageChange"
-        :perPage="pagination.per_page" />
+      <Pagination :pagination="pagination" @page-changed="handlePageChange" />
     </div>
   </div>
 </template>
@@ -38,11 +37,10 @@ const isLoading = ref(false)
 const route = useRoute()
 
 const pagination = ref({
-  'page': 1,
-  'total': 10,
-  'per_page': 10,
+  per_page: Number(route.query.per_page) || 5,
+  page: Number(route.query.page) || 1,
+  last_page: 10
 })
-
 
 onMounted(async () => {
   loadUser()
@@ -53,7 +51,7 @@ async function loadUser() {
   const res = await api.get('/users/' + parseInt(route.params.userId), { params: pagination.value })
   user.value = res.data.user
   services.value = res.data.services
-  pagination.value.total = parseInt(res.data.last_page)
+  pagination.value.last_page = parseInt(res.data.last_page)
   isLoading.value = false
 }
 

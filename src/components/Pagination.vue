@@ -1,7 +1,7 @@
 <template>
-  <div class="relative mt-4" v-if="isShow">
+  <div class="relative mt-4" v-if="isShow && pagination.last_page > 1">
 
-    <nav class="flex justify-center" v-if="pagination.last_page > 1">
+    <nav class="flex justify-center">
       <ul class="inline-flex items-center -space-x-px">
         <li>
           <button @click="changePage(pagination.page - 1)" :disabled="pagination.page === 1"
@@ -29,11 +29,8 @@
       </ul>
     </nav>
 
-    <select :value="pagination.per_page" @change="updatePerPage" v-if="pagination.last_page > 1"
-      class="absolute right-0 top-0 border px-4 py-2 rounded w-full  w-1/12">
-      <option v-for="(s, index) in [5, 10, 15]" :key="index" :value="s" selected="selected">{{ s }} - {{ $t('Per Page')
-        }}
-      </option>
+    <select :value="pagination.per_page" @change="updatePerPage"class="absolute right-0 top-0 border px-4 py-2 rounded w-1/12">
+      <option v-for="(s, index) in [5, 10, 15]" :key="index" :value="s" selected="selected">{{ s }} - {{ $t('Per Page')}}</option>
     </select>
 
   </div>
@@ -58,7 +55,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['page-changed'])
-// const { updateQueryParam } = updateQueryParam()
 
 const changePage = (page) => {
   if (page >= 1 && page <= props.pagination.last_page) {

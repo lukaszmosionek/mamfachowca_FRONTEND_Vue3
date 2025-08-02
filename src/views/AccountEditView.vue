@@ -30,10 +30,10 @@ const loading = ref(false)
 
 onMounted(async () => {
   const res = await api.get('/me')
-// cl(res)
+
   form.value.name = res.data.name
   form.value.email = res.data.email
-  form.value.role = t(res.data.role)
+  form.value.role = t(res.data.role ?? 'Client')
 })
 
 const updateUser = async () => {

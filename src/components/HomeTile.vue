@@ -12,30 +12,31 @@
           WYRÓŻNIONE
         </div>
       </div>
-
+      <!-- Zdjęcie -->
       <!-- Opis -->
       <div class="flex-1 w-full">
         <div class="p-4 flex justify-between h-full">
 
         <div class="flex flex-col justify-between">
-          <h2 class="text-lg font-semibold text-gray-800">{{ s.name }}</h2>
+          <h2 class="md:text-lg font-semibold text-gray-800">{{ s?.name ? s?.name?.slice(0, 20) + '...' :'' }}</h2>
           <p class="text-sm text-gray-500 hidden md:block">{{ s?.description ? s?.description?.slice(0, 200) + '...' :''}}</p>
-          <div class="text-sm text-gray-600" v-if="s?.provider">
+          <div class="md:text-sm text-gray-600" v-if="s?.provider">
             <div>Service duration: {{ s.duration }} min.</div>
             <div class="">Provider: <RouterLink class="" :to="{ name: 'Profile', params: { userId: s?.provider?.id ?? 0 } }">{{s?.provider?.name }}</RouterLink><RouterLink class="text-2xl" :to="{ name: 'Messages', params: { userId: s?.provider?.id ?? 0 } }">&#9993;</RouterLink></div>
           </div>
-          <span class="text-lg font-bold text-gray-800">{{ n(Number(s.price), 'currency') }}</span>
+          <span class="md:text-lg font-bold text-gray-800">{{ s.price ? n(Number(s.price), 'currency') : '' }}</span>
         </div>
-
+        <!-- Opis -->
         <!-- Cena i serduszko -->
-        <div class="flex flex-col justify-between items-center" v-if="s.price">
+        <div class="flex flex-col justify-between items-end">
           <span @click="toggleFavorite(s.id, $event)" class="text-gray-400 hover:text-red-500 cursor-pointer text-4xl">{{ s.is_favorited ? '♥' : '♡' }}</span>
           <BaseButton @click="router.push({ name: 'BookServiceView', params: { serviceId: s.id } })" :name="$t('Book')" class="ml-4" />
         </div>
+        <!-- Cena i serduszko -->
 
-          <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center">
-            <div class="spinner"></div>
-          </div>
+        <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center">
+          <div class="spinner"></div>
+        </div>
 
         </div>
       </div>
