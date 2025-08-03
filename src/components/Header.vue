@@ -3,7 +3,7 @@
   <header class="bg-gray-800 text-white px-6 py-4">
     <div class="wrapper flex justify-between items-center">
       <h1 class="text-xl font-bold">
-        <RouterLink :to="{ name: 'Home', params: {}, query: {} }">{{ $t('Home') }}</RouterLink>
+        <RouterLink :to="{ name: 'Home', params: {}, query: {'route':'home'} }">{{ $t('Home') }}</RouterLink>
       </h1>
 
       <div class="md:hidden flex gap-2">
