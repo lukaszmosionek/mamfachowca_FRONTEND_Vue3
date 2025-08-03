@@ -6,6 +6,7 @@
       @change="event => emit('update:modelValue', event.target.value)"
       class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 mt-1"
     >
+      <option v-if="addFirstOption" value="">{{addFirstOption}}</option>
       <option v-for="(value, i) in options" :key="i" :value="isAssociativeArray ? i : value">{{value}}</option>
     </select>
     <div v-if="Object.keys(errors).length > 0" class="text-red-500 mt-1 font-black">
@@ -35,6 +36,10 @@ defineProps({
   isAssociativeArray: {
     type: Boolean,
     default: false,
+  },
+  addFirstOption: {
+    type: String,
+    default: '',
   },
 });
 

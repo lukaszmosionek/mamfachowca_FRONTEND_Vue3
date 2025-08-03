@@ -2,14 +2,8 @@
   <div class="">
     <!-- add filtering -->
     <div class="my-6 flex flex-wrap gap-4 justify-center">
-      <input v-model="filters.name" @input="applyFilters" type="text" :placeholder="$t('Search by name')"
-        class="border px-4 py-2 rounded w-full  md:w-1/4" />
-      <select v-model="filters.provider_id" @change="applyFilters" class="border px-4 py-2 rounded w-full  md:w-1/4">
-        <option value="">{{ $t('All Providers') }}</option>
-        <option v-for="p in providers" :key="p.id" :value="p.id">
-          {{ p.name }}
-        </option>
-      </select>
+      <BaseInput :placeholder="$t('Search by name')" v-model="filters.name" @input="applyFilters" class="mt-2 !w-1/2" />
+      <BaseSelect v-model="filters.provider_id" @change="applyFilters" :options="providers" :isAssociativeArray="true" addFirstOption="All providers" class="mt-2 w-1/2" />
     </div>
   </div>
 </template>
@@ -17,12 +11,14 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter, useRoute } from 'vue-router'
+import BaseSelect from "./BaseSelect.vue";
+import BaseInput from "./BaseInput.vue";
 
 const router = useRouter()
 const route = useRoute()
 const props = defineProps({
   providers: {
-    type: Array,
+    type: Object,
     required: true
   },
   filters: {

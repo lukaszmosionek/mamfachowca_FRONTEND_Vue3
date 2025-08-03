@@ -1,5 +1,5 @@
 <template>
-  <div class="input-wrap">
+  <!-- <div> -->
     <label v-if="label" class="">{{ label }}</label>
     <input
       :type="type"
@@ -13,7 +13,7 @@
     <div v-if="Object.keys(errors).length > 0" class="text-red-500 mt-1 font-black">
       <span v-for="(msg, i) in errors" :key="i">{{ msg }}</span>
     </div>
-  </div>
+  <!-- </div> -->
 </template>
 
 <script setup>
