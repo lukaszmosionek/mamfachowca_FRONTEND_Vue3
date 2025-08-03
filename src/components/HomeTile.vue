@@ -53,7 +53,6 @@ import api from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
 import { toast } from 'vue3-toastify';
 import { useI18n } from 'vue-i18n'
-import noPhoto from '@/assets/no-photo.jpg';
 import PhotoCarousel from './PhotoCarousel.vue';
 
 const emit = defineEmits(['service-toggled']);
@@ -73,14 +72,15 @@ const props = defineProps({
 });
 
 const toggleFavorite = async (itemId, event) => {
-  if (!authStore.token) return toast(t('Login to add to favorites'))
+  if (!authStore.token) return toast.info(t('Login to add to favorites'))
   const el = event.currentTarget;
   event.currentTarget.classList.add('animate-bounce');
 
   const res = await api.post(`/favorites/${itemId}`)
   const service = props.services.find(s => s.id === itemId);
   if (service) {
-    service.is_favorited = res.data.favorited;
+    service.is_favorited = res.data.favorited
+    service.is_favorited ? toast.success(t('Added to favorites')) : toast.warning(t('Removed from favorites'))
   }
   el.classList.remove('animate-bounce');
   emit('service-toggled', itemId);
