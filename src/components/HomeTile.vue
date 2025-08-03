@@ -11,7 +11,7 @@
         <div class="absolute bottom-2 left-2 bg-teal-500 text-white text-xs font-bold px-2 py-1 rounded">
           WYRÓŻNIONE
         </div> -->
-        <PhotoCarousel  :images="s.photos" height="h-80" class=""></PhotoCarousel>
+        <PhotoCarousel  :images="s.photos" height="h-40 md:h-80" imageKey="medium" class=""></PhotoCarousel>
       </div>
       <!-- Zdjęcie -->
       <!-- Opis -->

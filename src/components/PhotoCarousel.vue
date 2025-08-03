@@ -12,6 +12,14 @@
       >
         <img
           :src="image[imageKey] ?? noPhoto"
+          :srcset="`
+            ${image.thumbnail} 480w,
+            ${image.medium} 768w,
+            ${image.large} 1200w
+          `"
+          sizes="(max-width: 480px) 100vw,
+                (max-width: 768px) 100vw,
+                1200px"
           class="w-full object-cover"
           :class="height"
           :alt="`Image ${index + 1}`"
@@ -65,7 +73,7 @@ const props = defineProps({
   },
   imageKey: {
     type: String,
-    default: 'photo_path'
+    default: 'thumbnail'
   },
   height: {
     type: String,
