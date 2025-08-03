@@ -20,10 +20,10 @@
 
         <div class="flex flex-col justify-between">
           <h2 class="font-semibold text-gray-800 md:text-xl text-xs">{{ s?.name }}</h2>
-          <p class="text-sm text-gray-500 hidden md:block">{{ s?.description ? s?.description?.slice(0, 200) + '...' :''}}</p>
-          <div class="text-gray-600 text-xs" v-if="s?.provider">
-            <div><span class="hidden md:block">Service duration:</span> {{ s.duration }} min.</div>
-            <div class=""><span class="hidden md:block">Provider:</span> <RouterLink class="" :to="{ name: 'Profile', params: { userId: s?.provider?.id ?? 0 } }">{{s?.provider?.name }}</RouterLink><RouterLink class="text-2xl" :to="{ name: 'Messages', params: { userId: s?.provider?.id ?? 0 } }">&#9993;</RouterLink></div>
+          <p class="text-gray-500 hidden md:block text-xs md:text-sm">{{ s?.description ? s?.description?.slice(0, 200) + '...' :''}}</p>
+          <div class="text-gray-600 text-xs md:text-sm" v-if="s?.provider">
+            <div><span class="">Service duration:</span> {{ s.duration }} min.</div>
+            <div class=""><span class="hidden md:block">Provider:</span> <RouterLink class="" :to="{ name: 'Profile', params: { userId: s?.provider?.id ?? 0 } }">{{s?.provider?.name }}</RouterLink><RouterLink class="text-lg md:text-2lg" :to="{ name: 'Messages', params: { userId: s?.provider?.id ?? 0 } }">&#9993;</RouterLink></div>
           </div>
           <span class=" font-bold text-gray-800">{{ s.price ? n(Number(s.price), 'currency') : '' }}</span>
         </div>

@@ -1,10 +1,10 @@
 <template>
   <div class="input-wrap">
-      <label v-if="label" class="text-gray-800">{{ label }}</label>
+      <label v-if="label" class="text-gray-800 mb-1">{{ label }}</label>
       <select
       :value="modelValue"
       @change="event => emit('update:modelValue', event.target.value)"
-      class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 mt-1"
+      class="w-full h-full px-4 py-2 border border-gray-300 rounded-md text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
     >
       <option v-if="addFirstOption" value="">{{addFirstOption}}</option>
       <option v-for="(value, i) in options" :key="i" :value="isAssociativeArray ? i : value">{{value}}</option>
