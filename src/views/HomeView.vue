@@ -45,7 +45,7 @@ const loadServices = async () => {
     const user = JSON.parse(localStorage.getItem('user'))
     const res = await api.get('/services', {
       params: {
-        page,
+        ...page.value,
         ...filters.value,
         user_id: user ? user.id : null
       }

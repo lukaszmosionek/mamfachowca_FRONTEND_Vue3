@@ -62,7 +62,7 @@
       </tbody>
     </table>
 
-    <div v-if="loading" class="absolute  inset-0 flex items-center justify-center">
+    <div v-if="loading" class="absolute left-1/2 flex items-center justify-center">
       <div class="spinner"></div>
     </div>
 

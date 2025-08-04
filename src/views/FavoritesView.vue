@@ -18,7 +18,7 @@
         <!-- add filtering -->
 
         <HomeTile :services="services" @service-toggled="handleServiceToggled"/>
-        <Pagination :currentPage="currentPage" :totalPages="totalPages" @page-changed="handlePageChange"/>
+        <Pagination :pagination="pagination" @page-changed="handlePageChange"/>
       </div>
       <div v-else class="text-center mt-8">{{ $t('No Favorites yet') }}</div>
     </div>
@@ -48,6 +48,12 @@ const services = ref(Array(perPage.value).fill({}))
 const currentPage = ref(Number(route.query.currentPage) || 1)
 const totalPages = ref(10)
 
+const pagination = ref({
+  page: 1,
+  per_page: 10,
+  last_page: 10
+})
+
 const filters = ref({
   name: '',
   providerId: ''
@@ -60,10 +66,8 @@ const loadServices = async (page, perPage) => {
   try {
     const res = await api.get('/favorites', {
       params: {
-        page,
-        per_page: perPage,
-        name: filters.value.name || undefined,
-        provider_id: filters.value.providerId || undefined,
+        ...pagination.value,
+        ...filters.value
       }
     })
     services.value = res.data.data
