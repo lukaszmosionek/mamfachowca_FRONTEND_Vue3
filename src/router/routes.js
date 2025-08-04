@@ -23,5 +23,5 @@ export default [
       { path: '/users/:userId/messages/', name: 'Messages', component: MessagesView, meta: { requiresAuth: true } },
       { path: '/services/:serviceId', name: 'BookServiceView', component: BookServiceView, meta: { requiresAuth: true }  },
       { path: '/favorites', name: 'Favorites', component: FavoritesView, meta: { requiresAuth: true }  },
-      { path: '/profiles/:userId', name: 'Profile', component: ProfileView, meta: { requiresAuth: true }  },
+      { path: '/profiles/:userId', name: 'Profile', component: ProfileView, meta: { requiresAuth: false }  },
 ]

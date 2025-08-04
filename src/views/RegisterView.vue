@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-xl">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">{{ $t('Registration') }}</h2>
+    <h1 class="h1">{{ $t('Registration') }}</h1>
     <form @submit.prevent="handleRegister" class="space-y-4">
       <BaseInput v-model="form.name" :label="$t('Name')" placeholder="e.g. John Due" :errors="errors?.name"/>
       <BaseInput v-model="form.email" :label="$t('Email')" placeholder="e.g. john.due@example.com" :errors="errors?.email"/>
