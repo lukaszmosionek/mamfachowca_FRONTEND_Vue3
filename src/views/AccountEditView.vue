@@ -1,5 +1,5 @@
 <template>
-  <h2 class="text-xl text-center font-bold mb-4 text-gray-600">{{ $t('Edit Account') }}</h2>
+  <h1 class="h1">{{ $t('Edit Account') }}</h1>
 
   <div v-if="isLoading" class="spinner"></div>
   <div v-else class="max-w-md mx-auto p-4">

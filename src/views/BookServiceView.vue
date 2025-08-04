@@ -1,7 +1,9 @@
 <template>
-  <div class="wrapper">
+  <div class="">
 
-    <h1 class="text-4xl mt-2 text-center">{{ service.name ?? '...' }}</h1>
+    <h1 class="h1">{{ $t('Book a service') }}</h1>
+
+    <div class="text-4xl mt-2 text-center">{{ service.name ?? '...' }}</div>
     <p class="mt-4">{{ service.description }}</p>
 
     <!-- <BaseInput v-model="form.time" :min="minTime" :max="maxTime" type="time" class="mt-2":errors="errors.errors?.start_time" required/> -->

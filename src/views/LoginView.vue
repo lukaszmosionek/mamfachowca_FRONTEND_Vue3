@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">{{ $t('Login') }}</h2>
+    <h1 class="h1">{{ $t('Login') }}</h1>
 
     <div class="text-center text-gray-800 space-y-1 mb-4">
       <div class="text-gray-800 font-bold text-center mt-3">{{ $t('Default credentials') }}</div>

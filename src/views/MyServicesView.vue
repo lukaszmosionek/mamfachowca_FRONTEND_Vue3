@@ -1,6 +1,6 @@
 <template>
-  <div class="wrapper">
-    <h2 class="text-gray-600 text-2xl font-semibold mb-4 mt-4 text-center">{{ $t('My Services') }}</h2>
+  <div class="">
+    <h1 class="h1">{{ $t('My Services') }}</h1>
 
     <ServiceForm v-if="showForm" :service="selectedService" @close="closeForm" @saved="loadServices" />
 

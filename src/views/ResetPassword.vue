@@ -1,7 +1,7 @@
 <!-- ResetPassword.vue -->
 <template>
-  <div class="reset-password-container wrapper">
-    <h1>Reset Password</h1>
+  <div class="reset-password-container">
+    <h1 class="h1">Reset Password</h1>
     <p>Please enter your new password.</p>
 
     <div class="form-container">

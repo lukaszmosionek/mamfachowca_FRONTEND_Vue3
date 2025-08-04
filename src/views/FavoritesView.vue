@@ -1,6 +1,6 @@
 <template>
-  <div class="wrapper">
-    <h1 class="text-4xl text-center mt-3 font-bold">Favorites</h1>
+  <div class="">
+    <h1 class="h1">Favorites</h1>
     <div v-if="loading" class="spinner"></div>
     <div v-else>
 

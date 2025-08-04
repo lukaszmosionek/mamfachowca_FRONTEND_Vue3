@@ -1,6 +1,6 @@
 <template>
-  <div class="mt-4">
-    <h2 class="text-xl text-center font-bold mb-4 text-gray-600">{{ $t('Profile') }}</h2>
+  <div class="">
+    <h1 class="h1">{{ $t('Profile') }}</h1>
 
     <div v-if="isLoading" class="spinner"></div>
     <div v-else>

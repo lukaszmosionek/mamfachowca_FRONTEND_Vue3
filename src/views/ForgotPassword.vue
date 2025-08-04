@@ -1,8 +1,8 @@
 <!-- ForgotPassword.vue -->
 <template>
-  <div class="forgot-password-container wrapper">
+  <div class="forgot-password-container">
     <div class="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
-      <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">{{ $t('Forgot Password') }}</h2>
+      <h1 class="h1">{{ $t('Forgot Password') }}</h1>
       <p>Please enter your email address to receive a password reset link.</p>
 
       <div class="form-container mt-4">

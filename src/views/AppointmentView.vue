@@ -1,8 +1,6 @@
 <template>
-  <div class="wrapper relative">
-    <h2 class="text-gray-600 text-3xl font-bold mb-4 text-center mt-4">
-      {{ $t('My appointments') }}
-    </h2>
+  <div class="relative">
+    <h1 class="h1">{{ $t('My appointments') }}</h1>
 
     <p v-if="!appointments.length && !loading" class="text-gray-500 text-center mt-3">
       {{ $t("You don't have appointments yet.") }}

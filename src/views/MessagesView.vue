@@ -1,7 +1,6 @@
 <template>
-  <div class="py-4 wrapper">
-
-    <h2 class="text-2xl font-semibold mb-5 text-gray-800 text-center">{{ $t('Messages') }}</h2>
+  <div class="">
+    <h1 class="h1">{{ $t('Messages') }}</h1>
 
     <div class="flex">
 
