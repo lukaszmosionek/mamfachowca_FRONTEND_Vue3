@@ -1,6 +1,6 @@
 <template>
 <!-- Provider Availability -->
-      <div class="mt-16">
+      <div class="">
         <span class="font-medium">{{ $t('Provider Availability') }}:</span>
         <table class="min-w-full border border-gray-200 rounded">
           <thead>

@@ -53,7 +53,7 @@ a,
   border-top-color: #42b983;
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin: 40px auto;
+  margin: auto;
 }
 @keyframes spin {
   to {

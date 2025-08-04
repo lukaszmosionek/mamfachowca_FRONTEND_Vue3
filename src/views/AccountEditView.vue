@@ -1,6 +1,10 @@
 <template>
-  <div class="max-w-md mx-auto p-4">
-    <h2 class="text-xl text-center font-bold mb-4 text-gray-600">{{ $t('Edit Account') }}</h2>
+  <h2 class="text-xl text-center font-bold mb-4 text-gray-600">{{ $t('Edit Account') }}</h2>
+
+  <div v-if="isLoading" class="spinner"></div>
+  <div v-else class="max-w-md mx-auto p-4">
+
+    <UploadAvatar @avatar-changed="onAvatarChanged" :user="user"></UploadAvatar>
 
     <form @submit.prevent="updateUser" class="space-y-4">
         <BaseInput :label="$t('Name')" v-model="form.name" :errors="errors?.name"/>
@@ -17,6 +21,7 @@ import api from '@/services/api'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import { useI18n } from 'vue-i18n'
+import UploadAvatar from '@/components/UploadAvatar.vue'
 
 const form = ref({
   name: '',
@@ -26,25 +31,39 @@ const form = ref({
 
 const { t } = useI18n()
 const errors = ref({})
-const loading = ref(false)
+const isLoading = ref(false)
+const user = ref({})
 
 onMounted(async () => {
+  getUser()
+})
+
+const getUser = async () => {
+  isLoading.value = true
   const res = await api.get('/me')
 
+  user.value = res.data
   form.value.name = res.data.name
   form.value.email = res.data.email
   form.value.role = t(res.data.role ?? 'Client')
-})
+  isLoading.value = false
+}
 
 const updateUser = async () => {
   errors.value = {}
-  loading.value = true
+  isLoading.value = true
   try{
     const res = await api.put('/me', form.value)
     alert('Profile Updated')
   }catch(error){
     errors.value = error?.errors
   }
-  loading.value = false
+  isLoading.value = false
+}
+
+function onAvatarChanged(newUrl) {
+  console.log('tutaj'+newUrl)
+  user.value.avatar = newUrl
+  // getUser()
 }
 </script>

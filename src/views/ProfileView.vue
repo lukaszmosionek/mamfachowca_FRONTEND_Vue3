@@ -1,16 +1,20 @@
 <template>
-  <div class="wrapper flex justify-evenly mt-6">
-    <!-- <div v-if="isLoading" class="spinner"></div> -->
-    <!-- <div v-else> -->
-    <div>
-      <div class="space-y-4">
-        <h2 class="text-xl text-center font-bold mb-4 text-gray-600">{{ $t('Profile') }}</h2>
-        <div>{{ $t('Name') }}: {{ user.name }}</div>
-        <div>{{ $t('Email') }}: {{ user.email }}</div>
-        <div>{{ $t('Role') }}: {{ user.role }}</div>
-        <div>{{ $t('Role') }}: {{ user.role }}</div>
+  <div class="mt-4">
+    <h2 class="text-xl text-center font-bold mb-4 text-gray-600">{{ $t('Profile') }}</h2>
+
+    <div v-if="isLoading" class="spinner"></div>
+    <div v-else>
+    <!-- <div> -->
+      <div class="flex gap-4">
+          <img :src="user.avatar || defaultAvatar" alt="User Avatar" class="rounded-full w-60 h-60" />
+          <div class="space-y-4">
+              <div>{{ $t('Name') }}: {{ user.name }}</div>
+              <div>{{ $t('Email') }}: {{ user.email }}</div>
+              <div>{{ $t('Role') }}: {{ user.role }}</div>
+          </div>
+          <Availabilities :availabilities="user?.availabilities" class="ml-0 md:ml-6" />
       </div>
-      <Availabilities :availabilities="user?.availabilities" />
+      <h2 class="text-xl text-center font-bold mb-4 text-gray-600 mt-3">{{ $t('Services list') }}</h2>
       <HomeTile :services="services" :isLoading="isLoading" />
       <Pagination :pagination="pagination" @page-changed="handlePageChange" />
     </div>
@@ -25,6 +29,7 @@ import { useRouter, useRoute } from 'vue-router'
 import HomeTile from '@/components/HomeTile.vue';
 import Availabilities from '@/components/Availabilities.vue'
 import Pagination from '@/components/Pagination.vue';
+import defaultAvatar from '@/assets/default-avatar.svg';
 
 const user = ref({
   'availabilities': []
