@@ -14,8 +14,10 @@ import api from '@/services/api'
 import '@vuepic/vue-datepicker/dist/main.css'
 import HomeTile from '@/components/HomeTile.vue';
 import Filtering from '@/components/Filtering.vue';
-const scrollContainer = ref(null)
+import { useHeaderStore } from '@/stores/useHeaderStore'
 
+const headerStore = useHeaderStore()
+const scrollContainer = ref(null)
 const route = useRoute()
 
 const filters = ref({
@@ -106,6 +108,25 @@ watch(
       loadServices()
   },
   { immediate: true, deep: true }
+)
+
+
+//Home Clicked
+watch(
+  () => headerStore.homeClicked,
+  (newVal) => {
+          page.value =  1
+          filters.value.name =  ''
+          filters.value.provider_id =  ''
+          // loadServices()
+
+          const container = scrollContainer.value
+          if (container) {
+            container.scrollTop = 0 // Scroll to top
+          }
+
+          headerStore.resetHomeClick()
+  }
 )
 
 const handleScroll = () => {
