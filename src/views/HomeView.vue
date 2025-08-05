@@ -47,7 +47,7 @@ const loadServices = async () => {
     const user = JSON.parse(localStorage.getItem('user'))
     const res = await api.get('/services', {
       params: {
-        ...page.value,
+        page: page.value,
         ...filters.value,
         user_id: user ? user.id : null
       }
@@ -59,7 +59,7 @@ const loadServices = async () => {
         services.value.push( ...res.data.data )
     }
 
-    if (res.data.current_page >= res.data.last_page) {
+    if (page.value >= res.data.last_page) {
         hasMore.value = false
     } else {
         page.value++
