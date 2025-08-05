@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <BaseButton :name="$t('Register')" :loading="loading" />
+      <BaseButton :loading="loading"><font-awesome-icon :icon="['fas', 'user-plus']" />{{ $t('Register') }}</BaseButton>
     </form>
   </div>
 </template>

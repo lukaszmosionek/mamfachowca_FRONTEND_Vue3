@@ -49,12 +49,11 @@
           <th v-if="isProvider && appointment.id" class="px-4 py-2 text-sm flex gap-2">
             <BaseButton
               :class="{ 'invisible': appointment.status === Enums.AppointmentStatus.Confirmed, 'pointer-events-none opacity-30': changeStatusLoadingId.includes(appointment.id) }"
-              @click="changeStatus(appointment.id, 'accept')">{{
-                t('Accept') }}
+              @click="changeStatus(appointment.id, 'accept')"><font-awesome-icon :icon="['fas', 'check']" /> {{t('Accept') }}
             </BaseButton>
             <BaseButton
               :class="{ 'invisible': appointment.status === Enums.AppointmentStatus.Cancelled, 'pointer-events-none opacity-30': changeStatusLoadingId.includes(appointment.id) }"
-              :makeRed="true" @click="changeStatus(appointment.id, 'decline')">{{ t('Decline') }}</BaseButton>
+              :makeRed="true" @click="changeStatus(appointment.id, 'decline')"><font-awesome-icon :icon="['fas', 'xmark']" /> {{ t('Decline') }}</BaseButton>
           </th>
         </tr>
       </tbody>

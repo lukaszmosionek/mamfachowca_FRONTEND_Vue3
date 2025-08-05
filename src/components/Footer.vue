@@ -23,18 +23,18 @@
       <div>
         <h3 class="text-sm font-semibold mb-3 uppercase tracking-wider">Follow Us</h3>
         <div class="flex space-x-4">
-          <a href="#" class="text-gray-400 hover:text-white">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-white">
-            <i class="fab fa-twitter"></i>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-white">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-white">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
+            <a href="#" class="text-gray-400 hover:text-white">
+              <font-awesome-icon :icon="['fab', 'facebook-f']" />
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white">
+              <font-awesome-icon :icon="['fab', 'twitter']" />
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white">
+              <font-awesome-icon :icon="['fab', 'instagram']" />
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white">
+              <font-awesome-icon :icon="['fab', 'linkedin-in']" />
+            </a>
         </div>
       </div>
     </div>

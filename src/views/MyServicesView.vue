@@ -5,7 +5,7 @@
     <ServiceForm v-if="showForm" :service="selectedService" @close="closeForm" @saved="loadServices" />
 
     <div class="text-right">
-      <button @click="createNew"class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">{{ $t('Add new service') }}</button>
+      <button @click="createNew"class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"><font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />{{ $t('Add new service') }}</button>
     </div>
 
     <div class="overflow-x-auto">
@@ -23,8 +23,8 @@
             <td class="px-4 py-2 text-gray-600 font-medium">{{ s.name }}</td>
             <td class="px-4 py-2 text-gray-600">{{ s.price }}</td>
             <td class="px-4 py-2 space-x-2 text-right">
-              <button @click="editService(s)" class="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500">{{ $t('Edit') }}</button>
-              <button @click="deleteService(s.id)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">{{ $t('Delete') }}</button>
+              <button @click="editService(s)" class="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500"><font-awesome-icon :icon="['fas', 'edit']" />{{ $t('Edit') }}</button>
+              <button @click="deleteService(s.id)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"><font-awesome-icon :icon="['fas', 'trash']" />{{ $t('Delete') }}</button>
             </td>
           </tr>
         </tbody>

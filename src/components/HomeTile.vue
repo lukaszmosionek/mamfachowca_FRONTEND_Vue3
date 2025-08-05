@@ -30,7 +30,7 @@
             <!-- Cena i serduszko -->
             <div class="flex flex-row justify-between items-end">
               <span class=" font-bold text-gray-800">{{ s.price ? n(Number(s.price), 'currency') : '' }}</span>
-              <BaseButton @click="router.push({ name: 'BookServiceView', params: { serviceId: s.id } })" :name="$t('Book')" class="ml-4 w-fit" />
+              <BaseButton @click="router.push({ name: 'BookServiceView', params: { serviceId: s.id } })" class="ml-4 w-fit"><font-awesome-icon :icon="['fas', 'calendar-plus']" />&nbsp;{{$t('Book')}}</BaseButton>
             </div>
             <!-- Cena i serduszko -->
 

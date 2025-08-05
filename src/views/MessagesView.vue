@@ -43,10 +43,8 @@
 
         </div>
         <form @submit.prevent="sendMessage" class="mt-4 flex gap-4">
-          <BaseInput v-model="newMessage" type="text" max="1000" :placeholder="$t('Message')" :errors="errors.message"
-            class="w-full" />
-          <BaseButton :name="$t('Send')" :loading="isSendingMessage" :disabled="isFetchingMessages || isSendingMessage"
-            class="px-5 h-12" />
+          <BaseInput v-model="newMessage" type="text" max="1000" :placeholder="$t('Message')" :errors="errors.message" class="w-full" />
+          <BaseButton :loading="isSendingMessage" :disabled="isFetchingMessages || isSendingMessage" class="px-5 h-12"><font-awesome-icon :icon="['fas', 'paper-plane']" />&nbsp;{{ $t('Send') }}</BaseButton>
         </form>
       </div>
     </div>

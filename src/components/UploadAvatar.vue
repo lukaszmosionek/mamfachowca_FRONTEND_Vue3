@@ -8,7 +8,7 @@
           </div>
 
           <label for="fileUpload" class="mt-2 flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md cursor-pointer hover:bg-blue-700 transition duration-200">
-              {{ $t('Change avatar') }}
+              <font-awesome-icon :icon="['fas', 'image']" /> {{ $t('Change avatar') }}
               <input type="file" @change="onFileChange" accept="image/*" id="fileUpload" class="hidden" />
           </label>
 
