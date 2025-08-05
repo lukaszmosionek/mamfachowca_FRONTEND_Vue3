@@ -2,10 +2,10 @@
   <div class="">
     <h1 class="h1">{{ $t('Messages') }}</h1>
 
-    <div class="flex">
+    <div class="flex flex-col md:flex-row">
 
       <!-- // Messages List -->
-      <div class="mb-4 w-1/4 pr-4">
+      <div class="mb-4 md:w-1/4 pr-4">
         <h3 class="text-lg font-medium mb-2 text-gray-800">{{ $t('People you have chatted with') }}</h3>
         <ul class="space-y-2">
           <li v-for="person in messagedPeople" :key="person.id" class="overflow-hidden text-ellipsis whitespace-nowrap">
@@ -20,10 +20,8 @@
       </div>
       <!-- // Messages List -->
 
-      <div class="w-3/4 spl-4">
-
+      <div class="md:w-3/4 spl-4">
         <div class="border p-4 h-96 overflow-y-scroll scroll-smooth space-y-2 text-gray-700" ref="scrollRef">
-
           <div v-if="isFetchingMessages" class="spinner"></div>
           <div v-else>
             <div class="font-bold text-lg text-center">{{ user.receiverUser.name }}</div>

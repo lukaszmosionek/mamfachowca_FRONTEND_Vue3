@@ -1,14 +1,15 @@
 <template>
 
-  <header class="bg-gray-800 text-white px-6 py-4">
+  <header class="bg-gray-800 text-white py-4">
     <div class="wrapper flex justify-between items-center">
-      <h1 class="text-xl font-bold">
-        <RouterLink :to="{ name: 'Home', params: {}, query: {'route':'home'} }">Mam Fachowca</RouterLink>
+      <h1 class="md:text-xl  font-bold">
+        <RouterLink :to="{ name: 'Home', params: {}, query: {} }" @click="headerStore.triggerHomeClick()">Mam Fachowca</RouterLink>
       </h1>
 
-      <div class="md:hidden flex gap-2">
+      <div class="md:hidden flex gap-2 items-center">
         <ChangeLanguage />
-        <RouterLink v-if="authStore.token" :to="{ name: 'Favorites' }" class="text-3xl">♡</RouterLink>
+        <RouterLink v-if="isLogged" :to="{ name: 'Favorites' }" class="text-3xl">♡</RouterLink>
+        <NotificationDropdown v-if="isLogged" />
         <!-- Hamburger Icon (Mobile only) -->
         <button class="" @click="mobileMenuOpen = !mobileMenuOpen">
           <img src="@/assets/icons/hamburger-icon.svg" class="h-6 w-6" alt="Hamburger Icon (Mobile only)">
@@ -48,15 +49,13 @@
     <RouterLink @click="mobileMenuOpen = false" v-if="!isLogged" :to="{ name: 'Login' }">{{ $t('Login') }}</RouterLink>
     <RouterLink @click="mobileMenuOpen = false" v-if="!isLogged" :to="{ name: 'Register' }">{{ $t('Register') }}</RouterLink>
 
+    <RouterLink @click="mobileMenuOpen = false" v-if="isLogged" :to="{ name: 'Messages', params: {'userId': 1} }">{{ $t('Messages') }}</RouterLink>
     <RouterLink @click="mobileMenuOpen = false" v-if="isLogged && isClient" :to="{ name: 'Appointments' }">{{$t('Appointments') }}</RouterLink>
     <RouterLink @click="mobileMenuOpen = false" v-if="isLogged && isProvider" :to="{ name: 'MyServices' }">{{$t('My services') }}</RouterLink>
-    <!-- <span v-if="authStore.user" class="font-semibold mt-6">
-      {{ authStore.user.name }} ({{ isProvider ? authStore.user.role : '' }})
-    </span> -->
-    <RouterLink v-if="isLogged" :to="{ name: 'Account' }">{{ $t('Account') + ' - ' + authStore.user.name }} ({{isProvider ? authStore.user.role : '' }})</RouterLink>
-    <BaseButton :loading="loading" :name="$t('Logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700"v-if="authStore.token" @click="logout" />
 
-    <!-- <button @click="handleLogout" v-if="authStore.token" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700">{{ $t('Logout') }}</button> -->
+    <RouterLink @click="mobileMenuOpen = false" v-if="isLogged" :to="{ name: 'Account' }"> {{ authStore.user.name }} #{{ authStore.user.id}} ({{ authStore.user.role }})</RouterLink>
+    <BaseButton @click="logout" :loading="loading" :name="$t('Logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700" v-if="authStore.token"/>
+
   </nav>
 </template>
 
@@ -70,11 +69,13 @@ import ChangeLanguage from './ChangeLanguage.vue'
 import { toast } from 'vue3-toastify'
 import NotificationDropdown from '@/components/NotificationDropdown.vue'
 import { useRoute } from 'vue-router'
+import { useHeaderStore } from '@/stores/useHeaderStore'
 
 
 const authStore = useAuthStore()
 const router = useRouter()
 const route = useRoute()
+const headerStore = useHeaderStore()
 
 const isProvider = computed(() => authStore.user?.role === 'provider')
 const isClient = computed(() => authStore.user?.role === 'client')

@@ -3,14 +3,11 @@
 
     <h1 class="h1">{{ $t('Book a service') }}</h1>
 
-    <div class="text-4xl mt-2 text-center">{{ service.name ?? '...' }}</div>
+    <div class="text-4xl mt-2 text-center">{{ service.name }}</div>
     <p class="mt-4">{{ service.description }}</p>
 
-    <!-- <BaseInput v-model="form.time" :min="minTime" :max="maxTime" type="time" class="mt-2":errors="errors.errors?.start_time" required/> -->
-
-    <h2 class="mt-2 text-2xl">{{ $t('Book a service') }}</h2>
-    <div class="flex gap-4 mt-2 w-full mx-auto">
-      <!-- <BaseInput v-model="form.date" type="date" :label="$t('Date')" :min="today" :errors="errors.errors?.date"/> -->
+    <h2 class="mt-2 text-2xl text-center">{{ $t('Make a reservation') }}</h2>
+    <div class="flex gap-4 mt-2 w-full mx-auto items-center justify-center md:flex-row flex-col">
 
       <div class="w-48">
         <label for="date">{{ $t('Date') }}</label>
@@ -20,12 +17,14 @@
           </div>
       </div>
 
+      <div class="flex gap-1">
         <BaseSelect class="w-24" v-model="form.timeHour" :isAssociativeArray="true" :errors="errors?.start_time" :label="$t('Time')" :options="hours"/>
         <span class="text-gray-600 mt-8">:</span>
         <BaseSelect class="w-24" v-model="form.timeMinute" :errors="errors?.start_time" label="&nbsp;" :options="filteredMinutes"/>
+      </div>
     </div>
 
-      <div class="flex mt-4 float-right">
+      <div class="flex mt-4 justify-end">
         <button @click="router.back()" class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2">⬅ {{ $t('Go Back') }}</button>
         <BaseButton @click="bookService" :loading="loading" :name="$t('Book')" class="ml-2 mt-2 px-4 py-2 bg-blue-500 text-white rounded"/>
       </div>

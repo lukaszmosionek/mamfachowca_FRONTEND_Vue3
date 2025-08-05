@@ -1,8 +1,8 @@
 <template>
 <!-- Provider Availability -->
-      <div class="">
-        <span class="font-medium">{{ $t('Provider Availability') }}:</span>
-        <table class="min-w-full border border-gray-200 rounded">
+      <div class="w-full">
+        <div class="font-medium text-center">{{ $t('Provider Availability') }}:</div>
+        <table class="min-w-full border border-gray-200 rounded mt-2">
           <thead>
             <tr class="bg-gray-50">
               <th class="px-2 py-1 text-left">{{ $t('Day') }}</th>

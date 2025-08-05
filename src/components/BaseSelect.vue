@@ -1,5 +1,5 @@
 <template>
-  <div class="input-wrap">
+  <div class="input-wrap h-[40px]">
       <label v-if="label" class="text-gray-800 mb-1">{{ label }}</label>
       <select
       :value="modelValue"

@@ -4,8 +4,7 @@
 
     <div v-if="isLoading" class="spinner"></div>
     <div v-else>
-    <!-- <div> -->
-      <div class="flex gap-4">
+      <div class="flex gap-4 flex-col items-center md:flex-row">
           <img :src="user.avatar || defaultAvatar" alt="User Avatar" class="rounded-full w-60 h-60" />
           <div class="space-y-4">
               <div>{{ $t('Name') }}: {{ user.name }}</div>
