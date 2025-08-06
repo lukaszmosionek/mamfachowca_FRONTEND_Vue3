@@ -1,9 +1,10 @@
 <template>
-  <div :class="wrapperClass">
-    <label v-if="label" class="">{{ label }}</label>
+  <div :class="wrapperClass" class="input-wrap">
+    <label v-if="label" :for="computedId" class="">{{ label }}</label>
 
     <input
       v-if="!isTextarea"
+      :id="computedId"
       :type="type"
       :placeholder="placeholder"
       :value="modelValue"
@@ -25,6 +26,8 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
 defineProps({
   label: {
     type: [String, Boolean],
@@ -57,5 +60,9 @@ defineProps({
 });
 
 const emit = defineEmits(['update:modelValue']);
+
+const computedId = computed(() => {
+  return `input-${Math.random().toString(36).substr(2, 9)}`
+})
 </script>
 

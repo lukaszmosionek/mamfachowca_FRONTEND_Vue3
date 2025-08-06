@@ -1,5 +1,5 @@
 <template>
-  <div class="input-wrap h-[40px]">
+  <div  :class="wrapperClass" class="select-wrap">
       <label v-if="label" class="text-gray-800 mb-1">{{ label }}</label>
       <select
       :value="modelValue"
@@ -40,6 +40,10 @@ defineProps({
   addFirstOption: {
     type: String,
     default: '',
+  },
+  wrapperClass: {
+    type: String,
+    default: "",
   },
 });
 
