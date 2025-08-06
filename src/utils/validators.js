@@ -3,6 +3,11 @@ function validateName(name) {
   if (name.length < 3) return 'Name must be at least 3 characters.'
 }
 
+function validateMessage(message) {
+  if (!message) return 'Message is required.'
+  if (message.length < 3) return 'Message must be at least 3 characters.'
+}
+
 function validateEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (!email) return 'Email is required.'
@@ -59,6 +64,18 @@ export function validatePasswordReset(form) {
   errors.email = validateEmail(form.value.email)
   errors.password = validatePassword(form.value.password, true)
   errors.password_confirmation = validatePasswordConfirmation(form.value.password, form.value.password_confirmation)
+
+  cleanUpEmptyErrorFields(errors)
+
+  return errors
+}
+
+export function validateContact(form) {
+  const errors = {} // reset errors before submit
+
+  errors.name = validateName(form.value.name)
+  errors.email = validateEmail(form.value.email)
+  errors.message = validateMessage(form.value.message)
 
   cleanUpEmptyErrorFields(errors)
 

@@ -18,8 +18,9 @@ api.interceptors.response.use(
   },
   error => {
     // Log or transform the error
+    console.error(error)
     if (!error.response) {
-      return Promise.reject({
+        return Promise.reject({
         message: 'Network Error: Unable to connect to API.',
         isNetworkError: true
       });

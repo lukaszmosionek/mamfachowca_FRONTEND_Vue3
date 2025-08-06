@@ -8,7 +8,7 @@
 
       <div class="md:hidden flex gap-2 items-center">
         <ChangeLanguage />
-        <RouterLink v-if="isLogged" :to="{ name: 'Favorites' }" class="text-3xl">♡</RouterLink>
+        <RouterLink v-if="isLogged" :to="{ name: 'Favorites' }" class="text-2xl"><font-awesome-icon :icon="['far', 'heart']" /></RouterLink>
         <NotificationDropdown v-if="isLogged" />
         <!-- Hamburger Icon (Mobile only) -->
         <button class="" @click="mobileMenuOpen = !mobileMenuOpen">
@@ -25,9 +25,12 @@
             {{ $t('Clear Cache') }}
         </button> -->
 
-        <RouterLink v-if="isLogged" :to="{ name: 'Favorites', params: {} }" class="text-3xl">♡</RouterLink>
+        <RouterLink v-if="isLogged" :to="{ name: 'Favorites', params: {} }" class="text-2xl"><font-awesome-icon :icon="['far', 'heart']" /></RouterLink>
 
         <NotificationDropdown v-if="isLogged" />
+
+        <RouterLink :to="{ name: 'Contact' }">{{ $t('Contact') }}</RouterLink>
+        <RouterLink :to="{ name: 'About' }">{{ $t('About') }}</RouterLink>
 
         <RouterLink v-if="!isLogged" :to="{ name: 'Login' }">{{ $t('Login') }}</RouterLink>
         <RouterLink v-if="!isLogged" :to="{ name: 'Register' }">{{ $t('Register') }}</RouterLink>

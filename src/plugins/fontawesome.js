@@ -17,10 +17,19 @@ import {
   faEdit,             // edit
   faPen,
   faCalendarPlus,     //Book service
-  faHammer            //logo
+  faHammer,           //logo
+  faHeart as faHeartSolid,
+  faEnvelope as faEnvelopeSolid,
 } from '@fortawesome/free-solid-svg-icons'
 
-import { faFacebookF, faTwitter, faInstagram, faLinkedinIn } from '@fortawesome/free-brands-svg-icons'
+import {
+  faHeart as faHeartRegular,
+  faEnvelope as faEnvelopeRegular,
+  faBell
+} from '@fortawesome/free-regular-svg-icons'
+
+import { faFacebookF, faTwitter, faInstagram, faLinkedinIn, } from '@fortawesome/free-brands-svg-icons'
+
 
 
 library.add(
@@ -40,13 +49,17 @@ library.add(
   faPen,
   faCalendarPlus,
   faHammer,
+  faHeartSolid,
+  faHeartRegular,
+  faEnvelopeSolid,
+  faEnvelopeRegular,
+  faBell,
 
   //@fortawesome/free-brands-svg-icons
   faFacebookF,
   faTwitter,
   faInstagram,
   faLinkedinIn,
-
 )
 
 export { FontAwesomeIcon }

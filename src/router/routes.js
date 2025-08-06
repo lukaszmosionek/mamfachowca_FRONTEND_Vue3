@@ -10,6 +10,8 @@ import ForgotPasswordView from '@/views/ForgotPassword.vue'
 import BookServiceView from '@/views/BookServiceView.vue'
 import FavoritesView from '@/views/FavoritesView.vue'
 import ProfileView from '@/views/ProfileView.vue'
+import AboutView from '@/views/AboutView.vue'
+import ContactView from '@/views/ContactView.vue'
 
 export default [
       { path: '/', name: 'Home', component: HomeView },
@@ -17,6 +19,8 @@ export default [
       { path: '/register', name: 'Register', component: RegisterView },
       { path: '/forgot-password', name: 'ForgotPassword', component: ForgotPasswordView },
       { path: '/reset-password', name: 'ResetPassword', component: ResetPasswordView },
+      { path: '/about', name: 'About', component: AboutView },
+      { path: '/contact', name: 'Contact', component: ContactView },
       { path: '/my-services', name: 'MyServices', component: MyServicesView, meta: { requiresAuth: true, role: 'provider' } },
       { path: '/appointments', name: 'Appointments', component: AppointmentView, meta: { requiresAuth: true } },
       { path: '/account', name: 'Account', component: AccountEditView, meta: { requiresAuth: true } },
