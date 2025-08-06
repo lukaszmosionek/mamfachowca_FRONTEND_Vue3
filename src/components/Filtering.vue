@@ -2,7 +2,7 @@
   <div class="">
     <!-- add filtering -->
     <div class="my-6 flex gap-4 justify-center md:mx-0 mx-4">
-      <BaseInput :placeholder="$t('Search by name')" v-model="filters.name" @input="applyFilters" class="mt-2 md:!w-1/4 !w-1/2" />
+      <BaseInput :placeholder="$t('Search by name')" v-model="filters.name" @input="applyFilters" wrapperClass="mt-1 md:!w-1/4 !w-1/2" />
       <BaseSelect v-model="filters.provider_id" @change="applyFilters" :options="providers" :isAssociativeArray="true" addFirstOption="All providers" class="mt-2 md:!w-1/4  !w-1/2" />
     </div>
   </div>

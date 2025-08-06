@@ -30,4 +30,4 @@ app.use(Vue3Toastify)
 app.use(router)
 app.mount('#app')
 
-window.cl = console.log
+window.l = console.log

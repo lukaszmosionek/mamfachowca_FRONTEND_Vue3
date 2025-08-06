@@ -7,6 +7,7 @@
     >
       <!-- You can use a bell icon here -->
       🔔
+      <!-- <font-awesome-icon :icon="['far', 'bell']" /> -->
             <!-- Notification Count Badge -->
       <!-- Notification Count Badge -->
         <span
