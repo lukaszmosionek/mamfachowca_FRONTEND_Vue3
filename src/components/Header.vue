@@ -1,6 +1,6 @@
 <template>
 
-  <header class="bg-gray-800 text-white py-4">
+  <header class="bg-gray-800 text-white py-4"  ref="container">
     <div class="wrapper flex justify-between items-center">
       <h1 class="md:text-xl  font-bold">
         <RouterLink :to="{ name: 'Home', params: {}, query: {} }" @click="headerStore.triggerHomeClick()"><font-awesome-icon :icon="['fas', 'hammer']" />&nbsp;Mam Fachowca</RouterLink>
@@ -67,7 +67,7 @@
 <script setup>
 import { useAuthStore } from '@/stores/auth'
 import { useRouter, RouterLink } from 'vue-router'
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onBeforeUnmount, onMounted } from 'vue'
 import BaseButton from '@/components/BaseButton.vue'
 import ChangeLanguage from './ChangeLanguage.vue'
 import { toast } from 'vue3-toastify'
@@ -85,7 +85,12 @@ const isProvider = computed(() => authStore.user?.role === 'provider')
 const isClient = computed(() => authStore.user?.role === 'client')
 const isLogged = computed(() => authStore.user )
 const mobileMenuOpen = ref(false)
+const container = ref(null)
 const loading = ref(false)
+
+onMounted(async () => {
+      document.addEventListener('click', handleClickOutside)
+})
 
 const logout = async () => {
   loading.value = true
@@ -122,5 +127,16 @@ watch(() => route.query.successMessage, (newValue) => {
   if (route.query.errorMessage) {
     toast.error(route.query.errorMessage)
   }
+})
+
+//click Outside mobile dropdown menu
+function handleClickOutside(event) {
+  if (container.value && !container.value.contains(event.target)) {
+      mobileMenuOpen.value = false
+  }
+}
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside)
 })
 </script>
