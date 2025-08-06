@@ -94,10 +94,6 @@ const clickNotification = async (data) => {
     router.push({ path: data.path });
   }
 
-  //emit('notification-clicked', data);
-
-
-
 }
 
 function handleClickOutside(event) {

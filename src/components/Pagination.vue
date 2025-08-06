@@ -29,7 +29,7 @@
       </ul>
     </nav>
 
-    <select :value="pagination.per_page" @change="updatePerPage"class="absolute right-0 top-0 border px-4 py-2 rounded w-1/12">
+    <select v-if="!hidePerPage" :value="pagination.per_page" @change="updatePerPage"class="absolute right-0 top-0 border px-4 py-2 rounded w-1/12">
       <option v-for="(s, index) in [5, 10, 15]" :key="index" :value="s" selected="selected">{{ s }} - {{ $t('Per Page')}}</option>
     </select>
 
@@ -50,6 +50,10 @@ const props = defineProps({
   isShow: {
     type: Boolean,
     required: false,
+    default: true
+  },
+  hidePerPage: {
+    type: Boolean,
     default: true
   }
 });

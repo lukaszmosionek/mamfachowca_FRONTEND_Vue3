@@ -1,8 +1,8 @@
 <template>
   <div class="">
     <h1 class="h1">Favorites</h1>
-    <div v-if="loading" class="spinner"></div>
-    <div v-else>
+    <!-- <div v-if="loading" class="spinner"></div> -->
+    <!-- <div v-else> -->
 
       <div v-if="services.length" class="overflow-x-auto">
       <!-- add filtering -->
@@ -17,11 +17,14 @@
         </div>
         <!-- add filtering -->
 
-        <HomeTile :services="services" @service-toggled="handleServiceToggled"/>
-        <Pagination :pagination="pagination" @page-changed="handlePageChange"/>
+        <HomeTile :services="services" :isLoading="isLoading" @service-toggled="handleServiceToggled"/>
+        <div class="flex justify-center mt-6">
+          <BaseButton class="text-center px-8" :loading="isLoading" v-if="showLoadMore" @click="loadMore">Load more</BaseButton>
+        </div>
+        <!-- <Pagination :pagination="pagination" @page-changed="handlePageChange"/> -->
       </div>
       <div v-else class="text-center mt-8">{{ $t('No Favorites yet') }}</div>
-    </div>
+    <!-- </div> -->
 
   </div>
 </template>
@@ -32,6 +35,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { ref, onMounted, watch } from "vue"
 import api from '@/services/api'
 import Pagination from '@/components/Pagination.vue'
+import BaseButton from '@/components/BaseButton.vue'
 
 import '@vuepic/vue-datepicker/dist/main.css'
 import HomeTile from '@/components/HomeTile.vue'
@@ -42,7 +46,8 @@ const authStore = useAuthStore()
 const router = useRouter()
 const route = useRoute()
 
-const loading = ref(false)
+const isLoading = ref(false)
+const showLoadMore = ref(true)
 const perPage = ref(Number(route.query.perPage) || 10)
 const services = ref(Array(perPage.value).fill({}))
 const currentPage = ref(Number(route.query.currentPage) || 1)
@@ -54,6 +59,8 @@ const pagination = ref({
   last_page: 10
 })
 
+const page = ref(1)
+
 const filters = ref({
   name: '',
   providerId: ''
@@ -61,20 +68,32 @@ const filters = ref({
 
 const providers = ref([]);
 
-const loadServices = async (page, perPage) => {
-  loading.value = true
+const loadServices = async () => {
+  isLoading.value = true
   try {
     const res = await api.get('/favorites', {
       params: {
-        ...pagination.value,
+        page: page.value,
         ...filters.value
       }
     })
-    services.value = res.data.data
+
+    if( page.value === 1 ){
+        services.value = res.data.data
+    }else{
+        services.value.push( ...res.data.data )
+    }
+
+    if (page.value >= res.data.total_pages) {
+        showLoadMore.value = false
+    }
+
     totalPages.value = res.data.total_pages
-  } finally {
-    loading.value = false
+  }catch(err){
+    alert(err)
   }
+
+  isLoading.value = false
 }
 
 const applyFilters = () => {
@@ -112,7 +131,12 @@ const handlePageChange = (page) => {
   currentPage.value = page
   services.value.data = Array(perPage.value).fill({})
   loadServices(page, perPage.value)
-};
+}
+
+const loadMore = () => {
+    page.value++
+    loadServices()
+}
 
 const handleServiceToggled = (serviceId) => {
   services.value = services.value.filter(el => el.id != serviceId)

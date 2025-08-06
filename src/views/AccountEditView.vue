@@ -10,7 +10,9 @@
         <BaseInput :label="$t('Name')" v-model="form.name" :errors="errors?.name"/>
         <BaseInput :label="$t('Email')" v-model="form.email" :errors="errors?.email"/>
         <BaseInput :label="$t('Role')" v-model="form.role" disabled="disabled"/>
-        <BaseButton :loading="loading" type="submit" class="bg-blue-500 text-white px-4 py-2"><font-awesome-icon :icon="['fas', 'user-gear']" />&nbsp;{{ $t('Update Account') }}</BaseButton>
+        <div class="flex justify-center mt-2">
+            <BaseButton :loading="isLoading" type="submit" class="bg-blue-500 text-white px-4 py-2"><font-awesome-icon :icon="['fas', 'user-gear']" />&nbsp;{{ $t('Update Account') }}</BaseButton>
+        </div>
     </form>
   </div>
 </template>
