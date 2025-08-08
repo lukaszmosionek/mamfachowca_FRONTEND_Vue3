@@ -13,7 +13,7 @@ api.interceptors.request.use(config => {
 api.interceptors.response.use(
   response => {
     // Flatten deeply nested data
-    response.data = response?.data?.data ?? response.data
+    response = response?.data?.data ?? response.data
     return response
   },
   error => {

@@ -31,6 +31,11 @@
           </tr>
         </tbody>
       </table>
+
+      <div class="flex justify-center mt-6">
+          <BaseButton class="text-center px-8" :loading="loading" v-if="showLoadMore" @click="loadMore">Load more</BaseButton>
+      </div>
+
     </div>
   </div>
 </template>
@@ -40,16 +45,30 @@ import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import ServiceForm from '@/components/ServiceForm.vue'
 import { toast } from 'vue3-toastify'
+import BaseButton from '@/components/BaseButton.vue'
 
 const services = ref([])
 const selectedService = ref(null)
 const showForm = ref(false)
 const loading = ref(false)
+const showLoadMore = ref(true)
+const page = ref(1)
 
 const loadServices = async () => {
+  loading.value = true
   try {
     const res = await api.get('/me/services')
-    services.value = res.data
+
+    if( page.value === 1 ){
+        services.value = res.services
+    }else{
+        services.value.push( ...res.services )
+    }
+
+    if (page.value >= res.total_pages) {
+        showLoadMore.value = false
+    }
+
   }catch(err){
       toast.error('Failed to show services.'+' Try again later.')
   }
@@ -83,7 +102,11 @@ const closeForm = () => {
 }
 
 onMounted(async () => {
-  loading.value = true
   loadServices()
 })
+
+const loadMore = () => {
+    page.value++
+    loadServices()
+}
 </script>
