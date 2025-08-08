@@ -100,7 +100,7 @@ watch(
   () => route.query,
   (newQuery) => {
 
-    // alert(newQuery)
+      hasMore.value = true
 
       page.value = Number(newQuery.page) || 1
       filters.value.name = (newQuery.name) || ''

@@ -35,7 +35,9 @@ api.interceptors.response.use(
         alert('A server error occurred. Please try again later.');
     }
 
-    return Promise.reject(error);
+    const errorData = error.response?.data?.data ?? error?.response.data
+
+    return Promise.reject(errorData);
   }
 );
 

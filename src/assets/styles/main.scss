@@ -7,12 +7,19 @@
   max-width: 1280px;
   width: 100%;
   margin: 0 auto;
+  padding: 0px 5px;
 
   font-weight: normal;
   @media (max-width: $md) {
-      margin: 0px 0px;
-      padding: 0px 5px;
+    margin: 0px 0px;
+    // padding: 0px 10px;
   }
+}
+
+.flex-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 a,

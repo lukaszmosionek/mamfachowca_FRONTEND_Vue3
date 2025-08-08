@@ -44,3 +44,6 @@ npm install
 
 # Start the development server
 npm run dev
+
+#run for mobile( optional )
+npm run dev -- --host

@@ -22,7 +22,7 @@ defineProps({
     default: false,
   },
   modelValue: {
-    type: String,
+    type: [Number, String],
     default: "",
   },
   options: {
