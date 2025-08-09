@@ -44,7 +44,7 @@
         </div>
         <form @submit.prevent="sendMessage" class="mt-4 flex gap-4">
           <BaseInput v-model="newMessage" type="text" max="1000" :placeholder="$t('Message')" :errors="errors.message" class="w-full" />
-          <BaseButton :loading="isSendingMessage" :disabled="isFetchingMessages || isSendingMessage" class="px-5 h-12"><font-awesome-icon :icon="['fas', 'paper-plane']" />&nbsp;{{ $t('Send') }}</BaseButton>
+          <BaseButton type="submit" :loading="isSendingMessage" :disabled="isFetchingMessages || isSendingMessage" class="px-5 h-12"><font-awesome-icon :icon="['fas', 'paper-plane']" />&nbsp;{{ $t('Send') }}</BaseButton>
         </form>
       </div>
     </div>
@@ -85,8 +85,8 @@ const fetchMessages = async () => {
   isFetchingMessages.value = true
   try {
     const res = await api.get('/users/' + route.params.userId + '/messages');
-    messages.value = res.data.messages
-    user.value.receiverUser = res.data.receiver
+    messages.value = res.messages
+    user.value.receiverUser = res.receiver
     scrollToBottom()
   } catch (error) {
     if (error.response && error.response.status === 404) {
@@ -98,7 +98,7 @@ const fetchMessages = async () => {
 
 const fetchMessagedPeople = async () => {
   const res = await api.get('/fetchMessagedUsers')
-  messagedPeople.value = res.data
+  messagedPeople.value = res.usersYouChattedWith
 }
 
 
@@ -110,7 +110,7 @@ const sendMessage = async () => {
       message: newMessage.value
     })
     newMessage.value = ''
-    messages.value.push(res.data)
+    messages.value.push(res.message)
     if (!messagedPeople.value.find(p => p.id === user.value.receiverUser.id)) {
       messagedPeople.value.unshift(user.value.receiverUser) //add an element to the beginning/end of an array
     }

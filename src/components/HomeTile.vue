@@ -76,10 +76,10 @@ const toggleFavorite = async (itemId, event) => {
   const el = event.currentTarget;
   event.currentTarget.classList.add('animate-bounce');
 
-  const res = await api.post(`/favorites/${itemId}`)
-  const service = props.services.find(s => s.id === itemId);
+  const res = await api.post(`/favorites/${itemId}/toggle`)
+  const service = props.services.find(s => s.id === itemId)
   if (service) {
-    service.is_favorited = res.data.favorited
+    service.is_favorited = res.favorited
     service.is_favorited ? toast.success(t('Added to favorites')) : toast.warning(t('Removed from favorites'))
   }
   el.classList.remove('animate-bounce');

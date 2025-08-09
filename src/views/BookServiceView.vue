@@ -1,7 +1,7 @@
 <template>
   <div class="">
 
-    <h1 class="h1">{{ $t('Book a service') }}</h1>
+    <h1 class="h1">{{ $t('Schedule Appointment') }}</h1>
 
     <div class="flex md:flex-row  flex-col">
         <div class="md:w-3/4 w-full p-2">
@@ -36,7 +36,7 @@
         <div class="w-full">
           <label for="date">{{ $t('Date') }}</label>
             <Datepicker v-model="form.date" :disabled-dates="disabledDates" :min-date="new Date()" :enable-time-picker="false" :auto-apply="true" class=" rounded-md"/>
-            <div v-if="errors && Object.keys(errors?.date).length > 0" class="text-red-500 mt-1 font-black">
+            <div v-if="errors?.date && Object.keys(errors?.date).length > 0" class="text-red-500 mt-1 font-black">
                 <span v-for="(msg, i) in errors?.date" :key="i">{{ msg }}</span>
             </div>
         </div>
@@ -45,7 +45,7 @@
             <div class="flex gap-1">
               <BaseSelect wrapperClass="md:w-1/2 w-full" class="!h-fit" v-model="form.timeHour" :isAssociativeArray="true" :errors="errors?.start_time" :options="hours"/>
               <span class="text-gray-600 mt-2">:</span>
-              <BaseSelect wrapperClass="md:w-1/2 w-full" class="!h-fit" v-model="form.timeMinute" :errors="errors?.start_time" :options="filteredMinutes"/>
+              <BaseSelect wrapperClass="md:w-1/2 w-full" class="!h-fit" v-model="form.timeMinute" :options="filteredMinutes"/>
             </div>
         </div>
       </div>
@@ -126,15 +126,16 @@ const bookService = async () => {
     })
     await Swal.fire('', t('Reservation booked succesfully'), 'success')
     router.push({ name: 'Appointments' })
-  } catch (error) {
-    errors.value = error.errors
+  } catch (err) {
+    console.log(err)
+    errors.value = err.errors
   }
   loading.value = false
 }
 
 onMounted(() => {
   for (let i = 8; i <= 16; i++) {
-    hours.value[i] = convertTime(i)
+    hours.value[ addLeadingZero(i) ] = convertTime(i)
   }
   loadService()
   filteredMinutes.value = minutes.value
@@ -147,9 +148,9 @@ watch(() => form.value.date, () => {
   if(form.value.date){
     const time = getTimeFromAvailability(form.value.date)
 
-    hours.value = [];
+    hours.value = {}
     for (let i = time['startTime']['hour']; i <= time['endTime']['hour']; i++) {
-      hours.value.push( convertTime(i) );
+      hours.value[ addLeadingZero(i) ] = convertTime(i)
     }
   }
 
@@ -193,4 +194,7 @@ function convertTime(timeString) {
   return d( dateISO, 'hourOnly')
 }
 
+function  addLeadingZero(n) {
+  return n < 10 ? '0' + n : n;
+}
 </script>

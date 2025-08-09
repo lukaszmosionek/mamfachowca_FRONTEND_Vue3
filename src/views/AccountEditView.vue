@@ -44,10 +44,10 @@ const getUser = async () => {
   isLoading.value = true
   const res = await api.get('/me')
 
-  user.value = res.data
-  form.value.name = res.data.name
-  form.value.email = res.data.email
-  form.value.role = t(res.data.role ?? 'Client')
+  user.value = res.user
+  form.value.name = res.user.name
+  form.value.email = res.user.email
+  form.value.role = t(res.user.role ?? 'Client')
   isLoading.value = false
 }
 

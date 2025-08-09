@@ -78,7 +78,7 @@ const uploadPhotos = async () => {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
     localPhotos.value.splice(-selectedFiles.value.length, selectedFiles.value.length);
-    localPhotos.value.push(...res.data.photos)
+    localPhotos.value.push(...res.photos)
     toast.success( t('Photo Uploaded!'))
   } catch (err) {
     toast.error( err.message )

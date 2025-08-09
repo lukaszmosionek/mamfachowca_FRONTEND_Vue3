@@ -71,8 +71,8 @@ const loadAppointments = async (loadingState = true) => {
   if (loadingState) loading.value = true
   try {
     const res = await api.get('/appointments', { params: pagination.value })
-    appointments.value = res.data.appointments
-    pagination.value.last_page = res.data.last_page
+    appointments.value = res.appointments
+    pagination.value.last_page = res.last_page
   } catch (error) {
     toast(t('Can\'t load appointments. Try again later'))
   } finally {

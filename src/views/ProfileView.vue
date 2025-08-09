@@ -53,9 +53,9 @@ onMounted(async () => {
 async function loadUser() {
   isLoading.value = true
   const res = await api.get('/users/' + parseInt(route.params.userId), { params: pagination.value })
-  user.value = res.data.user
-  services.value = res.data.services
-  pagination.value.last_page = parseInt(res.data.last_page)
+  user.value = res.user
+  services.value = res.services
+  pagination.value.last_page = parseInt(res.last_page)
   isLoading.value = false
 }
 

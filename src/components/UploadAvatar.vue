@@ -50,8 +50,8 @@ async function uploadAvatar() {
       }
     })
     toast.success('Avatar uploaded!')
-    emit('avatar-changed', response.data.avatar_url) // 🔥 Emit the new avatar URL
-    console.log('avatar_url'+response.data.avatar_url)
+    emit('avatar-changed', response.avatar_url) // 🔥 Emit the new avatar URL
+    console.log('avatar_url'+response.avatar_url)
   } catch (err) {
     Swal.fire(err.response.data.message, 'error', 'error')
     console.error(err)
