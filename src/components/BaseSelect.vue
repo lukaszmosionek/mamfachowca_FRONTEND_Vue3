@@ -3,6 +3,7 @@
       <label v-if="label" class="text-gray-800 mb-1">{{ label }}</label>
       <select
       :value="modelValue"
+      v-bind="$attrs"
       @change="event => emit('update:modelValue', event.target.value)"
       class="w-full h-full px-4 py-2 border border-gray-300 rounded-md text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
     >

@@ -45,14 +45,14 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, watch } from 'vue';
-import BaseButton from './BaseButton.vue';
-import { useRouter } from 'vue-router';
+import { ref, defineEmits, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import api from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
-import { toast } from 'vue3-toastify';
+import { toast } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
-import PhotoCarousel from './PhotoCarousel.vue';
+import BaseButton from '@/components/BaseButton.vue'
+import PhotoCarousel from '@/components/PhotoCarousel.vue'
 
 
 const emit = defineEmits(['service-toggled']);

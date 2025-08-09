@@ -65,7 +65,7 @@ const loadServices = async () => {
         services.value.push( ...res.services )
     }
 
-    if (page.value >= res.total_pages) {
+    if (page.value >= res.last_page) {
         showLoadMore.value = false
     }
 

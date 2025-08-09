@@ -10,8 +10,8 @@ export const useAuthStore = defineStore('auth', {
     async login(form) {
       const res = await api.post('/login', form)
 
-      this.token = res.data.token
-      this.user = res.data.user
+      this.token = res.token
+      this.user = res.user
 
       localStorage.setItem('token', this.token)
       localStorage.setItem('user', JSON.stringify(this.user))
@@ -32,8 +32,8 @@ export const useAuthStore = defineStore('auth', {
     },
     async register(payload) {
       const res = await api.post('/register', payload)
-      this.token = res.data.token
-      this.user = res.data.user
+      this.token = res.token
+      this.user = res.user
       localStorage.setItem('token', this.token)
       localStorage.setItem('user', JSON.stringify(this.user))
       api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`

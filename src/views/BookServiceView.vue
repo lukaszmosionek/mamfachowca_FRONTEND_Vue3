@@ -3,33 +3,62 @@
 
     <h1 class="h1">{{ $t('Book a service') }}</h1>
 
-    <div class="text-4xl mt-2 text-center">{{ service.name }}</div>
-    <p class="mt-4">{{ service.description }}</p>
+    <div class="flex md:flex-row  flex-col">
+        <div class="md:w-3/4 w-full p-2">
+            <PhotoCarousel :images="service.photos" height="h-[300px] md:h-[600px]" imageKey="large" class=""></PhotoCarousel>
+            <p class="mt-4 p-4 hidden md:block">{{ service.description }}</p> <!-- only desktop-->
+            <h2 class="text-xl mt-4 text-center md:hidden">{{ service.name }}</h2> <!-- only mobile-->
+        </div>
 
-    <h2 class="mt-2 text-2xl text-center">{{ $t('Make a reservation') }}</h2>
-    <div class="flex gap-4 mt-2 w-full mx-auto items-center justify-center md:flex-row flex-col">
+        <div class="md:w-1/4  w-full p-2 flex flex-col">
+            <h2 class="text-xl mt-4 text-center hidden md:block">{{ service.name }}</h2>  <!-- only desktop-->
+            <p class=" md:hidden">{{ service.description }}</p> <!-- only mobile-->
 
-      <div class="w-48">
-        <label for="date">{{ $t('Date') }}</label>
-          <Datepicker v-model="form.date" :disabled-dates="disabledDates" :min-date="new Date()" :enable-time-picker="false" :auto-apply="true" class="mt-1.5 rounded-md"/>
-          <div v-if="errors && Object.keys(errors?.date).length > 0" class="text-red-500 mt-1 font-black">
-              <span v-for="(msg, i) in errors?.date" :key="i">{{ msg }}</span>
-          </div>
+    <!-- <div class="photo-gallery mt-2 flex-center">
+        <div v-for="photo in service.photos" v-if="service.photos" :key="photo.id" class="photo-item relative" :class="{ 'opacity-50' : photo.isLoading }">
+            <img :src="photo.medium ?? noPhoto" :alt="service.name" loading="lazy" />
+            <div class="spinner absolute inset-0 z-50" v-if="photo.isLoading"></div>
+        </div>
+    </div> -->
+
+    <div class="mt-4">
+        <div class=" p-4">
+            <div class="text-gray-600" v-if="service?.provider">
+                <div class="mt-2 flex"><span class="">Service duration::&nbsp;</span><span>{{ service.duration }} min.</span></div>
+                <div class="flex items-center"><span class="">Provider:&nbsp;</span> <RouterLink class="" :to="{ name: 'Profile', params: { userId: service?.provider?.id ?? 0 } }">{{service?.provider?.name }}</RouterLink><RouterLink class="text-lg md:text-2lg" :to="{ name: 'Messages', params: { userId: service?.provider?.id ?? 0 } }"><font-awesome-icon :icon="['far', 'envelope']" /></RouterLink></div>
+            </div>
+        </div>
+      <Availabilities  class="" :availabilities="availability"/>
+    </div>
+    <h2 class="mt-8 text-xl text-center">{{ $t('Make a reservation') }}</h2>
+
+    <div class="flex gap-1 mt-2 w-full mx-auto items-center justify-center md:flex-col flex-col">
+        <div class="w-full">
+          <label for="date">{{ $t('Date') }}</label>
+            <Datepicker v-model="form.date" :disabled-dates="disabledDates" :min-date="new Date()" :enable-time-picker="false" :auto-apply="true" class=" rounded-md"/>
+            <div v-if="errors && Object.keys(errors?.date).length > 0" class="text-red-500 mt-1 font-black">
+                <span v-for="(msg, i) in errors?.date" :key="i">{{ msg }}</span>
+            </div>
+        </div>
+        <div class="w-full">
+            <label class="block">Time</label>
+            <div class="flex gap-1">
+              <BaseSelect wrapperClass="md:w-1/2 w-full" class="!h-fit" v-model="form.timeHour" :isAssociativeArray="true" :errors="errors?.start_time" :options="hours"/>
+              <span class="text-gray-600 mt-2">:</span>
+              <BaseSelect wrapperClass="md:w-1/2 w-full" class="!h-fit" v-model="form.timeMinute" :errors="errors?.start_time" :options="filteredMinutes"/>
+            </div>
+        </div>
       </div>
-
-      <div class="flex gap-1">
-        <BaseSelect class="w-24" v-model="form.timeHour" :isAssociativeArray="true" :errors="errors?.start_time" :label="$t('Time')" :options="hours"/>
-        <span class="text-gray-600 mt-8">:</span>
-        <BaseSelect class="w-24" v-model="form.timeMinute" :errors="errors?.start_time" label="&nbsp;" :options="filteredMinutes"/>
-      </div>
+    <div class="flex-center mt-4">
+        <button @click="router.back()" class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2">⬅ {{ $t('Go Back') }}</button>
+        <BaseButton @click="bookService" :loading="loading" class="ml-2 mt-2 px-4 py-2 bg-blue-500 text-white rounded"><font-awesome-icon :icon="['fas', 'calendar-plus']" />&nbsp;{{ $t('Book') }}</BaseButton>
     </div>
 
-      <div class="flex mt-4 justify-end">
-        <button @click="router.back()" class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2">⬅ {{ $t('Go Back') }}</button>
-        <BaseButton @click="bookService" :loading="loading" :name="$t('Book')" class="ml-2 mt-2 px-4 py-2 bg-blue-500 text-white rounded"/>
-      </div>
 
-      <Availabilities :availabilities="availability"/>
+
+</div>
+    </div>
+
 
   </div>
 </template>
@@ -44,6 +73,7 @@ import BaseSelect from '@/components/BaseSelect.vue';
 import { toast } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
 import Availabilities from '@/components/Availabilities.vue'
+import PhotoCarousel from '@/components/PhotoCarousel.vue'
 
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
@@ -71,8 +101,8 @@ const loadService = async () => {
   loading.value = true
   try {
     const res = await api.get('/services/'+parseInt(route.params.serviceId))
-    service.value = res.data
-    availability.value = res.data.provider.availabilities;
+    service.value = res.service
+    availability.value = res.service.provider.availabilities;
 
     const dayNumbers = availability.value.map(el => Number(el.day_of_week_number) );
 
@@ -80,9 +110,10 @@ const loadService = async () => {
       return !Object.values(dayNumbers).includes(date.getDay());
     };
 
-  } finally {
-    loading.value = false
+  } catch(err) {
+    toast.error('Fail to load service. Try again later')
   }
+  loading.value = false
 }
 
 const bookService = async () => {
@@ -95,9 +126,8 @@ const bookService = async () => {
     })
     await Swal.fire('', t('Reservation booked succesfully'), 'success')
     router.push({ name: 'Appointments' })
-    // toast.success('Reservation booked succesfully')
   } catch (error) {
-    errors.value = error.response.data.errors
+    errors.value = error.errors
   }
   loading.value = false
 }

@@ -15,6 +15,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import HomeTile from '@/components/HomeTile.vue';
 import Filtering from '@/components/Filtering.vue';
 import { useHeaderStore } from '@/stores/useHeaderStore'
+import { toast } from 'vue3-toastify';
 
 const headerStore = useHeaderStore()
 const scrollContainer = ref(null)
@@ -54,20 +55,21 @@ const loadServices = async () => {
     })
 
     if( page.value === 1 ){
-        services.value = res.data.data
+        services.value = res.services
     }else{
-        services.value.push( ...res.data.data )
+        services.value.push( ...res.services )
     }
 
-    if (page.value >= res.data.last_page) {
+    if (page.value >= res.last_page) {
         hasMore.value = false
     } else {
         page.value++
     }
 
-  } finally {
-    isLoading.value = false
+  } catch(err) {
+    toast.error('Fail to load services. Try again later.')
   }
+  isLoading.value = false
 }
 
 const handleFilters = (el) => {
@@ -79,7 +81,7 @@ const handleFilters = (el) => {
 const loadProviders = async () => {
   try {
     const res = await api.get('/providers')
-    providers.value = res.data
+    providers.value = res.providers
   } catch (err) {
     toast.error('Failed to load providers. Please try again later')
   }
