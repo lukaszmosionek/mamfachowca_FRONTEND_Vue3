@@ -8,7 +8,7 @@
       <a href="#" @click="togglePassword">{{ showPassword ? 'Hide password' : 'Show password' }}</a>
       <!-- <small class="text-gray-600">Password must contain at least one uppercase letter, one lowercase letter, and one number.</small> -->
       <BaseInput v-model="form.password_confirmation" :type="showPassword ? 'text' : 'password'" placeholder="e.g. secretpassword" :label="$t('Password confirmation')" :errors="errors?.password_confirmation"/>
-      <BaseSelect v-model="form.role" :label="$t('Role')" :options="{ 'client': $t('Client'), 'provider': $t('Provider') }"/>
+      <BaseSelect v-model="form.role" :label="$t('Role')" :isAssociativeArray="true" :options="{ 'client': $t('Client'), 'provider': $t('Provider') }"/>
 
       <div v-if="form.role == 'provider'">
         <h2 class="text-gray-600 text-xl text-center">Dostępność</h2>
@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <BaseButton :loading="loading"><font-awesome-icon :icon="['fas', 'user-plus']" />{{ $t('Register') }}</BaseButton>
+      <BaseButton type="submit" :loading="loading"><font-awesome-icon :icon="['fas', 'user-plus']" />{{ $t('Register') }}</BaseButton>
     </form>
   </div>
 </template>

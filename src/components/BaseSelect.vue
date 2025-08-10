@@ -7,8 +7,10 @@
         @change="event => emit('update:modelValue', event.target.value)"
         class="w-full h-full px-4 py-2 border border-gray-300 rounded-md text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
-      <option v-if="addFirstOption" value="">{{addFirstOption}}</option>
-      <option v-for="(value, i) in options" :key="i" :value="isAssociativeArray ? i : value">{{value}}</option>
+          <option v-if="addFirstOption" value="">{{addFirstOption}}</option>
+          <option v-for="(value, i) in options" :key="i" :value="isAssociativeArray ? i : value" :selected="modelValue == value">
+            {{ hasTranslation ? $t(value) : value}}
+          </option>
     </select>
     <div v-if="Object.keys(errors).length > 0" class="text-red-500 mt-1 font-black">
         <span v-for="(msg, i) in errors" :key="i">{{ msg }}</span>
@@ -35,6 +37,10 @@ defineProps({
     default: () => [],
   },
   isAssociativeArray: {
+    type: Boolean,
+    default: false,
+  },
+  hasTranslation: {
     type: Boolean,
     default: false,
   },

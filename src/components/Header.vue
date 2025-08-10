@@ -65,14 +65,13 @@
 
 
 <script setup>
-import { useAuthStore } from '@/stores/auth'
-import { useRouter, RouterLink } from 'vue-router'
+import { useRouter, useRoute, RouterLink } from 'vue-router'
 import { computed, ref, watch, onBeforeUnmount, onMounted } from 'vue'
 import BaseButton from '@/components/BaseButton.vue'
 import ChangeLanguage from './ChangeLanguage.vue'
-import { toast } from 'vue3-toastify'
 import NotificationDropdown from '@/components/NotificationDropdown.vue'
-import { useRoute } from 'vue-router'
+import { toast } from 'vue3-toastify'
+import { useAuthStore } from '@/stores/auth'
 import { useHeaderStore } from '@/stores/useHeaderStore'
 
 
@@ -109,16 +108,16 @@ const handleLogout = async () => {
   await logout()
 }
 
-function clearCache() {
-  // Remove specific auth/local data
-  localStorage.removeItem('token'); // or whatever key you're using
+// function clearCache() {
+//   // Remove specific auth/local data
+//   localStorage.removeItem('token'); // or whatever key you're using
 
-  // OR: Clear all localStorage
-  localStorage.clear();
+//   // OR: Clear all localStorage
+//   localStorage.clear();
 
-  // Optional: Redirect to login or refresh the app
-  window.location.reload(); // or use Vue Router to redirect
-}
+//   // Optional: Redirect to login or refresh the app
+//   window.location.reload(); // or use Vue Router to redirect
+// }
 
 watch(() => route.query.successMessage, (newValue) => {
   if (route.query.successMessage) {

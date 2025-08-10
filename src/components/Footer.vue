@@ -3,25 +3,25 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
       <!-- Logo and Description -->
       <div>
-        <h2 class="text-xl font-bold mb-2">MyCompany</h2>
-        <p class="text-gray-400 text-sm">© 2025 MyCompany, Inc. All rights reserved.</p>
+        <h2 class="text-xl font-bold mb-2">Mam fachowca</h2>
+        <p class="text-gray-400 text-sm">© 2025 Mam fachowca, {{ $t('Inc. All rights reserved.') }}</p>
       </div>
 
       <!-- Navigation Links -->
       <div>
-        <h3 class="text-sm font-semibold mb-3 uppercase tracking-wider">Quick Links</h3>
+        <h3 class="text-sm font-semibold mb-3 uppercase tracking-wider">{{ $t('Quick Links') }}</h3>
         <ul class="space-y-2 text-gray-400">
-          <li><a href="#" class="hover:text-white">Home</a></li>
-          <li><a href="#" class="hover:text-white">About</a></li>
-          <li><a href="#" class="hover:text-white">Services</a></li>
-          <li><a href="#" class="hover:text-white">Contact</a></li>
+          <li><RouterLink :to="{ name: 'Home', params: {}, query: {} }" class="hover:text-white" @click="headerStore.triggerHomeClick()">{{ $t('Home') }}</RouterLink></li>
+          <li><RouterLink :to="{ name: 'About', }" class="hover:text-white">{{ $t('About') }}</RouterLink></li>
+          <li v-if="isProvider"><RouterLink :to="{ name: 'MyServices', }" class="hover:text-white">{{ $t('Services') }}</RouterLink></li>
+          <li><RouterLink :to="{ name: 'Contact', }" class="hover:text-white">{{ $t('Contact') }}</RouterLink></li>
           <li class="w-fit"><ChangeLanguage/></li>
         </ul>
       </div>
 
       <!-- Social Media -->
       <div>
-        <h3 class="text-sm font-semibold mb-3 uppercase tracking-wider">Follow Us</h3>
+        <h3 class="text-sm font-semibold mb-3 uppercase tracking-wider">{{ $t('Follow Us') }}</h3>
         <div class="flex space-x-4">
             <a href="#" class="text-gray-400 hover:text-white">
               <font-awesome-icon :icon="['fab', 'facebook-f']" />
@@ -43,6 +43,15 @@
 
 <script setup>
   import ChangeLanguage from './ChangeLanguage.vue'
+  import { useHeaderStore } from '@/stores/useHeaderStore'
+  import { useAuthStore } from '@/stores/auth'
+  import { computed } from 'vue'
+
+  const headerStore = useHeaderStore()
+  const authStore = useAuthStore()
+
+  const isProvider = computed(() => authStore.user?.role === 'provider')
+  const isClient = computed(() => authStore.user?.role === 'client')
 </script>
 
 <style scoped>
