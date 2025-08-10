@@ -19,6 +19,8 @@
       <!-- Desktop Nav -->
       <nav class="hidden md:flex items-center gap-4">
 
+        <CurrencySwitcher v-model="selectedCurrency" />
+
         <ChangeLanguage />
 
         <!-- <button @click="clearCache" class="clear-button">
@@ -67,11 +69,12 @@
 <script setup>
 import { useRouter, useRoute, RouterLink } from 'vue-router'
 import { computed, ref, watch, onBeforeUnmount, onMounted } from 'vue'
-import BaseButton from '@/components/BaseButton.vue'
-import ChangeLanguage from './ChangeLanguage.vue'
-import NotificationDropdown from '@/components/NotificationDropdown.vue'
 import { toast } from 'vue3-toastify'
 import { useAuthStore } from '@/stores/auth'
+import BaseButton from '@/components/BaseButton.vue'
+import ChangeLanguage from './ChangeLanguage.vue'
+import CurrencySwitcher from './CurrencySwitcher.vue'
+import NotificationDropdown from '@/components/NotificationDropdown.vue'
 import { useHeaderStore } from '@/stores/useHeaderStore'
 
 

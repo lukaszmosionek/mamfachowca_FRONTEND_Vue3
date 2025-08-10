@@ -1,6 +1,7 @@
 import { createI18n } from 'vue-i18n'
 import en from './locales/en.json'
 import pl from './locales/pl.json'
+import { Enums } from '@/enums.js'
 
 const messages = { en, pl }
 
@@ -20,7 +21,12 @@ if(!selectedLocale){
     selectedLocale = supportedLocales.includes(locale) ? locale : defaultLocale
 
     localStorage.setItem('lang', selectedLocale)
-}
+
+    const defaultCurrency = Enums.Languages.find(el => el.code === selectedLocale).defaultCurrency ?? 'USD'
+    localStorage.setItem('currency', defaultCurrency)
+  }
+
+
 
 const i18n = createI18n({
   legacy: false, // Use Composition API

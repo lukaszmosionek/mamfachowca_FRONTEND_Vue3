@@ -8,8 +8,21 @@ export const Enums = {
         "Client": "client",
         "Provider": "provider"
     },
-    "Languages": {
-      "pl": "Polski",
-      "en": "English",
+    "Languages": [
+      {
+        "code" : "pl",
+        "name" : "Polski",
+        "defaultCurrency" : "PLN"
+      },
+      {
+        "code" : "en",
+        "name" : "English",
+        "defaultCurrency" : "USD"
+      }
+    ],
+    "Currencies": {
+      "USD": "$",
+      "PLN": "zł",
+      "EUR": "€",
     }
 };

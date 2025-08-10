@@ -1,6 +1,6 @@
 <template>
-  <Filtering :providers="providers" :filters="filters" @update:filters="handleFilters" />
   <div class="wrapper h-screen overflow-y-auto"  ref="scrollContainer" @scroll="handleScroll">
+    <Filtering :providers="providers" :filters="filters" @update:filters="handleFilters" />
       <HomeTile :services="services" :isLoading="isLoading" />
       <!-- <Pagination :pagination="pagination" @page-changed="handlePageChange" /> -->
   </div>
@@ -16,6 +16,8 @@ import HomeTile from '@/components/HomeTile.vue';
 import Filtering from '@/components/Filtering.vue';
 import { useHeaderStore } from '@/stores/useHeaderStore'
 import { toast } from 'vue3-toastify';
+import { emptyStructureFromExample } from '@/helpers/createEmptyStructure'
+import { serviceSchema } from '@/api/schemas/servicesSchema'
 
 const headerStore = useHeaderStore()
 const scrollContainer = ref(null)
@@ -35,7 +37,8 @@ const filters = ref({
 const page = ref(1)
 
 const isLoading = ref(false)
-const services = ref(Array(10).fill({}));
+// const services = ref(Array(10).fill({}))
+const services = ref(serviceSchema)
 // const services = ref([]);
 const providers = ref([]);
 const hasMore = ref(true)
@@ -54,8 +57,9 @@ const loadServices = async () => {
       }
     })
 
+
     if( page.value === 1 ){
-        services.value = res.services
+        Object.assign(services.value, res.services)
     }else{
         services.value.push( ...res.services )
     }

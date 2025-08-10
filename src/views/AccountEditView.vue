@@ -10,7 +10,7 @@
         <BaseInput :label="$t('Name')" v-model="form.name" :errors="errors?.name" :disabled="isSaving"/>
         <BaseInput :label="$t('Email')" v-model="form.email" :errors="errors?.email" :disabled="isSaving"/>
         <BaseSelect v-model="form.role" :options="Enums.Role" :hasTranslation="true" :label="$t('Role')" disabled="disabled" />
-        <BaseSelect v-model="form.lang" :options="Enums.Languages" :isAssociativeArray="true" :label="$t('Language')"  :disabled="isSaving"  />
+        <BaseSelect v-model="form.lang" :options="languages()" :isAssociativeArray="true" :label="$t('Language')"  :disabled="isSaving"  />
 
         <div class="flex justify-center mt-2">
             <BaseButton :loading="isSaving" type="submit" class="bg-blue-500 text-white px-4 py-2"><font-awesome-icon :icon="['fas', 'user-gear']" />&nbsp;{{ $t('Update Account') }}</BaseButton>
@@ -66,5 +66,11 @@ const updateUser = async () => {
 
 function onAvatarChanged(newUrl) {
   form.value.avatar = newUrl
+}
+
+function languages(){
+    let languages = Enums.Languages.map(lang => [lang.code, lang.name])
+    languages = Object.fromEntries( languages )
+    return languages
 }
 </script>

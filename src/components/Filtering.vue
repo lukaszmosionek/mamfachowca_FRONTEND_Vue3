@@ -1,6 +1,5 @@
 <template>
   <div class="">
-    <!-- add filtering -->
     <div class="my-6 block md:flex gap-4 justify-center md:mx-0 mx-4">
       <BaseInput type="search" :placeholder="$t('Search by name')" v-model="filters.name" @input="applyFilters" wrapperClass="mt-1 md:!w-1/4 !w-full" />
       <BaseSelect v-model="filters.provider_id" @update:modelValue="applyFilters" :options="providers" :isAssociativeArray="true" :addFirstOption="$t('All Providers')" wrapperClass="mt-2 md:!w-1/4 !w-full" />
