@@ -1,24 +1,12 @@
 <template>
   <div class="">
     <h1 class="h1">Favorites</h1>
-
       <div v-if="services.length" class="overflow-x-auto">
-      <!-- add filtering -->
-        <div class="my-6 flex flex-wrap gap-4 justify-center">
-            <input v-model="filters.name" @input="applyFilters" type="text" :placeholder="$t('Search by name')" class="border px-4 py-2 rounded w-full  md:w-1/4"/>
-            <select v-model="filters.providerId"  @change="applyFilters" class="border px-4 py-2 rounded w-full  md:w-1/4">
-                <option value="">{{ $t('All Providers') }}</option>
-                <option v-for="p in providers" :key="p.id" :value="p.id">
-                {{ p.name }}
-                </option>
-            </select>
-        </div>
-        <!-- add filtering -->
-
-        <HomeTile :services="services" :isLoading="isLoading" @service-toggled="handleServiceToggled"/>
-        <div class="flex justify-center mt-6">
-          <BaseButton class="text-center px-8" :loading="isLoading" v-if="showLoadMore" @click="loadMore">Load more</BaseButton>
-        </div>
+          <Filtering :providers="providers" :filters="filters" @update:filters="handleFilters" />
+          <HomeTile :services="services" :isLoading="isLoading" @service-toggled="handleServiceToggled"/>
+          <div class="flex justify-center mt-6">
+            <BaseButton class="text-center px-8" :loading="isLoading" v-if="showLoadMore" @click="loadMore">Load more</BaseButton>
+          </div>
       </div>
       <div v-else class="text-center mt-8">{{ $t('No Favorites yet') }}</div>
 
@@ -31,27 +19,20 @@ import { useRouter, useRoute } from 'vue-router'
 import { ref, onMounted, watch } from "vue"
 import api from '@/services/api'
 import BaseButton from '@/components/BaseButton.vue'
-
-import '@vuepic/vue-datepicker/dist/main.css'
+import Filtering from '@/components/Filtering.vue';
 import HomeTile from '@/components/HomeTile.vue'
-import { useAuthStore } from '@/stores/auth'
+import '@vuepic/vue-datepicker/dist/main.css'
 
-const authStore = useAuthStore()
-
-const router = useRouter()
 const route = useRoute()
-
 const isLoading = ref(false)
 const showLoadMore = ref(true)
 const services = ref(Array(10).fill({}))
-
 const page = ref(1)
-
 const filters = ref({
-  name: '',
-  providerId: ''
+  name: route.query.name || '',
+  provider_id: 0
+  // provider_id: Number(route.query.provider_id) || '0'
 });
-
 const providers = ref([]);
 
 const loadServices = async () => {
@@ -81,17 +62,17 @@ const loadServices = async () => {
   isLoading.value = false
 }
 
-const applyFilters = () => {
-  if (filters.value.name && filters.value.name.length < 3) return
-  page.value = 1
-  services.value.data = Array(10).fill({})
-  loadServices()
-}
+// const applyFilters = () => {
+//   if (filters.value.name && filters.value.name.length < 3) return
+//   page.value = 1
+//   services.value.data = Array(10).fill({})
+//   loadServices()
+// }
 
 const loadProviders = async () => {
   try {
     const res = await api.get('/providers')
-    providers.value = res.data
+    providers.value = res.providers
   } catch (err) {
     console.error('Failed to load providers', err)
   }
@@ -117,6 +98,13 @@ onMounted(() => {
 //   services.value.data = Array(perPage.value).fill({})
 //   loadServices(page, perPage.value)
 // }
+
+const handleFilters = (el) => {
+  console.log(el)
+  filters.value = el
+  page.value = 1
+  loadServices();
+}
 
 const loadMore = () => {
     page.value++
