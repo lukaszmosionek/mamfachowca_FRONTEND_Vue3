@@ -6,7 +6,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import api from './services/api'
-import i18n from './i18n' // Import from i18n.ts
+import i18n from './i18n'
 import Vue3Toastify from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
 import { FontAwesomeIcon } from './plugins/fontawesome.js' // ✅ Import from your plugin

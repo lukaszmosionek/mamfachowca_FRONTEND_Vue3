@@ -2,14 +2,34 @@ import { createI18n } from 'vue-i18n'
 import en from './locales/en.json'
 import pl from './locales/pl.json'
 
-const i18n = createI18n({
-  legacy: false, // Use Composition API
-  locale: 'en',
-  fallbackLocale: 'en',
-  messages: {
+const messages = {
     en,
     pl
-  },
+}
+
+const supportedLocales = Object.keys(messages)
+
+const defaultLocale = 'en'
+let selectedLocale = localStorage.getItem('lang')
+
+if(!selectedLocale){
+    // Detect browser language
+    const browserLanguage = navigator.language || navigator.userLanguage // fallback for old browsers
+
+    // Normalize language code (for example, get just 'en' from 'en-US')
+    const locale = browserLanguage.split('-')[0]
+
+    // If the browser language is not supported, fallback to 'en'
+    selectedLocale = supportedLocales.includes(locale) ? locale : defaultLocale
+
+    localStorage.setItem('lang', selectedLocale)
+}
+
+const i18n = createI18n({
+  legacy: false, // Use Composition API
+  locale: selectedLocale,
+  fallbackLocale: defaultLocale,
+  messages,
   datetimeFormats: {
     en: {
       short: {
@@ -55,3 +75,4 @@ const i18n = createI18n({
 })
 
 export default i18n
+export { supportedLocales as languages }
