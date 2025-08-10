@@ -1,7 +1,7 @@
 <template>
   <div class="mt-4 flex items-center justify-center p-6">
     <form @submit.prevent="submitForm" class="bg-white rounded-lg shadow-lg p-8 max-w-lg w-full space-y-6">
-      <h2 class="text-3xl font-bold mb-4 text-gray-800">Contact Us</h2>
+      <h2 class="text-3xl font-bold mb-4 text-gray-800">{{ $t('Contact Us') }}</h2>
         <BaseInput v-model="form.name" label="Name" :errors="errors?.name"></BaseInput>
         <BaseInput v-model="form.email" label="Email" :errors="errors?.email"></BaseInput>
         <BaseInput v-model="form.message" label="Message"  :errors="errors?.message" :isTextarea="true" rows="3"></BaseInput>
@@ -19,12 +19,21 @@ import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import { validateContact } from '@/utils/validators.js'
 import Swal from 'sweetalert2';
+import { useI18n } from 'vue-i18n'
 
-const form = ref({});
+const user = ref( JSON.parse(localStorage.getItem('user')) )
+
+const { t } = useI18n()
+const form = ref({
+  'name': user.value ? user.value.name : '',
+  'email': user.value ? user.value.email : '',
+  'message': '',
+});
 const errors = ref({})
 const loading = ref(false);
 
 async function submitForm() {
+
   errors.value = {} // reset errors before submit
 
   if( import.meta.env.VITE_TURN_ON_VUE_VALIDATION === 'true'){
