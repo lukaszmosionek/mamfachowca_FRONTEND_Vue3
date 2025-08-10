@@ -12,7 +12,8 @@
     "lint:oxlint": "oxlint . --fix -D correctness --ignore-path .gitignore",
     "lint:eslint": "eslint . --fix",
     "lint": "run-s lint:*",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "test": "vitest"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.0.0",
@@ -40,12 +41,14 @@
     "@vitejs/plugin-vue": "^6.0.0",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.5.1",
+    "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.29.0",
     "eslint-plugin-oxlint": "~1.1.0",
     "eslint-plugin-vue": "~10.2.0",
     "jiti": "^2.4.2",
+    "jsdom": "^26.1.0",
     "npm-run-all2": "^8.0.4",
     "oxlint": "~1.1.0",
     "postcss": "^8.5.6",
@@ -54,6 +57,7 @@
     "tailwindcss": "^4.1.11",
     "typescript": "~5.8.0",
     "vite": "^5.2.10",
+    "vitest": "^3.2.4",
     "vue-tsc": "^2.2.10"
   }
 }

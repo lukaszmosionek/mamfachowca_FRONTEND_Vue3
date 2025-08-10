@@ -17,6 +17,10 @@ export default defineConfig({
   //     }
   //   }
   // },
+  test: {
+    globals: true,     // allows `describe`, `it`, `expect` without imports
+    environment: 'jsdom'
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
