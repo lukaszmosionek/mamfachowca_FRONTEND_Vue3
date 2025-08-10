@@ -4,9 +4,9 @@
   "Browse available services": "Przeglądaj dostępne usługi",
   "Manage your services": "Zarządzaj swoimi usługami",
   "Search by name": "Szukaj według nazwy",
-  "All Providers": "Wszyscy dostawcy",
+  "All Providers": "Wszyscy usługodawcy",
   "Name": "Nazwa",
-  "Provider": "Dostawca",
+  "Provider": "Usługodawca",
   "Price": "Cena",
   "Book": "Zarezerwuj",
   "Date and time of service": "Data i godzina usługi",
@@ -67,8 +67,9 @@
   "Start Time": "Czas rozpoczęcia",
   "End Time": "Czas zakończenia",
   "pending": "Oczekuje",
-  "Go Back": "Wracać",
+  "Go Back": "Wróć",
   "Accept": "Akceptuj",
+  "Decline": "Odrzuć",
   "Status": "Status",
   "Messages": "Wiadomości",
   "People you have chatted with": "Osoby, z którymi rozmawiałeś",
@@ -76,5 +77,57 @@
   "Contact Us": "Skontaktuj się z nami",
   "About": "O nas",
   "Contact": "Kontakt",
-  "Profile Updated": "Zaktualizowany profil"
+  "Message sent successfully! Thank you.": "Wiadomość wysłana pomyślnie! Dziękujemy.",
+  "Profile Updated": "Zaktualizowany profil",
+  "Follow Us": "Znajdź nas na",
+  "Inc. All rights reserved.": "Inc. Wszystkie prawa zastrzeżone.",
+  "Quick Links": "Menu",
+  "Service duration": "Czas trwania usługi",
+  "Send Message": "Wyślij wiadomość",
+  "Language": "Język",
+  "Edit Account": "Edytuj konto",
+  "Change avatar": "Zmień awatar",
+  "Forgot password?": "Zapomniałeś hasła?",
+  "Update Account": "Zaktualizuj konto",
+  "Provider Availability": "Dostępność usługodawcy",
+  "Profile": "Profil",
+  "Services list": "Lista usług",
+  "Services": "Usługi",
+  "Load more": "Załaduj więcej",
+  "Add new photo": "Dodaj nowe zdjęcie",
+  "No Favorites yet": "Nie ma jeszcze ulubionych",
+  "Favorites": "Ulubione",
+  "Email is required.": "Email jest wymagany.",
+  "Schedule Appointment": "Umów się na usługe",
+  "Time": "Czas",
+  "Make a reservation": "Dokonać rezerwacji",
+  "validation": {
+    "name": {
+      "required": "Imię jest wymagane.",
+      "minLength": "Imię musi mieć co najmniej 3 znaki."
+    },
+    "message": {
+      "required": "Wiadomość jest wymagana.",
+      "minLength": "Wiadomość musi mieć co najmniej 3 znaki."
+    },
+    "email": {
+      "required": "Adres e-mail jest wymagany.",
+      "invalid": "Nieprawidłowy adres e-mail."
+    },
+    "password": {
+      "required": "Hasło jest wymagane.",
+      "minLength": "Hasło musi mieć co najmniej 3 znaki.",
+      "uppercase": "Hasło musi zawierać co najmniej jedną wielką literę.",
+      "lowercase": "Hasło musi zawierać co najmniej jedną małą literę.",
+      "number": "Hasło musi zawierać co najmniej jedną cyfrę.",
+      "specialChar": "Hasło musi zawierać co najmniej jeden znak specjalny."
+    },
+    "passwordConfirmation": {
+      "required": "Potwierdzenie hasła jest wymagane.",
+      "minLength": "Potwierdzenie hasła musi mieć co najmniej 3 znaki.",
+      "mismatch": "Hasło i potwierdzenie hasła muszą być takie same."
+    }
+  },
+  "Hide password": "Ukryj hasło",
+  "Show password": "Pokaż hasło"
 }

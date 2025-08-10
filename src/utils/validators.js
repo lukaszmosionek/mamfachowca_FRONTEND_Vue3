@@ -1,17 +1,17 @@
 function validateName(name) {
-  if (!name) return 'Name is required.'
-  if (name.length < 3) return 'Name must be at least 3 characters.'
+  if (!name) return 'validation.name.required'
+  if (name.length < 3) return 'validation.name.minLength'
 }
 
 function validateMessage(message) {
-  if (!message) return 'Message is required.'
-  if (message.length < 3) return 'Message must be at least 3 characters.'
+  if (!message) return 'validation.message.required'
+  if (message.length < 3) return 'validation.minLength.required'
 }
 
 function validateEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!email) return 'Email is required.'
-  if (!emailRegex.test(email)) return 'Invalid email.'
+  if (!email) return 'validation.email.required'
+  if (!emailRegex.test(email)) return 'validation.email.invalid'
 }
 
 function validatePassword(password, isRegister) {
@@ -20,18 +20,18 @@ function validatePassword(password, isRegister) {
   const hasNumber = /[0-9]/.test(password);
   const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
-  if (!password) return 'Password is required.'
-  if (password.length < 3) return 'Password must be at least 3 characters.'
-  if (isRegister && !hasUpperCase) return "Password must include at least one uppercase letter."
-  if (isRegister && !hasLowerCase) return "Password must include at least one lowercase letter."
-  if (isRegister && !hasNumber) return "Password must include at least one number."
-  if (isRegister && !hasSpecialChar) return "Password must include at least one special character."
+  if (!password) return 'validation.password.required'
+  if (password.length < 3) return 'validation.password.minLength'
+  if (isRegister && !hasUpperCase) return 'validation.password.uppercase'
+  if (isRegister && !hasLowerCase) return 'validation.password.lowercase'
+  if (isRegister && !hasNumber) return 'validation.password.number'
+  if (isRegister && !hasSpecialChar) return 'validation.password.specialChar'
 }
 
 function validatePasswordConfirmation(password, passwordConfirmation) {
-  if (!passwordConfirmation) return 'Password confirmation is required.'
-  if (passwordConfirmation.length < 3) return 'Password confirmation must be at least 3 characters.'
-  if (passwordConfirmation && password != passwordConfirmation) return 'Password and password confirmation must be the same.'
+  if (!passwordConfirmation) return 'validation.passwordConfirmation.required'
+  if (passwordConfirmation.length < 3) return 'validation.passwordConfirmation.minLength'
+  if (passwordConfirmation && password != passwordConfirmation) return 'validation.passwordConfirmation.mismatch'
 }
 
 export function validateRegister(form) {

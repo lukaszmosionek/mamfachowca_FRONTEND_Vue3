@@ -20,7 +20,8 @@
         @input="$emit('update:modelValue', $event.target.value)"></textarea>
 
     <div v-if="Object.keys(errors).length > 0" class="text-red-500 mt-1 font-black">
-      <span v-for="(msg, i) in errors" :key="i">{{ msg }}</span>
+      <!-- <span v-for="(msg, i) in errors" :key="i">{{ $t(msg) }}</span> -->
+      <span>{{ $t(errors) }}</span>
     </div>
   </div>
 </template>

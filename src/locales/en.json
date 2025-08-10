@@ -6,7 +6,6 @@
   "Search by name": "Search by name",
   "All Providers": "All Providers",
   "Name": "Name",
-  "Provider": "Provider",
   "Price": "Price",
   "Book": "Book",
   "Date and time of service": "Date and time of service",
@@ -25,6 +24,9 @@
   "Password confirmation": "Password confirmation",
   "Role": "Role",
   "Client": "Client",
+  "Provider": "Provider",
+  "client": "client",
+  "provider": "provider",
   "My appointments": "My appointments",
   "Service": "Service",
   "Date": "Date",
@@ -90,5 +92,53 @@
   "Contact Us": "Contact Us",
   "Contact": "Contact",
   "About": "About",
-  "Profile Updated": "Profile Updated"
+  "Profile Updated": "Profile Updated",
+  "Message sent successfully! Thank you.": "Message sent successfully! Thank you.",
+  "Follow Us": "Follow Us",
+  "Inc. All rights reserved.": "Inc. All rights reserved.",
+  "Quick Links": "Quick Links",
+  "Service duration": "Service duration",
+  "Language": "Language",
+  "Edit Account": "Edit Account",
+  "Change avatar": "Change avatar",
+  "Update Account": "Update Account",
+  "Services list": "Services list",
+  "Services": "Services",
+  "Load more": "Load more",
+  "Add new photo": "Add new photo",
+  "No Favorites yet": "No Favorites yet",
+  "Favorites": "Favorites",
+  "Schedule Appointment": "Schedule Appointment",
+  "Time": "Time",
+  "Email is required.": "Email is required.",
+  "Make a reservation": "Make a reservation",
+  "validation": {
+    "name": {
+      "required": "Name is required.",
+      "minLength": "Name must be at least 3 characters."
+    },
+    "message": {
+      "required": "Message is required.",
+      "minLength": "Message must be at least 3 characters."
+    },
+    "email": {
+      "required": "Email is required.",
+      "invalid": "Invalid email."
+    },
+    "password": {
+      "required": "Password is required.",
+      "minLength": "Password must be at least 3 characters.",
+      "uppercase": "Password must include at least one uppercase letter.",
+      "lowercase": "Password must include at least one lowercase letter.",
+      "number": "Password must include at least one number.",
+      "specialChar": "Password must include at least one special character."
+    },
+    "passwordConfirmation": {
+      "required": "Password confirmation is required.",
+      "minLength": "Password confirmation must be at least 3 characters.",
+      "mismatch": "Password and password confirmation must be the same."
+    }
+  },
+  "Hide password": "Hide password",
+  "Show password": "Show password"
 }

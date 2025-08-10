@@ -24,8 +24,8 @@
     <div class="mt-4">
         <div class=" p-4">
             <div class="text-gray-600" v-if="service?.provider">
-                <div class="mt-2 flex"><span class="">Service duration::&nbsp;</span><span>{{ service.duration }} min.</span></div>
-                <div class="flex items-center"><span class="">Provider:&nbsp;</span> <RouterLink class="" :to="{ name: 'Profile', params: { userId: service?.provider?.id ?? 0 } }">{{service?.provider?.name }}</RouterLink><RouterLink class="text-lg md:text-2lg" :to="{ name: 'Messages', params: { userId: service?.provider?.id ?? 0 } }"><font-awesome-icon :icon="['far', 'envelope']" /></RouterLink></div>
+                <div class="mt-2 flex"><span class="">{{ $t('Service duration') }}:&nbsp;</span><span>{{ service.duration }} min.</span></div>
+                <div class="flex items-center"><span class="">{{ $t('Provider') }}:&nbsp;</span> <RouterLink class="" :to="{ name: 'Profile', params: { userId: service?.provider?.id ?? 0 } }">{{service?.provider?.name }}</RouterLink><RouterLink class="text-lg md:text-2lg" :to="{ name: 'Messages', params: { userId: service?.provider?.id ?? 0 } }"><font-awesome-icon :icon="['far', 'envelope']" /></RouterLink></div>
             </div>
         </div>
       <Availabilities  class="" :availabilities="availability"/>
@@ -41,7 +41,7 @@
             </div>
         </div>
         <div class="w-full">
-            <label class="block">Time</label>
+            <label class="block">{{ $t('Time') }}</label>
             <div class="flex gap-1">
               <BaseSelect wrapperClass="md:w-1/2 w-full" class="!h-fit" v-model="form.timeHour" :isAssociativeArray="true" :errors="errors?.start_time" :options="hours"/>
               <span class="text-gray-600 mt-2">:</span>

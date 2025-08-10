@@ -22,8 +22,8 @@
               <h2 class="font-semibold text-gray-800 md:text-xl text-xs md:mr-0 mr-6">{{ s?.name ? s?.name?.slice(0, 40) + '...' :'' }}</h2>
               <p class="text-gray-500 hidden md:block text-xs md:text-sm">{{ s?.description ? s?.description?.slice(0, 200) + '...' :'' }}</p>
               <div class="text-gray-600 text-xs md:text-sm" v-if="s?.provider">
-                <div class="mt-2 flex"><span class="hidden md:block">Service duration::&nbsp;</span><span>{{ s.duration }} min.</span></div>
-                <div class="flex items-center"><span class="hidden md:block">Provider:&nbsp;</span> <RouterLink class="" :to="{ name: 'Profile', params: { userId: s?.provider?.id ?? 0 } }">{{s?.provider?.name }}</RouterLink><RouterLink class="text-lg md:text-2lg" :to="{ name: 'Messages', params: { userId: s?.provider?.id ?? 0 } }"><font-awesome-icon :icon="['far', 'envelope']" /></RouterLink></div>
+                <div class="mt-2 flex"><span class="hidden md:block">{{ $t('Service duration') }}:&nbsp;</span><span>{{ s.duration }} min.</span></div>
+                <div class="flex items-center"><span class="hidden md:block">{{ $t('Provider') }}:&nbsp;</span> <RouterLink class="" :to="{ name: 'Profile', params: { userId: s?.provider?.id ?? 0 } }">{{s?.provider?.name }}</RouterLink><RouterLink class="text-lg md:text-2lg" :to="{ name: 'Messages', params: { userId: s?.provider?.id ?? 0 } }"><font-awesome-icon :icon="['far', 'envelope']" /></RouterLink></div>
               </div>
             </div>
             <!-- Opis -->
