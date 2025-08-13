@@ -1,4 +1,7 @@
 import noPhoto from '@/assets/no-photo.jpg'
+import { translationsSchema } from '@/api/schemas/translationsSchema.js'
+import { currenciesSchema } from '@/api/schemas/currenciesSchema.js'
+import { photosSchema } from '@/api/schemas/photosSchema.js'
 
 let services = []
 for(let i=0; i<=10;i++){
@@ -6,10 +9,10 @@ for(let i=0; i<=10;i++){
           "id":0,
           "provider_id":0,
           "name":"Example",
-          "description":"Example",
+          "description" : "...",
           "price":"999",
           "currency_id":0,
-          "duration_minutes":10,
+          "duration": 0,
           "created_at":"",
           "updated_at":"",
           "lang":"",
@@ -18,31 +21,10 @@ for(let i=0; i<=10;i++){
             "id":0,
             "name":"Adam"
           },
-          "photos":[
-            {
-                "id":0,
-                "imageable_type":"",
-                "imageable_id":0,
-                "thumbnail":noPhoto,
-                "medium": noPhoto,
-                "large":noPhoto,
-                "is_main":0,
-                "created_at":"",
-                "updated_at":""
-            }
-          ],
-          "favorited_by":[
-
-          ],
-          "currency":{
-            "id":0,
-            "code":"USD",
-            "symbol":"",
-            "rate":"",
-            "language_id":0,
-            "created_at":null,
-            "updated_at":null
-          }
+          "photos" : photosSchema,
+          "favorited_by" : [],
+          "currency" : currenciesSchema,
+          "translations" : translationsSchema
       })
 }
 
