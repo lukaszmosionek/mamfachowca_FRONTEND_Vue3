@@ -22,7 +22,7 @@
 
             <div class="flex flex-col justify-between">
               <h2 class="font-semibold text-gray-800 md:text-xl text-xs md:mr-0 mr-6">{{ s.name.slice(0, 40) }}</h2>
-              <p class="text-gray-500 hidden md:block text-xs md:text-sm">{{ s?.description?.slice(0, 200) }}</p>
+              <p class="text-gray-500 hidden md:block text-xs md:text-sm">{{ s.description.slice(0, 200) }}</p>
               <div class="text-gray-600 text-xs md:text-sm" v-if="s.provider">
                 <div class="mt-2 flex"><span class="hidden md:block">{{ $t('Service duration') }}:&nbsp;</span><span>{{ s.duration }} min.</span></div>
                 <div class="flex items-center"><span class="hidden md:block">{{ $t('Provider') }}:&nbsp;</span> <RouterLink class="" :to="{ name: 'Profile', params: { userId: s.provider.id } }">{{s.provider.name }}</RouterLink><RouterLink class="text-lg md:text-2lg" :to="{ name: 'Messages', params: { userId: s.provider.id } }"><font-awesome-icon :icon="['far', 'envelope']" /></RouterLink></div>
@@ -33,8 +33,8 @@
             <div class="flex flex-row justify-between items-end">
               <!-- <span class=" font-bold text-gray-800">{{ s.price ? n(Number(s.price), 'currency') : '' }} {{ currencyStore.convert(s.price, 'PLN') }}</span> -->
               <!-- <span class=" font-bold text-gray-800">{{ currencyStore.convert(s.price, 'PLN') }}</span> -->
-              <span class=" font-bold text-gray-800">Original price: {{ s.price }} {{ s.currency.code }}</span>
-              <span class=" font-bold text-gray-800">Converted price: {{ currencyStore.convert( s.price, s.currency.code) }}</span>
+              <span class=" font-bold text-gray-800">Original price: {{ s.price }} {{ s.currency?.code }}</span>
+              <span class=" font-bold text-gray-800">Converted price: {{ s.currency ? currencyStore.convert( s.price, s.currency.code) : 'No data' }}</span>
               <BaseButton @click="router.push({ name: 'BookServiceView', params: { serviceId: s.id } })" class="ml-4 w-fit"><font-awesome-icon :icon="['fas', 'calendar-plus']" />&nbsp;{{$t('Book')}}</BaseButton>
             </div>
             <!-- Cena i serduszko -->

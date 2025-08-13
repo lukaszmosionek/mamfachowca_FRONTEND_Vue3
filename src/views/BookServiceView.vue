@@ -6,13 +6,13 @@
     <div class="flex md:flex-row  flex-col">
         <div class="md:w-3/4 w-full p-2">
             <PhotoCarousel :images="service.photos" height="h-[300px] md:h-[600px]" imageKey="large" class=""></PhotoCarousel>
-            <p class="mt-4 p-4 hidden md:block">{{ service.description }}</p> <!-- only desktop-->
-            <h2 class="text-xl mt-4 text-center md:hidden">{{ service.name }}</h2> <!-- only mobile-->
+            <p class="mt-4 p-4 hidden md:block">{{ translatedDescription }}</p> <!-- only desktop-->
+            <h2 class="text-xl mt-4 text-center md:hidden">{{ translatedName }}</h2> <!-- only mobile-->
         </div>
 
         <div class="md:w-1/4  w-full p-2 flex flex-col">
-            <h2 class="text-xl mt-4 text-center hidden md:block">{{ service.name }}</h2>  <!-- only desktop-->
-            <p class=" md:hidden">{{ service.description }}</p> <!-- only mobile-->
+            <h2 class="text-xl mt-4 text-center hidden md:block">{{ translatedName }}</h2>  <!-- only desktop-->
+            <p class=" md:hidden">{{ translatedDescription }}</p> <!-- only mobile-->
 
     <!-- <div class="photo-gallery mt-2 flex-center">
         <div v-for="photo in service.photos" v-if="service.photos" :key="photo.id" class="photo-item relative" :class="{ 'opacity-50' : photo.isLoading }">
@@ -66,22 +66,25 @@
 
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, onMounted, watch } from "vue"
 import api from '@/services/api'
-import BaseButton from '@/components/BaseButton.vue';
-import BaseSelect from '@/components/BaseSelect.vue';
+import BaseButton from '@/components/BaseButton.vue'
+import BaseSelect from '@/components/BaseSelect.vue'
 import { toast } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
 import Availabilities from '@/components/Availabilities.vue'
 import PhotoCarousel from '@/components/PhotoCarousel.vue'
 
+import { serviceSchema } from '@/api/schemas/servicesSchema'
+
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'
+import { deepClone } from '@/helpers/deepClone.js'
 
 const router = useRouter();
 const route = useRoute()
-const { t, d } = useI18n()
+const { t, d, locale } = useI18n()
 
 const loading = ref(false)
 const errors = ref('');
@@ -134,6 +137,8 @@ const bookService = async () => {
 }
 
 onMounted(() => {
+  service.value = deepClone(serviceSchema[0])
+
   for (let i = 8; i <= 16; i++) {
     hours.value[ addLeadingZero(i) ] = convertTime(i)
   }
@@ -197,4 +202,6 @@ function convertTime(timeString) {
 function  addLeadingZero(n) {
   return n < 10 ? '0' + n : n;
 }
+const translatedDescription = computed(() => service.value?.translations?.find(el => el.language.code === locale.value)?.description ?? '' )
+const translatedName = computed(() => service.value?.translations?.find(el => el.language.code === locale.value)?.name ?? '' )
 </script>

@@ -8,20 +8,22 @@
 
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch } from "vue"
 import api from '@/services/api'
 // import Pagination from '@/components/Pagination.vue';
 import '@vuepic/vue-datepicker/dist/main.css'
-import HomeTile from '@/components/HomeTile.vue';
-import Filtering from '@/components/Filtering.vue';
+import HomeTile from '@/components/HomeTile.vue'
+import Filtering from '@/components/Filtering.vue'
 import { useHeaderStore } from '@/stores/useHeaderStore'
-import { toast } from 'vue3-toastify';
-import { emptyStructureFromExample } from '@/helpers/createEmptyStructure'
+import { toast } from 'vue3-toastify'
 import { serviceSchema } from '@/api/schemas/servicesSchema'
+import { useI18n } from 'vue-i18n'
+import { deepClone } from '@/helpers/deepClone.js'
 
 const headerStore = useHeaderStore()
 const scrollContainer = ref(null)
 const route = useRoute()
+const { locale } = useI18n()
 
 const filters = ref({
   name: route.query.name || '',
@@ -38,9 +40,9 @@ const page = ref(1)
 
 const isLoading = ref(false)
 // const services = ref(Array(10).fill({}))
-const services = ref(serviceSchema)
+const services = ref({})
 // const services = ref([]);
-const providers = ref([]);
+const providers = ref([])
 const hasMore = ref(true)
 
 const loadServices = async () => {
@@ -56,7 +58,6 @@ const loadServices = async () => {
         user_id: user ? user.id : null
       }
     })
-
 
     if( page.value === 1 ){
         Object.assign(services.value, res.services)
@@ -79,7 +80,7 @@ const loadServices = async () => {
 const handleFilters = (el) => {
   filters.value = el
   page.value = 1
-  loadServices();
+  loadServices()
 }
 
 const loadProviders = async () => {
@@ -92,6 +93,8 @@ const loadProviders = async () => {
 }
 
 onMounted(() => {
+  services.value = deepClone(serviceSchema)
+
   loadServices()
   loadProviders()
 })
@@ -134,6 +137,13 @@ watch(
           headerStore.resetHomeClick()
   }
 )
+
+watch(locale, (newLang, oldLang) => {
+  console.log(`Language changed from ${oldLang} to ${newLang}`)
+  page.value = 1
+  // services.value = serviceSchema
+  loadServices()
+})
 
 const handleScroll = () => {
   const container = scrollContainer.value

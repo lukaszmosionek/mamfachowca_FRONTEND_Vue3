@@ -5,11 +5,27 @@
         {{ service ? $t('Edit service') : $t('New service') }}
       </h3>
       <form @submit.prevent="submit" class="space-y-4">
-        <BaseInput v-model="form.name" :label="$t('Name')" placeholder="e.g. John Doe" :errors="errors.errors?.name" />
+
+        <button type="button" @click="changeLanguage('en')" class="flex justify-center items-center gap-2 hover:opacity-50">
+          <img alt="Flag EN" src="@/assets/icons/flag-en.svg" width="20" height="20" /> <span class="text-sm">EN</span>
+        </button>
+        <button  type="button"  @click="changeLanguage('pl')" class="flex justify-center items-center gap-2 hover:opacity-50">
+          <img alt="Flag PL" src="@/assets/icons/flag-pl.svg" width="20" height="20" /> <span class="text-sm">PL</span>
+        </button>
+
+        <!-- <BaseInput v-model="form.name" :label="$t('Name')" placeholder="e.g. John Doe" :errors="errors.errors?.name" /> -->
+        <div v-for="(t, index) in form.translations">
+            <BaseInput v-model="t.name" v-if="lang === t.language.code" :label="$t('Name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors.errors?.name" />
+        </div>
+        <!-- <BaseInput v-model="form.translations.pl.name" v-if="lang === 'pl'" :label="$t('Name')" placeholder="e.g. John Doe" :errors="errors.errors?.name" /> -->
+
         <BaseInput v-model="form.price" :label="$t('Price')" placeholder="e.g. 100" :errors="errors.errors?.price" type="number"/>
         <BaseInput v-model="form.duration_minutes" :label="$t('Time (minutes)')" placeholder="e.g. 60" :errors="errors.errors?.duration_minutes" type="number"/>
 
-        <textarea v-model="form.description" :placeholder="$t('Description')" rows="4" class="text-gray-600 w-full px-4 py-2 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        <div v-for="(t, index) in form.translations">
+            <BaseInput  v-model="t.description" v-if="lang === t.language.code" :label="$t('Description')+' - '+t.language.code" :placeholder="$t('Description')" rows="4" :isTextarea="true"  :key="index" class="text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></BaseInput>
+        </div>
+        <!-- <BaseInput v-model="form.translation[1].description" v-if="lang === 'pl'" :label="$t('Description')" :placeholder="$t('Description')" rows="4" :isTextarea="true" class="text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></BaseInput> -->
 
         <div class="flex items-center justify-center">
             <PhotoGallery :photos="service?.photos ?? []" :serviceId="service?.id ?? null" :isEditView="service?.id ? true : false" @update:photos="handlePhotos"></PhotoGallery>
@@ -31,21 +47,28 @@ import { defineProps, defineEmits } from 'vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import PhotoGallery from '@/components/PhotoGallery.vue'
-
+import { useI18n } from 'vue-i18n'
+import { myServicesSchema } from '@/api/schemas/myServicesSchema'
+import { deepClone } from '@/helpers/deepClone.js'
 
 const props = defineProps({
   service: Object
 })
+const { locale } = useI18n()
 const emit = defineEmits(['saved', 'close'])
 const loading = ref(false)
 const errors = ref({})
-const form = ref({})
+const lang = ref('en')
+const form = ref()
 
 watch(() => props.service, (val) => {
-  if (val) {
-    form.value = { ...val }
-  } else {
-    form.value = {}
+  console.log(val)
+  if (val) { //update service
+    form.value = { ...myServicesSchema, ...val}
+    // Object.assign(form.value, val)
+    // form.value = { ...val }
+  } else { // new servive
+    form.value = deepClone(myServicesSchema)
   }
 }, { immediate: true })
 
@@ -73,5 +96,9 @@ const handlePhotos = (photos) => {
   if (!props.service) {
     form.value.photos = photos
   }
+}
+
+function changeLanguage(newlang){
+  lang.value = newlang
 }
 </script>

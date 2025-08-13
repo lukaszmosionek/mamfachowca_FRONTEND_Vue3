@@ -5,7 +5,7 @@
     <ServiceForm v-if="showForm" :service="selectedService" @close="closeForm" @saved="loadServices" />
 
     <div class="md:text-right text-center mt-2 mb-2">
-      <button @click="createNew"class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"><font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />{{ $t('Add new service') }}</button>
+      <button type="button" @click="createNew"class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"><font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />{{ $t('Add new service') }}</button>
     </div>
 
     <div class="overflow-x-auto">
@@ -20,7 +20,7 @@
         </thead>
         <tbody>
           <tr v-for="s in services" :key="s.id" class="border-t hover:bg-gray-50">
-            <td class="px-4 py-2 text-gray-600 font-medium">{{ s.name }}</td>
+            <td class="px-4 py-2 text-gray-600 font-medium">{{ s.translations.find(el => el.language.code === locale)?.name ?? ''  }}{{  }}</td>
             <td class="px-4 py-2 text-gray-600">{{ s.price }}</td>
             <td class="px-4 py-2 md:text-right h-full">
               <div class="md:block flex-center space-x-2">
@@ -46,18 +46,24 @@ import api from '@/services/api'
 import ServiceForm from '@/components/ServiceForm.vue'
 import { toast } from 'vue3-toastify'
 import BaseButton from '@/components/BaseButton.vue'
+import { useI18n } from 'vue-i18n'
+import { emptyStructureFromExample } from '@/helpers/createEmptyStructure'
+// import { myServicesSchema } from '@/api/schemas/myServicesSchema'
 
-const services = ref([])
+const services = ref({})
 const selectedService = ref(null)
 const showForm = ref(false)
 const loading = ref(false)
 const showLoadMore = ref(true)
 const page = ref(1)
+const { locale } = useI18n()
 
 const loadServices = async () => {
   loading.value = true
   try {
     const res = await api.get('/me/services')
+
+    // console.log(emptyStructureFromExample(res.services))
 
     if( page.value === 1 ){
         services.value = res.services
@@ -98,6 +104,7 @@ const deleteService = async (id) => {
 }
 
 const closeForm = () => {
+  selectedService.value = null
   showForm.value = false
 }
 
