@@ -14,13 +14,13 @@
         <thead>
           <tr class="bg-gray-100 text-left text-sm uppercase text-gray-600">
             <th class="px-4 py-3">{{ $t('Name') }}</th>
-            <th class="px-4 py-3">{{ $t('Price (PLN)') }}</th>
+            <th class="px-4 py-3">{{ $t('Price') }}</th>
             <th class="px-4 py-3 text-right"></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="s in services" :key="s.id" class="border-t hover:bg-gray-50">
-            <td class="px-4 py-2 text-gray-600 font-medium">{{ s.translations.find(el => el.language.code === locale)?.name ?? ''  }}{{  }}</td>
+            <td class="px-4 py-2 text-gray-600 font-medium">{{ s.translations.find(el => el.language.code === locale)?.name ?? '---'  }}</td>
             <td class="px-4 py-2 text-gray-600">{{ s.price }}</td>
             <td class="px-4 py-2 md:text-right h-full">
               <div class="md:block flex-center space-x-2">
