@@ -7,9 +7,11 @@
       </h1>
 
       <div class="md:hidden flex gap-2 items-center">
+        <CurrencySwitcher/>
         <ChangeLanguage />
-        <RouterLink v-if="isLogged" :to="{ name: 'Favorites' }" class="text-2xl"><font-awesome-icon :icon="['far', 'heart']" /></RouterLink>
+        <RouterLink v-if="isLogged" :to="{ name: 'Favorites' }"><font-awesome-icon  class="md:text-2xl" :icon="['far', 'heart']" /></RouterLink>
         <NotificationDropdown v-if="isLogged" />
+
         <!-- Hamburger Icon (Mobile only) -->
         <button class="" @click="mobileMenuOpen = !mobileMenuOpen">
           <img src="@/assets/icons/hamburger-icon.svg" class="h-6 w-6" alt="Hamburger Icon (Mobile only)">
@@ -17,17 +19,14 @@
       </div>
 
       <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center gap-4">
+      <nav class="hidden md:flex items-center lg:gap-4 gap-1 md:text-xl text-sm">
 
-        <CurrencySwitcher v-model="selectedCurrency" />
+        <CurrencySwitcher/>
 
         <ChangeLanguage />
 
-        <!-- <button @click="clearCache" class="clear-button">
-            {{ $t('Clear Cache') }}
-        </button> -->
-
-        <RouterLink v-if="isLogged" :to="{ name: 'Favorites', params: {} }" class="text-2xl"><font-awesome-icon :icon="['far', 'heart']" /></RouterLink>
+        <RouterLink v-if="isLogged" :to="{ name: 'Messages', params: {'userId': 1} }"><font-awesome-icon class="md:text-xl" :icon="['fas', 'envelope']" /></RouterLink>
+        <RouterLink v-if="isLogged" :to="{ name: 'Favorites', params: {} }"><font-awesome-icon class="md:text-xl" :icon="['far', 'heart']" /></RouterLink>
 
         <NotificationDropdown v-if="isLogged" />
 
@@ -37,11 +36,10 @@
         <RouterLink v-if="!isLogged" :to="{ name: 'Login' }">{{ $t('Login') }}</RouterLink>
         <RouterLink v-if="!isLogged" :to="{ name: 'Register' }">{{ $t('Register') }}</RouterLink>
 
-        <RouterLink v-if="isLogged" :to="{ name: 'Messages', params: {'userId': 1} }">{{ $t('Messages') }}</RouterLink>
         <RouterLink v-if="isLogged" :to="{ name: 'Appointments' }">{{ $t('Appointments') }}</RouterLink>
         <RouterLink v-if="isLogged && isProvider" :to="{ name: 'MyServices' }">{{ $t('My services') }}</RouterLink>
 
-        <RouterLink v-if="isLogged" :to="{ name: 'Account' }"> {{ authStore.user.name }} #{{ authStore.user.id}} ({{ authStore.user.role }})</RouterLink>
+        <RouterLink v-if="isLogged" :to="{ name: 'Account' }" :title="authStore.user.name+' #'+authStore.user.id+'('+authStore.user.role+')'">{{ $t('Account') }}</RouterLink>
         <BaseButton v-if="isLogged" @click="logout" :loading="loading" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit">
         <font-awesome-icon :icon="['fas', 'right-from-bracket']" />&nbsp;{{ $t('Logout') }}</BaseButton>
 
@@ -60,6 +58,7 @@
     <RouterLink @click="mobileMenuOpen = false" v-if="isLogged && isProvider" :to="{ name: 'MyServices' }">{{$t('My services') }}</RouterLink>
 
     <RouterLink @click="mobileMenuOpen = false" v-if="isLogged" :to="{ name: 'Account' }"> {{ authStore.user.name }} #{{ authStore.user.id}} ({{ authStore.user.role }})</RouterLink>
+
     <BaseButton @click="logout" :loading="loading" :name="$t('Logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700" v-if="authStore.token"/>
 
   </nav>
@@ -110,17 +109,6 @@ const handleLogout = async () => {
   mobileMenuOpen.value = false
   await logout()
 }
-
-// function clearCache() {
-//   // Remove specific auth/local data
-//   localStorage.removeItem('token'); // or whatever key you're using
-
-//   // OR: Clear all localStorage
-//   localStorage.clear();
-
-//   // Optional: Redirect to login or refresh the app
-//   window.location.reload(); // or use Vue Router to redirect
-// }
 
 watch(() => route.query.successMessage, (newValue) => {
   if (route.query.successMessage) {

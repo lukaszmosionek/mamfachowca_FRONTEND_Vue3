@@ -112,6 +112,10 @@
   "Time": "Time",
   "Email is required.": "Email is required.",
   "Make a reservation": "Make a reservation",
+  "favorites": {
+    "added": "Added to Favorites",
+    "removed": "Removed from Favorites"
+  },
   "validation": {
     "name": {
       "required": "Name is required.",
@@ -140,5 +144,6 @@
     }
   },
   "Hide password": "Hide password",
-  "Show password": "Show password"
+  "Show password": "Show password",
+  "FirstnameLastname": "Name"
 }

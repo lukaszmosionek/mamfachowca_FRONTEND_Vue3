@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useCurrencyStore } from '@/stores/useCurrencyStore'
+import BaseSelect from './BaseSelect.vue'
 
 const currencyStore = useCurrencyStore()
 const props = defineProps({
@@ -33,18 +34,6 @@ function changeCurrency(currency) {
 
 <template>
   <div class="flex gap-2">
-    <template v-for="currency in currencies" :key="currency">
-      <button
-        @click="changeCurrency(currency)"
-        :class="[
-          'px-4 py-2 rounded border transition',
-          selectedCurrency === currency
-            ? 'bg-blue-500 text-white border-blue-500'
-            : 'bg-white text-gray-800 border-gray-300 hover:bg-gray-100'
-        ]"
-      >
-        {{ currency }}
-      </button>
-    </template>
+      <BaseSelect class="md:!p-1 !p-0 bg-white-600 md:text-sm text-xs" :modelValue="selectedCurrency" :options="currencies" @update:modelValue="changeCurrency"></BaseSelect>
   </div>
 </template>

@@ -1,6 +1,6 @@
 <template>
 <!-- Provider Availability -->
-      <div class="w-full">
+      <div class="w-full max-w-sm">
         <div class="font-medium text-center">{{ $t('Provider Availability') }}:</div>
         <table class="min-w-full border border-gray-200 rounded mt-2">
           <thead>

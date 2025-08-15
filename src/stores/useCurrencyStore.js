@@ -29,13 +29,13 @@ export const useCurrencyStore = defineStore('currency', {
       const converted = amountInUSD * this.rates[to]
 
       // Round to nearest 0.1
-      const rounded = Math.round(converted * 10) / 10
+      const rounded = Math.round(converted * 100) / 100
 
       return this.formatCurrency(rounded, to)
     },
 
     formatCurrency(amount, currency = this.currency) {
-      return amount.toFixed(2) + ' ' + currency
+      return amount.toFixed(0) + '\u00A0' + currency
     }
 
   }

@@ -8,9 +8,9 @@ for(let i=0; i<=10;i++){
    services.push({
           "id":0,
           "provider_id":0,
-          "name":"Example",
+          "name": "...",
           "description" : "...",
-          "price":"999",
+          "price": "0",
           "currency_id":0,
           "duration": 0,
           "created_at":"",
@@ -19,7 +19,7 @@ for(let i=0; i<=10;i++){
           "is_favorited":false,
           "provider":{
             "id":0,
-            "name":"Adam"
+            "name":"..."
           },
           "photos" : photosSchema,
           "favorited_by" : [],

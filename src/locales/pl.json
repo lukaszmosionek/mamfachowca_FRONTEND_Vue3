@@ -46,13 +46,6 @@
   "Prev": "Poprzednia",
   "Next": "Następna",
   "Account": "Konto",
-  "monday": "poniedziałek",
-  "tuesday": "wtorek",
-  "wednesday": "środa",
-  "thursday": "czwartek",
-  "friday": "piątek",
-  "saturday": "sobota",
-  "sunday": "niedziela",
   "from": "od",
   "To": "Do",
   "Message": "Wiadomość",
@@ -101,6 +94,10 @@
   "Schedule Appointment": "Umów się na usługe",
   "Time": "Czas",
   "Make a reservation": "Dokonać rezerwacji",
+  "favorites": {
+    "added": "Dodano do ulubionych",
+    "removed": "Usunięto z ulubionych"
+  },
   "validation": {
     "name": {
       "required": "Imię jest wymagane.",
@@ -129,5 +126,13 @@
     }
   },
   "Hide password": "Ukryj hasło",
-  "Show password": "Pokaż hasło"
+  "Show password": "Pokaż hasło",
+  "monday": "poniedziałek",
+  "tuesday": "wtorek",
+  "wednesday": "środa",
+  "thursday": "czwartek",
+  "friday": "piątek",
+  "saturday": "sobota",
+  "sunday": "niedziela",
+  "FirstnameLastname": "Imie i nazwisko"
 }
