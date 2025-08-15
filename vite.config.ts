@@ -10,17 +10,17 @@ export default defineConfig({
     vue(),
     vueDevTools(),
   ],
-  // css: {
-  //   preprocessorOptions: {
-  //     scss: {
-  //       additionalData: `@import "@/styles/_variables.scss";`
-  //     }
-  //   }
-  // },
-  test: {
-    globals: true,     // allows `describe`, `it`, `expect` without imports
-    environment: 'jsdom'
+  css: {
+    preprocessorOptions: {
+      scss: {
+          additionalData: `@use "@/assets/styles/_variables" as *;`
+      }
+    }
   },
+  // test: {
+  //   globals: true,     // allows `describe`, `it`, `expect` without imports
+  //   environment: 'jsdom'
+  // },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

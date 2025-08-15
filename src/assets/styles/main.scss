@@ -1,7 +1,6 @@
-@use "./components/badge";
-@import './base.scss';
-@import './_variables.scss';
-
+@use '@/assets/styles/_variables' as *;
+@forward '@/assets/styles/base';
+@forward '@/assets/styles/components/_badge';
 
 .wrapper {
   max-width: 1280px;
