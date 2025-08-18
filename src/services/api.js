@@ -1,4 +1,5 @@
 import axios from 'axios'
+import i18n from '@/i18n'
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL+'/api',
@@ -7,6 +8,12 @@ const api = axios.create({
 
 api.interceptors.request.use(config => {
   config.headers['Accept-Language'] = localStorage.getItem('lang') ?? 'en'
+
+    const token = localStorage.getItem('token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+
   return config
 })
 
@@ -18,21 +25,27 @@ api.interceptors.response.use(
   },
   error => {
     // Log or transform the error
-    console.error(error)
+    console.error({error})
     if (!error.response) {
-        return Promise.reject({
-        message: 'Network Error: Unable to connect to API.',
-        isNetworkError: true
-      });
+
+        const isCors = error.message === 'Network Error';
+
+        // if (confirm(isCors
+        //   ? 'CORS Error: The request was blocked. Reload the page?'
+        //   : 'Network Error: Unable to connect. Reload the page?'
+        // )){
+        // }
+        window.location.reload()
+
+        return Promise.reject(error);
     }
 
-    const msg = error.response?.data?.message?.toLowerCase() || '';
-    if (error.response && error.response.status === 404 && msg.includes('the route') && msg.includes('could not be found')) {
-        alert('API route not found (404). Please try again later.');
+    if (error.response && error.response.status === 404 && error.response?.data?.error_code === 'API_ROUTE_NOT_FOUND' ) {
+        alert(error.response?.data?.message + i18n.global.t('Please try again later') );
     }
 
     if (error.response.status === 500) {
-        alert('A server error occurred. Please try again later.');
+        alert( i18n.global.t('[500] A server error occurred.') + i18n.global.t('Please try again later') );
     }
 
     const errorData = error.response?.data?.data ?? error?.response.data
