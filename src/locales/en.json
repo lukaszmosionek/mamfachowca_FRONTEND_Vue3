@@ -145,5 +145,7 @@
   },
   "Hide password": "Hide password",
   "Show password": "Show password",
-  "FirstnameLastname": "Name"
+  "FirstnameLastname": "Name",
+  "Please try again later": "Please try again later",
+  "[500] A server error occurred.": "[500] A server error occurred."
 }

@@ -21,6 +21,7 @@ import Swal from 'sweetalert2'
 import { ref } from 'vue'
 import { toast } from 'vue3-toastify'
 import BaseButton from './BaseButton.vue'
+import defaultAvatar from '@/assets/default-avatar.svg';
 
 defineProps({
   user: {

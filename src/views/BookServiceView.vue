@@ -43,9 +43,9 @@
         <div class="w-full">
             <label class="block">{{ $t('Time') }}</label>
             <div class="flex gap-1">
-              <BaseSelect wrapperClass="md:w-1/2 w-full" class="!h-fit" v-model="form.timeHour" :isAssociativeArray="true" :errors="errors?.start_time" :options="hours"/>
+              <BaseSelect wrapperClass="md:w-1/2 w-full" class="" v-model="form.timeHour" :isAssociativeArray="true" :errors="errors?.start_time" :options="hours"/>
               <span class="text-gray-600 mt-2">:</span>
-              <BaseSelect wrapperClass="md:w-1/2 w-full" class="!h-fit" v-model="form.timeMinute" :options="filteredMinutes"/>
+              <BaseSelect wrapperClass="md:w-1/2 w-full" class="" v-model="form.timeMinute" :options="filteredMinutes"/>
             </div>
         </div>
       </div>

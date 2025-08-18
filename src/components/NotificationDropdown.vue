@@ -28,7 +28,7 @@
             <p class="text-xs text-gray-500 mt-1 border-b border-gray-200 pb-2">{{ n.created_at_human ?? 'Now' }}</p>
           </li>
         </ul>
-        <span class="block text-xs text-gray-500 text-center mt-2">{{ notifications.data?.length === 0 ? 'No notifications' : '' }}</span>
+        <span class="block text-xs text-gray-500 text-center mt-2" v-if="notifications?.length === 0">{{ $t('No notifications') }}</span>
       </div>
     </div>
   </div>
@@ -53,14 +53,24 @@ onMounted(async () => {
       document.addEventListener('click', handleClickOutside)
       user.value = JSON.parse(localStorage.getItem('user'))
 
-      const res = await api.get('/notifications');
-      notifications.value = res.data;
+      try {
+        const res = await api.get('/notifications');
+        notifications.value = res.data;
+      } catch (e) {
+        console.error("Failed to fetch notifications:", e);
+      }
 
-      window.Echo.private(`App.Models.User.${user.value.id}`)
-        .notification((e) => {
+      try {
+      //GET http://localhost:8000/api/login 405 (Method Not Allowed)
+      window.Echo.private(`App.Models.User.${user.value.id}`).notification((e) => {
             notifications.value.data.push({data: e, read_at: null, isNew: true})
             notifications.value.unread_count++
-        });
+          });
+      } catch (err) {
+        console.warn("Echo not connected, falling back to polling:", err);
+        // Start polling if Echo fails
+        // pollingInterval = setInterval(fetchNotifications, 60 * 1000);
+      }
 });
 
 const markAllAsRead = async () => {

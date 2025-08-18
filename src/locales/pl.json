@@ -134,5 +134,7 @@
   "friday": "piątek",
   "saturday": "sobota",
   "sunday": "niedziela",
-  "FirstnameLastname": "Imie i nazwisko"
+  "FirstnameLastname": "Imie i nazwisko",
+  "Please try again later": "Spróbuj ponownie później",
+  "[500] A server error occurred.": "[500] Wystąpił błąd serwera."
 }

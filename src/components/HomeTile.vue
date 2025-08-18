@@ -54,7 +54,8 @@ const authStore = useAuthStore()
 const router = useRouter();
 const props = defineProps({
   services: {
-    type: Array,
+    type: [Array, Object],
+
     required: true
   },
   isLoading: {

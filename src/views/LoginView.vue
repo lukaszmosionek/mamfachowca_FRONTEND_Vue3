@@ -11,7 +11,9 @@
     <form @submit.prevent="handleLogin" class="space-y-4">
       <BaseInput v-model="form.email" type="text" :label="$t('Email')" :errors="errors?.email" />
       <BaseInput v-model="form.password" type="password" :label="$t('Password')" :errors="errors?.password"/>
-      <BaseButton type="submit" :loading="loading"> {{ $t('Login') }}<font-awesome-icon :icon="['fas', 'right-to-bracket']" /></BaseButton>
+      <div class="flex-center">
+        <BaseButton type="submit" class="gap-1" :loading="loading">{{ $t('Login') }}<font-awesome-icon :icon="['fas', 'right-to-bracket']" /></BaseButton>
+      </div>
       <div class="text-center text-gray-600 text-sm mt-4">
         <router-link :to="{ name: 'ForgotPassword', query: { email: form.email } }" class="hover:underline">{{ $t('Forgot password?') }}</router-link>
       </div>
