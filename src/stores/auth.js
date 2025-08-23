@@ -1,11 +1,16 @@
 import { defineStore } from 'pinia'
 import api from '@/services/api'
+import { Enums } from '@/enums.js'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     token: localStorage.getItem('token') || '',
-    user: JSON.parse(localStorage.getItem('user')) || '',
+    user: JSON.parse(localStorage.getItem('user')) || ''
   }),
+  getters: {
+    isProvider: (state) => state.user?.role === Enums.Role.Provider,
+    isClient: (state) => state.user?.role === Enums.Role.Client,
+  },
   actions: {
     async login(form, locale) {
       const res = await api.post('/login', form)

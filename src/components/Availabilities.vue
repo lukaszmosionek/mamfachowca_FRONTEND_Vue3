@@ -6,8 +6,8 @@
           <thead>
             <tr class="bg-gray-50">
               <th class="px-2 py-1 text-left">{{ $t('Day') }}</th>
-              <th class="px-2 py-1 text-left">{{ $t('Start Time') }}</th>
-              <th class="px-2 py-1 text-left">{{ $t('End Time') }}</th>
+              <th class="py-1 text-left">{{ $t('Start Time') }}</th>
+              <th class="py-1 text-left">{{ $t('End Time') }}</th>
             </tr>
           </thead>
           <tbody>
