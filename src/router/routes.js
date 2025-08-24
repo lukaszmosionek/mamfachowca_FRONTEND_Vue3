@@ -17,6 +17,7 @@ import AdminLayout from '@/layouts/AdminLayout.vue'
 import Dashboard from '@/components/admin/Dashboard.vue'
 import Users from '@/components/admin/Users.vue'
 import Settings from '@/components/admin/Settings.vue'
+import Services from '@/components/admin/Services.vue'
 
 export default [
       {
@@ -47,6 +48,7 @@ export default [
           { path: '/dashboard', component: Dashboard },
           { path: '/users', component: Users },
           { path: '/settings', component: Settings },
+          { path: '/services', component: Services },
           { path: '', redirect: '/dashboard' }
         ]
       }
