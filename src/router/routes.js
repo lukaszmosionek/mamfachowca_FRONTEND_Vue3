@@ -1,3 +1,4 @@
+import MainLayout from '@/layouts/MainLayout.vue'
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
@@ -12,20 +13,41 @@ import FavoritesView from '@/views/FavoritesView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import AboutView from '@/views/AboutView.vue'
 import ContactView from '@/views/ContactView.vue'
+import AdminLayout from '@/layouts/AdminLayout.vue'
+import Dashboard from '@/components/admin/Dashboard.vue'
+import Users from '@/components/admin/Users.vue'
+import Settings from '@/components/admin/Settings.vue'
 
 export default [
-      { path: '/', name: 'Home', component: HomeView },
-      { path: '/login', name: 'Login', component: LoginView },
-      { path: '/register', name: 'Register', component: RegisterView },
-      { path: '/forgot-password', name: 'ForgotPassword', component: ForgotPasswordView },
-      { path: '/reset-password', name: 'ResetPassword', component: ResetPasswordView },
-      { path: '/about', name: 'About', component: AboutView },
-      { path: '/contact', name: 'Contact', component: ContactView },
-      { path: '/my-services', name: 'MyServices', component: MyServicesView, meta: { requiresAuth: true, role: 'provider' } },
-      { path: '/appointments', name: 'Appointments', component: AppointmentView, meta: { requiresAuth: true } },
-      { path: '/account', name: 'Account', component: AccountEditView, meta: { requiresAuth: true } },
-      { path: '/users/:userId/messages/', name: 'Messages', component: MessagesView, meta: { requiresAuth: true } },
-      { path: '/services/:serviceId', name: 'BookServiceView', component: BookServiceView, meta: { requiresAuth: true }  },
-      { path: '/favorites', name: 'Favorites', component: FavoritesView, meta: { requiresAuth: true }  },
-      { path: '/profiles/:userId', name: 'Profile', component: ProfileView, meta: { requiresAuth: false }  },
+      {
+        path: '/',
+        component: MainLayout,
+        children: [
+            { path: '/', name: 'Home', component: HomeView },
+            { path: '/login', name: 'Login', component: LoginView },
+            { path: '/register', name: 'Register', component: RegisterView },
+            { path: '/forgot-password', name: 'ForgotPassword', component: ForgotPasswordView },
+            { path: '/reset-password', name: 'ResetPassword', component: ResetPasswordView },
+            { path: '/about', name: 'About', component: AboutView },
+            { path: '/contact', name: 'Contact', component: ContactView },
+            { path: '/my-services', name: 'MyServices', component: MyServicesView, meta: { requiresAuth: true, role: 'provider' } },
+            { path: '/appointments', name: 'Appointments', component: AppointmentView, meta: { requiresAuth: true } },
+            { path: '/account', name: 'Account', component: AccountEditView, meta: { requiresAuth: true } },
+            { path: '/users/:userId/messages/', name: 'Messages', component: MessagesView, meta: { requiresAuth: true } },
+            { path: '/services/:serviceId', name: 'BookServiceView', component: BookServiceView, meta: { requiresAuth: true }  },
+            { path: '/favorites', name: 'Favorites', component: FavoritesView, meta: { requiresAuth: true }  },
+            { path: '/profiles/:userId', name: 'Profile', component: ProfileView, meta: { requiresAuth: false }  },
+        ]
+      },
+
+      { // Admin routes
+        path: '/admin',
+        component: AdminLayout,
+        children: [
+          { path: '/dashboard', component: Dashboard },
+          { path: '/users', component: Users },
+          { path: '/settings', component: Settings },
+          { path: '', redirect: '/dashboard' }
+        ]
+      }
 ]
