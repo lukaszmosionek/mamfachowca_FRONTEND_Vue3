@@ -1,10 +1,11 @@
 <template>
   <div :class="wrapperClass" class="input-wrap">
-    <label v-if="label" :for="computedId" class="">{{ label }}</label>
+    <label v-if="label" :for="name ?? computedId" class="">{{ label }}</label>
 
     <input
       v-if="!isTextarea"
-      :id="computedId"
+      :id="name ?? computedId"
+      :name="name"
       :type="type"
       :placeholder="placeholder"
       :value="modelValue"
@@ -39,6 +40,10 @@ defineProps({
     default: false,
   },
   modelValue: {
+    type: String,
+    default: "",
+  },
+  name: {
     type: String,
     default: "",
   },

@@ -23,7 +23,7 @@
             <!-- Cena i serduszko -->
             <div class="flex flex-row justify-between items-end">
               <span class=" font-bold text-gray-800  text-xs md:text-sm" :title="'Original price: '+s.price+' '+s.currency?.code"><span class="hidden md:inline">{{ $t('Price') }}:</span> {{ s.currency ? currencyStore.convert( s.price, s.currency.code) : 'No data' }}</span>
-              <BaseButton @click="router.push({ name: 'BookServiceView', params: { serviceId: s.id } })" class="ml-4 w-fit"><font-awesome-icon :icon="['fas', 'calendar-plus']" /><span class="hidden md:inline">&nbsp;{{$t('Book')}}</span></BaseButton>
+              <BaseButton :data-id="s.id" @click="router.push({ name: 'BookServiceView', params: { serviceId: s.id } })" class="ml-4 w-fit book-service"><font-awesome-icon :icon="['fas', 'calendar-plus']" /><span class="hidden md:inline">&nbsp;{{$t('Book')}}</span></BaseButton>
             </div>
             <!-- Cena i serduszko -->
             <div @click="toggleFavorite(s.id, $event)" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 cursor-pointer text-2xl"><font-awesome-icon :icon="[s.is_favorited ? 'fas' : 'far', 'heart']" /></div>

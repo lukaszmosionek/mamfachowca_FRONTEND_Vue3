@@ -35,7 +35,7 @@
               <div class="flex gap-1 mt-2 w-full mx-auto items-center justify-center md:flex-col flex-col">
                   <div class="w-full">
                     <label for="date">{{ $t('Date') }}</label>
-                        <Datepicker v-model="form.date" :disabled-dates="disabledDates" :min-date="new Date()" :enable-time-picker="false" :auto-apply="true" class=" rounded-md"/>
+                        <Datepicker v-model="form.date" :disabled-dates="disabledDates" :min-date="new Date()" :enable-time-picker="false" :auto-apply="true" class="select-date rounded-md"/>
                         <div v-if="errors?.date && Object.keys(errors?.date).length > 0" class="text-red-500 mt-1 font-black">
                             <span v-for="(msg, i) in errors?.date" :key="i">{{ msg }}</span>
                         </div>
@@ -43,15 +43,15 @@
                   <div class="w-full">
                       <label class="block">{{ $t('Time') }}</label>
                       <div class="flex gap-1">
-                          <BaseSelect wrapperClass="md:w-1/2 w-full" class="" v-model="form.timeHour" :isAssociativeArray="false" :errors="errors?.start_time" :options="hours"/>
+                          <BaseSelect wrapperClass="md:w-1/2 w-full select-hour" class="" v-model="form.timeHour" :isAssociativeArray="false" :errors="errors?.start_time" :options="hours"/>
                           <span class="text-gray-600 mt-2">:</span>
-                          <BaseSelect wrapperClass="md:w-1/2 w-full" class="" v-model="form.timeMinute" :options="filteredMinutes"/>
+                          <BaseSelect wrapperClass="md:w-1/2 w-full select-minute" class="" v-model="form.timeMinute" :options="filteredMinutes"/>
                       </div>
                   </div>
                 </div>
                 <div class="flex-center mt-4">
-                    <button @click="router.back()" class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2">⬅ {{ $t('Go Back') }}</button>
-                    <BaseButton @click="bookService" :loading="loading" class="ml-2 mt-2 px-4 py-2 bg-blue-500 text-white rounded"><font-awesome-icon :icon="['fas', 'calendar-plus']" />&nbsp;{{ $t('Book') }}</BaseButton>
+                    <button @click="router.back()" class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2 button-back">⬅ {{ $t('Go Back') }}</button>
+                    <BaseButton @click="bookService" :loading="loading" class="ml-2 mt-2 px-4 py-2 bg-blue-500 text-white rounded button-book"><font-awesome-icon :icon="['fas', 'calendar-plus']" />&nbsp;{{ $t('Book') }}</BaseButton>
                 </div>
         </div>
     </div>
@@ -84,7 +84,7 @@ const authStore = useAuthStore()
 
 const loading = ref(false)
 const errors = reactive({});
-const availability = ref({});
+const availability = ref([]);
 
 const form = reactive({
   // date: '',
@@ -134,7 +134,7 @@ const bookService = async () => {
         start_time: form.timeHour && form.timeMinute ? form.timeHour + ':' + form.timeMinute : null,
         date: form.date
     })
-    await Swal.fire('', t('Reservation booked succesfully'), 'success')
+    await Swal.fire('', t('Reservation booked successfully'), 'success')
     router.push({ name: 'Appointments' })
   } catch (err) {
     errors.value = err.errors
@@ -157,7 +157,10 @@ onMounted(() => {
 watch(() => form.date, () => {
 
   if(form.date){
+    console.log('form.date', form.date )
+    console.log('availability.value', availability.value )
     const time = getTimeFromAvailability(form.date)
+    console.log('time.time', time )
 
     hours.value = []
     for (let i = time['startTime']['hour']; i <= time['endTime']['hour']; i++) {
@@ -186,6 +189,8 @@ watch(() => form.timeHour, () =>  {
 })
 
 function getTimeFromAvailability(date){
+  if(!availability.value.length) return undefined;
+
   const dayNumber = new Date(date).getDay(); // Get the day of the week (0-6, where 0 is Sunday)
   const day = availability.value.find(item => Number(item.day_of_week_number) === dayNumber);
 

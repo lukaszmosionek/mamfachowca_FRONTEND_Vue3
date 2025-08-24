@@ -9,8 +9,8 @@
     </div>
 
     <form @submit.prevent="handleLogin" class="space-y-4">
-      <BaseInput v-model="form.email" type="text" :label="$t('Email')" :errors="errors?.email" />
-      <BaseInput v-model="form.password" type="password" :label="$t('Password')" :errors="errors?.password"/>
+      <BaseInput v-model="form.email" name="email" type="text" :label="$t('Email')" :errors="errors?.email" />
+      <BaseInput v-model="form.password" name="password" type="password" :label="$t('Password')" :errors="errors?.password"/>
       <div class="flex-center">
         <BaseButton type="submit" class="gap-1" :loading="loading">{{ $t('Login') }}<font-awesome-icon :icon="['fas', 'right-to-bracket']" /></BaseButton>
       </div>
