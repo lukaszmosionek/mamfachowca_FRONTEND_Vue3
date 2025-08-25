@@ -10,6 +10,8 @@ export const useAuthStore = defineStore('auth', {
   getters: {
     isProvider: (state) => state.user?.role === Enums.Role.Provider,
     isClient: (state) => state.user?.role === Enums.Role.Client,
+    isAdmin: (state) => state.user?.role === Enums.Role.Admin,
+    isLoggedIn: (state) => !!state.user,
   },
   actions: {
     async login(form, locale) {

@@ -20,6 +20,8 @@ import Users from '@/components/admin/Users.vue'
 import Settings from '@/components/admin/Settings.vue'
 import Services from '@/components/admin/Services.vue'
 
+import { Enums } from '@/enums.js'
+
 export default [
       {
         path: '/',
@@ -33,7 +35,7 @@ export default [
             { path: '/about', name: 'About', component: AboutView },
             { path: '/contact', name: 'Contact', component: ContactView },
             { path: '/my-services/:serviceId', name: 'MyServiceView', component: MyServiceView, meta: { requiresAuth: true }  },
-            { path: '/my-services', name: 'MyServices', component: MyServicesView, meta: { requiresAuth: true, role: 'provider' } },
+            { path: '/my-services', name: 'MyServices', component: MyServicesView, meta: { requiresAuth: true, role: [Enums.Role.Admin, Enums.Role.Provider] } },
             { path: '/appointments', name: 'Appointments', component: AppointmentView, meta: { requiresAuth: true } },
             { path: '/account', name: 'Account', component: AccountEditView, meta: { requiresAuth: true } },
             { path: '/users/:userId/messages/', name: 'Messages', component: MessagesView, meta: { requiresAuth: true } },
@@ -46,14 +48,14 @@ export default [
       { // Admin routes
         path: '/admin',
         component: AdminLayout,
-        meta: { requiresAuth: true },
+        meta: { requiresAuth: true, role: Enums.Role.Admin },
         children: [
           { path: 'dashboard', component: Dashboard, name: 'AdminDashboard' },
           { path: 'users', component: Users, name: 'AdminUsers' },
           { path: 'settings', component: Settings, name: 'AdminSettings' },
           { path: 'services', component: Services, name: 'AdminServices' },
 
-          { path: 'my-services/:serviceId', name: 'AdminMyServiceView', component: MyServiceView, meta: { requiresAuth: true }  },
+          { path: 'my-services/:serviceId', name: 'AdminMyServiceView', component: MyServiceView },
 
 
           { path: '', redirect: '/admin/dashboard' }

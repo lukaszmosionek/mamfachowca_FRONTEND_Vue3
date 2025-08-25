@@ -6,7 +6,8 @@ export const Enums = {
     },
     "Role": {
         "Client": "client",
-        "Provider": "provider"
+        "Provider": "provider",
+        "Admin": "admin"
     },
     "Languages": [
       {
