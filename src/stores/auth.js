@@ -29,11 +29,7 @@ export const useAuthStore = defineStore('auth', {
       } catch (error) {
         console.error('Logout failed:', error)
       }
-      this.token = ''
-      this.user = ''
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
-      delete api.defaults.headers.common['Authorization']
+      this.clear()
     },
     async register(payload) {
       const res = await api.post('/register', payload)
@@ -43,5 +39,12 @@ export const useAuthStore = defineStore('auth', {
       localStorage.setItem('user', JSON.stringify(this.user))
       api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
     },
+    clear(){
+      this.token = ''
+      this.user = ''
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      delete api.defaults.headers.common['Authorization']
+    }
   },
 })

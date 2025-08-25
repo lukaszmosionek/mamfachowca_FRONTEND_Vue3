@@ -1,5 +1,7 @@
 import axios from 'axios'
 import i18n from '@/i18n'
+import router from '@/router';
+import { useAuthStore } from '@/stores/auth'
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL+'/api',
@@ -27,25 +29,29 @@ api.interceptors.response.use(
     // Log or transform the error
     console.error({error})
     if (!error.response) {
-
         const isCors = error.message === 'Network Error';
 
-        // if (confirm(isCors
-        //   ? 'CORS Error: The request was blocked. Reload the page?'
-        //   : 'Network Error: Unable to connect. Reload the page?'
-        // )){
-        // }
-        window.location.reload()
+        if (isCors){
+          window.location.reload()
+        }
 
         return Promise.reject(error);
     }
 
+    if (error.response && error.response.data.message === 'Unauthenticated.' ) {
+        if (router.currentRoute.value.name !== 'Login') {
+            router.push({ name: 'Login', query: { redirect: router.currentRoute.value.fullPath, successMessage: 'sesson-expired.login-again' } })
+            const authStore = useAuthStore()
+            authStore.clear()
+        }
+    }
+
     if (error.response && error.response.status === 404 && error.response?.data?.error_code === 'API_ROUTE_NOT_FOUND' ) {
-        alert(error.response?.data?.message + i18n.global.t('Please try again later') );
+        alert(error.response?.data?.message +' ' + i18n.global.t('Please try again later') );
     }
 
     if (error.response.status === 500) {
-        alert( i18n.global.t('[500] A server error occurred.') + i18n.global.t('Please try again later') );
+        alert( i18n.global.t('[500] A server error occurred.') + ' ' + i18n.global.t('Please try again later') );
     }
 
     const errorData = error.response?.data?.data ?? error?.response.data
