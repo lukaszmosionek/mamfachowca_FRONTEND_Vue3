@@ -23,7 +23,7 @@
           <td class="px-4 py-2 text-right space-x-2">
             <!-- <button class="text-blue-500 hover:underline">Edit</button> -->
 
-            <button v-if="!user.deleted_at" class="text-red-500 hover:underline" @click="deleteUser(user.id)">Delete</button>
+            <button v-if="!user.deleted_at" class="text-red-500 hover:underline" @click="deleteUser(user)">Delete</button>
             <button v-if="user.deleted_at" class="text-green-500 hover:underline" @click="restoreUser(user.id)">Restore</button>
           </td>
         </tr>
@@ -38,9 +38,12 @@
 import { ref, onMounted } from 'vue'
 import api from '@/services/api'
 import { toast } from 'vue3-toastify'
+import { useAuthStore } from '@/stores/auth'
+import { Enums } from '@/enums.js'
 
 const users = ref([])
 const isLoading = ref(false)
+const authStore = useAuthStore()
 
 onMounted(() => {
   loadUsers()
@@ -48,15 +51,21 @@ onMounted(() => {
 
 async function loadUsers() {
   isLoading.value = true
-  const res = await api.get('/admin/users')
-  users.value = res.users
+  try{
+    const res = await api.get('/admin/users')
+    users.value = res.users
+  } catch (error) {
+    toast.error('Failed to load user')
+  }
   isLoading.value = false
 }
 
-async function deleteUser(userId) {
+async function deleteUser(user) {
+  if( user.role == Enums.Role.Admin && import.meta.env.VITE_TURN_ON_VUE_VALIDATION === 'true' ) return alert('Admin cannot be deleted')
+
   try {
-    await api.delete(`/admin/users/${userId}`)
-    users.value.find(user => user.id === userId).deleted_at = true
+    await api.delete(`/admin/users/${user.id}`)
+    users.value.find(userA => userA.id === user.id).deleted_at = true
     toast.success('User deleted successfully')
   } catch (error) {
     toast.error('Failed to delete user')

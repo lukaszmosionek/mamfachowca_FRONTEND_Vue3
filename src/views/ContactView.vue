@@ -20,8 +20,10 @@ import BaseButton from '@/components/BaseButton.vue'
 import { validateContact } from '@/utils/validators.js'
 import Swal from 'sweetalert2';
 import { useI18n } from 'vue-i18n'
+import { useAuthStore } from '@/stores/auth'
+const authStore = useAuthStore()
 
-const user = ref( JSON.parse(localStorage.getItem('user')) )
+const user = ref( authStore.user )
 
 const { t } = useI18n()
 const form = ref({

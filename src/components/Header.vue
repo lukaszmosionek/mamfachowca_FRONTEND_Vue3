@@ -4,6 +4,7 @@
     <div class="wrapper flex justify-between items-center">
       <h1 class="md:text-xl  font-bold">
         <RouterLink :to="{ name: 'Home', params: {}, query: {} }" @click="headerStore.triggerHomeClick()"><font-awesome-icon :icon="['fas', 'hammer']" />&nbsp;Mam Fachowca</RouterLink>
+        <RouterLink v-if="authStore.isAdmin" :to="{ name: 'AdminDashboard', params: {}, query: {} }" @click="headerStore.triggerHomeClick()">Admin Panel</RouterLink>
       </h1>
 
       <div class="md:hidden flex gap-2 items-center">
@@ -82,9 +83,9 @@ const router = useRouter()
 const route = useRoute()
 const headerStore = useHeaderStore()
 
-const isProvider = computed(() => authStore.user?.role === 'provider')
-const isClient = computed(() => authStore.user?.role === 'client')
-const isLogged = computed(() => authStore.user )
+const isProvider = computed(() => authStore.isProvider)
+const isClient = computed(() => authStore.isClient)
+const isLogged = computed(() => authStore.isLoggedIn )
 const mobileMenuOpen = ref(false)
 const container = ref(null)
 const loading = ref(false)

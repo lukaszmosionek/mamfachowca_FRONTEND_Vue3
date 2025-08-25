@@ -40,9 +40,11 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import clickOutside from '@/utils/useClickOutside'
+import { useAuthStore } from '@/stores/auth'
 
 import api from '@/services/api'
 
+const authStore = useAuthStore()
 const notifications = ref({})
 const user = ref({})
 const isOpen = ref(false)
@@ -51,7 +53,7 @@ const container = ref(null)
 
 onMounted(async () => {
       document.addEventListener('click', handleClickOutside)
-      user.value = JSON.parse(localStorage.getItem('user'))
+      user.value = authStore.user
 
       try {
         const res = await api.get('/notifications');

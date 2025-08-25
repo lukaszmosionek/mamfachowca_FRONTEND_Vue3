@@ -48,8 +48,12 @@ onMounted(() => {
 
 async function loadServices() {
   isLoading.value = true
-  const res = await api.get('/admin/services')
-  services.value = res.services
+  try {
+    const res = await api.get('/admin/services')
+    services.value = res.services
+  } catch (error) {
+    toast.error('Failed to delete service')
+  }
   isLoading.value = false
 }
 

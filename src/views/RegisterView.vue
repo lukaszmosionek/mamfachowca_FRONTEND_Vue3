@@ -11,7 +11,7 @@
 
       <BaseSelect wrapperClass="" v-model="form.role" name="role" :label="$t('Role')" :isAssociativeArray="true" :options="{ 'client': $t('Client'), 'provider': $t('Provider') }"/>
 
-      <div v-if="form.role == 'provider'">
+      <!-- <div v-if="form.role == 'provider'">
         <h2 class="text-gray-600 text-xl text-center">Dostępność</h2>
         <div class="availability space-y-4 mt-4">
           <div v-for="(day, index) in daysOfWeek" :key="index" class="flex space-x-4 ">
@@ -19,7 +19,7 @@
             <BaseInput v-model="form.availability.end[day]" :min="form.availability.start[day]" type="time" class=" w-full" :label="$t('To')" />
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="flex-center">
         <BaseButton type="submit" class="h-10 gap-1" :loading="loading">{{ $t('Register') }}<font-awesome-icon :icon="['fas', 'user-plus']" /></BaseButton>

@@ -63,9 +63,10 @@ import BaseInput from '@/components/BaseInput.vue'
 import { toast } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
 import notificationSound from '@/assets/notification.wav'
-
+import { useAuthStore } from '@/stores/auth'
 
 const { t } = useI18n()
+const authStore = useAuthStore()
 
 const messages = ref([])
 const newMessage = ref('')
@@ -129,7 +130,7 @@ watch(route, (newRoute) => {
 })
 
 onMounted(() => {
-  user.value.currentUser = JSON.parse(localStorage.getItem('user'))
+  user.value.currentUser = authStore.user
 
   if (route.params.id == user.value.currentUser.id) {
     alert('You are chatting with yourself')

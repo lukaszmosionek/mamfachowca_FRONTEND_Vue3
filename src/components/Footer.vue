@@ -13,7 +13,7 @@
         <ul class="space-y-2 text-gray-400">
           <li><RouterLink :to="{ name: 'Home', params: {}, query: {} }" class="hover:text-white" @click="headerStore.triggerHomeClick()">{{ $t('Home') }}</RouterLink></li>
           <li><RouterLink :to="{ name: 'About', }" class="hover:text-white">{{ $t('About') }}</RouterLink></li>
-          <li v-if="isProvider"><RouterLink :to="{ name: 'MyServices', }" class="hover:text-white">{{ $t('Services') }}</RouterLink></li>
+          <li v-if="authStore.isProvider"><RouterLink :to="{ name: 'MyServices', }" class="hover:text-white">{{ $t('Services') }}</RouterLink></li>
           <li><RouterLink :to="{ name: 'Contact', }" class="hover:text-white">{{ $t('Contact') }}</RouterLink></li>
           <li class="w-fit"><ChangeLanguage/></li>
         </ul>
@@ -45,13 +45,9 @@
   import ChangeLanguage from './ChangeLanguage.vue'
   import { useHeaderStore } from '@/stores/useHeaderStore'
   import { useAuthStore } from '@/stores/auth'
-  import { computed } from 'vue'
 
   const headerStore = useHeaderStore()
   const authStore = useAuthStore()
-
-  const isProvider = computed(() => authStore.user?.role === 'provider')
-  const isClient = computed(() => authStore.user?.role === 'client')
 </script>
 
 <style scoped>

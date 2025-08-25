@@ -19,4 +19,6 @@ app.use(Vue3Toastify)
 app.use(router)
 app.mount('#app')
 
+app.config.globalProperties.$VueValidation = true;
+
 window.l = console.log

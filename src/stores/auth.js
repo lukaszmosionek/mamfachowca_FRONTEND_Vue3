@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia'
 import api from '@/services/api'
 import { Enums } from '@/enums.js'
+import { toast } from 'vue3-toastify'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: localStorage.getItem('token') || '',
-    user: JSON.parse(localStorage.getItem('user')) || ''
+    token: sessionStorage.getItem('token') || null,
+    user: JSON.parse(sessionStorage.getItem('user')) || null,
   }),
   getters: {
     isProvider: (state) => state.user?.role === Enums.Role.Provider,
@@ -15,15 +16,15 @@ export const useAuthStore = defineStore('auth', {
   },
   actions: {
     async login(form, locale) {
-      const res = await api.post('/login', form)
-      this.token = res.token
-      this.user = res.user
+      // await axios.get("/sanctum/csrf-cookie")
+      const response = await api.post('/login', form)
+      this.setUserAndToken(response)
 
       locale.value = this.user.lang
-
-      localStorage.setItem('token', this.token)
-      localStorage.setItem('user', JSON.stringify(this.user))
-      api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+    },
+    async register(payload) {
+      const response = await api.post('/register', payload)
+      this.setUserAndToken(response)
     },
     async logout() {
       try {
@@ -33,20 +34,30 @@ export const useAuthStore = defineStore('auth', {
       }
       this.clear()
     },
-    async register(payload) {
-      const res = await api.post('/register', payload)
-      this.token = res.token
-      this.user = res.user
-      localStorage.setItem('token', this.token)
-      localStorage.setItem('user', JSON.stringify(this.user))
-      api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
-    },
     clear(){
       this.token = ''
       this.user = ''
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
+      sessionStorage.removeItem('token')
+      sessionStorage.removeItem('user')
+
       delete api.defaults.headers.common['Authorization']
+    },
+    setUserAndToken(response){
+      this.token = response.token
+      this.user = response.user
+
+      sessionStorage.setItem('token', this.token)
+      sessionStorage.setItem('user', JSON.stringify(this.user) )
+
+      api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
+    },
+    async fetchUser(){
+      try {
+        const response = await api.get('/me')
+        this.setUserAndToken(response)
+      } catch (error) {
+        toast.error('Failed to fetch user:', error)
+      }
     }
   },
 })

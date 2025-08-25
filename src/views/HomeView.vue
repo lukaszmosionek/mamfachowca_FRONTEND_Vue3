@@ -19,7 +19,9 @@ import { toast } from 'vue3-toastify'
 import { serviceSchema } from '@/api/schemas/servicesSchema'
 import { useI18n } from 'vue-i18n'
 import { deepClone } from '@/helpers/deepClone.js'
+import { useAuthStore } from '@/stores/auth'
 
+const authStore = useAuthStore()
 const headerStore = useHeaderStore()
 const scrollContainer = ref(null)
 const route = useRoute()
@@ -50,7 +52,7 @@ const loadServices = async () => {
   isLoading.value = true
 
   try {
-    const user = JSON.parse(localStorage.getItem('user'))
+    const user = authStore.user
     const res = await api.get('/services', {
       params: {
         page: page.value,
