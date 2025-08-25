@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import api from '@/services/api'
 import { toast } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
@@ -47,7 +47,7 @@ const props = defineProps({
 })
 
 const selectedFiles = ref([])
-const localPhotos = ref(props.photos)
+const localPhotos  = computed(() => props.photos)
 const isLoading = ref(false)
 
 const handleFiles = (event) => {
@@ -115,7 +115,6 @@ const deletePhoto = async (id) => {
 
 
 watch( () => localPhotos.value, (newValue, oldValue) => {
-  console.log(...newValue)
   emits('update:photos', { ...newValue });
 },
 { deep: true }

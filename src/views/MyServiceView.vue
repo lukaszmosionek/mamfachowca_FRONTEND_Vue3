@@ -1,6 +1,6 @@
 <template>
-  <div class="p-6 bg-white rounded-2xl shadow-md fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white rounded-2xl shadow-lg p-6 w-full max-w-5xl overflow-x-scroll">
+  <div class="flex items-center justify-center">
+    <div class="p-6 w-full">
       <h3 class="text-gray-600 text-xl font-semibold mb-4 text-center">
         {{ service ? $t('Edit service') : $t('New service') }}
       </h3>
@@ -28,11 +28,11 @@
         <!-- <BaseInput v-model="form.translation[1].description" v-if="lang === 'pl'" :label="$t('Description')" :placeholder="$t('Description')" rows="4" :isTextarea="true" class="text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></BaseInput> -->
 
         <div class="flex items-center justify-center">
-            <PhotoGallery :photos="service?.photos ?? []" :serviceId="service?.id ?? null" :isEditView="service?.id ? true : false" @update:photos="handlePhotos"></PhotoGallery>
+            <PhotoGallery :photos="form.photos" :serviceId="form?.id ?? null" :isEditView="form?.id ? true : false" @update:photos="handlePhotos"></PhotoGallery>
         </div>
 
         <div class="flex justify-end space-x-2 pt-4">
-          <BaseButton :name="$t('Cancel')" class="w-fit bg-gray-200 text-gray-800 hover:bg-gray-300" @click="$emit('close')" />
+          <button @click="router.back()" type="button" class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2 button-back">⬅ {{ $t('Go Back') }}</button>
           <BaseButton :name="$t('Save')" :loading="loading" type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" />
         </div>
       </form>
@@ -41,27 +41,26 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import api from '@/services/api'
-import { defineProps, defineEmits } from 'vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import PhotoGallery from '@/components/PhotoGallery.vue'
 import { useI18n } from 'vue-i18n'
 import { myServicesSchema } from '@/api/schemas/myServicesSchema'
 import { deepClone } from '@/helpers/deepClone.js'
+import { useRouter, useRoute } from 'vue-router'
+import { toast } from 'vue3-toastify'
 
-// const props = defineProps({
-//   service: Object
-// })
 
-const service = ref(null)
+const route = useRoute()
+const router = useRouter()
+const service = ref({})
 const { locale } = useI18n()
-const emit = defineEmits(['saved', 'close'])
 const loading = ref(false)
 const errors = ref({})
 const lang = ref('en')
-const form = ref()
+const form = ref({})
 const serviceID = ref( route.params.serviceId || null )
 
 const loadService = async () => {
@@ -69,7 +68,7 @@ const loadService = async () => {
 
   try {
     const res = await api.get('/me/services/'+ parseInt(serviceID.value) )
-    service.value = res.service
+    form.value = res.service
     // console.log(emptyStructureFromExample(res.services))
 
     // if( page.value === 1 ){
@@ -88,39 +87,44 @@ const loadService = async () => {
   loading.value = false
 }
 
-watch(() => props.service, (val) => {
-  console.log(val)
-  if (val) { //update service
-    form.value = { ...myServicesSchema, ...val}
-    // Object.assign(form.value, val)
-    // form.value = { ...val }
-  } else { // new servive
-    form.value = deepClone(myServicesSchema)
-  }
-}, { immediate: true })
+// watch(() => service.value, (val) => {
+//   console.log(val)
+//   if (val) { //update service
+//     form.value = { ...myServicesSchema, ...val}
+//     // Object.assign(form.value, val)
+//     // form.value = { ...val }
+//   } else { // new servive
+//     form.value = deepClone(myServicesSchema)
+//   }
+// }, { immediate: true })
 
 const submit = async () => {
   loading.value = true
 
   try {
-    if (props.service) {
-      await api.put(`/me/services/${props.service.id}`, form.value)
+    if (serviceID.value) {
+      await api.put(`/services/${serviceID.value}`, form.value)
     } else {
       await api.post('/me/services', form.value, {
           headers: { 'Content-Type': 'multipart/form-data' }
       })
     }
-    emit('saved')
-    emit('close')
   } catch (error) {
-      console.error('Unexpected error:', error)
+      toast.error('Unexpected error:', error)
   } finally {
     loading.value = false
   }
 }
 
+onMounted(async () => {
+    form.value = deepClone(myServicesSchema)
+    if( serviceID.value ){
+        await loadService()
+    }
+});
+
 const handlePhotos = (photos) => {
-  if (!props.service) {
+  if (!serviceID.value) {
     form.value.photos = photos
   }
 }

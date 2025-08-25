@@ -3,6 +3,7 @@ import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import MyServicesView from '@/views/MyServicesView.vue'
+import MyServiceView from '@/views/MyServiceView.vue'
 import AppointmentView from '@/views/AppointmentView.vue'
 import AccountEditView from '@/views/AccountEditView.vue'
 import MessagesView from '@/views/MessagesView.vue'
@@ -31,6 +32,7 @@ export default [
             { path: '/reset-password', name: 'ResetPassword', component: ResetPasswordView },
             { path: '/about', name: 'About', component: AboutView },
             { path: '/contact', name: 'Contact', component: ContactView },
+            { path: '/my-services/:serviceId', name: 'MyServiceView', component: MyServiceView, meta: { requiresAuth: true }  },
             { path: '/my-services', name: 'MyServices', component: MyServicesView, meta: { requiresAuth: true, role: 'provider' } },
             { path: '/appointments', name: 'Appointments', component: AppointmentView, meta: { requiresAuth: true } },
             { path: '/account', name: 'Account', component: AccountEditView, meta: { requiresAuth: true } },
@@ -44,12 +46,17 @@ export default [
       { // Admin routes
         path: '/admin',
         component: AdminLayout,
+        meta: { requiresAuth: true },
         children: [
-          { path: '/dashboard', component: Dashboard },
-          { path: '/users', component: Users },
-          { path: '/settings', component: Settings },
-          { path: '/services', component: Services },
-          { path: '', redirect: '/dashboard' }
+          { path: 'dashboard', component: Dashboard, name: 'AdminDashboard' },
+          { path: 'users', component: Users, name: 'AdminUsers' },
+          { path: 'settings', component: Settings, name: 'AdminSettings' },
+          { path: 'services', component: Services, name: 'AdminServices' },
+
+          { path: 'my-services/:serviceId', name: 'AdminMyServiceView', component: MyServiceView, meta: { requiresAuth: true }  },
+
+
+          { path: '', redirect: '/admin/dashboard' }
         ]
       }
 ]
