@@ -149,7 +149,7 @@ onMounted(() => {
     .listen('MessageSent', (e) => {
       let message = JSON.parse(e.message)
       if (message.sender_id === user.value.receiverUser.id) {
-        messages.value.push(e.message)
+        messages.value.push(message)
         toast.success(t('New message received:') + ' ' + message.body.slice(0, 20) + '...')
         scrollToBottom()
         playSound()
