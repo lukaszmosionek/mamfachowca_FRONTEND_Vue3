@@ -6,7 +6,8 @@
         <RouterLink :to="{ name: 'Home', params: {}, query: {} }" @click="headerStore.triggerHomeClick()"><font-awesome-icon :icon="['fas', 'hammer']" title="Home Page" />&nbsp;Mam Fachowca</RouterLink>
       </h1>
 
-      <div class="md:hidden flex gap-2 items-center">
+      <!-- Mobile -->
+      <div class="md:hidden flex gap-2 items-center" v-if="isMobile">
         <CurrencySwitcher/>
         <ChangeLanguage />
         <RouterLink v-if="isLogged" :to="{ name: 'Favorites' }"><font-awesome-icon  class="md:text-2xl" :icon="['far', 'heart']" /></RouterLink>
@@ -17,6 +18,7 @@
           <img src="@/assets/icons/hamburger-icon.svg" class="h-6 w-6" alt="Hamburger Icon (Mobile only)">
         </button>
       </div>
+      <!-- END Mobile -->
 
       <!-- Desktop Nav -->
       <nav class="hidden md:flex items-center lg:gap-4 gap-1 md:text-xl text-sm">
@@ -36,7 +38,6 @@
         <RouterLink v-if="!isLogged" :to="{ name: 'Login' }">{{ $t('Login') }}</RouterLink>
         <RouterLink v-if="!isLogged" :to="{ name: 'Register' }">{{ $t('Register') }}</RouterLink>
 
-
         <div class="relative group" v-if="isLogged">
           <RouterLink v-if="isLogged" :to="{ name: 'Account' }" :title="authStore.user.name+' #'+authStore.user.id+'('+authStore.user.role+')'">{{ $t('Account') }} <i class="fa fa-chevron-down"></i> </RouterLink>
           <div class="flex-center gap-4 flex-col absolute right-0 p-2 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200">
@@ -46,17 +47,13 @@
             <BaseButton v-if="isLogged" @click="logout" :loading="loading" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit"> <font-awesome-icon :icon="['fas', 'right-from-bracket']" />&nbsp;{{ $t('Logout') }}</BaseButton>
           </div>
         </div>
-
-
-
-
       </nav>
       <!-- END Desktop Nav -->
     </div>
   </header>
 
   <!-- Mobile Menu (shown when hamburger is clicked) -->
-  <nav v-if="mobileMenuOpen" class="md:hidden bg-gray-700 text-white px-6 py-4 flex flex-col gap-2">
+  <nav v-if="mobileMenuOpen && isMobile" class="md:hidden bg-gray-700 text-white px-6 py-4 flex flex-col gap-2">
 
     <RouterLink v-if="authStore.isAdmin" class="inline md:hidden" :to="{ name: 'AdminDashboard', params: {}, query: {} }" @click="headerStore.triggerHomeClick()">Admin Panel</RouterLink>
 
@@ -77,7 +74,7 @@
 
 <script setup>
 import { useRouter, useRoute, RouterLink } from 'vue-router'
-import { computed, ref, watch, onBeforeUnmount, onMounted } from 'vue'
+import { computed, ref, watch, onBeforeUnmount, onMounted, onUnmounted } from 'vue'
 import { toast } from 'vue3-toastify'
 import { useAuthStore } from '@/stores/auth'
 import BaseButton from '@/components/BaseButton.vue'
@@ -85,7 +82,7 @@ import ChangeLanguage from './ChangeLanguage.vue'
 import CurrencySwitcher from './CurrencySwitcher.vue'
 import NotificationDropdown from '@/components/NotificationDropdown.vue'
 import { useHeaderStore } from '@/stores/useHeaderStore'
-
+import { Enums } from '@/enums.js'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -98,9 +95,11 @@ const isLogged = computed(() => authStore.isLoggedIn )
 const mobileMenuOpen = ref(false)
 const container = ref(null)
 const loading = ref(false)
+const isMobile = ref(window.innerWidth < Enums.TAILWIND_BREAKPOINTS.md); // md breakpoint in Tailwind
 
 onMounted(async () => {
-      document.addEventListener('click', handleClickOutside)
+  document.addEventListener('click', handleClickOutside)
+  window.addEventListener('resize', handleResize)
 })
 
 const logout = async () => {
@@ -136,7 +135,17 @@ function handleClickOutside(event) {
   }
 }
 
+const handleResize = () => {
+  if (window.innerWidth < Enums.TAILWIND_BREAKPOINTS.md) {
+    showSidebar.value = !showSidebar.value
+  }
+}
+
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside)
 })
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+});
 </script>

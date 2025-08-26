@@ -56,7 +56,6 @@
 <script setup>
 import { ref, onMounted, nextTick, watch } from 'vue'
 import api from '@/services/api'
-import '@/plugins/echo'
 import { useRoute } from 'vue-router'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
@@ -77,6 +76,8 @@ const errors = ref({})
 const scrollRef = ref(null)
 const messagedPeople = ref([])
 
+const VITE_PUSHER_APP_STATUS = ref( import.meta.env.VITE_PUSHER_APP_STATUS === 'enabled')
+
 const user = ref({
   receiverUser: {}, //provider@onet.pl
   currentUser: {} //client@onet.pl
@@ -92,6 +93,9 @@ const fetchMessages = async () => {
   } catch (error) {
     if (error.response && error.response.status === 404) {
       alert('User not found (404)');
+    }else{
+      toast.error('Failed to fetch messages. Retrying...')
+      setTimeout(fetchMessages, 5000) // retry after 5 seconds
     }
   }
   isFetchingMessages.value = false
@@ -139,15 +143,25 @@ onMounted(() => {
   fetchMessages()
   fetchMessagedPeople()
 
-  window.Echo.private(`private-chat.${user.value.currentUser.id}`)
+  // try {
+  if( VITE_PUSHER_APP_STATUS.value ){
+    window.Echo.private(`private-chat.${user.value.currentUser.id}`)
     .listen('MessageSent', (e) => {
-      if (e.message.sender_id === user.value.receiverUser.id) {
+      let message = JSON.parse(e.message)
+      if (message.sender_id === user.value.receiverUser.id) {
         messages.value.push(e.message)
-        toast.success(t('New message received:') + ' ' + e.message.body.slice(0, 20) + '...')
+        toast.success(t('New message received:') + ' ' + message.body.slice(0, 20) + '...')
         scrollToBottom()
         playSound()
       }
     })
+  // } catch (error) {
+  } else {
+    console.log("Echo not connected, falling back to polling, start fetching from api every 60 seconds")
+    // console.log(error)
+    // Start polling if Echo fails
+    setInterval( fetchMessages, 60 * 1000 ) //miliseconds
+  }
 })
 
 async function scrollToBottom() {

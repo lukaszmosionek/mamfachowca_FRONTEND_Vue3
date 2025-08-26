@@ -15,7 +15,7 @@
               <h2 class="font-semibold text-gray-800 md:text-xl text-xs md:mr-0 mr-6  whitespace-normal">{{ s.name }}</h2>
               <p class="max-h-[150px] overflow-hidden text-gray-500 hidden md:block text-xs md:text-sm">{{ s.description }}</p>
               <div class="text-gray-600 text-xs md:text-sm" v-if="s.provider">
-                <div class="mt-2 flex"><span class="hidden md:block">{{ $t('Service duration') }}:&nbsp;</span><span>{{ s.duration }} min.</span></div>
+                <div class="mt-2 flex"><span class="hidden md:block">{{ $t('Service duration') }}:&nbsp;</span><span>{{ s.duration_minutes }} min.</span></div>
                 <div class="flex items-center"><span class="hidden md:block">{{ $t('Provider') }}:&nbsp;</span> <RouterLink class="" :to="{ name: 'Profile', params: { userId: s.provider.id } }">{{s.provider.name }}</RouterLink><RouterLink class="text-lg md:text-2lg" :to="{ name: 'Messages', params: { userId: s.provider.id } }"><font-awesome-icon :icon="['far', 'envelope']" /></RouterLink></div>
               </div>
             </div>

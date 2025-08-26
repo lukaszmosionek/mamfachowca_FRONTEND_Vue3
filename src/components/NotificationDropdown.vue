@@ -7,8 +7,8 @@
       <!-- <font-awesome-icon :icon="['far', 'bell']" /> -->
             <!-- Notification Count Badge -->
       <!-- Notification Count Badge -->
-        <span v-if="notifications.unread_count > 0"  class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
-          {{ notifications.unread_count }}
+        <span v-if="unread_count > 0"  class="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
+          {{ unread_count }}
         </span>
     </button>
 
@@ -18,7 +18,7 @@
         <h3 class="text-sm font-semibold text-gray-700 mb-2">Notifications - <button @click="markAllAsRead" class="text-xs text-gray-500">mark all as read</button></h3>
         <ul class="max-h-60 overflow-y-auto">
           <li
-            v-for="n in notifications.data?.slice().reverse() || []"
+            v-for="n in notifications.slice().reverse() || []"
             :key="n.data.id"
             @click="clickNotification(n.data)"
             class="py-2 px-3 hover:bg-gray-100 rounded-md cursor-pointer" :class="[n.read_at ? '' : '', n.isNew ? 'animate-pulse' : '']"
@@ -46,50 +46,62 @@ import api from '@/services/api'
 import { toast } from 'vue3-toastify'
 
 const authStore = useAuthStore()
-const notifications = ref({})
+const notifications = ref([])
+const read_count = ref(0)
+const unread_count = ref(0)
 const user = ref({})
 const isOpen = ref(false)
 const router = useRouter()
 const container = ref(null)
 
+const VITE_PUSHER_APP_STATUS = ref( import.meta.env.VITE_PUSHER_APP_STATUS === 'enabled')
+
 onMounted(async () => {
-      document.addEventListener('click', handleClickOutside)
-      user.value = authStore.user
+  document.addEventListener('click', handleClickOutside)
+  user.value = authStore.user
 
-      try {
-        const res = await api.get('/notifications');
-        notifications.value = res.data;
-      } catch (e) {
-        toast.error("Failed to fetch notifications:", e);
-      }
+  fetchNotifications()
 
-      try {
-      //GET http://localhost:8000/api/login 405 (Method Not Allowed)
-      window.Echo.private(`App.Models.User.${user.value.id}`).notification((e) => {
-            notifications.value.data.push({data: e, read_at: null, isNew: true})
-            notifications.value.unread_count++
-          });
-      } catch (err) {
-        console.warn("Echo not connected, falling back to polling:", err);
-        // Start polling if Echo fails
-        // pollingInterval = setInterval(fetchNotifications, 60 * 1000);
-      }
+  // try {
+  if( VITE_PUSHER_APP_STATUS.value ){
+    //GET http://localhost:8000/api/login 405 (Method Not Allowed)
+    window.Echo.private(`App.Models.User.${user.value.id}`).notification((e) => {
+      notifications.value.push({data: e, read_at: null, isNew: true})
+      unread_count.value++
+    });
+  } else {
+    console.log("Echo not connected, falling back to polling, start fetching from api every 60 seconds")
+    // Start polling if Echo fails
+    setInterval(fetchNotifications, 60 * 1000) //miliseconds
+  }
 });
+
+const fetchNotifications = async () => {
+  try {
+    const res = await api.get('/notifications');
+    notifications.value = res.notifications
+    read_count.value = res.read_count
+    unread_count.value = res.unread_count
+  } catch (e) {
+    toast.error("Failed to fetch notifications:", e)
+    setTimeout(fetchNotifications, 5000) // retry after 5 seconds
+  }
+}
 
 const markAllAsRead = async () => {
   await api.post('/notifications/mark-all-as-read');
-  notifications.value.data.forEach(n => n.read_at = new Date());
-  notifications.value.unread_count = 0;
+  notifications.value.forEach(n => n.read_at = new Date());
+  unread_count.value = 0
 }
 
 const clickNotification = async (data) => {
   // Mark the notification as read
   await api.post(`/notifications/${data.id}/mark-as-read`);
-  const notification = notifications.value.data.find(n => n.data.id === data.id);
+  const notification = notifications.value.find(n => n.data.id === data.id);
   if (notification) {
     notification.read_at = new Date();
     notification.isNew = false;
-    notifications.value.unread_count--;
+    unread_count.value--;
   }
 
   isOpen.value = false; // Close the dropdown after clicking a notification
@@ -97,7 +109,6 @@ const clickNotification = async (data) => {
   if (data.path) {
     router.push({ path: data.path });
   }
-
 }
 
 function handleClickOutside(event) {
@@ -109,6 +120,5 @@ function handleClickOutside(event) {
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside)
 })
-
 
 </script>
