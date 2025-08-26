@@ -4,7 +4,7 @@
       <div  class="photo-gallery">
           <div v-for="photo in localPhotos" v-if="localPhotos.length" :key="photo.id" class="photo-item relative" :class="{ 'opacity-50' : photo.isLoading }">
               <img :src="photo.medium ?? noPhoto" alt="Uploaded Photo" />
-              <BaseButton @click="deletePhoto(photo.id)" :disabled="photo.isLoading" :makeRed="true">Delete</BaseButton>
+              <BaseButton @click="deletePhoto(photo.id)" :data-id="photo.id" :disabled="photo.isLoading" :makeRed="true">Delete</BaseButton>
               <div class="spinner absolute inset-0 z-50" v-if="photo.isLoading"></div>
           </div>
           <form @submit.prevent="uploadPhotos" class="relative">
@@ -47,7 +47,7 @@ const props = defineProps({
 })
 
 const selectedFiles = ref([])
-const localPhotos  = computed(() => props.photos)
+const localPhotos  = props.photos
 const isLoading = ref(false)
 
 const handleFiles = (event) => {
@@ -92,13 +92,11 @@ const uploadPhotos = async () => {
 // }
 
 const deletePhoto = async (id) => {
-    if (!props.isEditView) {
-      localPhotos.value = localPhotos.value.filter(photo => photo.id !== id)
-      return
-    }
+  if (!props.isEditView) {
+    localPhotos.value = localPhotos.value.filter(photo => photo.id !== id)
+    return
+  }
 
-
-  // isLoading.value = true
   const photo = localPhotos.value.find(el => el.id == id)
   photo.isLoading = true
   try {
@@ -106,11 +104,10 @@ const deletePhoto = async (id) => {
     localPhotos.value = localPhotos.value.filter(photo => photo.id !== id)
     toast.success( t('Photo Deleted!'))
   } catch (err) {
-    toast.error( err )
-    console.error('Delete error', err.message)
+    toast.error( t('error-delete-photo') )
   }
-    // isLoading.value = false
-    photo.isLoading = false
+
+  photo.isLoading = false
 }
 
 

@@ -43,6 +43,7 @@ import clickOutside from '@/utils/useClickOutside'
 import { useAuthStore } from '@/stores/auth'
 
 import api from '@/services/api'
+import { toast } from 'vue3-toastify'
 
 const authStore = useAuthStore()
 const notifications = ref({})
@@ -59,7 +60,7 @@ onMounted(async () => {
         const res = await api.get('/notifications');
         notifications.value = res.data;
       } catch (e) {
-        console.error("Failed to fetch notifications:", e);
+        toast.error("Failed to fetch notifications:", e);
       }
 
       try {
