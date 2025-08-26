@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
+    "deploy": "npm run build && node deploy.js",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
@@ -16,6 +17,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.0.0",
     "@fortawesome/fontawesome-svg-core": "^7.0.0",
     "@fortawesome/free-brands-svg-icons": "^7.0.0",
     "@fortawesome/free-regular-svg-icons": "^7.0.0",
@@ -45,9 +47,11 @@
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.21",
     "cypress": "^15.0.0",
+    "dotenv": "^17.2.1",
     "eslint": "^9.29.0",
     "eslint-plugin-oxlint": "~1.1.0",
     "eslint-plugin-vue": "~10.2.0",
+    "ftp-deploy": "^2.4.7",
     "jiti": "^2.4.2",
     "jsdom": "^26.1.0",
     "npm-run-all2": "^8.0.4",
