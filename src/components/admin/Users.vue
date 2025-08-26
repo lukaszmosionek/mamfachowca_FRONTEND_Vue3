@@ -1,34 +1,36 @@
 <template>
-  <div class="p-6">
+  <div class="md:p-6 p-1">
     <h1 class="h1">Users</h1>
     <div v-if="isLoading" class="spinner"></div>
     <div v-else-if="users.length === 0">No users found.</div>
 
-    <table v-else class="min-w-full border border-gray-300 divide-y divide-gray-200">
-      <thead class="bg-gray-100">
-        <tr>
-          <th class="px-4 py-2 text-left">ID</th>
-          <th class="px-4 py-2 text-left">Name</th>
-          <th class="px-4 py-2 text-left">Email</th>
-          <th class="px-4 py-2 text-left">Role</th>
-          <th class="px-4 py-2 text-left"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="user in users" :key="user.id" class="hover:bg-gray-50">
-          <td class="px-4 py-2">#{{ user.id }}</td>
-          <td class="px-4 py-2"><RouterLink class="" :to="{ name: 'Profile', params: { userId: user.id } }">{{user.name }}</RouterLink></td>
-          <td class="px-4 py-2">{{ user.email }}</td>
-          <td class="px-4 py-2">{{ user.role }}</td>
-          <td class="px-4 py-2 text-right space-x-2">
-            <!-- <button class="text-blue-500 hover:underline">Edit</button> -->
+    <div v-else class="overflow-x-auto">
+      <table class="min-w-full border border-gray-300 divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-2 text-left">ID</th>
+            <th class="px-4 py-2 text-left">Name</th>
+            <th class="px-4 py-2 text-left">Email</th>
+            <th class="px-4 py-2 text-left">Role</th>
+            <th class="px-4 py-2 text-left"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in users" :key="user.id" class="hover:bg-gray-50">
+            <td class="px-4 py-2">#{{ user.id }}</td>
+            <td class="px-4 py-2"><RouterLink class="" :to="{ name: 'Profile', params: { userId: user.id } }">{{user.name }}</RouterLink></td>
+            <td class="px-4 py-2">{{ user.email }}</td>
+            <td class="px-4 py-2">{{ user.role }}</td>
+            <td class="px-4 py-2 text-right space-x-2">
+              <!-- <button class="text-blue-500 hover:underline">Edit</button> -->
 
-            <button v-if="!user.deleted_at" class="text-red-500 hover:underline" @click="deleteUser(user)">Delete</button>
-            <button v-if="user.deleted_at" class="text-green-500 hover:underline" @click="restoreUser(user.id)">Restore</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+              <button v-if="!user.deleted_at" class="text-red-500 hover:underline" @click="deleteUser(user)">Delete</button>
+              <button v-if="user.deleted_at" class="text-green-500 hover:underline" @click="restoreUser(user.id)">Restore</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
 
   </div>

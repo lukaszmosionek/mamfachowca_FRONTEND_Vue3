@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6">
+  <div class="md:p-6 p-1">
     <h1 class="h1">Services</h1>
     <div v-if="isLoading" class="spinner"></div>
     <div v-else-if="services.length === 0">No services found.</div>
@@ -9,7 +9,7 @@
         <tr>
           <th class="px-4 py-2 text-left">ID</th>
           <th class="px-4 py-2 text-left">Name</th>
-          <th class="px-4 py-2 text-left">Description</th>
+          <!-- <th class="px-4 py-2 text-left">Description</th> -->
           <th class="px-4 py-2 text-left"></th>
         </tr>
       </thead>
@@ -17,7 +17,7 @@
         <tr v-for="service in services" :key="service.id" class="hover:bg-gray-50">
           <td class="px-4 py-2">#{{ service.id }}</td>
           <td class="px-4 py-2"><RouterLink class="" :to="{ name: 'BookServiceView', params: { serviceId: service.id } }">{{service.name }}</RouterLink></td>
-          <td class="px-4 py-2">{{ service.description }}</td>
+          <!-- <td class="px-4 py-2">{{ service.description }}</td> -->
           <!-- <td class="px-4 py-2">{{ service.role }}</td> -->
           <td class="px-4 py-2 text-right space-x-2">
             <!-- <button class="text-blue-500 hover:underline">Edit</button> -->

@@ -9,12 +9,9 @@ const authStore = useAuthStore()
     onMounted(async () => {
       try {
         const testAPI = await api.get('/test-api');
-        console.log({ testAPI });
+        console.log('API Connection:', testAPI);
       } catch (err) {
-        console.error('Błąd API:', err);
-        if (confirm("Cant connect test-api. Reload the page?")) {
-          window.location.reload()
-        }
+        console.error('API error (/test-api) :', err);
       }
 
       if (authStore.token && !authStore.user) {

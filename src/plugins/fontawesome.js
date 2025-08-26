@@ -15,9 +15,10 @@ import {
   faPlus,             // add new
   faTrash,            // delete
   faEdit,             // edit
-  faPen,
+  faConciergeBell,
   faCalendarPlus,     //Book service
   faHammer,           //logo
+  // faHammer,           //logo
   faHeart as faHeartSolid,
   faEnvelope as faEnvelopeSolid,
 } from '@fortawesome/free-solid-svg-icons'
@@ -46,7 +47,7 @@ library.add(
   faPlus,
   faTrash,
   faEdit,
-  faPen,
+  // faPen,
   faCalendarPlus,
   faHammer,
   faHeartSolid,
@@ -54,6 +55,7 @@ library.add(
   faEnvelopeSolid,
   faEnvelopeRegular,
   faBell,
+  faConciergeBell,
 
   //@fortawesome/free-brands-svg-icons
   faFacebookF,

@@ -1,12 +1,12 @@
 <template>
-  <div class="flex min-h-screen">
+  <div class="flex-none md:flex min-h-screen">
     <!-- Sidebar -->
-    <Sidebar />
+    <Sidebar class=""/>
 
     <!-- Main Content -->
     <div class="flex-1 flex flex-col">
-      <Navbar />
-      <main class="p-6 bg-gray-50 min-h-screen text-gray-800">
+      <Navbar class="hidden md:flex" />
+      <main class="md:p-6 p-1 bg-gray-50 min-h-screen text-gray-800">
         <router-view /> <!-- Page content loads here -->
       </main>
     </div>

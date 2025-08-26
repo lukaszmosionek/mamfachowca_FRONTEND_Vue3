@@ -25,5 +25,11 @@ export const Enums = {
       "USD": "$",
       "PLN": "zł",
       "EUR": "€",
+    },
+    "TAILWIND_BREAKPOINTS": {
+      "sm": "640", //px
+      "md": "768", //px
+      "lg": "1024", //px
+      "xl": "1280", //px
     }
 };

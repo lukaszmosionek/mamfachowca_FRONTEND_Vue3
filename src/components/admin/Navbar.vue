@@ -1,6 +1,7 @@
 <template>
-  <header class="bg-white shadow p-4 flex justify-between text-gray-800">
-    <div class="flex items-center space-x-4">
+  <header class="bg-white shadow p-4 justify-between text-gray-800">
+
+    <div class="items-center space-x-4 hidden md:flex w-fit">
         <h1 class="text-lg font-bold">Admin Panel</h1>
         <RouterLink :to="{ name: 'Home', params: {}, query: {} }">Go to site</RouterLink>
     </div>
@@ -17,6 +18,7 @@ import { useAuthStore } from '@/stores/auth'
 import { ref } from 'vue'
 import { useRouter, useRoute, RouterLink } from 'vue-router'
 import BaseButton from '@/components/BaseButton.vue'
+import { toast } from 'vue3-toastify'
 
 const router = useRouter()
 const route = useRoute()
@@ -29,9 +31,10 @@ const logout = async () => {
     await authStore.logout()
     router.push({ name: 'Login', query: { successMessage: 'Logged out successfully' } })
   } catch (error) {
-    console.error('API call error:', error?.message)
-  } finally {
-    loading.value = false
+    toast.error('Logout error: ', error?.message)
   }
+
+  loading.value = false
+
 }
 </script>
