@@ -52,9 +52,9 @@ const isLoading = ref(false)
 
 const handleFiles = (event) => {
   selectedFiles.value = Array.from(event.target.files)
-  if (props.isEditView) {
+  if (props.isEditView) { //edit
     uploadPhotos()
-  } else {
+  } else { //new
     const newPhotos = selectedFiles.value.map( (file, index) => ({
       id: index, // Unique ID
       file,

@@ -20,7 +20,7 @@
       </thead>
       <tbody>
         <tr v-for="appointment in appointments" :key="appointment.id" class="border-t hover:bg-gray-50 transition">
-          <td class="px-4 py-2 text-sm font-semibold text-gray-800"><RouterLink class="":to="{ name: 'BookServiceView', params: { serviceId: appointment?.service?.id ?? 0 } }">{{appointment.service.name }}</RouterLink></td>
+          <td class="px-4 py-2 text-sm font-semibold text-gray-800"><RouterLink class="":to="{ name: 'BookServiceView', params: { serviceId: appointment?.service?.id ?? 0 } }">{{appointment.service?.name ?? 'No name' }}</RouterLink></td>
           <td class="px-4 py-2 text-sm flex-center"><RouterLink class="" :title="appointment.provider?.role ?? appointment.client?.role ?? $t('Unknown')":to="{ name: 'Profile', params: { userId: appointment?.provider?.id ?? appointment?.client?.id ?? 0 } }">{{  appointment.provider?.name ?? appointment.client?.name ?? $t('Unknown') }}</RouterLink><RouterLink class="text-2xl":to="{ name: 'Messages', params: { userId: appointment?.provider?.id ?? appointment?.client?.id ?? 0 } }"><font-awesome-icon :icon="['far', 'envelope']" /></RouterLink></td>
           <td class="px-4 py-2 text-sm">{{ formatDate(appointment.date) + ' ' + appointment.start_time }}</td>
           <td class="px-4 py-2 text-sm">

@@ -27,7 +27,7 @@
             <div class="font-bold text-lg text-center">{{ user.receiverUser.name }}</div>
             <div v-for="msg in messages" :key="msg.id" class="text-sm">
               <div v-if="msg?.sender_id === user.currentUser.id" class="text-right">
-                <strong>{{ $t('You') }}:</strong> {{ msg.body }}
+                {{ msg.body }} <strong>:{{ $t('You') }}</strong>
               </div>
 
               <div v-if="msg?.sender_id !== user.currentUser.id" class="text-left">
@@ -38,9 +38,6 @@
           <!-- <div v-if="messages.length === 0" class="text-center text-gray-500">
                   {{ $t('No messages yet') }}
                 </div> -->
-
-
-
         </div>
         <form @submit.prevent="sendMessage" class="mt-4 flex gap-4">
           <BaseInput v-model="newMessage" type="text" max="1000" :placeholder="$t('Message')" :errors="errors.message" class="w-full" />

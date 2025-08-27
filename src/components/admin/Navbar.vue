@@ -2,7 +2,7 @@
   <header class="bg-white shadow p-4 justify-between text-gray-800">
 
     <div class="items-center space-x-4 hidden md:flex w-fit">
-        <h1 class="text-lg font-bold">Admin Panel</h1>
+        <h1 class="text-lg font-bold"><router-link :to="{ name: 'AdminDashboard' }">Admin Panel</router-link></h1>
         <RouterLink :to="{ name: 'Home', params: {}, query: {} }">Go to site</RouterLink>
     </div>
 

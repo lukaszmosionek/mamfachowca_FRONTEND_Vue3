@@ -1,4 +1,4 @@
-import './assets/styles/main.scss'
+import '@/assets/styles/main.scss'
 
 import '@fortawesome/fontawesome-free/css/all.css';
 
@@ -8,7 +8,6 @@ import { initEcho } from '@/plugins/echo'
 
 import App from './App.vue'
 import router from './router'
-import api from './services/api'
 import i18n from './i18n'
 import Vue3Toastify from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
