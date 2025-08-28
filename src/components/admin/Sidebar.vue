@@ -12,14 +12,14 @@
   <aside class="hidden md:block absolute md:static md:w-64 w-full bg-gray-800 text-white p-4" :class="{'!block':showSidebar}" @click="handleSidebarClick">
     <!-- <h2 class="text-xl font-bold mb-6">Admin Panel</h2> -->
     <nav class="flex flex-col space-y-2 mt-10">
-      <router-link :to="{ name: 'AdminDashboard' }" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2"><i class="fas fa-tachometer-alt"></i><span class="">Dashboard</span></router-link>
-      <router-link :to="{ name: 'AdminUsers' }" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2"><i class="fas fa-users"></i><span class="">Users</span></router-link>
-      <router-link :to="{ name: 'AdminServices' }" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2"><i class="fa fa-tasks"></i><span class="">Services</span></router-link>
-      <router-link :to="{ name: 'AdminSettings' }" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2"><i class="fas fa-cog"></i><span class="">Settings</span></router-link>
+      <router-link :to="{ name: 'AdminDashboard' }" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2"><font-awesome-icon :icon="['fas', 'tachometer-alt']" /><span class="">Dashboard</span></router-link>
+      <router-link :to="{ name: 'AdminUsers' }" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2"><font-awesome-icon :icon="['fas', 'users']" /><span class="">Users</span></router-link>
+      <router-link :to="{ name: 'AdminServices' }" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2"><font-awesome-icon :icon="['fas', 'tasks']" /><span class="">Services</span></router-link>
+      <router-link :to="{ name: 'AdminSettings' }" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2"><font-awesome-icon :icon="['fas', 'cog']" /><span class="">Settings</span></router-link>
 
-      <router-link :to="{ name: 'Home', params: {}, query: {} }" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2"><i class="fas fa-home"></i><span>Go to site</span></router-link>
+      <router-link :to="{ name: 'Home', params: {}, query: {} }" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2"><font-awesome-icon :icon="['fas', 'home']" /><span>Go to site</span></router-link>
       <!-- <router-link to="/admin/settings" class="hover:bg-gray-700 p-2 rounded flex items-center gap-2"><i class="fas fa-sign-out-alt"></i><span>Logout</span></router-link> -->
-      <BaseButton @click="logout" :loading="loading" :name="$t('Logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700" v-if="authStore.token"/>
+      <BaseButton @click="logout" :loading="loading" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 gap-1" v-if="authStore.token"><font-awesome-icon :icon="['fas', 'right-from-bracket']" />{{ $t('Logout') }}</BaseButton>
 
     </nav>
   </aside>

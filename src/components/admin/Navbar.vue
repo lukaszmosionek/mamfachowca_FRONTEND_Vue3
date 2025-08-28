@@ -6,8 +6,8 @@
         <RouterLink :to="{ name: 'Home', params: {}, query: {} }">Go to site</RouterLink>
     </div>
 
-    <BaseButton @click="logout" :loading="loading" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit">
-        <font-awesome-icon :icon="['fas', 'right-from-bracket']" />&nbsp;{{ $t('Logout') }}
+    <BaseButton @click="logout" :loading="loading" class="gap-1 bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit">
+        <font-awesome-icon :icon="['fas', 'right-from-bracket']" />{{ $t('Logout') }}
     </BaseButton>
 
   </header>
