@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center">
     <div class="p-6 w-full">
       <h3 class="text-gray-600 text-xl font-semibold mb-4 text-center">
-        {{ service ? $t('Edit service') : $t('New service') }}
+        {{ isEditView ? $t('Edit service') : $t('New service') }}
       </h3>
       <form @submit.prevent="submit" class="space-y-4">
 
@@ -28,7 +28,7 @@
         <!-- <BaseInput v-model="form.translation[1].description" v-if="lang === 'pl'" :label="$t('Description')" :placeholder="$t('Description')" rows="4" :isTextarea="true" class="text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></BaseInput> -->
 
         <div class="flex items-center justify-center">
-            <PhotoGallery :photos="form.photos" :serviceId="form?.id ?? null" :isEditView="form?.id ? true : false" @update:photos="handlePhotos"></PhotoGallery>
+            <PhotoGallery :photos="form.photos" :serviceId="form?.id ?? null" :isEditView="form?.id ? true : false" @update:photos="handlePhotos" @delete:photos="handleDeletePhotos"></PhotoGallery>
         </div>
 
         <div class="flex justify-end space-x-2 pt-4">
@@ -51,17 +51,23 @@ import { myServicesSchema } from '@/api/schemas/myServicesSchema'
 import { deepClone } from '@/helpers/deepClone.js'
 import { useRouter, useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
+import Swal from 'sweetalert2'
 
 
 const route = useRoute()
 const router = useRouter()
 const service = ref({})
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const loading = ref(false)
+const isLoading = ref(false)
 const errors = ref({})
+const selectedFiles = ref([])
 const lang = ref('en')
-const form = ref({})
+const form = ref({
+  photos:{}
+})
 const serviceID = ref( route.params.serviceId || null )
+const isEditView= ref(serviceID.value ? true : false)
 
 const loadService = async () => {
   loading.value = true
@@ -109,6 +115,8 @@ const submit = async () => {
           headers: { 'Content-Type': 'multipart/form-data' }
       })
     }
+    await Swal.fire(t('success'))
+    // router.push({ name: 'MyServicesView' })
   } catch (error) {
       toast.error('Unexpected error:', error)
   } finally {
@@ -124,12 +132,80 @@ onMounted(async () => {
 });
 
 const handlePhotos = (photos) => {
-  if (!serviceID.value) {
-    form.value.photos = photos
-  }
+  // if (!serviceID.value) {
+    // form.value.photos = photos
+    handleFiles(photos)
+  // }
 }
+
+const handleDeletePhotos = (photoID) => {
+  // if (!serviceID.value) {
+      // console.log(photoID)
+        // form.value.photos = form.value.photos.filter(photo => photo.id !== photoID)
+        deletePhoto(photoID)
+  // }
+}
+
+
 
 function changeLanguage(newlang){
   lang.value = newlang
+}
+
+
+const deletePhoto = async (photoID) => {
+  if (!isEditView.value) {
+      form.value.photos = form.value.photos.filter(photo => photo.id !== photoID)
+    return
+  }
+
+  const photo = form.value.photos.find(el => el.id == photoID)
+  photo.isLoading = true
+
+  try {
+    await api.delete(`/me/services/photos/${photoID}`)
+    form.value.photos = form.value.photos.filter(photo => photo.id !== photoID)
+    toast.success( t('Photo Deleted!'))
+  } catch (err) {
+    toast.error( t('error-delete-photo') )
+  }
+
+  photo.isLoading = false
+}
+
+const handleFiles = (event) => {
+  selectedFiles.value = Array.from(event.target.files)
+  if (isEditView.value) { //edit
+    uploadPhotos()
+  } else { //new
+    const newPhotos = selectedFiles.value.map( (file, index) => ({
+      id: index, // Unique ID
+      file,
+      medium: URL.createObjectURL(file)
+    }))
+    form.value.photos.push(...newPhotos)
+  }
+}
+
+const uploadPhotos = async () => {
+  isLoading.value = true
+
+  const formData = new FormData()
+  selectedFiles.value.forEach(file => {
+    formData.append('photos[]', file)
+    form.value.photos.push({ 'isLoading': true });
+  })
+
+  try {
+    const res = await api.post('/me/services/'+serviceID.value+'/photos', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
+    form.value.photos.splice(-selectedFiles.value.length, selectedFiles.value.length);
+    form.value.photos.push(...res.photos)
+    toast.success( t('Photo Uploaded!'))
+  } catch (err) {
+    toast.error( err.message )
+  }
+  isLoading.value = false
 }
 </script>

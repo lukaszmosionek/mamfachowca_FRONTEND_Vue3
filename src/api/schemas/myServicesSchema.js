@@ -9,19 +9,19 @@ let services =
         "created_at": "",
         "updated_at": "",
         "lang": "",
-        // "photos": [
-        //     {
-        //         "id": 0,
-        //         "imageable_type": "",
-        //         "imageable_id": 0,
-        //         "thumbnail": "",
-        //         "medium": "",
-        //         "large": "",
-        //         "is_main": 0,
-        //         "created_at": "",
-        //         "updated_at": ""
-        //     }
-        // ],
+        "photos": [
+            // {
+            //     "id": 0,
+            //     "imageable_type": "",
+            //     "imageable_id": 0,
+            //     "thumbnail": "",
+            //     "medium": "",
+            //     "large": "",
+            //     "is_main": 0,
+            //     "created_at": "",
+            //     "updated_at": ""
+            // }
+        ],
         "translations": [
             {
                 "id": 0,
