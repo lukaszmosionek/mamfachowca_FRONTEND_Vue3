@@ -2,7 +2,7 @@
   <div>
       <!-- <h2></h2> -->
       <div  class="photo-gallery">
-          <div v-for="photo in localPhotos" v-if="localPhotos.length" :key="photo.id" class="photo-item relative" :class="{ 'opacity-50' : photo.isLoading }">
+          <div v-for="photo in photos" v-if="photos.length" :key="photo.id" class="photo-item relative" :class="{ 'opacity-50' : photo.isLoading }">
               <img :src="photo.medium ?? noPhoto" alt="Uploaded Photo" />
               <BaseButton @click="deletePhoto(photo.id)" :data-id="photo.id" :disabled="photo.isLoading" :makeRed="true">Delete</BaseButton>
               <div class="spinner absolute inset-0 z-50" v-if="photo.isLoading"></div>
@@ -27,7 +27,7 @@ import { useI18n } from 'vue-i18n'
 import BaseButton from '@/components/BaseButton.vue'
 import noPhoto from '@/assets/no-photo.jpg';
 
-const emits = defineEmits(['update:photos']);
+const emits = defineEmits(['update:photos', 'delete:photos']);
 
 const { t } = useI18n()
 const props = defineProps({
@@ -46,44 +46,12 @@ const props = defineProps({
 
 })
 
-const selectedFiles = ref([])
-const localPhotos  = props.photos
+
+// const localPhotos = computed(() => props.photos)
 const isLoading = ref(false)
 
 const handleFiles = (event) => {
-  selectedFiles.value = Array.from(event.target.files)
-  if (props.isEditView) { //edit
-    uploadPhotos()
-  } else { //new
-    const newPhotos = selectedFiles.value.map( (file, index) => ({
-      id: index, // Unique ID
-      file,
-      medium: URL.createObjectURL(file)
-    }))
-    localPhotos.value.push(...newPhotos)
-  }
-}
-
-const uploadPhotos = async () => {
-  isLoading.value = true
-
-  const formData = new FormData()
-  selectedFiles.value.forEach(file => {
-    formData.append('photos[]', file)
-    localPhotos.value.push({ 'isLoading': true });
-  })
-
-  try {
-    const res = await api.post('/me/services/'+props.serviceId+'/photos', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
-    })
-    localPhotos.value.splice(-selectedFiles.value.length, selectedFiles.value.length);
-    localPhotos.value.push(...res.photos)
-    toast.success( t('Photo Uploaded!'))
-  } catch (err) {
-    toast.error( err.message )
-  }
-  isLoading.value = false
+    emits('update:photos', event );
 }
 
 // const fetchPhotos = async () => {
@@ -91,31 +59,16 @@ const uploadPhotos = async () => {
 //   photos.value = res.data
 // }
 
-const deletePhoto = async (id) => {
-  if (!props.isEditView) {
-    localPhotos.value = localPhotos.value.filter(photo => photo.id !== id)
-    return
-  }
-
-  const photo = localPhotos.value.find(el => el.id == id)
-  photo.isLoading = true
-  try {
-    await api.delete(`/me/services/photos/${id}`)
-    localPhotos.value = localPhotos.value.filter(photo => photo.id !== id)
-    toast.success( t('Photo Deleted!'))
-  } catch (err) {
-    toast.error( t('error-delete-photo') )
-  }
-
-  photo.isLoading = false
+const deletePhoto = (id) => {
+    emits('delete:photos', id );
 }
 
 
-watch( () => localPhotos.value, (newValue, oldValue) => {
-  emits('update:photos', { ...newValue });
-},
-{ deep: true }
- )
+// watch( () => localPhotos.value, (newValue, oldValue) => {
+//   // emits('update:photos', { ...newValue });
+// },
+// { deep: true }
+//  )
 
 // onMounted(fetchPhotos)
 </script>

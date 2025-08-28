@@ -18,6 +18,8 @@ import {
   faConciergeBell,
   faCalendarPlus,     //Book service
   faHammer,           //logo
+  faChevronDown,
+  faTachometerAlt, faUsers, faTasks, faCog, faHome, //admin
   // faHammer,           //logo
   faHeart as faHeartSolid,
   faEnvelope as faEnvelopeSolid,
@@ -47,6 +49,7 @@ library.add(
   faPlus,
   faTrash,
   faEdit,
+  faTachometerAlt, faUsers, faTasks, faCog, faHome,
   // faPen,
   faCalendarPlus,
   faHammer,
@@ -56,6 +59,7 @@ library.add(
   faEnvelopeRegular,
   faBell,
   faConciergeBell,
+  faChevronDown,
 
   //@fortawesome/free-brands-svg-icons
   faFacebookF,
