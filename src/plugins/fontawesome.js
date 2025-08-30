@@ -62,10 +62,7 @@ library.add(
   faChevronDown,
 
   //@fortawesome/free-brands-svg-icons
-  faFacebookF,
-  faTwitter,
-  faInstagram,
-  faLinkedinIn,
+  faFacebookF, faTwitter, faInstagram, faLinkedinIn,
 )
 
 export { FontAwesomeIcon }
