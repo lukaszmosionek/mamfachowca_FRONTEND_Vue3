@@ -33,7 +33,15 @@ api.interceptors.response.use(
         const isCors = error.message === 'Network Error';
 
         if (isCors){
-          window.location.reload()
+          let refreshCount = Number(localStorage.getItem('refreshCount')) || 0;
+
+          if (refreshCount < 5) {
+            localStorage.setItem('refreshCount', refreshCount + 1);
+            window.location.reload();
+          } else {
+            console.warn('Maximum refresh limit reached.');
+            localStorage.removeItem('refreshCount'); // Optional: reset after limit
+          }
         }
 
         return Promise.reject(error);

@@ -27,21 +27,21 @@ export default [
         path: '/',
         component: MainLayout,
         children: [
-            { path: '/', name: 'Home', component: HomeView },
-            { path: '/login', name: 'Login', component: LoginView },
-            { path: '/register', name: 'Register', component: RegisterView },
-            { path: '/forgot-password', name: 'ForgotPassword', component: ForgotPasswordView },
-            { path: '/reset-password', name: 'ResetPassword', component: ResetPasswordView },
-            { path: '/about', name: 'About', component: AboutView },
-            { path: '/contact', name: 'Contact', component: ContactView },
-            { path: '/my-services/:serviceId?', name: 'MyServiceView', component: MyServiceView, meta: { requiresAuth: true }  },
-            { path: '/my-services', name: 'MyServices', component: MyServicesView, meta: { requiresAuth: true, role: Enums.Role.Provider } },
-            { path: '/appointments', name: 'Appointments', component: AppointmentView, meta: { requiresAuth: true } },
-            { path: '/account', name: 'Account', component: AccountEditView, meta: { requiresAuth: true } },
-            { path: '/users/:userId/messages/', name: 'Messages', component: MessagesView, meta: { requiresAuth: true } },
-            { path: '/services/:serviceId', name: 'BookServiceView', component: BookServiceView, meta: { requiresAuth: true }  },
-            { path: '/favorites', name: 'Favorites', component: FavoritesView, meta: { requiresAuth: true }  },
-            { path: '/profiles/:userId', name: 'Profile', component: ProfileView, meta: { requiresAuth: false }  },
+          { path: '/', name: 'Home', component: HomeView },
+          { path: '/login', name: 'Login', component: LoginView },
+          { path: '/register', name: 'Register', component: RegisterView },
+          { path: '/forgot-password', name: 'ForgotPassword', component: ForgotPasswordView },
+          { path: '/reset-password', name: 'ResetPassword', component: ResetPasswordView },
+          { path: '/about', name: 'About', component: AboutView },
+          { path: '/contact', name: 'Contact', component: ContactView },
+          { path: '/my-services/:serviceId?', name: 'MyServiceView', component: MyServiceView, meta: { requiresAuth: true }  },
+          { path: '/my-services', name: 'MyServices', component: MyServicesView, meta: { requiresAuth: true, role: Enums.Role.Provider } },
+          { path: '/appointments', name: 'Appointments', component: AppointmentView, meta: { requiresAuth: true } },
+          { path: '/account', name: 'Account', component: AccountEditView, meta: { requiresAuth: true } },
+          { path: '/users/:userId/messages/', name: 'Messages', component: MessagesView, meta: { requiresAuth: true } },
+          { path: '/services/:serviceId', name: 'BookServiceView', component: BookServiceView, meta: { requiresAuth: true }  },
+          { path: '/favorites', name: 'Favorites', component: FavoritesView, meta: { requiresAuth: true }  },
+          { path: '/profiles/:userId', name: 'Profile', component: ProfileView, meta: { requiresAuth: false }  },
         ]
       },
 
@@ -56,7 +56,6 @@ export default [
           { path: 'services', component: Services, name: 'AdminServices' },
 
           { path: 'my-services/:serviceId', name: 'AdminMyServiceView', component: MyServiceView },
-
 
           { path: '', redirect: '/admin/dashboard' }
         ]

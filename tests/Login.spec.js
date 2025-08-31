@@ -20,4 +20,5 @@ describe('Login.vue', () => {
 
     expect(wrapper.text()).not.toContain('Email is required.')
   })
+
 })

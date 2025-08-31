@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import routes from './routes'
+import routes from '@/router/routes'
 import Swal from 'sweetalert2'
 import i18n from '@/i18n'
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
+  routes: routes ?? []
 })
 
 // Autoryzacja tras

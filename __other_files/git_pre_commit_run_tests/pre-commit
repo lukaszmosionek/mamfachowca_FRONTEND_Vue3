@@ -1,0 +1,23 @@
+#!/bin/sh
+# Cross-platform Laravel test hook
+# Detects Windows CMD or Git Bash automatically
+
+echo "Running Vue3 Npm tests... try command -> npm test before commit, if fails check /tests directory"
+
+# If running in Git Bash or Linux/macOS
+if command -v php >/dev/null 2>&1; then
+    npm test
+    RESULT=$?
+else
+    # Fallback for Windows CMD
+    npm test
+    set RESULT=%ERRORLEVEL%
+fi
+
+if [ $RESULT -ne 0 ]; then
+    echo "Tests failed. Commit aborted."
+    exit 1
+fi
+
+echo "Tests passed. Proceeding with commit."
+exit 0

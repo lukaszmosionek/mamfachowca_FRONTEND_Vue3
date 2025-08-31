@@ -1,3 +1,4 @@
+import { createRouter, createWebHistory } from 'vue-router'
 import { beforeAll } from 'vitest'
 import { config } from '@vue/test-utils'
 import { createI18n } from 'vue-i18n'
@@ -16,7 +17,6 @@ const i18n = createI18n({
   messages,
 })
 
-import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(),

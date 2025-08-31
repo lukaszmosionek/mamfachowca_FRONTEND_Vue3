@@ -99,7 +99,7 @@ const fetchMessages = async () => {
 }
 
 const fetchMessagedPeople = async () => {
-  const res = await api.get('/fetchMessagedUsers')
+  const res = await api.get('/messaged-users')
   messagedPeople.value = res.usersYouChattedWith
 }
 

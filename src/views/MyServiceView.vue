@@ -109,7 +109,7 @@ const submit = async () => {
 
   try {
     if (serviceID.value) {
-      await api.put(`/services/${serviceID.value}`, form.value)
+      await api.put(`/me/services/${serviceID.value}`, form.value)
     } else {
       await api.post('/me/services', form.value, {
           headers: { 'Content-Type': 'multipart/form-data' }
