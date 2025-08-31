@@ -10,5 +10,8 @@ export default defineConfig({
     env: {
       backendUrl: process.env.VITE_BACKEND_URL ?? 'http://127.0.0.1:8000/api'
     },
+    defaultCommandTimeout: 10000, // increase timeout globally
+    viewportWidth: 1280,
+    viewportHeight: 720,
   },
 });
