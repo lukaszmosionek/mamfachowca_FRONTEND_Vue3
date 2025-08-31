@@ -13,6 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set production env variables
+        run: |
+          chmod +x ./scripts/set_env.sh
+          ./scripts/set_env.sh
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
