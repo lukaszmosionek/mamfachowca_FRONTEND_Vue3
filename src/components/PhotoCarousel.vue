@@ -26,7 +26,7 @@
           } : {}"
           class="w-full object-cover"
           :class="height"
-          :alt="`Image ${index + 1}`"
+          :alt="alt ?? `Image ${index + 1}`"
         />
       </div>
     </div>
@@ -78,6 +78,10 @@ const props = defineProps({
   imageKey: {
     type: String,
     default: 'thumbnail'
+  },
+  alt: {
+    type: String,
+    default: ''
   },
   height: {
     type: String,

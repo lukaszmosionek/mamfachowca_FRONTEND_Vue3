@@ -15,15 +15,15 @@
 
         <!-- <BaseInput v-model="form.name" :label="$t('Name')" placeholder="e.g. John Doe" :errors="errors.errors?.name" /> -->
         <div v-for="(t, index) in form.translations">
-            <BaseInput v-model="t.name" v-if="lang === t.language.code" :label="$t('Name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors.errors?.name" />
+            <BaseInput v-model="t.name" v-if="lang === t.language.code" :label="$t('Name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors.errors?.name" class="input-name" />
         </div>
         <!-- <BaseInput v-model="form.translations.pl.name" v-if="lang === 'pl'" :label="$t('Name')" placeholder="e.g. John Doe" :errors="errors.errors?.name" /> -->
 
-        <BaseInput v-model="form.price" :label="$t('Price')" placeholder="e.g. 100" :errors="errors.errors?.price" type="number"/>
-        <BaseInput v-model="form.duration_minutes" :label="$t('Time (minutes)')" placeholder="e.g. 60" :errors="errors.errors?.duration_minutes" type="number"/>
+        <BaseInput v-model="form.price" :label="$t('Price')" placeholder="e.g. 100" :errors="errors.errors?.price" type="number" class="input-price"/>
+        <BaseInput v-model="form.duration_minutes" :label="$t('Time (minutes)')" placeholder="e.g. 60" :errors="errors.errors?.duration_minutes" type="number" class="input-duration-minutes"/>
 
         <div v-for="(t, index) in form.translations">
-            <BaseInput  v-model="t.description" v-if="lang === t.language.code" :label="$t('Description')+' - '+t.language.code" :placeholder="$t('Description')" rows="4" :isTextarea="true"  :key="index" class="text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></BaseInput>
+            <BaseInput  v-model="t.description" v-if="lang === t.language.code" :label="$t('Description')+' - '+t.language.code" :placeholder="$t('Description')" rows="4" :isTextarea="true"  :key="index" class="input-description text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></BaseInput>
         </div>
         <!-- <BaseInput v-model="form.translation[1].description" v-if="lang === 'pl'" :label="$t('Description')" :placeholder="$t('Description')" rows="4" :isTextarea="true" class="text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></BaseInput> -->
 

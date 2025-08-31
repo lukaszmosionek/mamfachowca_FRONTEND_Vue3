@@ -15,6 +15,8 @@ describe('Book Appointment', () => {
     cy.wait('@serviceRequest')
 
     cy.get('.select-date input').click()
+
+    cy.get('button[data-dp-element="action-next"]').first().click();
     cy.get('.select-date div.dp__calendar_item:not([aria-disabled="true"])').first().click();
 
     cy.get('.select-hour select').find('option').first().then(option => { cy.get('.select-hour select').select(option.val()); });

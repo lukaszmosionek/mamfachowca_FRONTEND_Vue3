@@ -6,7 +6,7 @@
 
     <div class="md:text-right text-center mt-2 mb-2">
       <!-- <button type="button" @click="createNew"class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"><font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />{{ $t('Add new service') }}</button> -->
-      <RouterLink :to="{ name: 'MyServiceView', params: { serviceId: null } }" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"><font-awesome-icon :icon="['fas', 'eye']" /><span class="md:inline hidden">{{ $t('Add new service') }}</span></RouterLink>&nbsp;
+      <RouterLink :to="{ name: 'MyServiceView', params: { serviceId: null } }" class="add-new px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"><font-awesome-icon :icon="['fas', 'eye']" /><span class="md:inline hidden">{{ $t('Add new service') }}</span></RouterLink>&nbsp;
     </div>
 
     <div class="overflow-x-auto">

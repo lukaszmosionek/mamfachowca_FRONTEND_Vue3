@@ -4,7 +4,7 @@
 
       <!-- Zdjęcie -->
       <div class="w-40 h-40 md:w-80 md:h-80">
-        <PhotoCarousel  :images="s.photos" height="h-40 md:h-80" imageKey="medium" class=""></PhotoCarousel>
+        <PhotoCarousel  :images="s.photos" height="h-40 md:h-80" imageKey="medium" :alt="s.name" class=""></PhotoCarousel>
       </div>
       <!-- Zdjęcie -->
 
