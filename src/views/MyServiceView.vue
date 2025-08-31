@@ -32,7 +32,7 @@
         </div>
 
         <div class="flex justify-end space-x-2 pt-4">
-          <button @click="router.back()" type="button" class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2 button-back">⬅ {{ $t('Go Back') }}</button>
+          <router-link  class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2 button-back" :to="{ name: 'MyServices' }">⬅ {{ $t('Go Back') }}</router-link>
           <BaseButton :name="$t('Save')" :loading="loading" type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" />
         </div>
       </form>
@@ -116,9 +116,9 @@ const submit = async () => {
       })
     }
     await Swal.fire(t('success'))
-    // router.push({ name: 'MyServicesView' })
+    router.push({ name: 'MyServices' })
   } catch (error) {
-      toast.error('Unexpected error:', error)
+      toast.error('Unexpected error:', error.message)
   } finally {
     loading.value = false
   }
@@ -146,12 +146,9 @@ const handleDeletePhotos = (photoID) => {
   // }
 }
 
-
-
 function changeLanguage(newlang){
   lang.value = newlang
 }
-
 
 const deletePhoto = async (photoID) => {
   if (!isEditView.value) {
