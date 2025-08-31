@@ -1,0 +1,70 @@
+name: E2E Tests - Cypress
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql: # optional if you need DB service
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: test_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      # --- Checkout Frontend Repo ---
+      - name: Checkout Frontend
+        uses: actions/checkout@v4
+
+      # --- Checkout Backend Repo ---
+      - name: Checkout Backend
+        uses: actions/checkout@v4
+        with:
+          repository: lukaszmosionek/mamfachowca_BACKEND_LaravelAPI
+          path: backend
+
+      # --- Setup PHP & Laravel ---
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+
+      - name: Install Laravel Dependencies
+        run: |
+          cd backend
+          composer install --no-interaction --prefer-dist
+          cp .env.example .env
+          php artisan key:generate
+          php artisan migrate --database=sqlite --force
+          php artisan serve --host=0.0.0.0 --port=8000 &
+
+      # --- Setup Node & Frontend ---
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Frontend Dependencies
+        run: npm ci
+
+      # --- Run Cypress Tests ---
+      - name: Run Cypress Tests
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm run dev
+          wait-on: 'http://localhost:5173'
+          wait-on-timeout: 60
+        env:
+          CYPRESS_baseUrl: http://localhost:5173

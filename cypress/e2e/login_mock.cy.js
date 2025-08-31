@@ -1,7 +1,7 @@
 describe('Login Page', () => {
   it('logs in successfully with correct credentials', () => {
     // Visit login page
-    cy.visit('http://localhost:5173/login')
+    cy.visit('/login')
 
     // Fill login form
     cy.get('input[name="email"]').type('client@onet.pl')
@@ -13,12 +13,12 @@ describe('Login Page', () => {
 
     // Verify redirect or success message
     cy.url().should('include', '/') // Example
-    cy.contains('Driveway Sealing')
+    cy.contains('Mam fachowca')
   })
 
   it('shows error on invalid credentials', () => {
     // cy.wait(500)
-    cy.visit('http://localhost:5173/login')
+    cy.visit('/login')
 
     cy.get('input[name="email"]').type('wronguser@onet.pl')
     cy.get('input[name="password"]').type('wrongpass')

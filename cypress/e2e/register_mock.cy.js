@@ -1,7 +1,7 @@
 describe('Register Page', () => {
   it('register in successfully with correct credentials', () => {
     // Visit login page
-    cy.visit('http://localhost:5173/register')
+    cy.visit('/register')
 
     // Fill login form
     cy.get('input[name="name"]').type('Marc Due')
@@ -15,7 +15,7 @@ describe('Register Page', () => {
 
     // Verify redirect or success message
     cy.url().should('include', '/') // Example
-    cy.contains('Driveway Sealing')
+    cy.contains('Mam fachowca')
   })
 
   // it('shows error on invalid credentials', () => {

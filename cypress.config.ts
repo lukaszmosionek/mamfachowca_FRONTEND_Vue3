@@ -6,9 +6,9 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    baseUrl: 'http://localhost:5173',
+    baseUrl: process.env.VITE_FRONTEND_URL ?? 'http://localhost:5173',
     env: {
-      backendUrl: process.env.VITE_BACKEND_URL
+      backendUrl: process.env.VITE_BACKEND_URL ?? 'http://127.0.0.1:8000/api'
     },
   },
 });
