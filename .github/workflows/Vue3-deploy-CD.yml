@@ -13,10 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set production env variables
+      - name: Create .env.production
         run: |
-          chmod +x ./scripts/set_env.sh
-          ./scripts/set_env.sh
+          echo "${{ secrets.ENV_PRODUCTION }}" > .env.production
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
