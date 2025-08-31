@@ -91,8 +91,7 @@ const fetchMessages = async () => {
     if (error.response && error.response.status === 404) {
       alert('User not found (404)');
     }else{
-      toast.error('Failed to fetch messages. Retrying...')
-      setTimeout(fetchMessages, 5000) // retry after 5 seconds
+      toast.error('Failed to fetch messages.')
     }
   }
   isFetchingMessages.value = false
@@ -142,17 +141,19 @@ onMounted(() => {
 
   // try {
   if( VITE_PUSHER_APP_STATUS.value ){
-    window.Echo.private(`private-chat.${user.value.currentUser.id}`)
-    .listen('MessageSent', (e) => {
-      let message = JSON.parse(e.message)
-      if (message.sender_id === user.value.receiverUser.id) {
-        messages.value.push(message)
-        toast.success(t('New message received:') + ' ' + message.body.slice(0, 20) + '...')
-        scrollToBottom()
-        playSound()
-      }
-    })
-  // } catch (error) {
+    try{
+      window.Echo.private(`private-chat.${user.value.currentUser.id}`).listen('MessageSent', (e) => {
+        let message = JSON.parse(e.message)
+        if (message.sender_id === user.value.receiverUser.id) {
+          messages.value.push(message)
+          toast.success(t('New message received:') + ' ' + message.body.slice(0, 20) + '...')
+          scrollToBottom()
+          playSound()
+        }
+      })
+    }catch(error){
+      console.log(error)
+    }
   } else {
     console.log("Echo not connected, falling back to polling, start fetching from api every 60 seconds")
     // console.log(error)

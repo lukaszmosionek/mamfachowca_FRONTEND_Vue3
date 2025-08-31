@@ -38,10 +38,14 @@ api.interceptors.response.use(
 
           if (refreshCount < 5) {
             localStorage.setItem('refreshCount', refreshCount + 1);
-            window.location.reload();
+            setTimeout(() => {
+                window.location.reload();
+            }, 500); // 0,5 second delay
           } else {
             console.warn('Maximum refresh limit reached.');
             localStorage.removeItem('refreshCount'); // Optional: reset after limit
+            alert('Unable to connect to the server. Please check your internet or try again later.');
+
           }
         }
 

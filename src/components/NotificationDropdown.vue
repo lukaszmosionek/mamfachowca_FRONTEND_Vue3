@@ -62,13 +62,16 @@ onMounted(async () => {
 
   fetchNotifications()
 
-  // try {
   if( VITE_PUSHER_APP_STATUS.value ){
-    //GET http://localhost:8000/api/login 405 (Method Not Allowed)
-    window.Echo.private(`App.Models.User.${user.value.id}`).notification((e) => {
-      notifications.value.push({data: e, read_at: null, isNew: true})
-      unread_count.value++
-    });
+    //if error occur GET http://localhost:8000/api/login 405 (Method Not Allowed) is becouse of these
+    try{
+      window.Echo.private(`App.Models.User.${user.value.id}`).notification((e) => {
+        notifications.value.push({data: e, read_at: null, isNew: true})
+        unread_count.value++
+      })
+    }catch(error){
+      console.log(error)
+    }
   } else {
     console.log("Echo not connected, falling back to polling, start fetching from api every 60 seconds")
     // Start polling if Echo fails
@@ -84,7 +87,6 @@ const fetchNotifications = async () => {
     unread_count.value = res.unread_count
   } catch (e) {
     toast.error("Failed to fetch notifications:", e)
-    setTimeout(fetchNotifications, 5000) // retry after 5 seconds
   }
 }
 
