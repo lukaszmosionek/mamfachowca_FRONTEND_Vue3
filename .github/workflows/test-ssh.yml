@@ -1,0 +1,23 @@
+name: Test SSH Connection
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-ssh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test SSH to Home.pl
+        run: |
+          echo "Writing SSH key to temporary file..."
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          echo "Testing SSH connection..."
+          ssh -o StrictHostKeyChecking=no \
+              -i ~/.ssh/id_rsa \
+              -p ${{ secrets.PORT }} \
+              ${{ secrets.USERNAME }}@${{ secrets.HOST }} \
+              "echo 'SSH connection successful!'"

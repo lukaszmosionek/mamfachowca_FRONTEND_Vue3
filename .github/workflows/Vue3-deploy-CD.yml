@@ -25,12 +25,8 @@ jobs:
         run: npm run build
 
       - name: Upload to Home.pl via SSH
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.PORT }}
-          debug: true
-          script: |
-            rsync -avz --delete ./dist/ ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:~/public_html/mamfachowca.mosioneklukasz.pl/
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          rsync -avz -e "ssh -i ~/.ssh/id_rsa -p ${{ secrets.PORT }} -o StrictHostKeyChecking=no" --delete ./dist/ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~/public_html/mamfachowca.mosioneklukasz.pl/
