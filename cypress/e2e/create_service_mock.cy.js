@@ -8,7 +8,7 @@ describe('Create service', () => {
 
     cy.visit('/my-services')
     //click first book button
-    // cy.get('a.add-new[href="/my-services"]').click()
+    cy.get('a.add-new').click()
     cy.wait(1000)
     //book appointment
     // cy.intercept('GET', 'http://127.0.0.1:8000/api/services/*').as('serviceRequest')

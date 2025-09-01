@@ -108,7 +108,7 @@ const submit = async () => {
   loading.value = true
 
   try {
-    if (serviceID.value) {
+    if (isEditView.value) {
       await api.put(`/me/services/${serviceID.value}`, form.value)
     } else {
       await api.post('/me/services', form.value, {
