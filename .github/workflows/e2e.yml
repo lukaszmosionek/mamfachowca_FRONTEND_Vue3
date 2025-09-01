@@ -46,7 +46,7 @@ jobs:
             sleep 5
           done
 
-      - name: Create .env
+      - name: Create .env Laravel
         run: |
           cd backend
           echo "${{ secrets.LARAVEL_ENV }}" > .env
@@ -57,7 +57,7 @@ jobs:
           composer install --no-interaction --prefer-dist
           php artisan key:generate
 
-      - name: Run migrations
+      - name: Run migrations Laravel
         run: |
            cd backend
            php artisan migrate
@@ -69,31 +69,31 @@ jobs:
           DB_USERNAME: root
           DB_PASSWORD: root
 
-      - name: Run server
+      - name: Run server Laravel
         run: |
           php artisan serve --host=0.0.0.0 --port=8000 &
 
       # --- Setup Node & Frontend ---
-      - name: Setup Node
+      - name: Setup Node Vue
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Install Frontend Dependencies
+      - name: Install Frontend Dependencies Vue
         run: npm ci
 
-      - name: Create .env.production
+      - name: Create .env.production Vue
         run: |
           echo "${{ secrets.ENV_PRODUCTION }}" > .env.production
           echo "${{ secrets.ENV_PRODUCTION }}" > .env
           echo "${{ secrets.ENV_PRODUCTION }}" > .env.local
 
       # Start your dev server in the background
-      - name: Start Vite server
+      - name: Start Vite server Vue
         run: npm run dev &
       
       # Wait for the server to be up
-      - name: Wait for server
+      - name: Wait for server Vue
         run: npx wait-on http://localhost:5173
 
       - name: Run Cypress tests
