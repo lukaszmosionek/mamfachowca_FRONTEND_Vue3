@@ -89,7 +89,7 @@ jobs:
         run: npx wait-on http://localhost:5173
 
       - name: Run Cypress tests
-        run: npx cypress run --browser chrome --headless -- --no-sandbox --disable-dev-shm-usage --record --key 3b36aa75-fa7c-4197-a18b-d1da9fa16292
+        run: npx cypress run
 
 
 
