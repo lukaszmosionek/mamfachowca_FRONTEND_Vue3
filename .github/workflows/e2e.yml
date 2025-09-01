@@ -82,6 +82,12 @@ jobs:
       - name: Install Frontend Dependencies
         run: npm ci
 
+      - name: Create .env.production
+        run: |
+          echo "${{ secrets.ENV_PRODUCTION }}" > .env.production
+          echo "${{ secrets.ENV_PRODUCTION }}" > .env
+          echo "${{ secrets.ENV_PRODUCTION }}" > .env.local
+
       # Start your dev server in the background
       - name: Start Vite server
         run: npm run dev &
