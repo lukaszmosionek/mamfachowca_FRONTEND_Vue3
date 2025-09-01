@@ -46,11 +46,15 @@ jobs:
             sleep 5
           done
 
+      - name: Create .env
+        run: |
+          cd backend
+          echo "${{ secrets.LARAVEL_ENV }}" > .env
+
       - name: Install Laravel Dependencies
         run: |
           cd backend
           composer install --no-interaction --prefer-dist
-          cp .env.example .env
           php artisan key:generate
 
       - name: Run migrations
