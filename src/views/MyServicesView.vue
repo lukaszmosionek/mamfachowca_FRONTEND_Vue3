@@ -6,7 +6,7 @@
 
     <div class="md:text-right text-center mt-2 mb-2">
       <!-- <button type="button" @click="createNew"class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"><font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />{{ $t('Add new service') }}</button> -->
-      <RouterLink :to="{ name: 'MyServiceView', params: { serviceId: null } }" class="add-new px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"><font-awesome-icon :icon="['fas', 'eye']" /><span class="md:inline hidden">{{ $t('Add new service') }}</span></RouterLink>&nbsp;
+      <RouterLink :to="{ name: 'MyServiceView', params: { serviceId: 'new' } }" class="add-new px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"><font-awesome-icon :icon="['fas', 'eye']" /><span class="md:inline hidden">{{ $t('Add new service') }}</span></RouterLink>&nbsp;
     </div>
 
     <div class="overflow-x-auto">
@@ -25,10 +25,10 @@
             <td class="px-4 py-2 text-gray-600">{{ s.price }}</td>
             <td class="px-4 py-2 md:text-right h-full">
               <div class="md:block flex-center space-x-2">
-                  <RouterLink :to="{ name: 'BookServiceView', params: { serviceId: s.id } }" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"><font-awesome-icon :icon="['fas', 'eye']" /><span class="md:inline hidden">{{ $t('View') }}</span></RouterLink>&nbsp;
-                  <RouterLink :to="{ name: 'MyServiceView', params: { serviceId: s.id } }" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"><font-awesome-icon :icon="['fas', 'edit']" /><span class="md:inline hidden">{{ $t('Edit') }}</span></RouterLink>&nbsp;
+                  <RouterLink :to="{ name: 'BookServiceView', params: { serviceId: s.id } }" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 view-service"><font-awesome-icon :icon="['fas', 'eye']" /><span class="md:inline hidden">{{ $t('View') }}</span></RouterLink>&nbsp;
+                  <RouterLink :to="{ name: 'MyServiceView', params: { serviceId: s.id } }" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 edit-service"><font-awesome-icon :icon="['fas', 'edit']" /><span class="md:inline hidden">{{ $t('Edit') }}</span></RouterLink>&nbsp;
                   <!-- <button @click="editService(s)" class="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500"><font-awesome-icon :icon="['fas', 'edit']" /><span class="md:inline hidden">{{ $t('Edit') }}</span></button>&nbsp; -->
-                  <button @click="deleteService(s.id)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"><font-awesome-icon :icon="['fas', 'trash']" /><span class="md:inline hidden">{{ $t('Delete') }}</span></button>
+                  <button @click="deleteService(s.id)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600  delete-service"><font-awesome-icon :icon="['fas', 'trash']" /><span class="md:inline hidden">{{ $t('Delete') }}</span></button>
               </div>
             </td>
           </tr>
@@ -51,6 +51,7 @@ import { toast } from 'vue3-toastify'
 import BaseButton from '@/components/BaseButton.vue'
 import { useI18n } from 'vue-i18n'
 import { emptyStructureFromExample } from '@/helpers/createEmptyStructure'
+import Swal from 'sweetalert2'
 // import { myServicesSchema } from '@/api/schemas/myServicesSchema'
 
 const services = ref({})
@@ -59,7 +60,7 @@ const showForm = ref(false)
 const loading = ref(false)
 const showLoadMore = ref(true)
 const page = ref(1)
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 
 const loadServices = async () => {
   loading.value = true
@@ -95,15 +96,17 @@ const editService = (s) => {
 }
 
 const deleteService = async (id) => {
-  if (confirm('Na pewno chcesz usunąć?')) {
-    loading.value = true
-    try {
-        await api.delete(`/me/services/${id}`)
-    }catch(err){
-        toast.error('Failed to delete service.'+' Try again later.')
-    }
-    loadServices()
+  const result = await Swal.fire({ title:t('Na pewno chcesz usunąć?'), icon:'warning', showCancelButton:true })
+  if ( !result.isConfirmed ) return
+
+  loading.value = true
+  try {
+      await api.delete(`/me/services/${id}`)
+  }catch(err){
+      toast.error('Failed to delete service.'+' Try again later.')
   }
+  loadServices()
+
 }
 
 const closeForm = () => {

@@ -34,7 +34,7 @@ export default [
           { path: '/reset-password', name: 'ResetPassword', component: ResetPasswordView },
           { path: '/about', name: 'About', component: AboutView },
           { path: '/contact', name: 'Contact', component: ContactView },
-          { path: '/my-services/:serviceId?', name: 'MyServiceView', component: MyServiceView, meta: { requiresAuth: true }  },
+          { path: '/my-services/:serviceId', name: 'MyServiceView', component: MyServiceView, meta: { requiresAuth: true }  },
           { path: '/my-services', name: 'MyServices', component: MyServicesView, meta: { requiresAuth: true, role: Enums.Role.Provider } },
           { path: '/appointments', name: 'Appointments', component: AppointmentView, meta: { requiresAuth: true } },
           { path: '/account', name: 'Account', component: AccountEditView, meta: { requiresAuth: true } },

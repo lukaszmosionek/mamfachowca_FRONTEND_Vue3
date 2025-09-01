@@ -1,5 +1,5 @@
-describe('Create service', () => {
-  it('Create service', () => {
+describe('Edit service', () => {
+  it('Edit service', () => {
 
     //login
     cy.login('provider@onet.pl', 'password') // reusable login in support/commands.ts
@@ -7,12 +7,13 @@ describe('Create service', () => {
     cy.wait(1000)
 
     cy.visit('/my-services')
-    //click first book button
-    // cy.get('a.add-new[href="/my-services"]').click()
+
     cy.wait(1000)
-    //book appointment
-    // cy.intercept('GET', 'http://127.0.0.1:8000/api/services/*').as('serviceRequest')
+
+    // cy.intercept('GET', `${Cypress.env('backendUrl')}/me/services`).as('serviceRequest');
     // cy.wait('@serviceRequest')
+
+    cy.get('a.edit-service').first().click()
 
     cy.get('input.input-name').type('Name of service')
     cy.get('input.input-price').type('999')

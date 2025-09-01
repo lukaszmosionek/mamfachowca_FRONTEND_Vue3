@@ -1,17 +1,13 @@
 describe('Book Appointment', () => {
   it('Book Appointment', () => {
 
-    //login
-    cy.visit('/login')
-    cy.get('input[name="email"]').type('client@onet.pl')
-    cy.get('input[name="password"]').type('password')
-    cy.get('button[type="submit"]').click()
+    cy.login('client@onet.pl', 'password') // reusable login in support/commands.ts
 
     //click first book button
     cy.get('button.book-service').first().click()
 
     //book appointment
-    cy.intercept('GET', 'http://127.0.0.1:8000/api/services/*').as('serviceRequest')
+    cy.intercept('GET', `${Cypress.env('backendUrl')}/services/*`).as('serviceRequest');
     cy.wait('@serviceRequest')
 
     cy.get('.select-date input').click()
@@ -28,7 +24,7 @@ describe('Book Appointment', () => {
     cy.get('button.button-book').click()
 
     cy.wait(3000)
-    
+
     cy.get('.swal2-popup', { timeout: 10000 }).should('be.visible');
     cy.get('.swal2-popup').find('.swal2-success-ring').should('exist');
     cy.contains('OK').click();

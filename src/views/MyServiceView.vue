@@ -67,7 +67,7 @@ const form = ref({
   photos:{}
 })
 const serviceID = ref( route.params.serviceId || null )
-const isEditView= ref(serviceID.value ? true : false)
+const isEditView= ref(serviceID.value !== 'new' ? true : false)
 
 const loadService = async () => {
   loading.value = true
@@ -126,7 +126,7 @@ const submit = async () => {
 
 onMounted(async () => {
     form.value = deepClone(myServicesSchema)
-    if( serviceID.value ){
+    if( isEditView.value ){
         await loadService()
     }
 });

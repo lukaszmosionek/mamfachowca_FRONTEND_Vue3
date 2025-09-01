@@ -44,7 +44,7 @@
             <RouterLink v-if="authStore.isAdmin" class="hidden md:inline" :to="{ name: 'AdminDashboard', params: {}, query: {} }" @click="headerStore.triggerHomeClick()" title="Admin Panel">Admin Panel</RouterLink>
             <RouterLink v-if="isLogged" :to="{ name: 'Appointments' }">{{ $t('Appointments') }}</RouterLink>
             <RouterLink v-if="isLogged && isProvider" :to="{ name: 'MyServices' }">{{ $t('My services') }}</RouterLink>
-            <BaseButton v-if="isLogged" @click="logout" :loading="loading" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit"> <font-awesome-icon :icon="['fas', 'right-from-bracket']" />&nbsp;{{ $t('Logout') }}</BaseButton>
+            <BaseButton v-if="isLogged" @click="logout" :loading="loading" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit btn-logout"> <font-awesome-icon :icon="['fas', 'right-from-bracket']" />&nbsp;{{ $t('Logout') }}</BaseButton>
           </div>
         </div>
       </nav>
@@ -66,7 +66,7 @@
 
     <RouterLink @click="mobileMenuOpen = false" v-if="isLogged" :to="{ name: 'Account' }"> {{ authStore.user.name }} #{{ authStore.user.id}} ({{ authStore.user.role }})</RouterLink>
 
-    <BaseButton @click="logout" :loading="loading" :name="$t('Logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700" v-if="authStore.token"/>
+    <BaseButton @click="logout" :loading="loading" :name="$t('Logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 btn-logout" v-if="authStore.token"/>
 
   </nav>
 </template>

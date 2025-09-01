@@ -26,12 +26,25 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
 // declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+  //   namespace Cypress {
+    //     interface Chainable {
+      //       login(email: string, password: string): Chainable<void>
+      //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
+      //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
+      //       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
+      //     }
+      //   }
+      // }
+
+
+
+Cypress.Commands.add('login', (email = 'testuser@test.pl', password = 'password123') => {
+        cy.visit('/login') // visit login page
+        cy.get('input[name="email"]').type(email)
+        cy.get('input[name="password"]').type(password)
+  cy.get('button[type="submit"]').click()
+
+  // optional: wait for some UI element to confirm login
+  // cy.get('[data-cy=dashboard]').should('be.visible')
+})
+
