@@ -20,6 +20,8 @@ import Users from '@/components/admin/Users.vue'
 import Settings from '@/components/admin/Settings.vue'
 import Services from '@/components/admin/Services.vue'
 
+import NotFound from '@/views/NotFound.vue'
+
 import { Enums } from '@/enums.js'
 
 export default [
@@ -42,6 +44,7 @@ export default [
           { path: '/services/:serviceId', name: 'BookServiceView', component: BookServiceView, meta: { requiresAuth: true }  },
           { path: '/favorites', name: 'Favorites', component: FavoritesView, meta: { requiresAuth: true }  },
           { path: '/profiles/:userId', name: 'Profile', component: ProfileView, meta: { requiresAuth: false }  },
+
         ]
       },
 
@@ -57,7 +60,15 @@ export default [
 
           { path: 'my-services/:serviceId', name: 'AdminMyServiceView', component: MyServiceView },
 
-          { path: '', redirect: '/admin/dashboard' }
+          { path: '', redirect: '/admin/dashboard' },
+
         ]
+      },
+
+      // Catch-all route (must be last)
+      {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: NotFound
       }
 ]
