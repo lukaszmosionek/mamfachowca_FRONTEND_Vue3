@@ -21,15 +21,16 @@ describe('Book Appointment', () => {
 
     cy.get('.select-hour select').find('option').first().then(option => { cy.get('.select-hour select').select(option.val()); });
 
+    cy.wait(500)
+
     cy.get('.select-minute select').find('option').first().then(option => { cy.get('.select-minute select').select(option.val()); });
 
     cy.get('button.button-book').click()
 
-    cy.wait(1000)
-
-
-    // cy.get('.swal2-popup', { timeout: 5000 }).should('be.visible')
-
-    cy.contains('Reservation booked successfully').should('be.visible')
+    cy.wait(3000)
+    
+    cy.get('.swal2-popup', { timeout: 10000 }).should('be.visible');
+    cy.get('.swal2-popup').find('.swal2-success-ring').should('exist');
+    cy.contains('OK').click();
   })
 })

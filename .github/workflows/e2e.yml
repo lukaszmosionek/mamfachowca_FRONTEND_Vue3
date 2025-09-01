@@ -4,6 +4,7 @@ on:
   push:
     branches: [ master ]
   pull_request:
+  workflow_dispatch:
 
 jobs:
   e2e-tests:
@@ -14,7 +15,7 @@ jobs:
         image: mysql:8
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: test_db
+          MYSQL_DATABASE: laravel
         ports:
           - 3306:3306
         options: >-
@@ -41,30 +42,55 @@ jobs:
         with:
           php-version: 8.2
 
+      - name: Wait for MySQL
+        run: |
+          until mysqladmin ping -h127.0.0.1 -uroot -proot; do
+            echo "Waiting for MySQL..."
+            sleep 5
+          done
+
       - name: Install Laravel Dependencies
         run: |
           cd backend
           composer install --no-interaction --prefer-dist
           cp .env.example .env
           php artisan key:generate
-          php artisan migrate --database=sqlite --force
+
+      - name: Run migrations
+        run: |
+           cd backend
+           php artisan migrate
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: laravel
+          DB_USERNAME: root
+          DB_PASSWORD: root
+
+      - name: Run server
+        run: |
           php artisan serve --host=0.0.0.0 --port=8000 &
 
       # --- Setup Node & Frontend ---
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Install Frontend Dependencies
         run: npm ci
 
-      # --- Run Cypress Tests ---
-      - name: Run Cypress Tests
-        uses: cypress-io/github-action@v6
-        with:
-          start: npm run dev
-          wait-on: 'http://localhost:5173'
-          wait-on-timeout: 60
-        env:
-          CYPRESS_baseUrl: http://localhost:5173
+      # Start your dev server in the background
+      - name: Start Vite server
+        run: npm run dev &
+      
+      # Wait for the server to be up
+      - name: Wait for server
+        run: npx wait-on http://localhost:5173
+
+      - name: Run Cypress tests
+        run: npx cypress run --browser chrome --headless -- --no-sandbox --disable-dev-shm-usage --record --key 3b36aa75-fa7c-4197-a18b-d1da9fa16292
+
+
+
