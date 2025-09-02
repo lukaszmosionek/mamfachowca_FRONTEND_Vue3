@@ -39,12 +39,23 @@
 
 
 Cypress.Commands.add('login', (email = 'testuser@test.pl', password = 'password123') => {
-        cy.visit('/login') // visit login page
-        cy.get('input[name="email"]').type(email)
-        cy.get('input[name="password"]').type(password)
-  cy.get('button[type="submit"]').click()
+    cy.visit('/login') // visit login page
+    cy.get('input[name="email"]').type(email)
+    cy.get('input[name="password"]').type(password)
+    cy.get('button[type="submit"]').click()
+})
 
-  // optional: wait for some UI element to confirm login
-  // cy.get('[data-cy=dashboard]').should('be.visible')
+
+Cypress.Commands.add('changeLanguage', (changeTo='pl') => {
+    // cy.visit('/') // visit login page
+
+    cy.get('body').then(($body) => {
+      // Check if Polish button exists
+      if ($body.find('button#changeLanguage-'+changeTo).length === 1) {
+        // If not, click English button
+        cy.get('button#changeLanguage-'+changeTo).click();
+      }
+    });
+
 })
 
