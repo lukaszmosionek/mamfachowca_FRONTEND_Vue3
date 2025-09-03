@@ -15,6 +15,8 @@
     />
     <textarea
         v-if="isTextarea"
+        :id="name ?? computedId"
+        :name="name"
         class="w-full border border-gray-300 rounded-md px-4 py-2"
         v-bind="$attrs"
         :value="modelValue"

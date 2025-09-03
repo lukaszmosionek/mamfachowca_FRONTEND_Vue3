@@ -14,7 +14,8 @@
     "lint:eslint": "eslint . --fix",
     "lint": "run-s lint:*",
     "format": "prettier --write src/",
-    "test": "vitest"
+    "test": "vitest",
+    "testCypress": "npx cypress run"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.0.0",
