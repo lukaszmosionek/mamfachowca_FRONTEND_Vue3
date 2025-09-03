@@ -40,8 +40,8 @@
                 </div> -->
         </div>
         <form @submit.prevent="sendMessage" class="mt-4 flex gap-4">
-          <BaseInput v-model="newMessage" type="text" max="1000" :placeholder="$t('Message')" :errors="errors.message" class="w-full" />
-          <BaseButton type="submit" :loading="isSendingMessage" :disabled="isFetchingMessages || isSendingMessage" class="px-5 h-12"><font-awesome-icon :icon="['fas', 'paper-plane']" />&nbsp;{{ $t('Send') }}</BaseButton>
+          <BaseInput v-model="newMessage" name="message" type="text" max="1000" :placeholder="$t('Message')" :errors="errors.message" class="w-full" />
+          <BaseButton type="submit" id="send-message" :loading="isSendingMessage" :disabled="isFetchingMessages || isSendingMessage" class="px-5 h-12"><font-awesome-icon :icon="['fas', 'paper-plane']" />&nbsp;{{ $t('Send') }}</BaseButton>
         </form>
       </div>
     </div>
