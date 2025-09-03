@@ -13,22 +13,48 @@ describe('Register Page', () => {
 
     // Submit form
     cy.get('button[type="submit"]').click()
-
-
+    
     // Verify redirect or success message
     cy.url().should('include', '/') // Example
     cy.contains('Mam fachowca')
   })
 
-  // it('shows error on invalid credentials', () => {
-  //   cy.visit('http://localhost:5173/login')
+  it('shows error on invalid credentials', () => {
 
-    //   cy.get('input[name="name"]').type('Marc Due')
-    //   cy.get('input[name="email"]').type('client@onet.pl')
-    //   cy.get('input[name="password"]').type('password234,./A')
-    //   cy.get('input[name="password_confirmation"]').type('password234,./A')
-    // cy.get('button[type="submit"]').click()
+    cy.visit('/')
+    cy.get('a[href="/register"]').click();
 
-  //   cy.contains('Invalid credentials').should('be.visible')
-  // })
+    cy.get('button[type="submit"]').click()
+
+    cy.contains('Name is required.').should('be.visible')
+    cy.contains('Email is required.').should('be.visible')
+    cy.contains('Password is required.').should('be.visible')
+    cy.contains('Password confirmation is required.').should('be.visible')
+  })
+
+    it('shows invalid email message', () => {
+
+      cy.visit('/')
+      cy.get('a[href="/register"]').click();
+
+      cy.get('input[name="email"]').type('clientoadasdasdanetpl')
+      cy.get('button[type="submit"]').click()
+
+      cy.contains('Invalid email.').should('be.visible')
+
+  })
+
+  it('shows password confirmation error message', () => {
+
+      cy.visit('/')
+      cy.get('a[href="/register"]').click();
+
+      cy.get('input[name="password"]').type('123123123A.')
+      cy.get('input[name="password_confirmation"]').type('123123123A.asdadasdad')
+      cy.get('button[type="submit"]').click()
+
+      cy.contains('Password must include at least one lowercase letter.').should('be.visible')
+      cy.contains('Password and password confirmation must be the same.').should('be.visible')
+
+  })
 })

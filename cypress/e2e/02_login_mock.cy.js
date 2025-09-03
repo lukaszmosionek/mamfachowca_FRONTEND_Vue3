@@ -10,7 +10,6 @@ describe('Login Page', () => {
     // Submit form
     cy.get('button[type="submit"]').click()
 
-
     // Verify redirect or success message
     cy.url().should('include', '/') // Example
     cy.contains('Mam fachowca')
@@ -25,5 +24,15 @@ describe('Login Page', () => {
     cy.get('button[type="submit"]').click()
 
     cy.contains('Invalid credentials').should('be.visible')
+  })
+
+    it('email and passowrd are required', () => {
+    // cy.wait(500)
+    cy.visit('/login')
+
+    cy.get('button[type="submit"]').click()
+
+    cy.contains('Email is required.').should('be.visible')
+    cy.contains('Password is required.').should('be.visible')
   })
 })
