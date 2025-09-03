@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="{ 'opacity-50': isLoading }" v-for="(s, index) in services" :key="s.id"  class="mx-auto bg-white rounded shadow-md overflow-hidden flex mt-5 w-full relative" >
+    <div :class="{ 'opacity-50': isLoading }" v-for="(s, index) in services" :key="s.id" :data-id="s.id"  class="mx-auto bg-white rounded shadow-md overflow-hidden flex mt-5 w-full relative ad-tile" >
 
       <!-- Zdjęcie -->
       <div class="w-40 h-40 md:w-80 md:h-80">
@@ -12,7 +12,7 @@
       <div class="flex-1 w-full">
         <div class="md:p-4 p-2 flex flex-col justify-between h-full">
             <div class="flex flex-col justify-between">
-              <h2 class="font-semibold text-gray-800 md:text-xl text-xs md:mr-0 mr-6  whitespace-normal">{{ s.name }}</h2>
+              <h2 class="font-semibold text-gray-800 md:text-xl text-xs md:mr-0 mr-6 whitespace-normal service-title">{{ s.name }}</h2>
               <p class="max-h-[150px] overflow-hidden line-clamp-5 text-gray-500 hidden md:block text-xs md:text-sm">{{ s.description }}</p>
               <div class="text-gray-600 text-xs md:text-sm" v-if="s.provider">
                 <div class="mt-2 flex"><span class="hidden md:block">{{ $t('Service duration') }}:&nbsp;</span><span>{{ s.duration_minutes }} min.</span></div>
@@ -26,7 +26,7 @@
               <BaseButton :data-id="s.id" @click="router.push({ name: 'BookServiceView', params: { serviceId: s.id } })" class="ml-4 w-fit book-service"><font-awesome-icon :icon="['fas', 'calendar-plus']" /><span class="hidden md:inline">&nbsp;{{$t('Book')}}</span></BaseButton>
             </div>
             <!-- Cena i serduszko -->
-            <div @click="toggleFavorite(s.id, $event)" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 cursor-pointer text-2xl"><font-awesome-icon :icon="[s.is_favorited ? 'fas' : 'far', 'heart']" /></div>
+            <div @click="toggleFavorite(s.id, $event)" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 cursor-pointer text-2xl add-to-favorities" :data-is-favorited="s.is_favorited"><font-awesome-icon :icon="[s.is_favorited ? 'fas' : 'far', 'heart']" /></div>
             <div v-if="isLoading" class="absolute inset-0 flex items-center justify-center">
               <div class="spinner"></div>
             </div>

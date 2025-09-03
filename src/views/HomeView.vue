@@ -43,9 +43,9 @@ const page = ref(1)
 const isLoading = ref(false)
 // const services = ref(Array(10).fill({}))
 const services = ref({})
-// const services = ref([]);
 const providers = ref([])
 const hasMore = ref(true)
+let debounceTimeout;
 
 const loadServices = async () => {
   if (isLoading.value || !hasMore.value) return
@@ -62,6 +62,7 @@ const loadServices = async () => {
     })
 
     if( page.value === 1 ){
+        services.value = {}
         Object.assign(services.value, res.services)
     }else{
         services.value.push( ...res.services )
@@ -82,7 +83,11 @@ const loadServices = async () => {
 const handleFilters = (el) => {
   filters.value = el
   page.value = 1
-  loadServices()
+  hasMore.value = true
+  clearTimeout(debounceTimeout);
+  debounceTimeout = setTimeout(() => {
+      loadServices()
+  }, 500);
 }
 
 const loadProviders = async () => {
@@ -107,19 +112,19 @@ onMounted(() => {
 //   loadServices()
 // }
 
-watch(
-  () => route.query,
-  (newQuery) => {
+// watch(
+//   () => route.query,
+//   (newQuery) => {
 
-      hasMore.value = true
+//       hasMore.value = true
 
-      page.value = Number(newQuery.page) || 1
-      filters.value.name = (newQuery.name) || ''
-      filters.value.provider_id = Number(newQuery.provider_id) || ''
-      loadServices()
-  },
-  { immediate: true, deep: true }
-)
+//       page.value = Number(newQuery.page) || 1
+//       filters.value.name = (newQuery.name) || ''
+//       filters.value.provider_id = Number(newQuery.provider_id) || ''
+//       loadServices()
+//   },
+//   { immediate: true, deep: true }
+// )
 
 
 //Home Clicked

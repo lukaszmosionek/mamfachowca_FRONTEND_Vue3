@@ -1,8 +1,8 @@
 <template>
   <div class="">
     <div class="my-6 block md:flex gap-4 justify-center md:mx-0 mx-4">
-      <BaseInput type="" :placeholder="$t('Search by name')" v-model="filters.name" @input="applyFilters" wrapperClass="mt-1 md:!w-1/4 !w-full" />
-      <BaseSelect v-model="filters.provider_id" @update:modelValue="applyFilters" :options="providers" :isAssociativeArray="true" :addFirstOption="$t('All Providers')" wrapperClass="mt-2 md:!w-1/4 !w-full h-10" class="" />
+      <BaseInput type="" name="search-box" :placeholder="$t('Search by name')" v-model="filters.name" @input="applyFilters" wrapperClass="mt-1 md:!w-1/4 !w-full" />
+      <BaseSelect v-model="filters.provider_id" name="select-provider" @update:modelValue="applyFilters" :options="providers" :isAssociativeArray="true" :addFirstOption="$t('All Providers')" wrapperClass="mt-2 md:!w-1/4 !w-full h-10" class="" />
     </div>
   </div>
 </template>
@@ -28,7 +28,7 @@ const props = defineProps({
 const emits = defineEmits(['update:filters'])
 
 const applyFilters = () => {
-  if (props.filters.name && props.filters.name.length < 3) return
+  // if (props.filters.name && props.filters.name.length < 3) return
   updateQueryParams(props.filters)
   emits('update:filters', { ...props.filters });
 }
