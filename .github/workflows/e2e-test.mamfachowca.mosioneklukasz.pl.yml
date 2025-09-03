@@ -1,0 +1,39 @@
+name: E2E Tests - Cypress e2e-test.mamfachowca.mosioneklukasz.pl
+
+on:
+  # push:
+  #   branches: [ master ]
+  # pull_request:
+  workflow_dispatch:
+
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # --- Checkout Frontend Repo ---
+      - name: Checkout Frontend
+        uses: actions/checkout@v4
+
+      # --- Setup Node & Frontend ---
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Frontend Dependencies
+        run: npm ci
+
+      - name: Run Cypress tests
+        run: npx cypress run --env ENV=test
+
+      # Upload screenshots (if any)
+      - name: Upload Cypress screenshots
+        if: failure() # only upload if tests failed
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+
+

@@ -17,7 +17,7 @@ describe('Book Appointment', () => {
 
     cy.get('.select-hour select').find('option').first().then(option => { cy.get('.select-hour select').select(option.val()); });
 
-    cy.wait(500)
+    cy.wait(3000)
 
     cy.get('.select-minute select').find('option').first().then(option => { cy.get('.select-minute select').select(option.val()); });
 

@@ -38,7 +38,7 @@
 
 
 
-Cypress.Commands.add('login', (email = 'testuser@test.pl', password = 'password123') => {
+Cypress.Commands.add('login', (email = 'client@onet.pl', password = 'password') => {
     cy.visit('/login') // visit login page
     cy.get('input[name="email"]').type(email)
     cy.get('input[name="password"]').type(password)
@@ -49,13 +49,20 @@ Cypress.Commands.add('login', (email = 'testuser@test.pl', password = 'password1
 Cypress.Commands.add('changeLanguage', (changeTo='pl') => {
     // cy.visit('/') // visit login page
 
-    cy.get('body').then(($body) => {
-      // Check if Polish button exists
-      if ($body.find('button#changeLanguage-'+changeTo).length === 1) {
-        // If not, click English button
-        cy.get('button#changeLanguage-'+changeTo).click();
-      }
-    });
+    // cy.get('body').then(($body) => {
+    //   // Check if Polish button exists
+    //   if ($body.find('button#changeLanguage-'+changeTo).length === 1) {
+    //     // If not, click English button
+    //     cy.get('button#changeLanguage-'+changeTo).click();
+    //   }
+    // });
+
+
+  cy.get('button#changeLanguage-' + changeTo).then(($btn) => {
+    if ($btn.length === 1) {
+      $btn.click();
+    }
+  });
 
 })
 

@@ -4,12 +4,11 @@ describe('Create service', () => {
     //login
     cy.login('provider@onet.pl', 'password') // reusable login in support/commands.ts
 
-    cy.wait(1000)
-
-    cy.visit('/my-services')
+    cy.get('a[href="/account"]').realHover();
+    cy.get('a[href="/my-services"]').first().should('be.visible').click()
     //click first book button
     cy.get('a.add-new').click()
-    cy.wait(1000)
+
     //book appointment
     // cy.intercept('GET', 'http://127.0.0.1:8000/api/services/*').as('serviceRequest')
     // cy.wait('@serviceRequest')

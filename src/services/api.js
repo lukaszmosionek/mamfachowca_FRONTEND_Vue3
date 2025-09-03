@@ -43,9 +43,7 @@ api.interceptors.response.use(
             }, 500); // 0,5 second delay
           } else {
             console.warn('Maximum refresh limit reached.');
-            localStorage.removeItem('refreshCount'); // Optional: reset after limit
-            alert('Unable to connect to the server. Please check your internet or try again later.');
-
+            // localStorage.removeItem('refreshCount'); // Optional: reset after limit
           }
         }
 

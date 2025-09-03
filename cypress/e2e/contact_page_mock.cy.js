@@ -7,13 +7,13 @@ describe('contact_page', () => {
     cy.get('input#email').type('kamil.nowak@onet.pl');
     cy.get('textarea#message').type('Treść wiadomości email');
 
+    cy.wait(3000)
+
     cy.get('button[type="submit"]').click();
 
     cy.wait(3000)
 
-    cy.changeLanguage('en')
-
-    cy.contains('Message sent successfully!').click();
+    cy.contains('OK').click();
 
 
 

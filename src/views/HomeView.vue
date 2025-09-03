@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper h-screen overflow-y-auto"  ref="scrollContainer" @scroll="handleScroll">
+  <div class="h-screen overflow-y-auto scrollContainer" ref="scrollContainer" @scroll="handleScroll">
     <Filtering :providers="providers" :filters="filters" @update:filters="handleFilters" />
       <HomeTile :services="services" :isLoading="isLoading" />
       <!-- <Pagination :pagination="pagination" @page-changed="handlePageChange" /> -->
@@ -42,7 +42,7 @@ const page = ref(1)
 
 const isLoading = ref(false)
 // const services = ref(Array(10).fill({}))
-const services = ref({})
+const services = ref([])
 const providers = ref([])
 const hasMore = ref(true)
 let debounceTimeout;
@@ -62,7 +62,7 @@ const loadServices = async () => {
     })
 
     if( page.value === 1 ){
-        services.value = {}
+        services.value = []
         Object.assign(services.value, res.services)
     }else{
         services.value.push( ...res.services )
@@ -76,6 +76,7 @@ const loadServices = async () => {
 
   } catch(err) {
     toast.error('Fail to load services. Try again later.')
+    console.log(err)
   }
   isLoading.value = false
 }

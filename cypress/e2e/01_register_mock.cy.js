@@ -1,7 +1,9 @@
 describe('Register Page', () => {
   it('register in successfully with correct credentials', () => {
     // Visit login page
-    cy.visit('/register')
+    cy.visit('/')
+
+    cy.get('a[href="/register"]').click();
 
     // Fill login form
     cy.get('input[name="name"]').type('Marc Due')
