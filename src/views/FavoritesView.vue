@@ -100,7 +100,6 @@ onMounted(() => {
 // }
 
 const handleFilters = (el) => {
-  console.log(el)
   filters.value = el
   page.value = 1
   loadServices();

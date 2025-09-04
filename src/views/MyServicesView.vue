@@ -67,8 +67,6 @@ const loadServices = async () => {
   try {
     const res = await api.get('/me/services')
 
-    // console.log(emptyStructureFromExample(res.services))
-
     if( page.value === 1 ){
         services.value = res.services
     }else{

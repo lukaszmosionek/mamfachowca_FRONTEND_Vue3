@@ -13,11 +13,9 @@
           <img alt="Flag PL" src="@/assets/icons/flag-pl.svg" width="20" height="20" /> <span class="text-sm">PL</span>
         </button>
 
-        <!-- <BaseInput v-model="form.name" :label="$t('Name')" placeholder="e.g. John Doe" :errors="errors.errors?.name" /> -->
         <div v-for="(t, index) in form.translations">
             <BaseInput v-model="t.name" v-if="lang === t.language.code" :label="$t('Name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors.errors?.name" />
         </div>
-        <!-- <BaseInput v-model="form.translations.pl.name" v-if="lang === 'pl'" :label="$t('Name')" placeholder="e.g. John Doe" :errors="errors.errors?.name" /> -->
 
         <BaseInput v-model="form.price" :label="$t('Price')" placeholder="e.g. 100" :errors="errors.errors?.price" type="number"/>
         <BaseInput v-model="form.duration_minutes" :label="$t('Time (minutes)')" placeholder="e.g. 60" :errors="errors.errors?.duration_minutes" type="number"/>
@@ -25,7 +23,6 @@
         <div v-for="(t, index) in form.translations">
             <BaseInput  v-model="t.description" v-if="lang === t.language.code" :label="$t('Description')+' - '+t.language.code" :placeholder="$t('Description')" rows="4" :isTextarea="true"  :key="index" class="text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></BaseInput>
         </div>
-        <!-- <BaseInput v-model="form.translation[1].description" v-if="lang === 'pl'" :label="$t('Description')" :placeholder="$t('Description')" rows="4" :isTextarea="true" class="text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></BaseInput> -->
 
         <div class="flex items-center justify-center">
             <PhotoGallery :photos="service?.photos ?? []" :serviceId="service?.id ?? null" :isEditView="service?.id ? true : false" @update:photos="handlePhotos"></PhotoGallery>
@@ -50,10 +47,7 @@ import PhotoGallery from '@/components/PhotoGallery.vue'
 import { useI18n } from 'vue-i18n'
 import { myServicesSchema } from '@/api/schemas/myServicesSchema'
 import { deepClone } from '@/helpers/deepClone.js'
-
-// const props = defineProps({
-//   service: Object
-// })
+import { toast } from 'vue3-toastify'
 
 const service = ref(null)
 const { locale } = useI18n()
@@ -70,18 +64,6 @@ const loadService = async () => {
   try {
     const res = await api.get('/me/services/'+ parseInt(serviceID.value) )
     service.value = res.service
-    // console.log(emptyStructureFromExample(res.services))
-
-    // if( page.value === 1 ){
-    //     services.value = res.services
-    // }else{
-    //     services.value.push( ...res.services )
-    // }
-
-    // if (page.value >= res.last_page) {
-    //     showLoadMore.value = false
-    // }
-
   }catch(err){
       toast.error('Failed to show services.'+' Try again later.')
   }
@@ -89,11 +71,8 @@ const loadService = async () => {
 }
 
 watch(() => props.service, (val) => {
-  console.log(val)
   if (val) { //update service
     form.value = { ...myServicesSchema, ...val}
-    // Object.assign(form.value, val)
-    // form.value = { ...val }
   } else { // new servive
     form.value = deepClone(myServicesSchema)
   }
@@ -113,7 +92,7 @@ const submit = async () => {
     emit('saved')
     emit('close')
   } catch (error) {
-      console.error('Unexpected error:', error)
+      toast.error('Unexpected error:', error)
   } finally {
     loading.value = false
   }

@@ -70,7 +70,7 @@ onMounted(async () => {
         unread_count.value++
       })
     }catch(error){
-      console.log(error)
+      console.log('Puscher error: '+error)
     }
   } else {
     console.log("Echo not connected, falling back to polling, start fetching from api every 60 seconds")

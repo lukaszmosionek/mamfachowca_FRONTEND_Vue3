@@ -157,10 +157,7 @@ onMounted(() => {
 watch(() => form.date, () => {
 
   if(form.date){
-    console.log('form.date', form.date )
-    console.log('availability.value', availability.value )
     const time = getTimeFromAvailability(form.date)
-    console.log('time.time', time )
 
     hours.value = []
     for (let i = time['startTime']['hour']; i <= time['endTime']['hour']; i++) {

@@ -1,4 +1,4 @@
-name: E2E Tests - Cypress e2e-test.mamfachowca.mosioneklukasz.pl
+name: E2E Tests - Cypress test.mamfachowca.mosioneklukasz.pl
 
 on:
   # push:

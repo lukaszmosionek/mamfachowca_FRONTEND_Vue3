@@ -1,4 +1,4 @@
-name: E2E Tests - Cypress
+name: E2E Tests - Cypress on Github Ubuntu
 
 on:
   # push:
