@@ -1,6 +1,32 @@
-function validateName(name) {
-  if (!name) return 'validation.name.required'
-  if (name.length < 3) return 'validation.name.minLength'
+function validateServiceName(name) {
+  if (!name) return 'validation.serviceName.required'
+  if (name.length < 3) return 'validation.serviceName.minLength'
+}
+
+function validatePersonName(name) {
+  if (!name) return 'validation.personName.required'
+  if (name.length < 3) return 'validation.personName.minLength'
+}
+
+function validatePrice(price) {
+  if (!price) return 'validation.price.required'
+
+  const number = Number(price)
+  if (isNaN(number)) return 'validation.price.number'
+  if (number <= 0) return 'validation.price.positive'
+}
+
+function validateDurationMinutes(time) {
+  if (!time) return 'validation.time.required'
+
+  const number = Number(time)
+  if (isNaN(number)) return 'validation.time.number'
+  if (number <= 0) return 'validation.time.positive'
+}
+
+function validateDescription(description) {
+  if (!description) return 'validation.description.required'
+  if (description.length < 3) return 'validation.description.minLength'
 }
 
 function validateMessage(message) {
@@ -37,7 +63,7 @@ function validatePasswordConfirmation(password, passwordConfirmation) {
 export function validateRegister(form) {
   const errors = {} // reset errors before submit
 
-  errors.name = validateName(form.value.name)
+  errors.name = validatePersonName(form.value.name)
   errors.email = validateEmail(form.value.email)
   errors.password = validatePassword(form.value.password, true)
   errors.password_confirmation = validatePasswordConfirmation(form.value.password, form.value.password_confirmation)
@@ -73,9 +99,29 @@ export function validatePasswordReset(form) {
 export function validateContact(form) {
   const errors = {} // reset errors before submit
 
-  errors.name = validateName(form.value.name)
+  errors.name = validatePersonName(form.value.name)
   errors.email = validateEmail(form.value.email)
   errors.message = validateMessage(form.value.message)
+
+  cleanUpEmptyErrorFields(errors)
+
+  return errors
+}
+
+export function validateService(form) {
+  const errors = {
+    translations: []
+  } // reset errors before submit
+
+  errors.price = validatePrice(form.price)
+  errors.duration_minutes = validateDurationMinutes(form.duration_minutes)
+
+  form.translations.forEach((t, index) => {
+    errors.translations[index] = {
+      name: validateServiceName(t.name),
+      description: validateDescription(t.description),
+    }
+  })
 
   cleanUpEmptyErrorFields(errors)
 

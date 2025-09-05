@@ -6,22 +6,24 @@
       </h3>
       <form @submit.prevent="submit" class="space-y-4">
 
-        <button type="button" @click="changeLanguage('en')" class="flex justify-center items-center gap-2 hover:opacity-50">
+        <!-- <button type="button" @click="changeLanguage('en')" class="flex justify-center items-center gap-2 hover:opacity-50">
           <img alt="Flag EN" src="@/assets/icons/flag-en.svg" width="20" height="20" /> <span class="text-sm">EN</span>
         </button>
         <button  type="button"  @click="changeLanguage('pl')" class="flex justify-center items-center gap-2 hover:opacity-50">
           <img alt="Flag PL" src="@/assets/icons/flag-pl.svg" width="20" height="20" /> <span class="text-sm">PL</span>
-        </button>
+        </button> -->
 
-        <div v-for="(t, index) in form.translations">
-            <BaseInput v-model="t.name" v-if="lang === t.language.code" :label="$t('Name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors.errors?.name" class="input-name" />
+        <div v-for="(t, index) in form.translations" key="index">
+            <BaseInput v-model="t.name" :label="$t('Name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors?.translations?.[index]?.name" class="input-name" :name="'name-'+t.language.code" ></BaseInput>
+            <!-- <BaseInput name="name" v-model="t.name" v-if="lang === t.language.code" :label="$t('Name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors?.name" class="input-name" /> -->
         </div>
 
-        <BaseInput v-model="form.price" :label="$t('Price')" placeholder="e.g. 100" :errors="errors.errors?.price" type="number" class="input-price"/>
-        <BaseInput v-model="form.duration_minutes" :label="$t('Time (minutes)')" placeholder="e.g. 60" :errors="errors.errors?.duration_minutes" type="number" class="input-duration-minutes"/>
+        <BaseInput v-model="form.price" name="price" :label="$t('Price')" placeholder="e.g. 100" :errors="errors?.price" type="number" class="input-price"/>
+        <BaseInput v-model="form.duration_minutes" name="duration_minutes" :label="$t('Time (minutes)')" placeholder="e.g. 60" :errors="errors?.duration_minutes" type="number" class="input-duration-minutes"/>
 
         <div v-for="(t, index) in form.translations">
-            <BaseInput  v-model="t.description" v-if="lang === t.language.code" :label="$t('Description')+' - '+t.language.code" :placeholder="$t('Description')" rows="4" :isTextarea="true"  :key="index" class="input-description text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></BaseInput>
+            <BaseInput v-model="t.description"  :errors="errors?.translations?.[index]?.description" :label="$t('Description')+' - '+t.language.code" :placeholder="$t('Description')" rows="4" :isTextarea="true"  :key="index" class="input-description text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" :name="'description-'+t.language.code"></BaseInput>
+            <!-- <BaseInput  name="description" v-model="t.description" v-if="lang === t.language.code" :label="$t('Description')+' - '+t.language.code" :placeholder="$t('Description')" rows="4" :isTextarea="true"  :key="index" class="input-description text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></BaseInput> -->
         </div>
 
         <div class="flex items-center justify-center">
@@ -49,14 +51,18 @@ import { deepClone } from '@/helpers/deepClone.js'
 import { useRouter, useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import Swal from 'sweetalert2'
+import { validateService } from '@/utils/validators.js'
+import { useErrors } from "@/composables/useErrors"
 
+
+const { hasErrors } = useErrors()
 const route = useRoute()
 const router = useRouter()
 const service = ref({})
 const { locale, t } = useI18n()
 const loading = ref(false)
 const isLoading = ref(false)
-const errors = ref({})
+const errors = ref()
 const selectedFiles = ref([])
 const lang = ref('en')
 const form = ref({
@@ -78,6 +84,9 @@ const loadService = async () => {
 }
 
 const submit = async () => {
+  errors.value = validateService(form.value)
+  if( hasErrors(errors.value) ) return
+
   loading.value = true
 
   try {
@@ -91,10 +100,13 @@ const submit = async () => {
     await Swal.fire(t('success'))
     router.push({ name: 'MyServices' })
   } catch (error) {
-      toast.error('Unexpected error:', error.message)
-  } finally {
-    loading.value = false
+      errors.value = error.errors
+      // console.log(error)
+      // toast.error('Unexpected error: ', error.message)
   }
+
+  loading.value = false
+
 }
 
 onMounted(async () => {
@@ -171,4 +183,15 @@ const uploadPhotos = async () => {
   }
   isLoading.value = false
 }
+
+
+// Watch the form object for any changes
+watch(
+  form,
+  (newForm) => {
+    console.log('check')
+    errors.value = validateService(newForm)
+  },
+  { deep: true } // needed for reactive objects to watch nested changes
+)
 </script>

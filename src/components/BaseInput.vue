@@ -1,6 +1,6 @@
 <template>
   <div :class="wrapperClass" class="input-wrap">
-    <label v-if="label" :for="name ?? computedId" class="">{{ label }}</label>
+    <label v-if="label" :for="name ?? computedId" class="">{{ label }} <slot /> </label>
 
     <input
       v-if="!isTextarea"
@@ -22,10 +22,11 @@
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"></textarea>
 
-    <div v-if="Object.keys(errors).length > 0" class="text-red-500 mt-1 font-black">
-      <!-- <span v-for="(msg, i) in errors" :key="i">{{ $t(msg) }}</span> -->
-      <span>{{ $t(errors) }}</span>
+    <div :class="'error-container error-for-'+name">
+      <span v-if="Array.isArray(errors)" v-for="(msg, i) in errors" :key="i" class="text-red-500 mt-1 block input-error">{{ $t(msg) }}</span>
+      <span v-if="typeof errors === 'string'" class="text-red-500 mt-1 block input-error">{{ $t(errors) }}</span>
     </div>
+
   </div>
 </template>
 
@@ -42,7 +43,7 @@ defineProps({
     default: false,
   },
   modelValue: {
-    type: String,
+    type: [ String, Number ],
     default: "",
   },
   name: {

@@ -32,7 +32,7 @@ const emits = defineEmits(['update:photos', 'delete:photos']);
 const { t } = useI18n()
 const props = defineProps({
   photos: {
-    type: Array,
+    type: [ Array, Object ],
     required: true,
     default: () => []
   },

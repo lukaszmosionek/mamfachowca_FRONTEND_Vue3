@@ -5,8 +5,8 @@
       <BaseInput v-model="form.name" name="name" :label="$t('Name')" placeholder="e.g. John Due" :errors="errors?.name"/>
       <BaseInput v-model="form.email"  name="email" :label="$t('Email')" placeholder="e.g. john.due@example.com" :errors="errors?.email"/>
       <BaseInput v-model="form.password" name="password" wrapClass="password-input" :type="showPassword ? 'text' : 'password'" :label="$t('Password')" placeholder="e.g. secretpassword" :errors="errors?.password"/>
-      <a href="#" @click="togglePassword">{{ showPassword ? $t('Hide password') : $t('Show password') }}</a>
-      <!-- <small class="text-gray-600">Password must contain at least one uppercase letter, one lowercase letter, and one number.</small> -->
+      <small class="text-gray-600">{{ $t('Password must contain at least one uppercase letter, one lowercase letter, and one number.') }}'</small>
+      <a href="#" class="block" @click="togglePassword">{{ showPassword ? $t('Hide password') : $t('Show password') }}</a>
       <BaseInput v-model="form.password_confirmation" name="password_confirmation" :type="showPassword ? 'text' : 'password'" placeholder="e.g. secretpassword" :label="$t('Password confirmation')" :errors="errors?.password_confirmation"/>
 
       <BaseSelect wrapperClass="" v-model="form.role" name="role" :label="$t('Role')" :isAssociativeArray="true" :options="{ 'client': $t('Client'), 'provider': $t('Provider') }"/>

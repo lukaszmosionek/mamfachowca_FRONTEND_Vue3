@@ -3,7 +3,8 @@ import en from './locales/en.json'
 import pl from './locales/pl.json'
 import { Enums } from '@/enums.js'
 
-const messages = { en, pl }
+// const messages = import.meta.env.VITE_USE_LANG_MESSAGES === 'true' ? { en, pl } : {}
+const messages = localStorage.getItem('useValidationsKey') ? {} : { en, pl }
 
 const supportedLocales = Object.keys(messages)
 
