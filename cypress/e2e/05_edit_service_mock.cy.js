@@ -15,10 +15,12 @@ describe('Edit service', () => {
 
     cy.get('a.edit-service').first().click()
 
-    cy.get('input.input-name').type('Name of service')
+    cy.get('input.input-name').eq(0).type('Name of service en')  // first input
+    cy.get('input.input-name').eq(1).type('Name of service pl')  // second input
     cy.get('input.input-price').type('999')
     cy.get('input.input-duration-minutes').clear().type(120)
-    cy.get('textarea.input-description').type('Description of service')
+    cy.get('textarea.input-description').eq(0).type('Description of service en')  // first input
+    cy.get('textarea.input-description').eq(1).type('Description of service pl')  // second input
 
     cy.get('input[type="file"]').attachFile('service-photo-3.jpg').attachFile('service-photo-4.jpg');
 
@@ -34,7 +36,7 @@ describe('Edit service', () => {
     cy.contains('120').should('be.visible')
     cy.contains('999').should('be.visible')
 
-    cy.get('img[src*="storage/photos"][alt="Name of service"]').then(($images) => {
+    cy.get('img[src*="storage/photos"]').filter((_, img) => /Name of service (en|pl)/.test(img.alt)).then(($images) => {
       expect($images.length).to.be.at.least(2);
     });
 

@@ -1,42 +1,15 @@
 /// <reference types="cypress" />
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-//
-// declare global {
-  //   namespace Cypress {
-    //     interface Chainable {
-      //       login(email: string, password: string): Chainable<void>
-      //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-      //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-      //       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-      //     }
-      //   }
-      // }
 
-
+// This will run before every test
+Cypress.on('window:before:load', (win) => {
+  // Remove the DevTools overlay if it exists
+  win.document.addEventListener('DOMContentLoaded', () => {
+    const devToolsBtn = win.document.querySelector('.vue-devtools__anchor-btn');
+    if (devToolsBtn) {
+      devToolsBtn.remove();
+    }
+  });
+});
 
 Cypress.Commands.add('login', (email = 'client@onet.pl', password = 'password') => {
     cy.visit('/login') // visit login page
@@ -45,18 +18,9 @@ Cypress.Commands.add('login', (email = 'client@onet.pl', password = 'password') 
     cy.get('button[type="submit"]').click()
 })
 
-
 Cypress.Commands.add('changeLanguage', (changeTo='pl') => {
-    // cy.visit('/') // visit login page
 
-    // cy.get('body').then(($body) => {
-    //   // Check if Polish button exists
-    //   if ($body.find('button#changeLanguage-'+changeTo).length === 1) {
-    //     // If not, click English button
-    //     cy.get('button#changeLanguage-'+changeTo).click();
-    //   }
-    // });
-
+  cy.visit('/')
 
   cy.get('button#changeLanguage-' + changeTo).then(($btn) => {
     if ($btn.length === 1) {
@@ -65,4 +29,22 @@ Cypress.Commands.add('changeLanguage', (changeTo='pl') => {
   });
 
 })
+
+
+
+beforeEach(() => {
+  cy.visit('/', {
+    onBeforeLoad(win) {
+      win.localStorage.setItem('useValidationsKey', 'true');
+    },
+  });
+});
+
+afterEach(() => {
+  cy.visit('/', {
+    onBeforeLoad(win) {
+      win.localStorage.removeItem('useValidationsKey');
+    },
+  });
+});
 

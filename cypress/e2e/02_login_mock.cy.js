@@ -23,7 +23,7 @@ describe('Login Page', () => {
     cy.get('input[name="password"]').type('wrongpass')
     cy.get('button[type="submit"]').click()
 
-    cy.contains('Invalid credentials').should('be.visible')
+    cy.contains('validation.invalid-credentials').should('be.visible')
   })
 
     it('email and passowrd are required', () => {
@@ -32,7 +32,7 @@ describe('Login Page', () => {
 
     cy.get('button[type="submit"]').click()
 
-    cy.contains('Email is required.').should('be.visible')
-    cy.contains('Password is required.').should('be.visible')
+    cy.contains('validation.email.required').should('be.visible')
+    cy.contains('validation.password.required').should('be.visible')
   })
 })

@@ -13,7 +13,7 @@ describe('Register Page', () => {
 
     // Submit form
     cy.get('button[type="submit"]').click()
-    
+
     // Verify redirect or success message
     cy.url().should('include', '/') // Example
     cy.contains('Mam fachowca')
@@ -26,21 +26,21 @@ describe('Register Page', () => {
 
     cy.get('button[type="submit"]').click()
 
-    cy.contains('Name is required.').should('be.visible')
-    cy.contains('Email is required.').should('be.visible')
-    cy.contains('Password is required.').should('be.visible')
-    cy.contains('Password confirmation is required.').should('be.visible')
+    cy.contains('validation.personName.required').should('be.visible')
+    cy.contains('validation.email.required').should('be.visible')
+    cy.contains('validation.password.required').should('be.visible')
+    cy.contains('validation.passwordConfirmation.required').should('be.visible')
   })
 
-    it('shows invalid email message', () => {
+  it('shows invalid email message', () => {
 
-      cy.visit('/')
-      cy.get('a[href="/register"]').click();
+    cy.visit('/')
+    cy.get('a[href="/register"]').click();
 
-      cy.get('input[name="email"]').type('clientoadasdasdanetpl')
-      cy.get('button[type="submit"]').click()
+    cy.get('input[name="email"]').type('clientoadasdasdanetpl')
+    cy.get('button[type="submit"]').click()
 
-      cy.contains('Invalid email.').should('be.visible')
+    cy.contains('validation.email.invalid').should('be.visible')
 
   })
 
@@ -53,8 +53,8 @@ describe('Register Page', () => {
       cy.get('input[name="password_confirmation"]').type('123123123A.asdadasdad')
       cy.get('button[type="submit"]').click()
 
-      cy.contains('Password must include at least one lowercase letter.').should('be.visible')
-      cy.contains('Password and password confirmation must be the same.').should('be.visible')
+      cy.contains('validation.password.lowercase').should('be.visible')
+      cy.contains('validation.passwordConfirmation.mismatch').should('be.visible')
 
   })
 })
