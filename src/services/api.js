@@ -40,7 +40,7 @@ api.interceptors.response.use(
             localStorage.setItem('refreshCount', refreshCount + 1);
             setTimeout(() => {
                 window.location.reload();
-            }, 500); // 0,5 second delay
+            }, 100); // 0,1 second delay
           } else {
             console.warn('Maximum refresh limit reached.');
             localStorage.removeItem('refreshCount'); // Optional: reset after limit

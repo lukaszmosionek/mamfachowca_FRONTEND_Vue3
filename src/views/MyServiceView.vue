@@ -84,8 +84,10 @@ const loadService = async () => {
 }
 
 const submit = async () => {
-  errors.value = validateService(form.value)
-  if( hasErrors(errors.value) ) return
+  if( import.meta.env.VITE_TURN_ON_VUE_VALIDATION === 'true'){
+    errors.value = validateService(form.value)
+    if( hasErrors(errors.value) ) return
+  }
 
   loading.value = true
 
@@ -101,8 +103,6 @@ const submit = async () => {
     router.push({ name: 'MyServices' })
   } catch (error) {
       errors.value = error.errors
-      // console.log(error)
-      // toast.error('Unexpected error: ', error.message)
   }
 
   loading.value = false
@@ -186,12 +186,12 @@ const uploadPhotos = async () => {
 
 
 // Watch the form object for any changes
-watch(
-  form,
-  (newForm) => {
-    console.log('check')
-    errors.value = validateService(newForm)
-  },
-  { deep: true } // needed for reactive objects to watch nested changes
-)
+// watch(
+//   form,
+//   (newForm) => {
+//     console.log('check')
+//     errors.value = validateService(newForm)
+//   },
+//   { deep: true } // needed for reactive objects to watch nested changes
+// )
 </script>
