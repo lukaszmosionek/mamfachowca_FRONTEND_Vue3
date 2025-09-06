@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div :class="{ 'opacity-50': isLoading }" v-for="(s, index) in services" :key="s.id" :data-id="s.id"  class="mx-auto bg-white rounded shadow-md overflow-hidden flex mt-5 w-full relative ad-tile" >
+    <div :class="{ 'opacity-50': isLoading }" v-for="(s, index) in services" :key="s.id" :data-id="s.id" class="mx-auto bg-white rounded shadow-md overflow-hidden flex mt-5 w-full relative service-tile">
 
       <!-- Zdjęcie -->
       <div class="w-40 h-40 md:w-80 md:h-80">
-        <PhotoCarousel  :images="s.photos" height="h-40 md:h-80" imageKey="medium" :alt="s.name" class=""></PhotoCarousel>
+        <PhotoCarousel :images="s.photos" height="h-40 md:h-80" imageKey="medium" :alt="s.name" class=""></PhotoCarousel>
       </div>
       <!-- Zdjęcie -->
 

@@ -18,7 +18,7 @@ describe('add to favorities (Mocked API)', () => {
         cy.scrollTo('top');
         cy.get('a[href="/favorites"]').first().click();
 
-        cy.get('div.ad-tile[data-id="'+dataId+'"]').should('exist')
+        cy.get('div.service-tile[data-id="'+dataId+'"]').should('exist')
       });
 
   })

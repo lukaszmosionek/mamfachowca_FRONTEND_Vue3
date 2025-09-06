@@ -9,6 +9,6 @@ describe('search_homepage', () => {
 
       cy.wait(2000)
 
-      cy.get('div.ad-tile h2.service-title').contains('Name of service')
+      cy.get('div.service-tile h2.service-title').contains('Name of service')
   })
 })

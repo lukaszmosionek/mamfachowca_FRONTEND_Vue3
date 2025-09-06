@@ -30,25 +30,25 @@ api.interceptors.response.use(
   error => {
     // Log or transform the error
     console.error({error})
-    if (!error.response) {
-        const isCors = error.message === 'Network Error';
+    // if (!error.response) {
+    //     const isCors = error.message === 'Network Error';
 
-        if (isCors){
-          let refreshCount = Number(localStorage.getItem('refreshCount')) || 0;
+    //     if (isCors){
+    //       let refreshCount = Number(localStorage.getItem('refreshCount')) || 0;
 
-          if (refreshCount < 5) {
-            localStorage.setItem('refreshCount', refreshCount + 1);
-            setTimeout(() => {
-                window.location.reload();
-            }, 100); // 0,1 second delay
-          } else {
-            console.warn('Maximum refresh limit reached.');
-            localStorage.removeItem('refreshCount'); // Optional: reset after limit
-          }
-        }
+    //       if (refreshCount < 5) {
+    //         localStorage.setItem('refreshCount', refreshCount + 1);
+    //         setTimeout(() => {
+    //             window.location.reload();
+    //         }, 100); // 0,1 second delay
+    //       } else {
+    //         console.warn('Maximum refresh limit reached.');
+    //         localStorage.removeItem('refreshCount'); // Optional: reset after limit
+    //       }
+    //     }
 
-        return Promise.reject(error);
-    }
+    //     return Promise.reject(error);
+    // }
 
     if (error.response && error.response.data.message === 'Unauthenticated.' ) {
         if (router.currentRoute.value.name !== 'Login') {

@@ -22,6 +22,7 @@ import BaseButton from '@/components/BaseButton.vue'
 import Filtering from '@/components/Filtering.vue';
 import HomeTile from '@/components/HomeTile.vue'
 import '@vuepic/vue-datepicker/dist/main.css'
+import { toast } from 'vue3-toastify';
 
 const route = useRoute()
 const isLoading = ref(false)
@@ -29,9 +30,8 @@ const showLoadMore = ref(true)
 const services = ref(Array(10).fill({}))
 const page = ref(1)
 const filters = ref({
-  name: route.query.name || '',
-  provider_id: 0
-  // provider_id: Number(route.query.provider_id) || '0'
+  name: route.query.name || null,
+  provider_id: null
 });
 const providers = ref([]);
 
@@ -56,7 +56,7 @@ const loadServices = async () => {
     }
 
   }catch(err){
-    alert(err)
+    toast.error(t('error-loading-services'))
   }
 
   isLoading.value = false
@@ -74,7 +74,7 @@ const loadProviders = async () => {
     const res = await api.get('/providers')
     providers.value = res.providers
   } catch (err) {
-    console.error('Failed to load providers', err)
+    toast.error('Failed to load providers')
   }
 }
 

@@ -26,9 +26,9 @@ const route = useRoute()
 const { locale } = useI18n()
 
 const filters = ref({
-  name: route.query.name || '',
-  provider_id: Number(route.query.provider_id) || '0'
-});
+  name: route.query.name || null,
+  provider_id: Number(route.query.provider_id) || null
+})
 
 const page = ref(1)
 const isLoading = ref(false)
@@ -52,8 +52,9 @@ const loadServices = async () => {
     })
 
     if( page.value === 1 ){
-        services.value = []
-        Object.assign(services.value, res.services)
+        //services.value = []
+        // Object.assign(services.value, res.services)
+        services.value = res.services
     }else{
         services.value.push( ...res.services )
     }
@@ -101,8 +102,8 @@ watch(
   () => headerStore.homeClicked,
   (newVal) => {
           page.value =  1
-          filters.value.name =  ''
-          filters.value.provider_id =  ''
+          filters.value.name =  null
+          filters.value.provider_id =  null
 
           const container = scrollContainer.value
           if (container) {

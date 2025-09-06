@@ -31,7 +31,7 @@ function getBaseUrl(env) {
     case "local":
       return "http://localhost:5173";
     case "test":
-      return "http://test.mamfachowca.mosioneklukasz.pl";
+      return "http://test.mamfachowca.pl";
     default:
       return "http://localhost:5173";
   }
@@ -42,7 +42,7 @@ function getBackendUrl(env) {
     case "local":
       return "http://127.0.0.1:8000/api";
     case "test":
-      return "http://test.api.mamfachowca.mosioneklukasz.pl/api";
+      return "http://test.mamfachowca-api.pl/api";
     default:
       return "http://127.0.0.1:8000/api";
   }

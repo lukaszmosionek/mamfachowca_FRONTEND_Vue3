@@ -25,8 +25,11 @@ if (authStore.token) {
     initEcho() // <-- Echo is initialized here
 }
 
+app.config.devtools = true
+
 app.mount('#app')
 
 app.config.globalProperties.$VueValidation = true;
 
 window.l = console.log
+
