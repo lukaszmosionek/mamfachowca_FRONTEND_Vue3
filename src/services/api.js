@@ -3,7 +3,7 @@ import i18n from '@/i18n'
 import router from '@/router';
 import { useAuthStore } from '@/stores/auth'
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://api.mamfachowca.mosioneklukasz.pl'
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 const api = axios.create({
   baseURL: `${BACKEND_URL}/api`,
   withCredentials: true,

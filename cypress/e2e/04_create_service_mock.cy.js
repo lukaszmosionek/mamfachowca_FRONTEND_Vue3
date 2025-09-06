@@ -45,21 +45,12 @@ describe('Create service', () => {
 
     cy.get('a[href="/account"]').realHover();
     cy.get('a[href="/my-services"]').first().should('be.visible').click()
-    //click first book button
+
     cy.get('a.add-new').click()
 
-    //book appointment
-    // cy.intercept('GET', 'http://127.0.0.1:8000/api/services/*').as('serviceRequest')
-    // cy.wait('@serviceRequest')
+    cy.get('button[type="submit"]').first().click()
 
-    // cy.get('input.input-name').eq(0).type('Name of service en')  // first input
-    // cy.get('input.input-name').eq(1).type('Name of service pl')  // second input
-    // cy.get('input.input-price').type('999')
-    // cy.get('input.input-duration-minutes').clear().type(120)
-    // cy.get('textarea.input-description').eq(0).type('Description of service en')  // first input
-    // cy.get('textarea.input-description').eq(1).type('Description of service pl')  // second input
 
-    cy.contains('validation.serviceName.required').should('be.visible')
     cy.contains('validation.serviceName.required').should('be.visible')
     cy.contains('validation.price.required').should('be.visible')
     cy.contains('validation.time.required').should('be.visible')

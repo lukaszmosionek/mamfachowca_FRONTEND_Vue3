@@ -15,7 +15,16 @@ describe('contact_page', () => {
 
     cy.contains('OK').click();
 
+  })
+  it('contact_page- check validation', () => {
 
+    cy.visit('/contact')
+
+    cy.get('button[type="submit"]').click();
+
+    cy.contains('validation.personName.required')
+    cy.contains('validation.email.required')
+    cy.contains('validation.message.required')
 
   })
 })
