@@ -1,0 +1,31 @@
+{
+    "personName": {
+      "required": "Imię i nazwisko jest wymagane.",
+      "minLength": "Imię i nazwisko musi mieć co najmniej 3 znaki."
+    },
+    "serviceName": {
+      "required": "Nazwa jest wymagana.",
+      "minLength": "Nazwa musi mieć co najmniej 3 znaki."
+    },
+    "message": {
+      "required": "Wiadomość jest wymagana.",
+      "minLength": "Wiadomość musi mieć co najmniej 3 znaki."
+    },
+    "email": {
+      "required": "Adres e-mail jest wymagany.",
+      "invalid": "Nieprawidłowy adres e-mail."
+    },
+    "password": {
+      "required": "Hasło jest wymagane.",
+      "minLength": "Hasło musi mieć co najmniej 3 znaki.",
+      "uppercase": "Hasło musi zawierać co najmniej jedną wielką literę.",
+      "lowercase": "Hasło musi zawierać co najmniej jedną małą literę.",
+      "number": "Hasło musi zawierać co najmniej jedną cyfrę.",
+      "specialChar": "Hasło musi zawierać co najmniej jeden znak specjalny."
+    },
+    "passwordConfirmation": {
+      "required": "Potwierdzenie hasła jest wymagane.",
+      "minLength": "Potwierdzenie hasła musi mieć co najmniej 3 znaki.",
+      "mismatch": "Hasło i potwierdzenie hasła muszą być takie same."
+    }
+}

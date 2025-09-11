@@ -1,0 +1,9 @@
+{
+    "title": "Contact Us",
+    "name" : "Name",
+    "email" : "Email",
+    "message" : "Message",
+    "submiting" : "Sending Message...",
+    "submit" : "Send Message",
+    "successMessage" : "Message sent successfully! Thank you."
+}

@@ -30,6 +30,7 @@ api.interceptors.response.use(
   error => {
     // Log or transform the error
     console.error({error})
+    //TO DELETE IF EVERTHING WORKING WELL
     // if (!error.response) {
     //     const isCors = error.message === 'Network Error';
 
@@ -59,11 +60,11 @@ api.interceptors.response.use(
     }
 
     if (error.response && error.response.status === 404 && error.response?.data?.error_code === 'API_ROUTE_NOT_FOUND' ) {
-        alert(error.response?.data?.message +' ' + i18n.global.t('Please try again later') );
+        alert(error.response?.data?.message +' ' + i18n.global.t('errors.try-again-later') );
     }
 
     if (error.response.status === 500) {
-        alert( i18n.global.t('[500] A server error occurred.') + ' ' + i18n.global.t('Please try again later') );
+        alert( i18n.global.t('errors.http-500') + ' ' + i18n.global.t('errors.try-again-later') );
     }
 
     const errorData = error.response?.data?.data ?? error?.response.data

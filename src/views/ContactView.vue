@@ -1,12 +1,12 @@
 <template>
   <div class="mt-4 flex items-center justify-center p-6">
     <form @submit.prevent="submitForm" class="bg-white rounded-lg shadow-lg p-8 max-w-lg w-full space-y-6">
-      <h2 class="text-3xl font-bold mb-4 text-gray-800">{{ $t('Contact Us') }}</h2>
-        <BaseInput name="name" v-model="form.name" :label="$t('Name')" :errors="errors?.name"></BaseInput>
-        <BaseInput name="email" v-model="form.email" label="Email" :errors="errors?.email"></BaseInput>
-        <BaseInput name="message" v-model="form.message" :label="$t('Message')"  :errors="errors?.message" :isTextarea="true" rows="3"></BaseInput>
+      <h1 class="h1 mb-4">{{ $t('contact.title') }}</h1>
+        <BaseInput name="name" v-model="form.name" :label="$t('contact.name')" :errors="errors?.name"></BaseInput>
+        <BaseInput name="email" v-model="form.email" :label="$t('contact.email')" :errors="errors?.email"></BaseInput>
+        <BaseInput name="message" v-model="form.message" :label="$t('contact.message')"  :errors="errors?.message" :isTextarea="true" rows="3"></BaseInput>
         <div class="flex justify-center">
-            <BaseButton :isSubmit="true" :loading="loading"><font-awesome-icon :icon="['fas', 'paper-plane']" />&nbsp;{{ loading ? $t('Sending...') : $t('Send Message') }}</BaseButton>
+            <BaseButton :isSubmit="true" :loading="loading"><font-awesome-icon :icon="['fas', 'paper-plane']" />&nbsp;{{ loading ? $t('contact.submiting') : $t('contact.submit') }}</BaseButton>
         </div>
     </form>
   </div>
@@ -38,7 +38,7 @@ async function submitForm() {
 
   errors.value = {} // reset errors before submit
 
-  if( import.meta.env.VITE_TURN_ON_VUE_VALIDATION === 'true'){
+  if( !localStorage.getItem('backendValidation') ){
     errors.value = validateContact(form)
     if( Object.keys(errors.value).length > 0 ) return
   }
@@ -47,11 +47,10 @@ async function submitForm() {
   try {
     const response = await api.post('/contact', form.value );
 
-    Swal.fire( t('Message sent successfully! Thank you.'),'','ok')
+    Swal.fire( t('contact.successMessage'),'','ok')
     form.value = {}
   } catch (error) {
-    // Swal.fire(error.response.message,'','error')
-    errors.value = error.response.data.errors
+    errors.value = error.errors
   }
   loading.value = false;
 }

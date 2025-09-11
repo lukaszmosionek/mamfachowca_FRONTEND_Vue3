@@ -1,0 +1,9 @@
+{
+    "title": "Login",
+    "email" : "Email",
+    "password" : "Password",
+    "submit" : "Login",
+    "forgot-password" : "Forgot Password",
+    "register" : "Register",
+    "default-credentials": "Default credentials"
+}

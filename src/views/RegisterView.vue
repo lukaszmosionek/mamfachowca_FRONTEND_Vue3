@@ -1,15 +1,15 @@
 <template>
   <div class="max-w-md mx-auto mt-10 p-6 bg-white shadow-md rounded-xl">
-    <h1 class="h1">{{ $t('Registration') }}</h1>
+    <h1 class="h1">{{ $t('register.title') }}</h1>
     <form @submit.prevent="handleRegister" class="space-y-4">
-      <BaseInput v-model="form.name" name="name" :label="$t('Name')" placeholder="e.g. John Due" :errors="errors?.name"/>
-      <BaseInput v-model="form.email"  name="email" :label="$t('Email')" placeholder="e.g. john.due@example.com" :errors="errors?.email"/>
-      <BaseInput v-model="form.password" name="password" wrapClass="password-input" :type="showPassword ? 'text' : 'password'" :label="$t('Password')" placeholder="e.g. secretpassword" :errors="errors?.password"/>
-      <small class="text-gray-600">{{ $t('Password must contain at least one uppercase letter, one lowercase letter, and one number.') }}'</small>
-      <a href="#" class="block" @click="togglePassword">{{ showPassword ? $t('Hide password') : $t('Show password') }}</a>
-      <BaseInput v-model="form.password_confirmation" name="password_confirmation" :type="showPassword ? 'text' : 'password'" placeholder="e.g. secretpassword" :label="$t('Password confirmation')" :errors="errors?.password_confirmation"/>
+      <BaseInput v-model="form.name" name="name" :label="$t('register.name')" placeholder="e.g. John Due" :errors="errors?.name"/>
+      <BaseInput v-model="form.email"  name="email" :label="$t('register.email')" placeholder="e.g. john.due@example.com" :errors="errors?.email"/>
+      <BaseInput v-model="form.password" name="password" wrapClass="password-input" :type="showPassword ? 'text' : 'password'" :label="$t('register.password')" placeholder="e.g. secretpassword" :errors="errors?.password"/>
+      <small class="text-gray-600">{{ $t('register.password-info') }}</small>
+      <a href="#" class="block" @click="togglePassword">{{ showPassword ? $t('register.password-hide') : $t('register.password-show') }}</a>
+      <BaseInput v-model="form.password_confirmation" name="password_confirmation" :type="showPassword ? 'text' : 'password'" placeholder="e.g. secretpassword" :label="$t('register.password-confirmation')" :errors="errors?.password_confirmation"/>
 
-      <BaseSelect wrapperClass="" v-model="form.role" name="role" :label="$t('Role')" :isAssociativeArray="true" :options="{ 'client': $t('Client'), 'provider': $t('Provider') }"/>
+      <BaseSelect wrapperClass="" v-model="form.role" name="role" :label="$t('register.role')" :isAssociativeArray="true" :options="{ 'client': $t('Client'), 'provider': $t('Provider') }"/>
 
       <!-- <div v-if="form.role == 'provider'">
         <h2 class="text-gray-600 text-xl text-center">Dostępność</h2>
@@ -22,7 +22,7 @@
       </div> -->
 
       <div class="flex-center">
-        <BaseButton type="submit" class="h-10 gap-1" :loading="loading">{{ $t('Register') }}<font-awesome-icon :icon="['fas', 'user-plus']" /></BaseButton>
+        <BaseButton type="submit" class="h-10 gap-1" :loading="loading">{{ $t('register.submit') }}<font-awesome-icon :icon="['fas', 'user-plus']" /></BaseButton>
       </div>
 
     </form>

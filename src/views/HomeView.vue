@@ -111,6 +111,7 @@ watch(
           }
 
           headerStore.resetHomeClick()
+          loadServices()
   }
 )
 

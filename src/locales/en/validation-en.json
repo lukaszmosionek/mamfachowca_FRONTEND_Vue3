@@ -1,0 +1,45 @@
+{
+    "personName": {
+      "required": "Name is required.",
+      "minLength": "Name must be at least 3 characters."
+    },
+    "serviceName": {
+      "required": "Name is required.",
+      "minLength": "Name must be at least 3 characters."
+    },
+    "price": {
+      "required": "Price is required.",
+      "number": "Price must be a number.",
+      "positive": "Price must be at least 1"
+    },
+    "time": {
+      "required": "Time is required.",
+      "number": "Time must be a number.",
+      "positive": "Time must be at least 1"
+    },
+    "message": {
+      "required": "Message is required.",
+      "minLength": "Message must be at least 3 characters."
+    },
+    "description": {
+      "required": "Description is required.",
+      "minLength": "Description must be at least 3 characters."
+    },
+    "email": {
+      "required": "Email is required.",
+      "invalid": "Invalid email."
+    },
+    "password": {
+      "required": "Password is required.",
+      "minLength": "Password must be at least 3 characters.",
+      "uppercase": "Password must include at least one uppercase letter.",
+      "lowercase": "Password must include at least one lowercase letter.",
+      "number": "Password must include at least one number.",
+      "specialChar": "Password must include at least one special character."
+    },
+    "passwordConfirmation": {
+      "required": "Password confirmation is required.",
+      "minLength": "Password confirmation must be at least 3 characters.",
+      "mismatch": "Password and password confirmation must be the same."
+    }
+}

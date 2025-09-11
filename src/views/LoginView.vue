@@ -1,30 +1,29 @@
 <template>
   <div class="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
-    <h1 class="h1">{{ $t('Login') }}</h1>
+    <h1 class="h1">{{ $t('login.title') }}</h1>
 
     <div class="text-center text-gray-800 space-y-1 mb-4">
-      <div class="text-gray-800 font-bold text-center mt-3">{{ $t('Default credentials') }}</div>
+      <div class="text-gray-800 font-bold text-center mt-3">{{ $t('login.default-credentials') }}</div>
       <div class="text-gray-800 text-center mt-3">provider@onet.pl | password <a class="cursor-pointer" @click="loginProvider()">login</a></div>
       <div class="text-gray-800 text-center mt-3 mb-3">client@onet.pl | password <a class="cursor-pointer" @click="loginClient()">login</a></div>
       <div class="text-gray-800 text-center mt-3 mb-3">admin@onet.pl | password <a class="cursor-pointer" @click="loginAdmin()">login</a></div>
     </div>
 
     <form @submit.prevent="handleLogin" class="space-y-4">
-      <BaseInput v-model="form.email" name="email" type="text" :label="$t('Email')" :errors="errors?.email" />
-      <BaseInput v-model="form.password" name="password" type="password" :label="$t('Password')" :errors="errors?.password"/>
+      <BaseInput v-model="form.email" name="email" type="text" :label="$t('login.email')" :errors="errors?.email" />
+      <BaseInput v-model="form.password" name="password" type="password" :label="$t('login.password')" :errors="errors?.password"/>
       <div class="flex-center">
-        <BaseButton type="submit" class="gap-1" :loading="loading">{{ $t('Login') }}<font-awesome-icon :icon="['fas', 'right-to-bracket']" /></BaseButton>
+        <BaseButton type="submit" class="gap-1" :loading="loading">{{ $t('login.submit') }}<font-awesome-icon :icon="['fas', 'right-to-bracket']" /></BaseButton>
       </div>
       <div class="text-center text-gray-600 text-sm mt-4">
-        <router-link :to="{ name: 'ForgotPassword', query: { email: form.email } }" class="hover:underline">{{ $t('Forgot password?') }}</router-link>
+        <router-link :to="{ name: 'ForgotPassword', query: { email: form.email } }" class="hover:underline">{{ $t('login.forgot-password') }}</router-link>
       </div>
       <div class="text-center text-gray-600 text-sm mt-4">
-        <router-link :to="{ name: 'Register' }" class="hover:underline">{{ $t('Register') }}</router-link>
+        <router-link :to="{ name: 'Register' }" class="hover:underline">{{ $t('login.register') }}</router-link>
       </div>
     </form>
   </div>
 </template>
-
 
 <script setup>
 import { ref } from 'vue'
@@ -49,8 +48,10 @@ const loading = ref(false)
 const handleLogin = async () => {
   errors.value = {} // reset errors before submit
 
-  errors.value = validateLogin(form)
-  if( Object.keys(errors.value).length > 0 ) return
+  if( !localStorage.getItem('backendValidation') ){
+    errors.value = validateLogin(form)
+    if( Object.keys(errors.value).length > 0 ) return
+  }
 
   loading.value = true
   try {

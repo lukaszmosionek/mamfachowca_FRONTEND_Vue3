@@ -1,10 +1,17 @@
 {
-  "Welcome to our app!": "Witamy w naszej aplikacji!",
-  "Here you can make an appointment or manage your services.": "Tutaj możesz umówić wizytę lub zarządzać swoimi usługami.",
-  "Browse available services": "Przeglądaj dostępne usługi",
-  "Manage your services": "Zarządzaj swoimi usługami",
-  "Search by name": "Szukaj według nazwy",
-  "All Providers": "Wszyscy usługodawcy",
+  "filtering":{
+    "search-by-name": "Szukaj według nazwy",
+    "all-providers": "Wszyscy usługodawcy"
+  },
+  "login":{
+    "title": "Zaloguj się",
+    "email" : "Email",
+    "password" : "Hasło",
+    "submit" : "Zaloguj się",
+    "forgot-password" : "Zapomniałeś hasła?",
+    "register" : "Zarejestruj się",
+    "default-credentials": "Domyślne dane logowania"
+  },
   "Name": "Nazwa",
   "Provider": "Usługodawca",
   "Price": "Cena",
@@ -99,9 +106,13 @@
     "removed": "Usunięto z ulubionych"
   },
   "validation": {
-    "name": {
-      "required": "Imię jest wymagane.",
-      "minLength": "Imię musi mieć co najmniej 3 znaki."
+    "personName": {
+      "required": "Imię i nazwisko jest wymagane.",
+      "minLength": "Imię i nazwisko musi mieć co najmniej 3 znaki."
+    },
+    "serviceName": {
+      "required": "Nazwa jest wymagana.",
+      "minLength": "Nazwa musi mieć co najmniej 3 znaki."
     },
     "message": {
       "required": "Wiadomość jest wymagana.",
@@ -136,7 +147,10 @@
   "sunday": "niedziela",
   "FirstnameLastname": "Imie i nazwisko",
   "Please try again later": "Spróbuj ponownie później",
-  "[500] A server error occurred.": "[500] Wystąpił błąd serwera.",
+  "errors":{
+    "http-500": "[500] Wystąpił błąd serwera.",
+    "try-again-later": "Spróbuj ponownie później"
+  },
   "avatar": {
     "uploaded-successfully": "Avatar zaaktualizowany!",
     "change": "Zmień awatar"

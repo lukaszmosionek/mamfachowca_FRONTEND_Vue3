@@ -5,16 +5,13 @@ import { createI18n } from 'vue-i18n'
 import { createPinia } from 'pinia'
 import routes from '@/router/routes'
 
-import en from '@/locales/en.json'
-import pl from '@/locales/pl.json'
-
-const messages = { en, pl }
+import langs from '@/locales'
 
 // Enable Composition API mode
 const i18n = createI18n({
   legacy: false,   // ✅ Important for useI18n()
   locale: 'en',
-  messages,
+  langs,
 })
 
 

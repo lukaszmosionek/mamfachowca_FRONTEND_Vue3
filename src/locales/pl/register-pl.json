@@ -1,0 +1,12 @@
+{
+    "title": "Rejestracja",
+    "name": "Imie i nazwisko",
+    "email" : "Email",
+    "password" : "Hasło",
+    "password-info" : "Password must contain at least one uppercase letter, one lowercase letter, and one number.",
+    "password-show" : "Pokaż password",
+    "password-hide" : "Ukryj password",
+    "password-confirmation" : "Potwierdź hasło",
+    "role" : "Rodzaj konta",
+    "submit" : "Zarejestruj"
+}

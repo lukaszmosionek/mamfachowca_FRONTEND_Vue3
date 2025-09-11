@@ -1,10 +1,8 @@
 import { createI18n } from 'vue-i18n'
-import en from './locales/en.json'
-import pl from './locales/pl.json'
+import langs from '@/locales/index.js'
 import { Enums } from '@/enums.js'
 
-// const messages = { }
-const messages = localStorage.getItem('useValidationsKey') ? {} : { en, pl }
+const messages = localStorage.getItem('useValidationsKey') ? {} : langs
 
 const supportedLocales = Object.keys(messages)
 

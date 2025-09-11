@@ -1,10 +1,29 @@
 {
-  "Welcome to our app!": "Welcome to our app!",
-  "Here you can make an appointment or manage your services.": "Here you can make an appointment or manage your services.",
-  "Browse available services": "Browse available services",
-  "Manage your services": "Manage your services",
-  "Search by name": "Search by name",
-  "All Providers": "All Providers",
+  "filtering" : {
+    "search-by-name": "Search by name",
+    "all-providers": "All Providers"
+  },
+  "login" : {
+    "title": "Login",
+    "email" : "Email",
+    "password" : "Password",
+    "submit" : "Login",
+    "forgot-password" : "Forgot Password",
+    "register" : "Register",
+    "default-credentials": "Default credentials"
+  },
+  "register" : {
+    "title": "Register",
+    "name": "Name",
+    "email" : "Email",
+    "password" : "Password",
+    "password-info" : "Password must contain at least one uppercase letter, one lowercase letter, and one number.",
+    "password-show" : "Show password",
+    "password-hide" : "Hide password",
+    "password-confirmation" : "Password confirmation",
+    "role" : "Role",
+    "submit" : "Register"
+  },
   "Name": "Name",
   "Price": "Price",
   "Book": "Book",
@@ -110,7 +129,6 @@
   "Favorites": "Favorites",
   "Schedule Appointment": "Schedule Appointment",
   "Time": "Time",
-  "Email is required.": "Email is required.",
   "Make a reservation": "Make a reservation",
   "favorites": {
     "added": "Added to Favorites",
@@ -164,8 +182,10 @@
   "Hide password": "Hide password",
   "Show password": "Show password",
   "FirstnameLastname": "Name",
-  "Please try again later": "Please try again later",
-  "[500] A server error occurred.": "[500] A server error occurred.",
+  "errors":{
+    "http-500": "[500] A server error occurred.",
+    "tryAgainLater": "Please try again later"
+  },
   "avatar": {
       "uploaded-successfully": "Avatar uploaded successfully!",
       "change": "Change avatar"

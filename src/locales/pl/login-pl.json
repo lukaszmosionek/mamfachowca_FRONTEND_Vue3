@@ -1,0 +1,9 @@
+{
+    "title": "Zaloguj się",
+    "email" : "Email",
+    "password" : "Hasło",
+    "submit" : "Zaloguj się",
+    "forgot-password" : "Zapomniałeś hasła?",
+    "register" : "Zarejestruj się",
+    "default-credentials": "Domyślne dane logowania"
+}

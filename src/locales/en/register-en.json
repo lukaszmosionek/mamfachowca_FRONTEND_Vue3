@@ -1,0 +1,12 @@
+{
+    "title": "Register",
+    "name": "Name",
+    "email" : "Email",
+    "password" : "Password",
+    "password-info" : "Password must contain at least one uppercase letter, one lowercase letter, and one number.",
+    "password-show" : "Show password",
+    "password-hide" : "Hide password",
+    "password-confirmation" : "Password confirmation",
+    "role" : "Role",
+    "submit" : "Register"
+}

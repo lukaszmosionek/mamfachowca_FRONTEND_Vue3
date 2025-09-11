@@ -1,0 +1,9 @@
+{
+  "serviceDuration": "Service duration",
+  "provider": "Providers",
+  "bookButton": "Book",
+  "notLogged": "Login to add to favoritesAA",
+  "favoritesAdded": "Added to favorites",
+  "favoritesRemoved": "Removed from favorites",
+  "errorTogglingFavorite": "Error during add/remove from favorites"
+}
