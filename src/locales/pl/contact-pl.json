@@ -1,9 +1,9 @@
 {
-    "title": "Contact Us",
-    "name" : "Name",
+    "title": "Kontakt",
+    "name" : "Imie i nazwisko",
     "email" : "Email",
-    "message" : "Message",
-    "submiting" : "Sending Message...",
-    "submit" : "Send Message",
-    "successMessage" : "Message sent successfully! Thank you."
+    "message" : "Wiadomość",
+    "submiting" : "Wysyłanie wiadomości...",
+    "submit" : "Wyślij wiadomość",
+    "successMessage" : "Wiadomośc wysłana pomyślnie! Dziękujemy."
 }

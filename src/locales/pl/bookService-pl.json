@@ -1,0 +1,19 @@
+{
+  "title": "Zarezejwuj usługę",
+  "provider": "Usługodawca",
+  "serviceDuration": "Czas trwania usługi",
+  "makeReservation": "Złożyć rezerwację",
+  "date": "Data",
+  "time": "Czas",
+  "successMessage": "Rezerwacja zarezerwowana pomyślnie",
+  "backButton": "Wróć",
+  "submit": "Zarezerwuj",
+  "errors":{
+    "loadService": "Nie można załadować usługi"
+  },
+  "validation":{
+    "date": "Proszę wybrać datę",
+    "time": "Proszę wybrać czas",
+    "notClient": "Zaloguj się jako klient, aby zarezerwować usługę"
+  }
+}

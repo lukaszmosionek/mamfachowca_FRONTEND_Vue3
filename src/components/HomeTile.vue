@@ -22,7 +22,7 @@
             <!-- Opis -->
             <!-- Cena i serduszko -->
             <div class="flex flex-row justify-between items-end">
-              <span class=" font-bold text-gray-800  text-xs md:text-sm" :title="'Original price: '+s.price+' '+s.currency?.code"><span class="hidden md:inline">{{ $t('Price') }}:</span> {{ s.currency ? currencyStore.convert( s.price, s.currency.code) : 'No data' }}</span>
+              <span class=" font-bold text-gray-800  text-xs md:text-sm" :title="'Original price: '+s.price+' '+s.currency?.code"><span class="hidden md:inline">{{ $t('homeTile.price') }}:</span> {{ s.currency ? currencyStore.convert( s.price, s.currency.code) : 'No data' }}</span>
               <BaseButton :data-id="s.id" @click="router.push({ name: 'BookServiceView', params: { serviceId: s.id } })" class="ml-4 w-fit book-service"><font-awesome-icon :icon="['fas', 'calendar-plus']" /><span class="hidden md:inline">&nbsp;{{$t('homeTile.bookButton')}}</span></BaseButton>
             </div>
             <!-- Cena i serduszko -->

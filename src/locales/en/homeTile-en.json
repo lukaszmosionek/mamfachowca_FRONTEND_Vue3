@@ -2,6 +2,7 @@
   "serviceDuration": "Service duration",
   "provider": "Providers",
   "bookButton": "Book",
+  "price": "Price",
   "notLogged": "Login to add to favorites",
   "favoritesAdded": "Added to favorites",
   "favoritesRemoved": "Removed from favorites",

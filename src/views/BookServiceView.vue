@@ -1,7 +1,7 @@
 <template>
   <div class="">
 
-    <h1 class="h1">{{ $t('Schedule Appointment') }}</h1>
+    <h1 class="h1">{{ $t('bookService.title') }}</h1>
 
     <div class="flex md:flex-row  flex-col">
         <div class="md:w-3/4 w-full p-2">
@@ -24,24 +24,24 @@
               <div class="mt-4">
                   <div class=" p-4">
                       <div class="text-gray-600" v-if="service?.provider">
-                          <div class="mt-2 flex"><span class="">{{ $t('Service duration') }}:&nbsp;</span><span>{{ service.duration }} min.</span></div>
-                          <div class="flex items-center"><span class="">{{ $t('Provider') }}:&nbsp;</span> <RouterLink class="" :to="{ name: 'Profile', params: { userId: service?.provider?.id ?? 0 } }">{{service?.provider?.name }}</RouterLink><RouterLink class="text-lg md:text-2lg" :to="{ name: 'Messages', params: { userId: service?.provider?.id ?? 0 } }"><font-awesome-icon :icon="['far', 'envelope']" /></RouterLink></div>
+                          <div class="mt-2 flex"><span class="">{{ $t('bookService.serviceDuration') }}:&nbsp;</span><span>{{ service.duration }} min.</span></div>
+                          <div class="flex items-center"><span class="">{{ $t('bookService.provider') }}:&nbsp;</span> <RouterLink class="" :to="{ name: 'Profile', params: { userId: service?.provider?.id ?? 0 } }">{{service?.provider?.name }}</RouterLink><RouterLink class="text-lg md:text-2lg" :to="{ name: 'Messages', params: { userId: service?.provider?.id ?? 0 } }"><font-awesome-icon :icon="['far', 'envelope']" /></RouterLink></div>
                       </div>
                   </div>
                 <Availabilities  class="" :availabilities="availability"/>
               </div>
-              <h2 class="mt-8 text-xl text-center">{{ $t('Make a reservation') }}</h2>
+              <h2 class="mt-8 text-xl text-center">{{ $t('bookService.makeReservation') }}</h2>
 
               <div class="flex gap-1 mt-2 w-full mx-auto items-center justify-center md:flex-col flex-col">
                   <div class="w-full">
-                    <label for="date">{{ $t('Date') }}</label>
+                    <label for="date">{{ $t('bookService.date') }}</label>
                         <Datepicker v-model="form.date" :disabled-dates="disabledDates" :min-date="new Date()" :enable-time-picker="false" :auto-apply="true" class="select-date rounded-md"/>
                         <div v-if="errors?.date && Object.keys(errors?.date).length > 0" class="text-red-500 mt-1 font-black">
                             <span v-for="(msg, i) in errors?.date" :key="i">{{ msg }}</span>
                         </div>
                   </div>
                   <div class="w-full">
-                      <label class="block">{{ $t('Time') }}</label>
+                      <label class="block">{{ $t('bookService.time') }}</label>
                       <div class="flex gap-1">
                           <BaseSelect wrapperClass="md:w-1/2 w-full select-hour" class="" v-model="form.timeHour" :isAssociativeArray="false" :errors="errors?.start_time" :options="hours"/>
                           <span class="text-gray-600 mt-2">:</span>
@@ -50,8 +50,8 @@
                   </div>
                 </div>
                 <div class="flex-center mt-4">
-                    <button @click="router.back()" class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2 button-back">⬅ {{ $t('Go Back') }}</button>
-                    <BaseButton @click="bookService" :loading="loading" class="ml-2 mt-2 px-4 py-2 bg-blue-500 text-white rounded button-book"><font-awesome-icon :icon="['fas', 'calendar-plus']" />&nbsp;{{ $t('Book') }}</BaseButton>
+                    <button @click="router.back()" class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2 button-back">⬅ {{ $t('bookService.buttons.back') }}</button>
+                    <BaseButton @click="bookService" :loading="loading" class="ml-2 mt-2 px-4 py-2 bg-blue-500 text-white rounded button-book"><font-awesome-icon :icon="['fas', 'calendar-plus']" />&nbsp;{{ $t('bookService.buttons.submit') }}</BaseButton>
                 </div>
         </div>
     </div>
@@ -114,16 +114,16 @@ const loadService = async () => {
     }
 
   } catch(err) {
-    toast.error('Fail to load service. Try again later')
+    toast.error(t('bookService.errors.loadService')+' '+t('errors.tryAgainLater'))
   }
   loading.value = false
 }
 
 const bookService = async () => {
-  if( authStore.isProvider ) toast.info(t('Login as client to book service'))
+  if( !authStore.isClient ) toast.info(t('bookService.validation.notClient'))
 
-  if(!form.date) errors.date = t('Please select a date')
-  if(!form.timeHour || !form.timeMinute) errors.start_time = t('Please select a time')
+  if(!form.date) errors.date = t('bookService.validation.date')
+  if(!form.timeHour || !form.timeMinute) errors.start_time = t('bookService.validation.time')
 
   if (Object.values(errors).some(Boolean)) return
 
@@ -134,7 +134,7 @@ const bookService = async () => {
         start_time: form.timeHour && form.timeMinute ? form.timeHour + ':' + form.timeMinute : null,
         date: form.date
     })
-    await Swal.fire('', t('Reservation booked successfully'), 'success')
+    await Swal.fire('', t('bookService.successMessage'), 'success')
     router.push({ name: 'Appointments' })
   } catch (err) {
     errors.value = err.errors

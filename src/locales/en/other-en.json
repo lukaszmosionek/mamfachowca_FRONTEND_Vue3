@@ -1,0 +1,7 @@
+{
+    "other.unauthorized": "Access only for logged-in users",
+    "other.sessionExpired": "Session expired. Login Again",
+    "other.serverError": "Server error [500]",
+    "other.tryAgainLater": "Try again later",
+    "other.forbidden": "No access (403)"
+}

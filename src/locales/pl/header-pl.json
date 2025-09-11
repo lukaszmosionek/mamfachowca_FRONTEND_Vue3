@@ -1,0 +1,12 @@
+{
+    "contact": "Kontakt",
+    "about" : "O nas",
+    "login" : "Logowanie",
+    "register" : "Rejestracja",
+    "account" : "Konto",
+    "appointments" : "Wizyty",
+    "my-services" : "Moje usługi",
+    "logout" : "Wyloguj",
+    "messages" : "Wiadomości",
+    "logged-out-successfully" : "Wylogowano pomyślnie"
+}

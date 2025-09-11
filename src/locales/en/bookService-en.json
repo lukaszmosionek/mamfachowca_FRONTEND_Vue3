@@ -1,0 +1,21 @@
+{
+  "title": "Schedule Appointment",
+  "provider": "Providers",
+  "serviceDuration": "Service Duration",
+  "makeReservation": "Make a reservation",
+  "date": "Date",
+  "time": "Time",
+  "successMessage": "Reservation booked successfully",
+  "buttons": {
+    "back": "Back",
+    "submit": "Book"
+  },
+  "errors":{
+    "loadService": "Fail to load service"
+  },
+  "validation":{
+    "date": "Please select a date",
+    "time": "Please select a date",
+    "notClient": "Login as client to book service"
+  }
+}

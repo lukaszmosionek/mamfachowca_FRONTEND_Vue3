@@ -1,0 +1,12 @@
+{
+    "contact": "Contact",
+    "about" : "About",
+    "login" : "Login",
+    "register" : "Register",
+    "account" : "Account",
+    "appointments" : "Appointments",
+    "my-services" : "My services",
+    "logout" : "Logout",
+    "messages" : "Messages",
+    "logged-out-successfully" : "Logged out successfully"
+}

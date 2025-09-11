@@ -32,19 +32,19 @@
 
         <NotificationDropdown v-if="isLogged" />
 
-        <RouterLink :to="{ name: 'Contact' }">{{ $t('Contact') }}</RouterLink>
-        <RouterLink :to="{ name: 'About' }">{{ $t('About') }}</RouterLink>
+        <RouterLink :to="{ name: 'Contact' }">{{ $t('header.contact') }}</RouterLink>
+        <RouterLink :to="{ name: 'About' }">{{ $t('header.about') }}</RouterLink>
 
-        <RouterLink v-if="!isLogged" :to="{ name: 'Login' }">{{ $t('Login') }}</RouterLink>
-        <RouterLink v-if="!isLogged" :to="{ name: 'Register' }">{{ $t('Register') }}</RouterLink>
+        <RouterLink v-if="!isLogged" :to="{ name: 'Login' }">{{ $t('header.login') }}</RouterLink>
+        <RouterLink v-if="!isLogged" :to="{ name: 'Register' }">{{ $t('header.register') }}</RouterLink>
 
         <div class="relative group" v-if="isLogged">
-          <RouterLink v-if="isLogged" class="gap-2" :to="{ name: 'Account' }" :title="authStore.user.name+' #'+authStore.user.id+'('+authStore.user.role+')'">{{ $t('Account') }}<font-awesome-icon :icon="['fa', 'fa-chevron-down']" /> </RouterLink>
+          <RouterLink v-if="isLogged" class="gap-2" :to="{ name: 'Account' }" :title="authStore.user.name+' #'+authStore.user.id+'('+authStore.user.role+')'">{{ $t('header.account') }}<font-awesome-icon :icon="['fa', 'fa-chevron-down']" /> </RouterLink>
           <div class="text-gray-800 flex-center gap-4 flex-col absolute right-0 p-2 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200">
             <RouterLink v-if="authStore.isAdmin" class="hidden md:inline" :to="{ name: 'AdminDashboard', params: {}, query: {} }" @click="headerStore.triggerHomeClick()" title="Admin Panel">Admin Panel</RouterLink>
-            <RouterLink v-if="isLogged" :to="{ name: 'Appointments' }">{{ $t('Appointments') }}</RouterLink>
-            <RouterLink v-if="isLogged && isProvider" :to="{ name: 'MyServices' }">{{ $t('My services') }}</RouterLink>
-            <BaseButton v-if="isLogged" @click="logout" :loading="loading" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit btn-logout"> <font-awesome-icon :icon="['fas', 'right-from-bracket']" />&nbsp;{{ $t('Logout') }}</BaseButton>
+            <RouterLink v-if="isLogged" :to="{ name: 'Appointments' }">{{ $t('header.appointments') }}</RouterLink>
+            <RouterLink v-if="isLogged && isProvider" :to="{ name: 'MyServices' }">{{ $t('header.my-services') }}</RouterLink>
+            <BaseButton v-if="isLogged" @click="logout" :loading="loading" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit btn-logout"> <font-awesome-icon :icon="['fas', 'right-from-bracket']" />&nbsp;{{ $t('header.logout') }}</BaseButton>
           </div>
         </div>
       </nav>
@@ -57,16 +57,16 @@
 
     <RouterLink v-if="authStore.isAdmin" class="inline md:hidden" :to="{ name: 'AdminDashboard', params: {}, query: {} }" @click="headerStore.triggerHomeClick()">Admin Panel</RouterLink>
 
-    <RouterLink @click="mobileMenuOpen = false" v-if="!isLogged" :to="{ name: 'Login' }">{{ $t('Login') }}</RouterLink>
-    <RouterLink @click="mobileMenuOpen = false" v-if="!isLogged" :to="{ name: 'Register' }">{{ $t('Register') }}</RouterLink>
+    <RouterLink @click="mobileMenuOpen = false" v-if="!isLogged" :to="{ name: 'Login' }">{{ $t('header.login') }}</RouterLink>
+    <RouterLink @click="mobileMenuOpen = false" v-if="!isLogged" :to="{ name: 'Register' }">{{ $t('header.register') }}</RouterLink>
 
-    <RouterLink @click="mobileMenuOpen = false" v-if="isLogged" :to="{ name: 'Messages', params: {'userId': 1} }">{{ $t('Messages') }}</RouterLink>
-    <RouterLink @click="mobileMenuOpen = false" v-if="isLogged && isClient" :to="{ name: 'Appointments' }">{{$t('Appointments') }}</RouterLink>
-    <RouterLink @click="mobileMenuOpen = false" v-if="isLogged && isProvider" :to="{ name: 'MyServices' }">{{$t('My services') }}</RouterLink>
+    <RouterLink @click="mobileMenuOpen = false" v-if="isLogged" :to="{ name: 'Messages', params: {'userId': 1} }">{{ $t('header.messages') }}</RouterLink>
+    <RouterLink @click="mobileMenuOpen = false" v-if="isLogged && isClient" :to="{ name: 'Appointments' }">{{$t('header.appointments') }}</RouterLink>
+    <RouterLink @click="mobileMenuOpen = false" v-if="isLogged && isProvider" :to="{ name: 'MyServices' }">{{$t('header.my-services') }}</RouterLink>
 
     <RouterLink @click="mobileMenuOpen = false" v-if="isLogged" :to="{ name: 'Account' }"> {{ authStore.user.name }} #{{ authStore.user.id}} ({{ authStore.user.role }})</RouterLink>
 
-    <BaseButton @click="logout" :loading="loading" :name="$t('Logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 btn-logout" v-if="authStore.token"/>
+    <BaseButton @click="logout" :loading="loading" :name="$t('header.logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 btn-logout" v-if="authStore.token"/>
 
   </nav>
 </template>
@@ -83,11 +83,13 @@ import CurrencySwitcher from './CurrencySwitcher.vue'
 import NotificationDropdown from '@/components/NotificationDropdown.vue'
 import { useHeaderStore } from '@/stores/useHeaderStore'
 import { Enums } from '@/enums.js'
+import { useI18n } from 'vue-i18n'
 
 const authStore = useAuthStore()
 const router = useRouter()
 const route = useRoute()
 const headerStore = useHeaderStore()
+const { t } = useI18n()
 
 const isProvider = computed(() => authStore.isProvider)
 const isClient = computed(() => authStore.isClient)
@@ -106,7 +108,7 @@ const logout = async () => {
   loading.value = true
   try {
     await authStore.logout()
-    router.push({ name: 'Login', query: { successMessage: 'Logged out successfully' } })
+    router.push({ name: 'Login', query: { successMessage: 'header.logged-out-successfully' } })
   } catch (error) {
     console.error('API call error:', error?.message)
   } finally {
@@ -121,7 +123,7 @@ const handleLogout = async () => {
 
 watch(() => route.query.successMessage, (newValue) => {
   if (route.query.successMessage) {
-    toast.success(route.query.successMessage)
+    toast.success(t(route.query.successMessage))
   }
   if (route.query.errorMessage) {
     toast.error(route.query.errorMessage)
