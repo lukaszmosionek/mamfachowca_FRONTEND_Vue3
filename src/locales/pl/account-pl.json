@@ -1,0 +1,21 @@
+{
+  "title": "Edytuj konto",
+  "name": "Imię i nazwisko",
+  "email": "Email",
+  "role": "Rola użytkownika",
+  "language": "Język",
+  "time": "Czas",
+  "successMessage": "Profil zaktualizowany",
+  "buttons": {
+    "back": "Wróć",
+    "submit": "Aktualizuj konto"
+  },
+  "errors": {
+    "loadService": "Nie można załadować usługi"
+  },
+  "validation": {
+    "date": "Proszę wybrać datę",
+    "time": "Proszę wybrać godzinę",
+    "notClient": "Zaloguj się jako klient, aby zarezerwować usługę"
+  }
+}

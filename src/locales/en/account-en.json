@@ -1,0 +1,21 @@
+{
+  "title": "Edit Account",
+  "name": "Name",
+  "email": "Email",
+  "role": "Role",
+  "language": "Język",
+  "time": "Time",
+  "successMessage": "Profile Updated",
+  "buttons": {
+    "back": "Back",
+    "submit": "Update Account"
+  },
+  "errors": {
+    "loadService": "Fail to load service"
+  },
+  "validation": {
+    "date": "Please select a date",
+    "time": "Please select a time",
+    "notClient": "Login as client to book service"
+  }
+}

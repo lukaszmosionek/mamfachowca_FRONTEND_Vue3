@@ -1,0 +1,9 @@
+{
+  "title": "Ulubione",
+  "loadMore": "Załaduj więcej",
+  "empty": "Nie dodałeś jeszcze żadnych ulubionych",
+  "errors": {
+    "loadService": "Nie można załadować usług",
+    "loadProviders": "Nie udało się załadować usługodawców"
+  }
+}

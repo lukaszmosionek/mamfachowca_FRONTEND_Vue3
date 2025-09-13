@@ -1,0 +1,9 @@
+{
+  "title": "Favorites",
+  "loadMore": "Load more",
+  "empty": "You haven’t added any favorites yet",
+  "errors": {
+    "loadService": "Fail to load service",
+    "loadProviders": "Failed to load providers"
+  }
+}

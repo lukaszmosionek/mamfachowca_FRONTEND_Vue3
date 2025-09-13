@@ -1,5 +1,5 @@
 <template>
-  <h1 class="h1">{{ $t('Edit Account') }}</h1>
+  <h1 class="h1">{{ $t('account.title') }}</h1>
 
   <div v-if="isLoading" class="spinner"></div>
   <div v-else class="max-w-md mx-auto p-4">
@@ -7,13 +7,13 @@
     <UploadAvatar @avatar-changed="onAvatarChanged" :user="form"></UploadAvatar>
 
     <form @submit.prevent="updateUser" class="space-y-4" :disabled="isSaving">
-        <BaseInput :label="$t('Name')" name="name" v-model="form.name" :errors="errors?.name" :disabled="isSaving"/>
-        <BaseInput :label="$t('Email')" name="email" v-model="form.email" :errors="errors?.email" :disabled="isSaving"/>
-        <BaseSelect v-model="form.role" :options="Enums.Role" :hasTranslation="true" :label="$t('Role')" disabled="disabled" />
-        <BaseSelect v-model="form.lang" name="lang" :options="languages()" :isAssociativeArray="true" :label="$t('Language')"  :disabled="isSaving"  />
+        <BaseInput :label="$t('account.name')" name="name" v-model="form.name" :errors="errors?.name" :disabled="isSaving"/>
+        <BaseInput :label="$t('account.email')" name="email" v-model="form.email" :errors="errors?.email" :disabled="isSaving"/>
+        <BaseSelect v-model="form.role" :options="Enums.Role" :hasTranslation="true" :label="$t('account.role')" disabled="disabled" />
+        <BaseSelect v-model="form.lang" name="lang" :options="languages()" :isAssociativeArray="true" :label="$t('account.language')" :disabled="isSaving" />
 
         <div class="flex justify-center mt-2">
-            <BaseButton :loading="isSaving" type="submit" class="bg-blue-500 text-white px-4 py-2"><font-awesome-icon :icon="['fas', 'user-gear']" />&nbsp;{{ $t('Update Account') }}</BaseButton>
+            <BaseButton :loading="isSaving" type="submit" class="bg-blue-500 text-white px-4 py-2"><font-awesome-icon :icon="['fas', 'user-gear']" />&nbsp;{{ $t('account.buttons.submit') }}</BaseButton>
         </div>
     </form>
   </div>
@@ -57,7 +57,7 @@ const updateUser = async () => {
     localStorage.setItem('lang', form.value.lang)
     locale.value = form.value.lang
 
-    Swal.fire( t('Profile Updated') )
+    Swal.fire( t('account.successMessage') )
   }catch(error){
     errors.value = error?.errors
   }

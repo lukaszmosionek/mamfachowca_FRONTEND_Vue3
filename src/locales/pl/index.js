@@ -7,6 +7,8 @@ import homeTile from './homeTile-pl.json'
 import contact from './contact-pl.json'
 import header from './header-pl.json'
 import bookService from './bookService-pl.json'
+import account from './account-pl.json'
+import favorites from './favorites-pl.json'
 // import service from './service.json'
 
 export default {
@@ -18,6 +20,8 @@ export default {
   contact,
   header,
   bookService,
+  favorites,
+  account,
   footer
   // service,
 }
