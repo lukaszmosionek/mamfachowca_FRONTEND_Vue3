@@ -10,6 +10,8 @@ import other from './other-en.json'
 import bookService from './bookService-en.json'
 import account from './account-en.json'
 import favorites from './favorites-en.json'
+import appointment from './appointment-en.json'
+import myServices from './myServices-en.json'
 // import service from './service.json'
 
 export default {
@@ -24,6 +26,8 @@ export default {
   bookService,
   account,
   favorites,
+  appointment,
+  myServices,
   header
   // service,
 }

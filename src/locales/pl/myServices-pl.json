@@ -1,0 +1,17 @@
+{
+  "title": "My Services",
+  "name": "Nazwa",
+  "price": "Cena",
+  "deleteServicePrompt": "Czy na pewno chcesz usunąć?",
+  "buttons": {
+    "new": "Nowy",
+    "edit": "Edytuj",
+    "view": "Zobacz",
+    "delete": "Usuń",
+    "loadMore": "Załaduj więcej"
+  },
+  "errors": {
+    "loadService": "Nie udało się załadować usług",
+    "deleteService": "Nie udało się usunąć usługi"
+  }
+}

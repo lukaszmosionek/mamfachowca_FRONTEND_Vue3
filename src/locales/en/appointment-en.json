@@ -1,0 +1,22 @@
+{
+  "title": "My appointments",
+  "empty": "You don't have appointments yet.",
+  "service": "Service",
+  "provider": "Provider",
+  "client": "Client",
+  "startTime": "Start Time",
+  "status": "Status",
+  "buttons": {
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "statuses": {
+    "confirmed": "confirmed",
+    "cancelled": "cancelled",
+    "pending": "pending"
+  },
+  "errors": {
+    "loadAppointments": "Cannot load appointments.",
+    "changeStatus": "Cannot change status."
+  }
+}

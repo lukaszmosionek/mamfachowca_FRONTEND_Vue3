@@ -1,0 +1,17 @@
+{
+  "title": "My Services",
+  "name": "Name",
+  "price": "Price",
+  "deleteServicePrompt": "Are you sure you want to delete?",
+  "buttons": {
+    "new": "New",
+    "edit": "Edit",
+    "view": "View",
+    "delete": "Delete",
+    "loadMore": "Load more"
+  },
+  "errors": {
+    "loadService": "Fail to load service",
+    "deleteService": "Fail to delete service"
+  }
+}

@@ -1,12 +1,12 @@
 <template>
   <div class="">
-    <h1 class="h1">{{ $t('My Services') }}</h1>
+    <h1 class="h1">{{ $t('myServices.title') }}</h1>
 
     <!-- <ServiceForm v-if="showForm" :service="selectedService" @close="closeForm" @saved="loadServices" /> -->
 
     <div class="md:text-right text-center mt-2 mb-2">
       <!-- <button type="button" @click="createNew"class="mb-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"><font-awesome-icon :icon="['fas', 'plus']" class="mr-2" />{{ $t('Add new service') }}</button> -->
-      <RouterLink :to="{ name: 'MyServiceView', params: { serviceId: 'new' } }" class="add-new px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"><font-awesome-icon :icon="['fas', 'eye']" /><span class="md:inline hidden">{{ $t('Add new service') }}</span></RouterLink>&nbsp;
+      <RouterLink :to="{ name: 'MyServiceView', params: { serviceId: 'new' } }" class="add-new px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600"><font-awesome-icon :icon="['fas', 'eye']" /><span class="md:inline hidden">{{ $t('myServices.buttons.new') }}</span></RouterLink>&nbsp;
     </div>
 
     <div class="overflow-x-auto">
@@ -14,8 +14,8 @@
       <table v-if="services.length" class="min-w-full bg-white border border-gray-200 rounded-lg shadow" :class="{'opacity-50':loading}">
         <thead>
           <tr class="bg-gray-100 text-left text-sm uppercase text-gray-600">
-            <th class="px-4 py-3">{{ $t('Name') }}</th>
-            <th class="px-4 py-3">{{ $t('Price') }}</th>
+            <th class="px-4 py-3">{{ $t('myServices.name') }}</th>
+            <th class="px-4 py-3">{{ $t('myServices.price') }}</th>
             <th class="px-4 py-3 text-right"></th>
           </tr>
         </thead>
@@ -25,10 +25,10 @@
             <td class="px-4 py-2 text-gray-600">{{ s.price }}</td>
             <td class="px-4 py-2 md:text-right h-full">
               <div class="md:block flex-center space-x-2">
-                  <RouterLink :to="{ name: 'BookServiceView', params: { serviceId: s.id } }" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 view-service"><font-awesome-icon :icon="['fas', 'eye']" /><span class="md:inline hidden">{{ $t('View') }}</span></RouterLink>&nbsp;
-                  <RouterLink :to="{ name: 'MyServiceView', params: { serviceId: s.id } }" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 edit-service"><font-awesome-icon :icon="['fas', 'edit']" /><span class="md:inline hidden">{{ $t('Edit') }}</span></RouterLink>&nbsp;
+                  <RouterLink :to="{ name: 'BookServiceView', params: { serviceId: s.id } }" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 view-service"><font-awesome-icon :icon="['fas', 'eye']" /><span class="md:inline hidden">{{ $t('myServices.buttons.view') }}</span></RouterLink>&nbsp;
+                  <RouterLink :to="{ name: 'MyServiceView', params: { serviceId: s.id } }" class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 edit-service"><font-awesome-icon :icon="['fas', 'edit']" /><span class="md:inline hidden">{{ $t('myServices.buttons.edit') }}</span></RouterLink>&nbsp;
                   <!-- <button @click="editService(s)" class="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500"><font-awesome-icon :icon="['fas', 'edit']" /><span class="md:inline hidden">{{ $t('Edit') }}</span></button>&nbsp; -->
-                  <button @click="deleteService(s.id)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600  delete-service"><font-awesome-icon :icon="['fas', 'trash']" /><span class="md:inline hidden">{{ $t('Delete') }}</span></button>
+                  <button @click="deleteService(s.id)" class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600  delete-service"><font-awesome-icon :icon="['fas', 'trash']" /><span class="md:inline hidden">{{ $t('myServices.buttons.delete') }}</span></button>
               </div>
             </td>
           </tr>
@@ -36,7 +36,7 @@
       </table>
 
       <div class="flex justify-center mt-6">
-          <BaseButton class="text-center px-8" :loading="loading" v-if="showLoadMore" @click="loadMore">{{ $t('Load more') }}</BaseButton>
+          <BaseButton class="text-center px-8" :loading="loading" v-if="showLoadMore" @click="loadMore">{{ $t('myServices.buttons.loadMore') }}</BaseButton>
       </div>
 
     </div>
@@ -78,7 +78,7 @@ const loadServices = async () => {
     }
 
   }catch(err){
-      toast.error('Failed to show services.'+' Try again later.')
+      toast.error(t('myServices.errors.loadService')+t('errors.tryAgainLater'))
   }
   loading.value = false
 }
@@ -94,14 +94,14 @@ const editService = (s) => {
 }
 
 const deleteService = async (id) => {
-  const result = await Swal.fire({ title:t('Na pewno chcesz usunąć?'), icon:'warning', showCancelButton:true })
+  const result = await Swal.fire({ title:t('myServices.deleteServicePrompt'), icon:'warning', showCancelButton:true })
   if ( !result.isConfirmed ) return
 
   loading.value = true
   try {
       await api.delete(`/me/services/${id}`)
   }catch(err){
-      toast.error('Failed to delete service.'+' Try again later.')
+      toast.error(t('myServices.errors.deleteService')+t('errors.tryAgainLater'))
   }
   loadServices()
 

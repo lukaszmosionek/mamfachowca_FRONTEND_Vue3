@@ -1,0 +1,22 @@
+{
+  "title": "Moje wizyty",
+  "empty": "Jeszcze nie masz umówionych spotkań.",
+  "service": "Usługa",
+  "provider": "Usługodawca",
+  "client": "Klient",
+  "startTime": "Czas rozpoczęcia",
+  "status": "Status",
+  "buttons": {
+    "accept": "Akceptuj",
+    "decline": "Odrzuć"
+  },
+  "statuses": {
+    "confirmed": "potwierdzona",
+    "cancelled": "anulowana",
+    "pending": "oczekująca"
+  },
+  "errors": {
+    "loadAppointments": "Cannot load appointments.",
+    "changeStatus": "Cannot change status."
+  }
+}
