@@ -1,0 +1,29 @@
+{
+  "title": "Moje Usługi",
+  "titleEditService": "Edytuj Usługę",
+  "titleNewService": "Nowa Usługa",
+  "description": "Opis",
+  "timeMinutes": "Czas (minuty)",
+  "save": "Zapisz",
+  "goBack": "Wróć",
+  "name": "Nazwa",
+  "price": "Cena",
+  "deleteServicePrompt": "Czy na pewno chcesz usunąć?",
+  "buttons": {
+    "new": "Nowa",
+    "edit": "Edytuj",
+    "view": "Podgląd",
+    "delete": "Usuń",
+    "loadMore": "Załaduj więcej"
+  },
+  "errors": {
+    "deletePhoto": "Nie udało się usunąć zdjęcia",
+    "loadService": "Nie udało się załadować usługi",
+    "deleteService": "Nie udało się usunąć usługi"
+  },
+  "success": {
+    "messageSaved": "Usługa zapisana!",
+    "photoUploaded": "Zdjęcie przesłane!",
+    "photoDeleted": "Zdjęcie usunięte!"
+  }
+}

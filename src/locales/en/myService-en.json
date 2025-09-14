@@ -1,0 +1,29 @@
+{
+  "title": "My Services",
+  "titleEditService": "Edit Service",
+  "titleNewService": "New Service",
+  "description": "Description",
+  "timeMinutes": "Time (minutes)",
+  "save": "Save",
+  "goBack": "Go Back",
+  "name": "Name",
+  "price": "Price",
+  "deleteServicePrompt": "Are you sure you want to delete?",
+  "buttons": {
+    "new": "New",
+    "edit": "Edit",
+    "view": "View",
+    "delete": "Delete",
+    "loadMore": "Load more"
+  },
+  "errors": {
+    "deletePhoto": "Fail to delete photo",
+    "loadService": "Fail to load service",
+    "deleteService": "Fail to delete service"
+  },
+  "success": {
+    "messageSaved": "Service saved!",
+    "photoUploaded": "Photo Uploaded!",
+    "photoDeleted": "Photo Deleted!"
+  }
+}

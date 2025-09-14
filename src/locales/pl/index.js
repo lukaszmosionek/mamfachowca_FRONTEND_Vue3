@@ -11,6 +11,8 @@ import account from './account-pl.json'
 import favorites from './favorites-pl.json'
 import appointment from './appointment-pl.json'
 import myServices from './myServices-pl.json'
+import myService from './myService-pl.json'
+import photoGallery from './photoGallery-pl.json'
 // import service from './service.json'
 
 export default {
@@ -25,7 +27,9 @@ export default {
   favorites,
   myServices,
   account,
+  myService,
   appointment,
+  photoGallery,
   footer
   // service,
 }

@@ -4,13 +4,13 @@
       <div  class="photo-gallery">
           <div v-for="photo in photos" v-if="photos.length" :key="photo.id" class="photo-item relative" :class="{ 'opacity-50' : photo.isLoading }">
               <img :src="photo.medium ?? noPhoto" alt="Uploaded Photo" />
-              <BaseButton @click="deletePhoto(photo.id)" :data-id="photo.id" :disabled="photo.isLoading" :makeRed="true">Delete</BaseButton>
+              <BaseButton @click="deletePhoto(photo.id)" :data-id="photo.id" :disabled="photo.isLoading" :makeRed="true">{{ $t('photoGallery.buttons.delete') }}</BaseButton>
               <div class="spinner absolute inset-0 z-50" v-if="photo.isLoading"></div>
           </div>
           <form @submit.prevent="uploadPhotos" class="relative">
               <label for="fileUpload" class="flex-center w-[150px] h-[150px] rounded-lg shadow-md cursor-pointer transition duration-200">
                   <input type="file" multiple @change="handleFiles" accept="image/*" class="hidden" id="fileUpload"/>
-                  <div class="flex-center flex-col"><font-awesome-icon :icon="['fas', 'plus']" class="mt-2" />{{ $t('Add new photo') }}</div>
+                  <div class="flex-center flex-col"><font-awesome-icon :icon="['fas', 'plus']" class="mt-2" />{{ $t('photoGallery.buttons.new') }}</div>
               </label>
                 <!-- <button type="submit">Upload</button> -->
               <div class="spinner absolute inset-0" v-if="isLoading"></div>

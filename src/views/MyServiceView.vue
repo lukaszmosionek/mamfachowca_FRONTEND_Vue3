@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center">
     <div class="p-6 w-full">
       <h3 class="text-gray-600 text-xl font-semibold mb-4 text-center">
-        {{ isEditView ? $t('Edit service') : $t('New service') }}
+        {{ isEditView ? $t('myService.titleEditService') : $t('myService.titleNewService') }}
       </h3>
       <form @submit.prevent="submit" class="space-y-4">
 
@@ -14,15 +14,15 @@
         </button> -->
 
         <div v-for="(t, index) in form.translations" key="index">
-            <BaseInput v-model="t.name" :label="$t('Name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors?.translations?.[index]?.name" class="input-name" :name="'name-'+t.language.code" ></BaseInput>
+            <BaseInput v-model="t.name" :label="$t('myService.name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors?.translations?.[index]?.name" class="input-name" :name="'name-'+t.language.code" ></BaseInput>
             <!-- <BaseInput name="name" v-model="t.name" v-if="lang === t.language.code" :label="$t('Name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors?.name" class="input-name" /> -->
         </div>
 
-        <BaseInput v-model="form.price" name="price" :label="$t('Price')" placeholder="e.g. 100" :errors="errors?.price" type="number" class="input-price"/>
-        <BaseInput v-model="form.duration_minutes" name="duration_minutes" :label="$t('Time (minutes)')" placeholder="e.g. 60" :errors="errors?.duration_minutes" type="number" class="input-duration-minutes"/>
+        <BaseInput v-model="form.price" name="price" :label="$t('myService.price')" placeholder="e.g. 100" :errors="errors?.price" type="number" class="input-price"/>
+        <BaseInput v-model="form.duration_minutes" name="duration_minutes" :label="$t('myService.timeMinutes')" placeholder="e.g. 60" :errors="errors?.duration_minutes" type="number" class="input-duration-minutes"/>
 
-        <div v-for="(t, index) in form.translations">
-            <BaseInput v-model="t.description"  :errors="errors?.translations?.[index]?.description" :label="$t('Description')+' - '+t.language.code" :placeholder="$t('Description')" rows="4" :isTextarea="true"  :key="index" class="input-description text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" :name="'description-'+t.language.code"></BaseInput>
+        <div v-for="(t, index) in form.translations" key="index">
+            <BaseInput v-model="t.description"  :errors="errors?.translations?.[index]?.description" :label="$t('myService.description')+' - '+t.language.code" :placeholder="$t('myService.description')" rows="4" :isTextarea="true"  :key="index" class="input-description text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" :name="'description-'+t.language.code"></BaseInput>
             <!-- <BaseInput  name="description" v-model="t.description" v-if="lang === t.language.code" :label="$t('Description')+' - '+t.language.code" :placeholder="$t('Description')" rows="4" :isTextarea="true"  :key="index" class="input-description text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></BaseInput> -->
         </div>
 
@@ -31,8 +31,8 @@
         </div>
 
         <div class="flex justify-end space-x-2 pt-4">
-          <router-link  class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2 button-back" :to="{ name: 'MyServices' }">⬅ {{ $t('Go Back') }}</router-link>
-          <BaseButton :name="$t('Save')" :loading="loading" type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" />
+          <router-link  class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2 button-back" :to="{ name: 'MyServices' }">⬅ {{ $t('myService.goBack') }}</router-link>
+          <BaseButton :name="$t('myService.save')" :loading="loading" type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" />
         </div>
       </form>
     </div>
@@ -78,7 +78,7 @@ const loadService = async () => {
     const res = await api.get('/me/services/'+ parseInt(serviceID.value) )
     form.value = res.service
   }catch(err){
-      toast.error('Failed to show services.'+' Try again later.')
+      toast.error(t('myService.errors.loadService')+t('errors.tryAgainLater'))
   }
   loading.value = false
 }
@@ -99,7 +99,7 @@ const submit = async () => {
           headers: { 'Content-Type': 'multipart/form-data' }
       })
     }
-    await Swal.fire(t('success'))
+    await Swal.fire(t('myService.success.messageSaved'))
     router.push({ name: 'MyServices' })
   } catch (error) {
       errors.value = error.errors
@@ -140,9 +140,9 @@ const deletePhoto = async (photoID) => {
   try {
     await api.delete(`/me/services/photos/${photoID}`)
     form.value.photos = form.value.photos.filter(photo => photo.id !== photoID)
-    toast.success( t('Photo Deleted!'))
+    toast.success( t('myService.success.photoDeleted') )
   } catch (err) {
-    toast.error( t('error-delete-photo') )
+    toast.error( t('errors.deletePhoto')+t('other.tryAgainLater') )
   }
 
   photo.isLoading = false
@@ -177,9 +177,9 @@ const uploadPhotos = async () => {
     })
     form.value.photos.splice(-selectedFiles.value.length, selectedFiles.value.length);
     form.value.photos.push(...res.photos)
-    toast.success( t('Photo Uploaded!'))
+    toast.success( t('myService.success.photoUploaded') )
   } catch (err) {
-    toast.error( err.message )
+    toast.error( t('myService.errors.deletePhoto')+t('errors.tryAgainLater') )
   }
   isLoading.value = false
 }
