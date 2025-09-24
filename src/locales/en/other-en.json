@@ -1,7 +1,17 @@
 {
-    "other.unauthorized": "Access only for logged-in users",
-    "other.sessionExpired": "Session expired. Login Again",
-    "other.serverError": "Server error [500]",
-    "other.tryAgainLater": "Try again later",
-    "other.forbidden": "No access (403)"
+    "unauthorized": "Access only for logged-in users",
+    "sessionExpired": "Session expired. Login Again",
+    "serverError": "Server error [500]",
+    "tryAgainLater": "Try again later",
+    "forbidden": "No access (403)",
+    "notFound": "Not found (404)",
+    "buttons": {
+        "goToLogin": "Go to login",
+        "ok": "OK",
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "add": "Add",
+        "edit": "Edit"
+    }
 }

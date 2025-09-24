@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen overflow-y-auto scrollContainer" ref="scrollContainer" @scroll="handleScroll">
+  <div class="h-screen overflow-y-auto hide-scrollbar scrollContainer" ref="scrollContainer" @scroll="handleScroll">
     <Filtering :providers="providers" :filters="filters" @update:filters="handleFilters" />
       <HomeTile :services="services" :isLoading="isLoading" />
   </div>

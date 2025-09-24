@@ -6,7 +6,7 @@
         <li>
           <button @click="changePage(pagination.page - 1)" :disabled="pagination.page === 1"
             class="px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50">
-            {{ $t('Prev') }}
+            {{ $t('pagination.prev') }}
           </button>
         </li>
         <li v-for="page in pagesToShow" :key="page">
@@ -23,14 +23,14 @@
         <li>
           <button @click="changePage(pagination.page + 1)" :disabled="pagination.page === pagination.last_page"
             class="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50">
-            {{ $t('Next') }}
+            {{ $t('pagination.next') }}
           </button>
         </li>
       </ul>
     </nav>
 
     <select v-if="!hidePerPage" :value="pagination.per_page" @change="updatePerPage"class="absolute right-0 top-0 border px-4 py-2 rounded w-1/12">
-      <option v-for="(s, index) in [5, 10, 15]" :key="index" :value="s" selected="selected">{{ s }} - {{ $t('Per Page')}}</option>
+      <option v-for="(s, index) in [5, 10, 15]" :key="index" :value="s" selected="selected">{{ s }} - {{ $t('pagination.perPage')}}</option>
     </select>
 
   </div>

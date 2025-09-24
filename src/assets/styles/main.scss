@@ -1,5 +1,7 @@
 @use '@/assets/styles/_variables' as *;
-@forward '@/assets/styles/base';
+@forward '@/assets/styles/base/_globals';
+// @forward '@/assets/styles/base/_reset';
+@forward '@/assets/styles/base/_typography';
 @forward '@/assets/styles/components/_badge';
 
 // @import "@/assets/styles/base/reset";
@@ -76,9 +78,4 @@ a,
   }
 }
 
-.h1{
-  font-size: 30px;
-  text-align: center;
-  font-weight: 500;
-  margin-top: 20px;
-}
+

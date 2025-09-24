@@ -17,7 +17,14 @@ router.beforeEach(async (to, from, next) => {
   const requiredRole = to.meta.role
 
   if ( requiresAuth && !auth.token ) {
-    const result = await Swal.fire( i18n.global.t('other.unauthorized'),'', 'warning')
+      const result = await Swal.fire({
+      title: i18n.global.t('other.unauthorized'),
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: i18n.global.t('other.buttons.goToLogin'), // "Go to login"
+      cancelButtonText: i18n.global.t('other.buttons.ok')          // "OK"
+    })
+
     if (result.isConfirmed) return next({ name: 'Login', query: { redirect: to.fullPath ?? from.fullPath } })
     return next(false)
   }

@@ -35,6 +35,7 @@
     <button
       v-if="showButtons && images.length > 1"
       class="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 shadow"
+      alt="Previous"
       @click="prev"
     >
       <ChevronLeftIcon class="w-5 h-5 text-gray-700" />
@@ -43,6 +44,7 @@
     <button
       v-if="showButtons && images.length > 1"
       class="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white/70 hover:bg-white rounded-full p-2 shadow"
+      alt="Next"
       @click="next"
     >
       <ChevronRightIcon class="w-5 h-5 text-gray-700" />
@@ -58,6 +60,7 @@
         :key="index"
         class="w-3 h-3 rounded-full"
         :class="currentIndex === index ? 'bg-white' : 'bg-white/50'"
+        alt="Go to slide {{ index + 1 }}"
         @click="goTo(index)"
       ></button>
     </div>
