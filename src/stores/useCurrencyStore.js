@@ -1,18 +1,29 @@
 import { defineStore } from 'pinia'
+import { Enums } from '@/enums.js'
 
 export const useCurrencyStore = defineStore('currency', {
-  state: () => ({
-    currency: 'USD',
-    rates: {
-      USD: 1,      // base
-      PLN: 4.1,    // 1 USD = 4.1 PLN
-      EUR: 0.92    // 1 USD = 0.92 EUR
-    }
-  }),
+  state: () => {
+    const currencies = Enums.Currencies.map(c => c.name);
+    const rates = Enums.Currencies.reduce((acc, c) => {
+      acc[c.name] = parseFloat(c.rate);
+      return acc;
+    }, {});
+    const defaultCurrency = Enums.Currencies.find(c => c.default)?.name || currencies[0];
+
+    return {
+      currency: defaultCurrency,
+      currencies,
+      rates
+    };
+  },
   actions: {
 
     changeCurrency(currency) {
       this.currency = currency
+    },
+
+    getCurrencies() {
+      return this.currencies
     },
 
     getCurrency() {

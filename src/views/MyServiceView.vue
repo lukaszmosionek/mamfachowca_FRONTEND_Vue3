@@ -14,11 +14,13 @@
         </button> -->
 
         <div v-for="(t, index) in form.translations" key="index">
-            <BaseInput v-model="t.name" :label="$t('myService.name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors?.translations?.[index]?.name" class="input-name" :name="'name-'+t.language.code" ></BaseInput>
+          <BaseInput v-model="t.name" :label="$t('myService.name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors?.translations?.[index]?.name" class="input-name" :name="'name-'+t.language.code" ></BaseInput>
             <!-- <BaseInput name="name" v-model="t.name" v-if="lang === t.language.code" :label="$t('Name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors?.name" class="input-name" /> -->
         </div>
 
         <BaseInput v-model="form.price" name="price" :label="$t('myService.price')" placeholder="e.g. 100" :errors="errors?.price" type="number" class="input-price"/>
+        <BaseSelect class="bg-white-600 text-xs" :modelValue="form.currency" :options="currencyStore.getCurrencies()" :isAssociativeArray="true" label="Waluta"></BaseSelect>
+
         <BaseInput v-model="form.duration_minutes" name="duration_minutes" :label="$t('myService.timeMinutes')" placeholder="e.g. 60" :errors="errors?.duration_minutes" type="number" class="input-duration-minutes"/>
 
         <div v-for="(t, index) in form.translations" key="index">
@@ -44,6 +46,7 @@ import { onMounted, ref, watch } from 'vue'
 import api from '@/services/api'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
+import BaseSelect from '@/components/BaseSelect.vue'
 import PhotoGallery from '@/components/PhotoGallery.vue'
 import { useI18n } from 'vue-i18n'
 import { myServicesSchema } from '@/api/schemas/myServicesSchema'
@@ -53,6 +56,7 @@ import { toast } from 'vue3-toastify'
 import Swal from 'sweetalert2'
 import { validateService } from '@/utils/validators.js'
 import { useErrors } from "@/composables/useErrors"
+import { useCurrencyStore } from '@/stores/useCurrencyStore'
 
 
 const { hasErrors } = useErrors()
@@ -70,6 +74,7 @@ const form = ref({
 })
 const serviceID = ref( route.params.serviceId || null )
 const isEditView= ref(serviceID.value !== 'new' ? true : false)
+const currencyStore = useCurrencyStore()
 
 const loadService = async () => {
   loading.value = true

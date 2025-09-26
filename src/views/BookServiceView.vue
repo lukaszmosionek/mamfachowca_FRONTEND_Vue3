@@ -132,7 +132,7 @@ const bookService = async () => {
     const res = await api.post('/appointments', {
         service_id: route.params.serviceId,
         start_time: form.timeHour && form.timeMinute ? form.timeHour + ':' + form.timeMinute : null,
-        date: form.date
+        date: form.date ? form.date.toISOString().split("T")[0] : null
     })
     await Swal.fire('', t('bookService.successMessage'), 'success')
     router.push({ name: 'Appointments' })

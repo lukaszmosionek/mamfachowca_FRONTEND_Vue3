@@ -21,11 +21,29 @@ export const Enums = {
         "defaultCurrency" : "USD"
       }
     ],
-    "Currencies": {
-      "USD": "$",
-      "PLN": "zł",
-      "EUR": "€",
-    },
+    "Currencies": [
+      {
+        "symbol" : "$",
+        "name" : "USD",
+        "rate" : "1",
+        "default": false,
+        "id": 1
+      },
+      {
+        "symbol" : "zł",
+        "name" : "PLN",
+        "rate" : "4.1",
+        "default": true,
+        "id": 2
+      },
+      {
+        "symbol" : "€",
+        "name" : "EUR",
+        "rate" : "0.92",
+        "default": false,
+        "id": 3
+      }
+    ],
     "TAILWIND_BREAKPOINTS": {
       "sm": "640", //px
       "md": "768", //px

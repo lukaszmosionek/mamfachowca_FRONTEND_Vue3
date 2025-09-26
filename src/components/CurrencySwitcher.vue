@@ -2,16 +2,17 @@
 import { ref, onMounted } from 'vue'
 import { useCurrencyStore } from '@/stores/useCurrencyStore'
 import BaseSelect from './BaseSelect.vue'
+import { Enums } from '@/enums.js'
 
 const currencyStore = useCurrencyStore()
 const props = defineProps({
   modelValue: {
     type: String,
-    default: 'USD'
+    default: () => Enums.Currencies.find(c => c.default)?.name || 'USD'
   },
   currencies: {
     type: Array,
-    default: () => ['USD', 'EUR', 'PLN']
+    default: () => Enums.Currencies.map(c => c.name)
   }
 })
 
