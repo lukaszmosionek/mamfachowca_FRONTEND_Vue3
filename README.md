@@ -47,3 +47,6 @@ npm run dev
 
 #run for mobile( optional )
 npm run dev -- --host
+
+#run cypress test
+npm run cypress:run

@@ -22,7 +22,7 @@ export default defineConfig({
     viewportHeight: 720,
   },
   // video: true, // enable video recording
-  videosFolder: 'cypress/videos', // default folder
+  // videosFolder: 'cypress/videos', // default folder
 });
 
 

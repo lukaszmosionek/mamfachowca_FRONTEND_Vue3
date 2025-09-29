@@ -14,13 +14,6 @@
             <h2 class="text-xl mt-4 text-center hidden md:block">{{ translatedName }}</h2>  <!-- only desktop-->
             <p class=" md:hidden">{{ translatedDescription }}</p> <!-- only mobile-->
 
-    <!-- <div class="photo-gallery mt-2 flex-center">
-        <div v-for="photo in service.photos" v-if="service.photos" :key="photo.id" class="photo-item relative" :class="{ 'opacity-50' : photo.isLoading }">
-            <img :src="photo.medium ?? noPhoto" :alt="service.name" loading="lazy" />
-            <div class="spinner absolute inset-0 z-50" v-if="photo.isLoading"></div>
-        </div>
-    </div> -->
-
               <div class="mt-4">
                   <div class=" p-4">
                       <div class="text-gray-600" v-if="service?.provider">
@@ -28,7 +21,7 @@
                           <div class="flex items-center"><span class="">{{ $t('bookService.provider') }}:&nbsp;</span> <RouterLink class="" :to="{ name: 'Profile', params: { userId: service?.provider?.id ?? 0 } }">{{service?.provider?.name }}</RouterLink><RouterLink class="text-lg md:text-2lg" :to="{ name: 'Messages', params: { userId: service?.provider?.id ?? 0 } }"><font-awesome-icon :icon="['far', 'envelope']" /></RouterLink></div>
                       </div>
                   </div>
-                <Availabilities  class="" :availabilities="availability"/>
+                <Availabilities class="" :availabilities="availability"/>
               </div>
               <h2 class="mt-8 text-xl text-center">{{ $t('bookService.makeReservation') }}</h2>
 

@@ -15,7 +15,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="js">
 import api from '@/services/api'
 import Swal from 'sweetalert2'
 import { ref } from 'vue'
@@ -52,7 +52,7 @@ async function uploadAvatar() {
       }
     })
     toast.success( t('avatar.uploaded-successfully'))
-    emit('avatar-changed', response.avatar_url) // 🔥 Emit the new avatar URL
+    emit('avatar-changed', response.avatarUrl) // 🔥 Emit the new avatar URL
   } catch (err) {
     Swal.fire(err.response.data.message, 'error', 'error')
   }

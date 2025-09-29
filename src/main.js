@@ -25,7 +25,12 @@ if (authStore.token) {
     initEcho() // <-- Echo is initialized here
 }
 
-app.config.devtools = true
+// Check localStorage to enable or disable devtools
+if (localStorage.getItem('vueDevtoolsDisabled') === 'true') {
+  app.config.devtools = false
+} else {
+  app.config.devtools = true
+}
 
 app.mount('#app')
 

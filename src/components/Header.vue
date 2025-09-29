@@ -38,14 +38,16 @@
         <RouterLink v-if="!isLogged" :to="{ name: 'Login' }">{{ $t('header.login') }}</RouterLink>
         <RouterLink v-if="!isLogged" :to="{ name: 'Register' }">{{ $t('header.register') }}</RouterLink>
 
-        <div class="relative group" v-if="isLogged">
+        <div class="relative  inline-block" v-if="isLogged" @mouseenter="openDropdown" @mouseleave="closeDropdown">
           <RouterLink v-if="isLogged" class="gap-2" :to="{ name: 'Account' }" :title="authStore.user.name+' #'+authStore.user.id+'('+authStore.user.role+')'">{{ $t('header.account') }}<font-awesome-icon :icon="['fa', 'fa-chevron-down']" /> </RouterLink>
-          <div class="text-gray-800 flex-center gap-4 flex-col absolute right-0 p-2 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity duration-200">
-            <RouterLink v-if="authStore.isAdmin" class="hidden md:inline" :to="{ name: 'AdminDashboard', params: {}, query: {} }" @click="headerStore.triggerHomeClick()" title="Admin Panel">Admin Panel</RouterLink>
-            <RouterLink v-if="isLogged" :to="{ name: 'Appointments' }">{{ $t('header.appointments') }}</RouterLink>
-            <RouterLink v-if="isLogged && isProvider" :to="{ name: 'MyServices' }">{{ $t('header.my-services') }}</RouterLink>
-            <BaseButton v-if="isLogged" @click="logout" :loading="loading" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit btn-logout"> <font-awesome-icon :icon="['fas', 'right-from-bracket']" />&nbsp;{{ $t('header.logout') }}</BaseButton>
-          </div>
+          <transition name="fade">
+            <div v-if="isOpen" class="text-gray-800 flex-center gap-4 flex-col absolute right-0 p-2 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50">
+              <RouterLink v-if="authStore.isAdmin" class="hidden md:inline" :to="{ name: 'AdminDashboard', params: {}, query: {} }" @click="headerStore.triggerHomeClick()" title="Admin Panel">Admin Panel</RouterLink>
+              <RouterLink v-if="isLogged" :to="{ name: 'Appointments' }">{{ $t('header.appointments') }}</RouterLink>
+              <RouterLink v-if="isLogged && isProvider" :to="{ name: 'MyServices' }">{{ $t('header.my-services') }}</RouterLink>
+              <BaseButton v-if="isLogged" @click="logout" :loading="loading" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit btn-logout"> <font-awesome-icon :icon="['fas', 'right-from-bracket']" />&nbsp;{{ $t('header.logout') }}</BaseButton>
+            </div>
+          </transition>
         </div>
       </nav>
       <!-- END Desktop Nav -->
@@ -99,6 +101,9 @@ const container = ref(null)
 const loading = ref(false)
 const isMobile = ref(window.innerWidth < Enums.TAILWIND_BREAKPOINTS.md); // md breakpoint in Tailwind
 
+const isOpen = ref(false);
+let timeoutId = null;
+
 onMounted(async () => {
   document.addEventListener('click', handleClickOutside)
   window.addEventListener('resize', handleResize)
@@ -150,4 +155,16 @@ onBeforeUnmount(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize);
 });
+
+function openDropdown() {
+  clearTimeout(timeoutId);
+  isOpen.value = true;
+}
+
+function closeDropdown() {
+  // Delay before closing (e.g., 300ms)
+  timeoutId = setTimeout(() => {
+    isOpen.value = false;
+  }, 300);
+}
 </script>

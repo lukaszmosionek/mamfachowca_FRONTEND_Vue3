@@ -4,7 +4,7 @@
 Cypress.on('window:before:load', (win) => {
   // Remove the DevTools overlay if it exists
   win.document.addEventListener('DOMContentLoaded', () => {
-    const devToolsBtn = win.document.querySelector('.vue-devtools__anchor-btn');
+    const devToolsBtn = win.document.querySelector('.vue-devtools__anchor-btn, #__vue-devtools-container__, #vue-inspector-container, .vue-devtools__panel');
     if (devToolsBtn) {
       devToolsBtn.remove();
     }
@@ -22,20 +22,19 @@ Cypress.Commands.add('changeLanguage', (changeTo='pl') => {
 
   cy.visit('/')
 
-  cy.get('button#changeLanguage-' + changeTo).then(($btn) => {
-    if ($btn.length === 1) {
-      $btn.click();
+  cy.get('body').then(($body) => {
+    if ($body.find('button#changeLanguage-' + changeTo).length) {
+      cy.get('button#changeLanguage-' + changeTo).click();
     }
   });
 
 })
 
-
-
 beforeEach(() => {
   cy.visit('/', {
     onBeforeLoad(win) {
       win.localStorage.setItem('useValidationsKey', 'true');
+      win.localStorage.setItem('vueDevtoolsDisabled', 'true');
     },
   });
 });
@@ -44,7 +43,7 @@ afterEach(() => {
   cy.visit('/', {
     onBeforeLoad(win) {
       win.localStorage.removeItem('useValidationsKey');
+      win.localStorage.removeItem('vueDevtoolsDisabled');
     },
   });
 });
-

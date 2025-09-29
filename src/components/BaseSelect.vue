@@ -1,8 +1,9 @@
 <template>
-  <div :class="wrapperClass" class="select-wrap">
-    <label v-if="label" class="text-gray-800 mb-1">{{ label }}</label>
+  <div :class="wrapperClass" class="select-wrap flex flex-col">
+    <label v-if="label" class="text-gray-800 mb-1">{{ label }} <slot /> <div v-if="isLoading" class="spinner !w-2 !h-2 inline-block"></div></label>
     <select
         :value="modelValue"
+        :disabled="isLoading"
         v-bind="$attrs"
         @change="event => emit('update:modelValue', event.target.value)"
         class="w-full h-10 px-4 py-2 border border-gray-300 rounded-md text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -27,6 +28,10 @@ defineProps({
   modelValue: {
     type: [Number, String],
     default: "",
+  },
+  isLoading: {
+    type: [Boolean],
+    default: false,
   },
   options: {
     type: [Array, Object],

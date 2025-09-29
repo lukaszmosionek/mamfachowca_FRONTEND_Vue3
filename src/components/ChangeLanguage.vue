@@ -1,9 +1,9 @@
 <template>
   <div class="text-center py-4 text-gray-600 flex justify-center items-center">
-    <button id="changeLanguage-en" v-if="locale === 'en'" @click="changeLanguage('pl')" class="flex justify-center items-center gap-2 hover:opacity-50">
+    <button id="changeLanguage-en" data-lang="en" v-if="locale === 'en'" @click="changeLanguage('pl')" class="changeLanguage flex justify-center items-center gap-2 hover:opacity-50">
       <img alt="Flag EN" src="@/assets/icons/flag-en.svg" width="20" height="20" /> <span class="text-sm">EN</span>
     </button>
-    <button  id="changeLanguage-pl" v-if="locale === 'pl'" @click="changeLanguage('en')" class="flex justify-center items-center gap-2 hover:opacity-50">
+    <button  id="changeLanguage-pl" data-lang="pl" v-if="locale === 'pl'" @click="changeLanguage('en')" class="changeLanguage flex justify-center items-center gap-2 hover:opacity-50">
       <img alt="Flag PL" src="@/assets/icons/flag-pl.svg" width="20" height="20" /> <span class="text-sm">PL</span>
     </button>
   </div>

@@ -3,6 +3,7 @@
   "titleEditService": "Edit Service",
   "titleNewService": "New Service",
   "description": "Description",
+  "currency": "Currency",
   "timeMinutes": "Time (minutes)",
   "save": "Save",
   "goBack": "Go Back",

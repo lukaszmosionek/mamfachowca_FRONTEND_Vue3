@@ -15,7 +15,9 @@
     "lint": "run-s lint:*",
     "format": "prettier --write src/",
     "test": "vitest",
-    "testCypress": "npx cypress run"
+    "testCypress": "npx cypress run",
+    "cypress:open": "cross-env NODE_ENV=test npx cypress open",
+    "cypress:run": "cross-env NODE_ENV=test npx cypress run"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.0.0",
@@ -47,6 +49,7 @@
     "@vue/test-utils": "^2.4.6",
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.21",
+    "cross-env": "^10.1.0",
     "cypress": "^14.5.4",
     "cypress-file-upload": "^5.0.8",
     "cypress-real-events": "^1.14.0",

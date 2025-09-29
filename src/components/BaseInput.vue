@@ -1,11 +1,12 @@
 <template>
-  <div :class="wrapperClass" class="input-wrap">
-    <label v-if="label" :for="name ?? computedId" class="">{{ label }} <slot /> </label>
+  <div :class="wrapperClass" class="input-wrap flex flex-col">
+    <label v-if="label" :for="name ?? computedId" class="">{{ label }} <slot /> <div v-if="isLoading" class="spinner !w-2 !h-2 inline-block"></div></label>
 
     <input
       v-if="!isTextarea"
       :id="name ?? computedId"
       :name="name"
+      :disabled="isLoading"
       :type="type"
       :placeholder="placeholder"
       :value="modelValue"
@@ -16,6 +17,7 @@
     <textarea
         v-if="isTextarea"
         :id="name ?? computedId"
+        :disabled="isLoading"
         :name="name"
         class="w-full border border-gray-300 rounded-md px-4 py-2"
         v-bind="$attrs"
@@ -39,6 +41,10 @@ defineProps({
     default: false,
   },
   isTextarea: {
+    type: [Boolean],
+    default: false,
+  },
+  isLoading: {
     type: [Boolean],
     default: false,
   },

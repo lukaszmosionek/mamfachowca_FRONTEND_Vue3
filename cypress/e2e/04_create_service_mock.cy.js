@@ -7,7 +7,10 @@ describe('Create service', () => {
 
     cy.get('a[href="/account"]').realHover()
     cy.get('a[href="/my-services"]').first().should('be.visible').click()
-    cy.get('body').realHover()
+
+    cy.wait(1000)
+
+    cy.get('h1').realHover()
 
     cy.get('a.add-new').click()
 

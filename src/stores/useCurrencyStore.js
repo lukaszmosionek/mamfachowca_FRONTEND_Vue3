@@ -9,9 +9,11 @@ export const useCurrencyStore = defineStore('currency', {
       return acc;
     }, {});
     const defaultCurrency = Enums.Currencies.find(c => c.default)?.name || currencies[0];
+    const defaultCurrencyId = Enums.Currencies.find(c => c.default)?.id || currencies[0];
 
     return {
       currency: defaultCurrency,
+      currencyID: defaultCurrencyId,
       currencies,
       rates
     };
@@ -28,6 +30,10 @@ export const useCurrencyStore = defineStore('currency', {
 
     getCurrency() {
       return this.currency
+    },
+
+    getCurrencyID() {
+      return this.currencyID
     },
 
     convert(amount, from, to = this.currency) {

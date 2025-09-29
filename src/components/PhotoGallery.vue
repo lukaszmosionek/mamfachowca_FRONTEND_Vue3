@@ -42,33 +42,23 @@ const props = defineProps({
   isEditView: {
     type: Boolean,
     default: false
+  },
+  isLoading: {
+    type: Boolean,
+    default: false
   }
 
 })
 
-
-// const localPhotos = computed(() => props.photos)
-const isLoading = ref(false)
+const isLoading = computed(() => props.isLoading)
 
 const handleFiles = (event) => {
     emits('update:photos', event );
 }
 
-// const fetchPhotos = async () => {
-//   const res = await api.get('/photos')
-//   photos.value = res.data
-// }
-
 const deletePhoto = (id) => {
     emits('delete:photos', id );
 }
-
-
-// watch( () => localPhotos.value, (newValue, oldValue) => {
-//   // emits('update:photos', { ...newValue });
-// },
-// { deep: true }
-//  )
 
 // onMounted(fetchPhotos)
 </script>

@@ -1,6 +1,5 @@
 <template>
-<!-- Provider Availability -->
-      <div class="w-full max-w-sm">
+      <div class="providerAvailability w-full max-w-sm">
         <div class="font-medium text-center">{{ $t('Provider Availability') }}:</div>
         <table class="min-w-full border border-gray-200 rounded mt-2">
           <thead>
@@ -19,16 +18,15 @@
           </tbody>
         </table>
       </div>
-<!-- Provider Availability -->
 </template>
 
-<script setup>
+<script setup lang="js">
 import { useI18n } from 'vue-i18n'
 
 const { t, d } = useI18n()
 const props = defineProps({
   availabilities: {
-    type: Object,
+    type: [Object, Array],
     required: true
   }
 });

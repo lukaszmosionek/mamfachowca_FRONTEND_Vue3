@@ -5,36 +5,27 @@
         {{ isEditView ? $t('myService.titleEditService') : $t('myService.titleNewService') }}
       </h3>
       <form @submit.prevent="submit" class="space-y-4">
-
-        <!-- <button type="button" @click="changeLanguage('en')" class="flex justify-center items-center gap-2 hover:opacity-50">
-          <img alt="Flag EN" src="@/assets/icons/flag-en.svg" width="20" height="20" /> <span class="text-sm">EN</span>
-        </button>
-        <button  type="button"  @click="changeLanguage('pl')" class="flex justify-center items-center gap-2 hover:opacity-50">
-          <img alt="Flag PL" src="@/assets/icons/flag-pl.svg" width="20" height="20" /> <span class="text-sm">PL</span>
-        </button> -->
-
-        <div v-for="(t, index) in form.translations" key="index">
-          <BaseInput v-model="t.name" :label="$t('myService.name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors?.translations?.[index]?.name" class="input-name" :name="'name-'+t.language.code" ></BaseInput>
-            <!-- <BaseInput name="name" v-model="t.name" v-if="lang === t.language.code" :label="$t('Name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors?.name" class="input-name" /> -->
+        <div v-for="(t, index) in form.translations" :key="index">
+          <BaseInput v-model="t.name" :isLoading="loading" :label="$t('myService.name')+' - '+t.language.code" placeholder="e.g. John Doe" :errors="errors?.translations?.[index]?.name" class="input-name" :name="'name-'+t.language.code" ></BaseInput>
         </div>
 
-        <BaseInput v-model="form.price" name="price" :label="$t('myService.price')" placeholder="e.g. 100" :errors="errors?.price" type="number" class="input-price"/>
-        <BaseSelect class="bg-white-600 text-xs" :modelValue="form.currency" :options="currencyStore.getCurrencies()" :isAssociativeArray="true" label="Waluta"></BaseSelect>
+        <div class="flex gap-2 ">
+          <BaseInput wrapperClass="w-1/2" class="input-price" :isLoading="loading" v-model="form.price" name="price" :label="$t('myService.price')" placeholder="e.g. 100" :errors="errors?.price" type="number"/>
+          <BaseSelect wrapperClass="w-1/2 " :isLoading="loading" :modelValue="form.currency_id" :options="currencies" :isAssociativeArray="false" @update:modelValue="val => form.currency_id = val" :label="$t('myService.currency')"></BaseSelect>
+        </div>
+        <BaseInput v-model="form.duration_minutes" :isLoading="loading" name="duration_minutes" :label="$t('myService.timeMinutes')" placeholder="e.g. 60" :errors="errors?.duration_minutes" type="number" class="input-duration-minutes"/>
 
-        <BaseInput v-model="form.duration_minutes" name="duration_minutes" :label="$t('myService.timeMinutes')" placeholder="e.g. 60" :errors="errors?.duration_minutes" type="number" class="input-duration-minutes"/>
-
-        <div v-for="(t, index) in form.translations" key="index">
-            <BaseInput v-model="t.description"  :errors="errors?.translations?.[index]?.description" :label="$t('myService.description')+' - '+t.language.code" :placeholder="$t('myService.description')" rows="4" :isTextarea="true"  :key="index" class="input-description text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" :name="'description-'+t.language.code"></BaseInput>
-            <!-- <BaseInput  name="description" v-model="t.description" v-if="lang === t.language.code" :label="$t('Description')+' - '+t.language.code" :placeholder="$t('Description')" rows="4" :isTextarea="true"  :key="index" class="input-description text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"></BaseInput> -->
+        <div v-for="(t, index) in form.translations" :key="index">
+            <BaseInput v-model="t.description" :isLoading="loading"  :errors="errors?.translations?.[index]?.description" :label="$t('myService.description')+' - '+t.language.code" :placeholder="$t('myService.description')" rows="4" :isTextarea="true"  :key="index" class="input-description text-gray-600 w-full rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" :name="'description-'+t.language.code"></BaseInput>
         </div>
 
         <div class="flex items-center justify-center">
-            <PhotoGallery :photos="form.photos" :serviceId="form?.id ?? null" :isEditView="form?.id ? true : false" @update:photos="handlePhotos" @delete:photos="handleDeletePhotos"></PhotoGallery>
+            <PhotoGallery :isLoading="loading" :photos="form.photos" :serviceId="form?.id ?? null" :isEditView="form?.id ? true : false" @update:photos="handlePhotos" @delete:photos="handleDeletePhotos"></PhotoGallery>
         </div>
 
         <div class="flex justify-end space-x-2 pt-4">
           <router-link  class="px-4 py-2 bg-gray-300 rounded text-gray-600 mt-2 button-back" :to="{ name: 'MyServices' }">⬅ {{ $t('myService.goBack') }}</router-link>
-          <BaseButton :name="$t('myService.save')" :loading="loading" type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" />
+          <BaseButton :name="$t('myService.save')" :isLoading="loading" type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition" />
         </div>
       </form>
     </div>
@@ -56,9 +47,10 @@ import { toast } from 'vue3-toastify'
 import Swal from 'sweetalert2'
 import { validateService } from '@/utils/validators.js'
 import { useErrors } from "@/composables/useErrors"
+import { Enums } from '@/enums.js'
 import { useCurrencyStore } from '@/stores/useCurrencyStore'
 
-
+const currencyStore = useCurrencyStore()
 const { hasErrors } = useErrors()
 const route = useRoute()
 const router = useRouter()
@@ -74,7 +66,10 @@ const form = ref({
 })
 const serviceID = ref( route.params.serviceId || null )
 const isEditView= ref(serviceID.value !== 'new' ? true : false)
-const currencyStore = useCurrencyStore()
+const currencies = Enums.Currencies.map(c => ({
+  label: c.id,
+  value: c.name
+}))
 
 const loadService = async () => {
   loading.value = true
@@ -116,6 +111,9 @@ const submit = async () => {
 
 onMounted(async () => {
     form.value = deepClone(myServicesSchema)
+
+    form.value.currency_id = currencyStore.getCurrencyID()
+
     if( isEditView.value ){
         await loadService()
     }
@@ -188,15 +186,4 @@ const uploadPhotos = async () => {
   }
   isLoading.value = false
 }
-
-
-// Watch the form object for any changes
-// watch(
-//   form,
-//   (newForm) => {
-//     console.log('check')
-//     errors.value = validateService(newForm)
-//   },
-//   { deep: true } // needed for reactive objects to watch nested changes
-// )
 </script>
