@@ -1,0 +1,17 @@
+{
+    "unauthorized": "Dostęp tylko dla zalogowanych użytkowników",
+    "sessionExpired": "Sesja wygasła. Zaloguj się ponownie",
+    "serverError": "Błąd serwera [500]",
+    "tryAgainLater": "Spróbuj ponownie później",
+    "forbidden": "Brak dostępu (403)",
+    "notFound": "Nie znaleziono (404)",
+    "buttons": {
+        "goToLogin": "Przejdź do logowania",
+        "ok": "OK",
+        "save": "Zapisz",
+        "cancel": "Anuluj",
+        "delete": "Usuń",
+        "add": "Dodaj",
+        "edit": "Edytuj"
+    }
+}

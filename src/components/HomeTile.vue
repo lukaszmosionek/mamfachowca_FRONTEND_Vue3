@@ -65,7 +65,7 @@ const props = defineProps({
 });
 
 const toggleFavorite = async (itemId, event) => {
-  if (!authStore.token) return toast.info(t('homeTile.notlogged'))
+  if (!authStore.token) return toast.info(t('homeTile.notLogged'))
   const el = event.currentTarget;
   event.currentTarget.classList.add('animate-bounce')
 
