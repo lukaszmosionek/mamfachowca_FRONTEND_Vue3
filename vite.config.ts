@@ -34,4 +34,4 @@ export default defineConfig(({ mode }) => ({
   },
   base: '/',
   // base: '/home/serwer2529876/public_html/mamfachowca.mosioneklukasz.pl',
-})
+}))
