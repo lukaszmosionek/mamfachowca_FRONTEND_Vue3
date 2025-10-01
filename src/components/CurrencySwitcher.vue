@@ -8,7 +8,7 @@ const currencyStore = useCurrencyStore()
 const props = defineProps({
   modelValue: {
     type: String,
-    default: () => Enums.Currencies.find(c => c.default)?.name || 'USD'
+    default: () => Enums.Currencies.find(c => c.default)?.name
   },
   currencies: {
     type: Array,
@@ -17,7 +17,8 @@ const props = defineProps({
 })
 
 onMounted(() => {
-  selectedCurrency.value = localStorage.getItem('currency') ?? 'USD'
+  selectedCurrency.value = localStorage.getItem('currency') ?? Enums.Currencies.find(c => c.default)?.name
+  currencyStore.changeCurrency(selectedCurrency.value)
 })
 
 const emit = defineEmits(['update:modelValue'])

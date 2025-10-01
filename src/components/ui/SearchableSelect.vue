@@ -4,7 +4,7 @@
     <input
       type="text"
       v-model="search"
-      placeholder="Search provider..."
+      :placeholder="inputPlaceholder"
       class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
       @focus="open = true; search = ''"
     />
@@ -38,6 +38,10 @@ const props = defineProps({
     required: true,
   },
   addFirstOption: {
+    type: String,
+    default: '',
+  },
+  inputPlaceholder: {
     type: String,
     default: '',
   },

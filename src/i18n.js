@@ -21,11 +21,9 @@ if(!selectedLocale){
 
     localStorage.setItem('lang', selectedLocale)
 
-    const defaultCurrency = Enums.Languages.find(el => el.code === selectedLocale).defaultCurrency ?? 'USD'
+    const defaultCurrency = Enums.Languages.find(el => el.code === selectedLocale).defaultCurrency ?? 'PLNs'
     localStorage.setItem('currency', defaultCurrency)
-  }
-
-
+}
 
 const i18n = createI18n({
   legacy: false, // Use Composition API

@@ -1,15 +1,16 @@
 <template>
   <div class="">
     <div class="my-6 block md:flex gap-4 justify-center md:mx-0 mx-4">
-      <BaseInput type="" name="search-box" :placeholder="$t('filtering.search-by-name')" v-model="filters.name" @input="applyFilters" wrapperClass="md:!w-1/4 !w-full" />
+      <BaseInput type="" name="search-box" :placeholder="$t('filtering.searchByName')" v-model="filters.name" @input="applyFilters" wrapperClass="md:!w-1/4 !w-full" />
       <!-- <BaseSelect v-model="filters.provider_id" name="select-provider" @update:modelValue="applyFilters" :options="providersObj" :isAssociativeArray="false" :addFirstOption="$t('filtering.all-providers')" wrapperClass="mt-2 md:!w-1/4 !w-full h-10" class="" /> -->
 
       <SearchableSelect
         :options="providers"
         name="select-provider"
         v-model="filters.provider_id"
+        :inputPlaceholder="$t('filtering.inputPlaceholder')"
         @update:modelValue="applyFilters"
-        :addFirstOption="$t('filtering.all-providers')"
+        :addFirstOption="$t('filtering.allProviders')"
         class="mt-1 md:!w-1/4 !w-full h-10"
       />
 

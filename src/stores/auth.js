@@ -20,7 +20,7 @@ export const useAuthStore = defineStore('auth', {
       const response = await api.post('/login', form)
       this.setUserAndToken(response)
 
-      locale.value = this.user.lang
+      // locale.value = this.user.lang // Set the current locale based on the user's selected language
     },
     async register(payload) {
       const response = await api.post('/register', payload)

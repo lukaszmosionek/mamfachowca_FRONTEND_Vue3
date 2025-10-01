@@ -1,4 +1,5 @@
 {
-  "search-by-name": "Search by name",
-  "all-providers": "All Providers"
+  "searchByName": "Search by name",
+  "allProviders": "All Providers",
+  "inputPlaceholder": "Seach providers"
 }
