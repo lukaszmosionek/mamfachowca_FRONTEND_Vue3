@@ -26,7 +26,7 @@ api.interceptors.request.use((config) => {
 })
 
 api.interceptors.response.use(
-  (response: AxiosResponse) => {
+  (response) => {
     return response?.data?.data ?? response.data
   },
   (error: AxiosError<any>) => {

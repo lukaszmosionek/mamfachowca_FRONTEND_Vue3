@@ -12,7 +12,7 @@ interface User {
   email: string
   role: string
   lang?: string
-  [key: string]: any
+  [key: string]: unknown
 }
 
 interface LoginForm {
@@ -24,7 +24,7 @@ interface RegisterPayload {
   name: string
   email: string
   password: string
-  [key: string]: any
+  [key: string]: unknown
 }
 
 interface AuthResponse {
@@ -55,16 +55,16 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async login(form: LoginForm, locale?: { value: string }) {
-      const { data } = await api.post<AuthResponse>('/login', form)
-      this.setUserAndToken(data)
+      const { response } = await api.post<AuthResponse>('/login', form)
+      this.setUserAndToken(response)
 
       // Optionally update locale based on user preference
       // if (locale && this.user?.lang) locale.value = this.user.lang
     },
 
     async register(payload: RegisterPayload) {
-      const { data } = await api.post<AuthResponse>('/register', payload)
-      this.setUserAndToken(data)
+      const response = await api.post<AuthResponse>('/register', payload)
+      this.setUserAndToken(response)
     },
 
     async logout() {

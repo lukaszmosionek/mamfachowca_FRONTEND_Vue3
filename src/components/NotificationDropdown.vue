@@ -39,7 +39,7 @@
 // const { notifications } = useNotificationStore();
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
-import clickOutside from '@/utils/useClickOutside'
+import clickOutside from '@/utils/useClickOutside.ts'
 import { useAuthStore } from '@/stores/auth.ts'
 
 import api from '@/services/api.ts'

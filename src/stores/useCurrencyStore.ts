@@ -62,9 +62,6 @@ export const useCurrencyStore = defineStore('currency', {
         return this.formatCurrency(amount, this.currency)
       }
 
-      console.log('rates', this.rates)
-      console.log(`Converting ${amount} ${from} → ${this.currency}`)
-
       // Jeśli rates to kursy względem PLN (np. 1 USD = 4.1 PLN):
       const converted = (amount * this.rates[from]) / this.rates[this.currency]
 
@@ -75,7 +72,6 @@ export const useCurrencyStore = defineStore('currency', {
     formatCurrency(amount: number | string, currency: string): string {
       const num = Number(amount)
       if (isNaN(num)) {
-        console.error('formatCurrency: amount is not a number', amount)
         return 'NaN ' + currency
       }
 
