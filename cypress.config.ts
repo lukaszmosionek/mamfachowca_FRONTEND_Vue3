@@ -4,29 +4,29 @@ export default defineConfig({
   projectId: 'tb88mg',
   e2e: {
     setupNodeEvents(on, config) {
-      const envName = config.env.ENV || "local";
+      const envName: string = config.env?.ENV || "local";
 
       config.baseUrl = getBaseUrl(envName) ?? 'http://localhost:5173';
-      config.env.backendUrl = getBackendUrl(envName) ?? 'http://127.0.0.1:8000/api';
+      config.env = {
+        ...config.env,
+        backendUrl: getBackendUrl(envName) ?? 'http://127.0.0.1:8000/api',
+      };
 
       return config;
     },
     // baseUrl: process.env.VITE_FRONTEND_URL ?? 'http://localhost:5173',
-    // // baseUrl: 'http://test.mamfachowca.mosioneklukasz.pl/',
     // env: {
     //   backendUrl: process.env.VITE_BACKEND_URL ?? 'http://127.0.0.1:8000/api'
-    //   // backendUrl: 'http://test.api.mamfachowca.mosioneklukasz.pl/'
     // },
-    defaultCommandTimeout: 10000, // increase timeout globally
+    defaultCommandTimeout: 10000,
     viewportWidth: 1280,
     viewportHeight: 720,
   },
-  // video: true, // enable video recording
-  // videosFolder: 'cypress/videos', // default folder
+  // video: true,
+  // videosFolder: 'cypress/videos',
 });
 
-
-function getBaseUrl(env) {
+function getBaseUrl(env: string): string {
   switch (env) {
     case "local":
       return "http://localhost:5173";
@@ -37,7 +37,7 @@ function getBaseUrl(env) {
   }
 }
 
-function getBackendUrl(env) {
+function getBackendUrl(env: string): string {
   switch (env) {
     case "local":
       return "http://127.0.0.1:8000/api";
@@ -48,12 +48,7 @@ function getBackendUrl(env) {
   }
 }
 
-
-// # Local
+// Usage examples:
 // npx cypress run --env ENV=local
-
-// # Staging
 // npx cypress run --env ENV=staging
-
-// # Production
 // npx cypress run --env ENV=production
