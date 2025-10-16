@@ -21,7 +21,7 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue'
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import { toast } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
 import BaseButton from '@/components/BaseButton.vue'

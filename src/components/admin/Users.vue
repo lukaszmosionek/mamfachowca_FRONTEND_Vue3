@@ -38,10 +38,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import { toast } from 'vue3-toastify'
-import { useAuthStore } from '@/stores/auth'
-import { Enums } from '@/enums.js'
+import { useAuthStore } from '@/stores/auth.ts'
+import { Enums } from '@/enums.ts'
 
 const users = ref([])
 const isLoading = ref(false)

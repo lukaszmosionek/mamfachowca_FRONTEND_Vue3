@@ -1,9 +1,9 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import { onMounted } from 'vue'
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import axios from 'axios'
-import { useAuthStore } from './stores/auth'
+import { useAuthStore } from './stores/auth.ts'
 
 const authStore = useAuthStore()
 

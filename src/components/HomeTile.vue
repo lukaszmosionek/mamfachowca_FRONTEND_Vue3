@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="{ 'opacity-50': isLoading }" v-for="(s, index) in services" :key="s.id" :data-id="s.id" class="mx-auto bg-white rounded shadow-md overflow-hidden flex mt-5 w-full relative service-tile">
+    <div :class="{ 'opacity-50': isLoading }" v-for="(s, index) in services" :key="s.id" :data-id="s.id" class="mx-auto bg-white rounded-2xl shadow-md overflow-hidden flex mt-5 w-full relative service-tile">
 
       <!-- Zdjęcie -->
       <div class="w-40 h-40 md:w-80 md:h-80">
@@ -39,13 +39,13 @@
 <script setup>
 import { ref, defineEmits, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import api from '@/services/api'
-import { useAuthStore } from '@/stores/auth'
+import api from '@/services/api.ts'
+import { useAuthStore } from '@/stores/auth.ts'
 import { toast } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
 import BaseButton from '@/components/BaseButton.vue'
 import PhotoCarousel from '@/components/PhotoCarousel.vue'
-import { useCurrencyStore } from '@/stores/useCurrencyStore'
+import { useCurrencyStore } from '@/stores/useCurrencyStore.ts'
 const currencyStore = useCurrencyStore()
 const emit = defineEmits(['service-toggled']);
 const { t, d, n } = useI18n()

@@ -1,7 +1,11 @@
 import { defineStore } from 'pinia'
 
+interface HeaderState {
+  homeClicked: boolean
+}
+
 export const useHeaderStore = defineStore('header', {
-  state: () => ({
+  state: (): HeaderState => ({
     homeClicked: false
   }),
   actions: {

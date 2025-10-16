@@ -22,7 +22,7 @@ import Services from '@/components/admin/Services.vue'
 
 import NotFound from '@/views/NotFound.vue'
 
-import { Enums } from '@/enums.js'
+import { Enums } from '@/enums.ts'
 
 export default [
       {

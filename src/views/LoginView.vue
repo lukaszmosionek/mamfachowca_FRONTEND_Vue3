@@ -28,10 +28,10 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth.ts'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
-import { validateLogin } from '@/utils/validators.js'
+import { validateLogin } from '@/utils/validators.ts'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 

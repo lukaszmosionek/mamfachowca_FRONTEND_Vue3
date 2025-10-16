@@ -15,7 +15,7 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
 import { ref, onMounted, watch } from "vue"
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import BaseButton from '@/components/BaseButton.vue'
 import Filtering from '@/components/Filtering.vue'
 import HomeTile from '@/components/HomeTile.vue'

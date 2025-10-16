@@ -23,6 +23,4 @@ let translations = [
             }
 ]
 
-
-
 export const translationsSchema = translations

@@ -47,12 +47,12 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import api from '@/services/api'
-import { useAuthStore } from '@/stores/auth'
+import api from '@/services/api.ts'
+import { useAuthStore } from '@/stores/auth.ts'
 import BaseButton from '@/components/BaseButton.vue'
 import Pagination from '@/components/Pagination.vue'
 import { useI18n } from 'vue-i18n'
-import { Enums } from '@/enums.js'
+import { Enums } from '@/enums.ts'
 import { toast } from 'vue3-toastify'
 import { useRoute } from 'vue-router'
 

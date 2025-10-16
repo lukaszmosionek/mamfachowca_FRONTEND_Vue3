@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="js">
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import Swal from 'sweetalert2'
 import { ref } from 'vue'
 import { toast } from 'vue3-toastify'

@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useCurrencyStore } from '@/stores/useCurrencyStore'
+import { useCurrencyStore } from '@/stores/useCurrencyStore.ts'
 import BaseSelect from './BaseSelect.vue'
-import { Enums } from '@/enums.js'
+import { Enums } from '@/enums.ts'
 
 const currencyStore = useCurrencyStore()
 const props = defineProps({

@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth.ts'
 import { ref } from 'vue'
 import { useRouter, useRoute, RouterLink } from 'vue-router'
 import BaseButton from '@/components/BaseButton.vue'

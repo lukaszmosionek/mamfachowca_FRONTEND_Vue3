@@ -78,13 +78,13 @@
 import { useRouter, useRoute, RouterLink } from 'vue-router'
 import { computed, ref, watch, onBeforeUnmount, onMounted, onUnmounted } from 'vue'
 import { toast } from 'vue3-toastify'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth.ts'
 import BaseButton from '@/components/BaseButton.vue'
 import ChangeLanguage from './ChangeLanguage.vue'
 import CurrencySwitcher from './CurrencySwitcher.vue'
 import NotificationDropdown from '@/components/NotificationDropdown.vue'
-import { useHeaderStore } from '@/stores/useHeaderStore'
-import { Enums } from '@/enums.js'
+import { useHeaderStore } from '@/stores/useHeaderStore.ts'
+import { Enums } from '@/enums.ts'
 import { useI18n } from 'vue-i18n'
 
 const authStore = useAuthStore()

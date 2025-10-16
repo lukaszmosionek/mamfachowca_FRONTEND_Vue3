@@ -36,7 +36,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import { toast } from 'vue3-toastify'
 
 const services = ref([])

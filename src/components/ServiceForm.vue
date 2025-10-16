@@ -39,14 +39,14 @@
 
 <script setup>
 import { ref, watch } from 'vue'
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import { defineProps, defineEmits } from 'vue'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import PhotoGallery from '@/components/PhotoGallery.vue'
 import { useI18n } from 'vue-i18n'
 import { myServicesSchema } from '@/api/schemas/myServicesSchema'
-import { deepClone } from '@/helpers/deepClone.js'
+import { deepClone } from '@/helpers/deepClone.ts'
 import { toast } from 'vue3-toastify'
 
 const service = ref(null)

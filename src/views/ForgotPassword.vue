@@ -21,7 +21,7 @@
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import { onMounted, ref } from 'vue'
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import { useRoute } from 'vue-router';
 
 const email = ref('')

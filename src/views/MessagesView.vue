@@ -52,14 +52,14 @@
 
 <script setup>
 import { ref, onMounted, nextTick, watch } from 'vue'
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import { useRoute } from 'vue-router'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseInput from '@/components/BaseInput.vue'
 import { toast } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
 import notificationSound from '@/assets/notification.wav'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth.ts'
 
 const { t } = useI18n()
 const authStore = useAuthStore()

@@ -2,14 +2,14 @@ import '@/assets/styles/main.scss'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { initEcho } from '@/plugins/echo'
+import { initEcho } from '@/plugins/echo.ts'
 
 import App from './App.vue'
-import router from './router'
-import i18n from './i18n'
+import router from './router/index.ts'
+import i18n from './i18n.ts'
 import Vue3Toastify from 'vue3-toastify'
 import 'vue3-toastify/dist/index.css'
-import { FontAwesomeIcon } from './plugins/fontawesome.js' // ✅ Import from your plugin
+import { FontAwesomeIcon } from './plugins/fontawesome.ts' // ✅ Import from your plugin
 
 const app = createApp(App)
 app.use(createPinia())
@@ -18,7 +18,7 @@ app.use(i18n)
 app.use(Vue3Toastify)
 app.use(router)
 
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth.ts'
 const authStore = useAuthStore()
 
 if (authStore.token) {
@@ -26,15 +26,14 @@ if (authStore.token) {
 }
 
 // Check localStorage to enable or disable devtools
-if (localStorage.getItem('vueDevtoolsDisabled') === 'true') {
-  app.config.devtools = false
-} else {
-  app.config.devtools = true
-}
+// if (localStorage.getItem('vueDevtoolsDisabled') === 'true') {
+//   (app.config as any).devtools = false
+// } else {
+//   (app.config as any).devtools = true
+// }
 
 app.mount('#app')
 
 app.config.globalProperties.$VueValidation = true;
 
-window.l = console.log
 

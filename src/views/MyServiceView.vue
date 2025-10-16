@@ -34,21 +34,21 @@
 
 <script setup>
 import { onMounted, ref, watch } from 'vue'
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseSelect from '@/components/BaseSelect.vue'
 import PhotoGallery from '@/components/PhotoGallery.vue'
 import { useI18n } from 'vue-i18n'
 import { myServicesSchema } from '@/api/schemas/myServicesSchema'
-import { deepClone } from '@/helpers/deepClone.js'
+import { deepClone } from '@/helpers/deepClone.ts'
 import { useRouter, useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import Swal from 'sweetalert2'
-import { validateService } from '@/utils/validators.js'
+import { validateService } from '@/utils/validators.ts'
 import { useErrors } from "@/composables/useErrors"
-import { Enums } from '@/enums.js'
-import { useCurrencyStore } from '@/stores/useCurrencyStore'
+import { Enums } from '@/enums.ts'
+import { useCurrencyStore } from '@/stores/useCurrencyStore.ts'
 
 const currencyStore = useCurrencyStore()
 const { hasErrors } = useErrors()

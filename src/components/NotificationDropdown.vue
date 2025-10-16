@@ -40,9 +40,9 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import clickOutside from '@/utils/useClickOutside'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth.ts'
 
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import { toast } from 'vue3-toastify'
 
 const authStore = useAuthStore()

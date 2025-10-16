@@ -29,11 +29,11 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import { useRoute } from 'vue-router'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
-import { validatePasswordReset } from '@/utils/validators.js'
+import { validatePasswordReset } from '@/utils/validators.ts'
 import Swal from 'sweetalert2'
 
 const form = ref({})

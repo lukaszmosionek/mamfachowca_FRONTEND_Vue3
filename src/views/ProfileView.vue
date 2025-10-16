@@ -26,14 +26,14 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import { useI18n } from 'vue-i18n'
 import { useRouter, useRoute } from 'vue-router'
 import HomeTile from '@/components/HomeTile.vue';
 import Availabilities from '@/components/Availabilities.vue'
 import Pagination from '@/components/Pagination.vue';
 import defaultAvatar from '@/assets/default-avatar.svg';
-import { Enums } from '@/enums.js'
+import { Enums } from '@/enums.ts'
 
 const user = ref({
   'availabilities': []

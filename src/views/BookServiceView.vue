@@ -53,22 +53,22 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
 import { ref, reactive, computed, onMounted, watch } from "vue"
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseSelect from '@/components/BaseSelect.vue'
 import { toast } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
 import Availabilities from '@/components/Availabilities.vue'
 import PhotoCarousel from '@/components/PhotoCarousel.vue'
-import { Enums } from '@/enums.js'
-import { useAuthStore } from '@/stores/auth'
+import { Enums } from '@/enums.ts'
+import { useAuthStore } from '@/stores/auth.ts'
 
 import { serviceSchema } from '@/api/schemas/servicesSchema'
 
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import Swal from 'sweetalert2'
-import { deepClone } from '@/helpers/deepClone.js'
+import { deepClone } from '@/helpers/deepClone.ts'
 
 const router = useRouter();
 const route = useRoute()

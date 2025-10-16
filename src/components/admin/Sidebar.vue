@@ -27,8 +27,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { Enums } from '@/enums.js'
-import { useAuthStore } from '@/stores/auth'
+import { Enums } from '@/enums.ts'
+import { useAuthStore } from '@/stores/auth.ts'
 import BaseButton from '@/components/BaseButton.vue'
 import { useRouter, useRoute, RouterLink } from 'vue-router'
 import { toast } from 'vue3-toastify'

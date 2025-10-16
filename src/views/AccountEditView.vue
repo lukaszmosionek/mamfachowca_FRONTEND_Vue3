@@ -21,14 +21,14 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import UploadAvatar from '@/components/UploadAvatar.vue'
 import BaseSelect from '@/components/BaseSelect.vue'
 import { useI18n } from 'vue-i18n'
 import Swal from 'sweetalert2'
-import { Enums } from '@/enums.js'
+import { Enums } from '@/enums.ts'
 const form = ref({})
 
 const { t, locale } = useI18n()

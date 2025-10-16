@@ -14,13 +14,13 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
-import { validateContact } from '@/utils/validators.js'
+import { validateContact } from '@/utils/validators.ts'
 import Swal from 'sweetalert2';
 import { useI18n } from 'vue-i18n'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth.ts'
 const authStore = useAuthStore()
 
 const user = ref( authStore.user )

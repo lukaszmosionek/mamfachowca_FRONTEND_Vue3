@@ -32,12 +32,12 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth.ts'
 import { useRouter } from 'vue-router'
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseSelect from '@/components/BaseSelect.vue'
-import { validateRegister } from '@/utils/validators.js'
+import { validateRegister } from '@/utils/validators.ts'
 
 const store = useAuthStore()
 const router = useRouter()

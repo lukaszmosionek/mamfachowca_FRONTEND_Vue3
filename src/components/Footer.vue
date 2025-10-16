@@ -44,8 +44,8 @@
 
 <script setup>
   import ChangeLanguage from './ChangeLanguage.vue'
-  import { useHeaderStore } from '@/stores/useHeaderStore'
-  import { useAuthStore } from '@/stores/auth'
+  import { useHeaderStore } from '@/stores/useHeaderStore.ts'
+  import { useAuthStore } from '@/stores/auth.ts'
 
   const headerStore = useHeaderStore()
   const authStore = useAuthStore()

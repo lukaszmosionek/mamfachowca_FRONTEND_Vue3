@@ -45,12 +45,12 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import ServiceForm from '@/components/ServiceForm.vue'
 import { toast } from 'vue3-toastify'
 import BaseButton from '@/components/BaseButton.vue'
 import { useI18n } from 'vue-i18n'
-import { emptyStructureFromExample } from '@/helpers/createEmptyStructure'
+import { emptyStructureFromExample } from '@/helpers/createEmptyStructure.ts'
 import Swal from 'sweetalert2'
 // import { myServicesSchema } from '@/api/schemas/myServicesSchema'
 

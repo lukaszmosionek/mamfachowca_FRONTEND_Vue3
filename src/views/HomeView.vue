@@ -8,16 +8,16 @@
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
 import { ref, onMounted, watch } from "vue"
-import api from '@/services/api'
+import api from '@/services/api.ts'
 import '@vuepic/vue-datepicker/dist/main.css'
 import HomeTile from '@/components/HomeTile.vue'
 import Filtering from '@/components/Filtering.vue'
-import { useHeaderStore } from '@/stores/useHeaderStore'
+import { useHeaderStore } from '@/stores/useHeaderStore.ts'
 import { toast } from 'vue3-toastify'
 import { serviceSchema } from '@/api/schemas/servicesSchema'
 import { useI18n } from 'vue-i18n'
-import { deepClone } from '@/helpers/deepClone.js'
-import { useAuthStore } from '@/stores/auth'
+import { deepClone } from '@/helpers/deepClone.ts'
+import { useAuthStore } from '@/stores/auth.ts'
 
 const authStore = useAuthStore()
 const headerStore = useHeaderStore()
