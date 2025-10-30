@@ -36,6 +36,6 @@ function changeCurrency(currency) {
 
 <template>
   <div class="flex gap-2">
-      <BaseSelect class="!p-0 h-5 bg-white-600 text-xs" :modelValue="selectedCurrency" :options="currencies" @update:modelValue="changeCurrency"></BaseSelect>
+      <BaseSelect class="!p-0 h-5 bg-white-600 text-xs changeCurrency" :modelValue="selectedCurrency" :options="currencies" @update:modelValue="changeCurrency"></BaseSelect>
   </div>
 </template>

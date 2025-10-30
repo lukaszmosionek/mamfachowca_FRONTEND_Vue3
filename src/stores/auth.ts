@@ -28,8 +28,10 @@ interface RegisterPayload {
 }
 
 interface AuthResponse {
-  token: string
-  user: User
+  data:{
+    token: string
+    user: User
+  }
 }
 
 interface AuthState {
@@ -43,7 +45,7 @@ interface AuthState {
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
     token: sessionStorage.getItem('token') || null,
-    user: JSON.parse(sessionStorage.getItem('user') || 'null'),
+    user: JSON.parse(sessionStorage.getItem('user') || 'null') || null,
   }),
 
   getters: {
@@ -55,16 +57,16 @@ export const useAuthStore = defineStore('auth', {
 
   actions: {
     async login(form: LoginForm, locale?: { value: string }) {
-      const { response } = await api.post<AuthResponse>('/login', form)
-      this.setUserAndToken(response)
+      const data = await api.post<AuthResponse>('/login', form)
+      this.setUserAndToken(data)
 
       // Optionally update locale based on user preference
       // if (locale && this.user?.lang) locale.value = this.user.lang
     },
 
     async register(payload: RegisterPayload) {
-      const response = await api.post<AuthResponse>('/register', payload)
-      this.setUserAndToken(response)
+      const data = await api.post<AuthResponse>('/register', payload)
+      this.setUserAndToken(data)
     },
 
     async logout() {
@@ -84,11 +86,11 @@ export const useAuthStore = defineStore('auth', {
       delete api.defaults.headers.common['Authorization']
     },
 
-    setUserAndToken(response: AuthResponse) {
+    setUserAndToken(response: any) {
       this.token = response.token
       this.user = response.user
 
-      sessionStorage.setItem('token', this.token)
+      sessionStorage.setItem('token', this.token ?? '')
       sessionStorage.setItem('user', JSON.stringify(this.user))
       api.defaults.headers.common['Authorization'] = `Bearer ${this.token}`
     },

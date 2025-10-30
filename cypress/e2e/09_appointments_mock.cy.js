@@ -6,7 +6,7 @@ describe('appointments', () => {
 
     cy.get('a[href="/account"]').realHover()
     cy.get('a[href="/appointments"]').should('be.visible').click()
-    cy.get('body').realHover();
+    cy.get('h1#logo').realHover()
     // cy.wait(1000)
 
     // cy.intercept('POST', `${Cypress.env('backendUrl')}/appointments/*/accept`).as('accept');

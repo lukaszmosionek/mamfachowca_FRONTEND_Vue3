@@ -10,7 +10,7 @@ describe('Create service', () => {
 
     cy.wait(1000)
 
-    cy.get('h1').realHover()
+    cy.get('h1#logo').realHover()
 
     cy.get('a.add-new').click()
 
@@ -29,6 +29,8 @@ describe('Create service', () => {
 
 
     cy.get('a.link-home').first().click()
+
+    cy.changeCurrency('PLN');
 
     cy.contains(/Name of service (en|pl)/).should('be.visible');
     cy.contains(/Description of service (en|pl)/).should('be.visible')
@@ -56,7 +58,7 @@ describe('Create service', () => {
 
     cy.contains('validation.serviceName.required').should('be.visible')
     cy.contains('validation.price.required').should('be.visible')
-    cy.contains('validation.time.required').should('be.visible')
+    cy.contains('validation.time.positive').should('be.visible')
     cy.contains('validation.description.required').should('be.visible')
   })
 

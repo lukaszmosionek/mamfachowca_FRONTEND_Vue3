@@ -4,11 +4,7 @@ describe('Edit service', () => {
     //login
     cy.login('provider@onet.pl', 'password') // reusable login in support/commands.ts
 
-    cy.wait(1000)
-
-    cy.visit('/my-services')
-
-    cy.wait(1000)
+    cy.get('a[href="/my-services"]').first().should('be.visible').click()
 
     // cy.intercept('GET', `${Cypress.env('backendUrl')}/me/services`).as('serviceRequest');
     // cy.wait('@serviceRequest')
@@ -30,6 +26,8 @@ describe('Edit service', () => {
 
 
     cy.get('a.link-home').first().click()
+
+    cy.changeCurrency('PLN');
 
     cy.contains('Name of service').should('be.visible')
     cy.contains('Description of service').should('be.visible')

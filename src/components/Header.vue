@@ -2,7 +2,7 @@
 
   <header class="bg-gray-800 text-white py-4"  ref="container">
     <div class="wrapper flex justify-between items-center">
-      <h1 class="md:text-xl  font-bold">
+      <h1 class="md:text-xl  font-bold" id="logo">
         <RouterLink class="link-home" :to="{ name: 'Home', params: {}, query: {} }" @click="headerStore.triggerHomeClick()"><font-awesome-icon :icon="['fas', 'hammer']" title="Home Page" />&nbsp;Mam Fachowca</RouterLink>
       </h1>
 

@@ -18,6 +18,7 @@ Cypress.Commands.add('login', (email = 'client@onet.pl', password = 'password') 
     cy.get('button[type="submit"]').click()
 })
 
+
 Cypress.Commands.add('changeLanguage', (changeTo='pl') => {
 
   cy.visit('/')
@@ -27,6 +28,14 @@ Cypress.Commands.add('changeLanguage', (changeTo='pl') => {
       cy.get('button#changeLanguage-' + changeTo).click();
     }
   });
+
+})
+
+Cypress.Commands.add('changeCurrency', (changeTo='PLN') => {
+
+  cy.visit('/')
+
+  cy.get('.changeCurrency select').select(changeTo);
 
 })
 
