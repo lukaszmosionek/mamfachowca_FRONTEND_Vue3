@@ -14,6 +14,7 @@ const api: AxiosInstance = axios.create({
 api.interceptors.request.use((config) => {
   config.headers = config.headers || {}
   config.headers['Accept-Language'] = localStorage.getItem('lang') ?? 'en'
+  config.headers['Currency'] = localStorage.getItem('currency') ?? 'USD'
 
   const authStore = useAuthStore()
   const token = authStore.token
@@ -34,6 +35,14 @@ api.interceptors.response.use(
 
     const response = error.response
     const authStore = useAuthStore()
+
+    // Handle CORS or network errors (no response object)
+    if (!error.response) {
+      console.warn('Possible CORS or network issue')
+      // Optional: force reload or show toast
+      window.location.reload()
+      return Promise.reject({ message: 'Network/CORS error', error })
+    }
 
     if (response?.data?.message === 'Unauthenticated.') {
       if (router.currentRoute.value.name !== 'Login') {

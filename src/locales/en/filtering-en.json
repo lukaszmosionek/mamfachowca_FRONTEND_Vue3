@@ -1,5 +1,7 @@
 {
   "searchByName": "Search by name",
+  "priceFrom": "Price from",
+  "priceTo": "Price to",
   "allProviders": "All Providers",
-  "inputPlaceholder": "Seach providers"
+  "inputPlaceholder": "Search providers"
 }

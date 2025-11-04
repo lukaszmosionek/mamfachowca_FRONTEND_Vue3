@@ -14,6 +14,8 @@
         class="mt-1 md:!w-1/4 !w-full h-10"
       />
 
+      <BaseInput type="" name="search-box" :placeholder="$t('filtering.priceFrom')" v-model="filters.priceFrom" @input="applyFilters" wrapperClass="md:!w-1/4 !w-full" />
+      <BaseInput type="" name="search-box" :placeholder="$t('filtering.priceTo')" v-model="filters.priceTo" @input="applyFilters" wrapperClass="md:!w-1/4 !w-full" />
     </div>
   </div>
 </template>
@@ -49,7 +51,6 @@ const emits = defineEmits(['update:filters'])
 
 const applyFilters = () => {
   // if (props.filters.name && props.filters.name.length < 3) return
-  console.log(props.filters)
   updateQueryParams(props.filters)
   emits('update:filters', { ...props.filters });
 }

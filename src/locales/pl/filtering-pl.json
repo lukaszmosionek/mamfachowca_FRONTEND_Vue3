@@ -1,5 +1,7 @@
 {
   "searchByName": "Szukaj po nazwie",
   "allProviders": "Wszyscy usługodawcy",
-  "inputPlaceholder": "Szukaj usługodawcy"
+  "inputPlaceholder": "Szukaj usługodawcy",
+  "priceFrom": "Cena od",
+  "priceTo": "Cena do"
 }

@@ -39,6 +39,7 @@ export const useCurrencyStore = defineStore('currency', {
 
   actions: {
     changeCurrency(currency: string) {
+      localStorage.setItem('currency', currency)
       this.currency = currency
     },
 

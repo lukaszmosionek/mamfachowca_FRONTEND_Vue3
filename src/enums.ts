@@ -32,14 +32,14 @@ export const Enums = {
       {
         "symbol" : "zł",
         "name" : "PLN",
-        "rate" : "4.1",
+        "rate" : "0.270960",
         "default": true,
         "id": 2
       },
       {
         "symbol" : "€",
         "name" : "EUR",
-        "rate" : "0.92",
+        "rate" : "1.152850",
         "default": false,
         "id": 3
       }
