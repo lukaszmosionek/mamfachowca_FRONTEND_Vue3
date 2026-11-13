@@ -6,8 +6,8 @@
 
 ## 🌐 Live Demo
 
-- **Frontend**: [mamfachowca.mosioneklukasz.pl](http://mamfachowca.mosioneklukasz.pl)
-- **Backend API Docs**: [api.mamfachowca.mosioneklukasz.pl/docs/api](http://api.mamfachowca.mosioneklukasz.pl/docs/api)
+- **Frontend**: [mamfachowca.lukaszmosionek.pl](http://mamfachowca.lukaszmosionek.pl)
+- **Backend API Docs**: [api-mamfachowca.lukaszmosionek.pl/docs/api](http://api-mamfachowca.lukaszmosionek.pl/docs/api)
 - **Docker Instalation**: [https://github.com/lukaszmosionek/mamfachowca_Docker.git](https://github.com/lukaszmosionek/mamfachowca_Docker.git)
 
 ---
