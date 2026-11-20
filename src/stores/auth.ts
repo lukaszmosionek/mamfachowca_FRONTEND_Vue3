@@ -56,7 +56,7 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
-    async login(form: LoginForm, locale?: { value: string }) {
+    async login(form: LoginForm) {
       const data = await api.post<AuthResponse>('/login', form)
       this.setUserAndToken(data)
 

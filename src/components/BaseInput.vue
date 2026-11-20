@@ -2,18 +2,26 @@
   <div :class="wrapperClass" class="input-wrap flex flex-col">
     <label v-if="label" :for="name ?? computedId" class="">{{ label }} <slot /> <div v-if="isLoading" class="spinner !w-2 !h-2 inline-block"></div></label>
 
-    <input
-      v-if="!isTextarea"
-      :id="name ?? computedId"
-      :name="name"
-      :disabled="isLoading"
-      :type="type"
-      :placeholder="placeholder"
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
-      v-bind="$attrs"
-      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mt-1"
-    />
+    <div v-if="!isTextarea" class="relative">
+      <input
+        :id="name ?? computedId"
+        :name="name"
+        :disabled="isLoading"
+        :type="type"
+        :placeholder="placeholder"
+        :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"
+        v-bind="$attrs"
+        :class="suffix ? 'pr-14' : ''"
+        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mt-1"
+      />
+      <span
+        v-if="suffix"
+        class="absolute right-3 top-1/2 mt-0.5 -translate-y-1/2 text-sm font-medium text-gray-600 pointer-events-none"
+      >
+        {{ suffix }}
+      </span>
+    </div>
     <textarea
         v-if="isTextarea"
         :id="name ?? computedId"
@@ -65,6 +73,10 @@ defineProps({
     default: "",
   },
   wrapperClass: {
+    type: String,
+    default: "",
+  },
+  suffix: {
     type: String,
     default: "",
   },

@@ -55,7 +55,7 @@ const handleLogin = async () => {
 
   loading.value = true
   try {
-    await store.login(form.value, locale)
+    await store.login(form.value)
     const redirectPath = route.query.redirect ? decodeURIComponent(route.query.redirect) : router.resolve({ name: 'Home' }).href;
     router.push(redirectPath)
   } catch (error) {

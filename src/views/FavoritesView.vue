@@ -29,7 +29,10 @@ const services = ref(Array(10).fill({}))
 const page = ref(1)
 const filters = ref({
   name: route.query.name || null,
-  provider_id: null
+  provider_id: null,
+  priceFrom: route.query.priceFrom || null,
+  priceTo: route.query.priceTo || null,
+  currency: route.query.currency || localStorage.getItem('currency') || 'PLN'
 });
 const providers = ref([])
 

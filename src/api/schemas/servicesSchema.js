@@ -1,4 +1,3 @@
-import noPhoto from '@/assets/no-photo.jpg'
 import { translationsSchema } from '@/api/schemas/translationsSchema.js'
 import { currenciesSchema } from '@/api/schemas/currenciesSchema.js'
 import { photosSchema } from '@/api/schemas/photosSchema.js'

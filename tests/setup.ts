@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { beforeAll } from 'vitest'
+import { beforeAll, vi } from 'vitest'
 import { config } from '@vue/test-utils'
 import { createI18n } from 'vue-i18n'
 import { createPinia } from 'pinia'
@@ -7,15 +7,27 @@ import routes from '@/router/routes'
 
 import langs from '@/locales'
 
+vi.mock('@/services/api.ts', () => ({
+  default: {
+    get: vi.fn(async (url: string) => {
+      if (url === '/services') return { services: [], last_page: 1 }
+      if (url === '/providers') return { providers: [] }
+      return {}
+    }),
+    post: vi.fn(),
+  },
+}))
+
 // Enable Composition API mode
 const i18n = createI18n({
   legacy: false,   // ✅ Important for useI18n()
   locale: 'en',
-  langs,
+  fallbackLocale: 'en',
+  messages: langs,
 })
 
 
-const router = createRouter({
+export const router = createRouter({
   history: createWebHistory(),
   routes
 })

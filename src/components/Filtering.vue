@@ -21,18 +21,17 @@
         class="mt-1 md:!w-1/4 !w-full h-10"
       />
 
-      <BaseInput type="text" name="search-box" :placeholder="$t('filtering.priceFrom')" :model-value="filters.priceFrom" @update:modelValue="value => updateFilter('priceFrom', value)" wrapperClass="md:!w-1/4 !w-full" />
-      <BaseInput type="text" name="search-box" :placeholder="$t('filtering.priceTo')" :model-value="filters.priceTo" @update:modelValue="value => updateFilter('priceTo', value)" wrapperClass="md:!w-1/4 !w-full" />
+      <BaseInput type="number" name="price-from" :placeholder="$t('filtering.priceFrom')" :model-value="filters.priceFrom" :suffix="filters.currency || defaultCurrency" @update:modelValue="value => updateFilter('priceFrom', value)" wrapperClass="md:!w-1/6 !w-full" />
+      <BaseInput type="number" name="price-to" :placeholder="$t('filtering.priceTo')" :model-value="filters.priceTo" :suffix="filters.currency || defaultCurrency" @update:modelValue="value => updateFilter('priceTo', value)" wrapperClass="md:!w-1/6 !w-full" />
     </div>
   </div>
 </template>
 
 <script setup>
 import { useRouter, useRoute } from 'vue-router'
-import { computed } from 'vue';
-import BaseSelect from "./BaseSelect.vue"
 import BaseInput from "./BaseInput.vue"
 import SearchableSelect from "./ui/SearchableSelect.vue"
+import { Enums } from '@/enums.ts'
 
 const router = useRouter()
 const route = useRoute()
@@ -47,12 +46,8 @@ const props = defineProps({
   }
 });
 
-const providersObj = computed(() =>
-  props.providers.map(c => ({
-    label: c.id,  // usually the display name
-    value: c.name     // usually the identifier
-  }))
-);
+const defaultCurrency = localStorage.getItem('currency')
+  || Enums.Currencies.find(currency => currency.default)?.name
 
 const emits = defineEmits(['update:filters'])
 

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import type { AxiosError, AxiosInstance } from 'axios'
 import i18n from '@/i18n'
 import router from '@/router'
 import { useAuthStore } from '@/stores/auth.ts'

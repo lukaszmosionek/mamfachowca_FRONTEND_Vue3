@@ -18,8 +18,10 @@ import { serviceSchema } from '@/api/schemas/servicesSchema'
 import { useI18n } from 'vue-i18n'
 import { deepClone } from '@/helpers/deepClone.ts'
 import { useAuthStore } from '@/stores/auth.ts'
+import { useCurrencyStore } from '@/stores/useCurrencyStore.ts'
 
 const authStore = useAuthStore()
+const currencyStore = useCurrencyStore()
 const headerStore = useHeaderStore()
 const scrollContainer = ref(null)
 const route = useRoute()
@@ -29,7 +31,8 @@ const filters = ref({
   name: route.query.name || null,
   provider_id: Number(route.query.provider_id) || null,
   priceFrom: route.query.priceFrom || null,
-  priceTo: route.query.priceTo || null
+  priceTo: route.query.priceTo || null,
+  currency: route.query.currency || localStorage.getItem('currency') || 'PLN'
 })
 
 const page = ref(1)
@@ -38,45 +41,101 @@ const services = ref([])
 const providers = ref([])
 const hasMore = ref(true)
 let debounceTimeout;
+let pendingLoad = false
+let filtersVersion = 0
+
+const filterServicesByPrice = (serviceList) => {
+  const minPrice = filters.value.priceFrom === null || filters.value.priceFrom === ''
+    ? null
+    : Number(filters.value.priceFrom)
+  const maxPrice = filters.value.priceTo === null || filters.value.priceTo === ''
+    ? null
+    : Number(filters.value.priceTo)
+  const hasPriceFilter = Number.isFinite(minPrice) || Number.isFinite(maxPrice)
+
+  if (!hasPriceFilter) return serviceList
+
+  const targetCurrency = filters.value.currency || currencyStore.currency
+  const targetRate = currencyStore.rates[targetCurrency]
+
+  return serviceList.filter((service) => {
+    const price = Number(service.price)
+    if (!Number.isFinite(price)) return false
+
+    const sourceCurrency = service.currency?.code
+    const sourceRate = currencyStore.rates[sourceCurrency]
+    if (!sourceRate || !targetRate) return true
+
+    const convertedPrice = price * sourceRate / targetRate
+    return (minPrice === null || !Number.isFinite(minPrice) || convertedPrice >= minPrice)
+      && (maxPrice === null || !Number.isFinite(maxPrice) || convertedPrice <= maxPrice)
+  })
+}
 
 const loadServices = async () => {
-  if (isLoading.value || !hasMore.value) return
+  if (isLoading.value) {
+    pendingLoad = true
+    return
+  }
+  if (!hasMore.value) return
+
   isLoading.value = true
+  const requestPage = page.value
+  const requestFiltersVersion = filtersVersion
 
   try {
     const user = authStore.user
+    const { priceFrom, priceTo, ...otherFilters } = filters.value
     const res = await api.get('/services', {
       params: {
-        page: page.value,
-        ...filters.value,
+        page: requestPage,
+        ...otherFilters,
+        ...(priceFrom !== null && priceFrom !== '' ? { price_from: priceFrom } : {}),
+        ...(priceTo !== null && priceTo !== '' ? { price_to: priceTo } : {}),
         user_id: user ? user.id : null
       }
     })
 
-    if( page.value === 1 ){
-        //services.value = []
-        // Object.assign(services.value, res.services)
-        services.value = res.services
-    }else{
-        services.value.push( ...res.services )
+    if (requestFiltersVersion !== filtersVersion) return
+
+    const matchingServices = filterServicesByPrice(res.services)
+    if (requestPage === 1) {
+        services.value = matchingServices
+    } else {
+        services.value.push(...matchingServices)
     }
 
-    if (page.value >= res.last_page) {
+    if (requestPage >= res.last_page) {
         hasMore.value = false
     } else {
-        page.value++
+        page.value = requestPage + 1
     }
 
-  } catch(err) {
-    toast.error('Fail to load services. Try again later.')
+    const hasPriceFilter = filters.value.priceFrom !== null && filters.value.priceFrom !== ''
+      || filters.value.priceTo !== null && filters.value.priceTo !== ''
+    if (hasPriceFilter && matchingServices.length === 0 && hasMore.value) {
+      pendingLoad = true
+    }
+
+  } catch (err) {
+    if (requestFiltersVersion === filtersVersion) {
+      toast.error('Fail to load services. Try again later.')
+    }
+  } finally {
+    isLoading.value = false
+    if (pendingLoad) {
+      pendingLoad = false
+      void loadServices()
+    }
   }
-  isLoading.value = false
 }
 
 const handleFilters = (el) => {
   filters.value = el
+  filtersVersion++
   page.value = 1
   hasMore.value = true
+  services.value = []
   clearTimeout(debounceTimeout);
   debounceTimeout = setTimeout(() => {
       loadServices()
