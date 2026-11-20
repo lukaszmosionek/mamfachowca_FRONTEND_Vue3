@@ -1,21 +1,28 @@
 <template>
   <div class="">
     <div class="my-6 block md:flex gap-4 justify-center md:mx-0 mx-4">
-      <BaseInput type="" name="search-box" :placeholder="$t('filtering.searchByName')" v-model="filters.name" @input="applyFilters" wrapperClass="md:!w-1/4 !w-full" />
+      <BaseInput
+        type="text"
+        name="search-box"
+        :placeholder="$t('filtering.searchByName')"
+        :model-value="filters.name"
+        @update:modelValue="value => updateFilter('name', value)"
+        wrapperClass="md:!w-1/4 !w-full"
+      />
       <!-- <BaseSelect v-model="filters.provider_id" name="select-provider" @update:modelValue="applyFilters" :options="providersObj" :isAssociativeArray="false" :addFirstOption="$t('filtering.all-providers')" wrapperClass="mt-2 md:!w-1/4 !w-full h-10" class="" /> -->
 
       <SearchableSelect
         :options="providers"
         name="select-provider"
-        v-model="filters.provider_id"
+        :model-value="filters.provider_id"
         :inputPlaceholder="$t('filtering.inputPlaceholder')"
-        @update:modelValue="applyFilters"
+        @update:modelValue="value => updateFilter('provider_id', value)"
         :addFirstOption="$t('filtering.allProviders')"
         class="mt-1 md:!w-1/4 !w-full h-10"
       />
 
-      <BaseInput type="" name="search-box" :placeholder="$t('filtering.priceFrom')" v-model="filters.priceFrom" @input="applyFilters" wrapperClass="md:!w-1/4 !w-full" />
-      <BaseInput type="" name="search-box" :placeholder="$t('filtering.priceTo')" v-model="filters.priceTo" @input="applyFilters" wrapperClass="md:!w-1/4 !w-full" />
+      <BaseInput type="text" name="search-box" :placeholder="$t('filtering.priceFrom')" :model-value="filters.priceFrom" @update:modelValue="value => updateFilter('priceFrom', value)" wrapperClass="md:!w-1/4 !w-full" />
+      <BaseInput type="text" name="search-box" :placeholder="$t('filtering.priceTo')" :model-value="filters.priceTo" @update:modelValue="value => updateFilter('priceTo', value)" wrapperClass="md:!w-1/4 !w-full" />
     </div>
   </div>
 </template>
@@ -49,10 +56,10 @@ const providersObj = computed(() =>
 
 const emits = defineEmits(['update:filters'])
 
-const applyFilters = () => {
-  // if (props.filters.name && props.filters.name.length < 3) return
-  updateQueryParams(props.filters)
-  emits('update:filters', { ...props.filters });
+const updateFilter = (key, value) => {
+  const updatedFilters = { ...props.filters, [key]: value }
+  updateQueryParams(updatedFilters)
+  emits('update:filters', updatedFilters)
 }
 
 function updateQueryParams(params) {

@@ -27,7 +27,9 @@ const { locale } = useI18n()
 
 const filters = ref({
   name: route.query.name || null,
-  provider_id: Number(route.query.provider_id) || null
+  provider_id: Number(route.query.provider_id) || null,
+  priceFrom: route.query.priceFrom || null,
+  priceTo: route.query.priceTo || null
 })
 
 const page = ref(1)
