@@ -43,10 +43,16 @@
 
       <fieldset v-if="showProductsCount" :class="vertical ? 'w-full' : 'md:!w-1/4 !w-full'" class="min-w-0 rounded border border-gray-400 px-3 pb-1">
         <legend class="px-1 text-xs text-gray-700">{{ $t('filtering.showProducts') }}</legend>
-        <div class="flex h-7 items-center justify-between px-1 text-sm text-gray-800">
-          <span>{{ $t('filtering.products30') }}</span>
-          <span class="mr-1 mt-[-4px] inline-block h-2 w-2 rotate-45 border-b border-r border-gray-700" aria-hidden="true"></span>
-        </div>
+        <select
+          id="offers-per-page"
+          :value="perPage"
+          class="h-7 w-full border-0 bg-transparent p-0 text-sm text-gray-800 focus:ring-0"
+          @change="event => updatePerPage(event.target.value)"
+        >
+          <option v-for="count in perPageOptions" :key="count" :value="count">
+            {{ $t(`filtering.products${count}`) }}
+          </option>
+        </select>
       </fieldset>
 
       <template v-if="showPriceFilters">
@@ -95,6 +101,14 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  perPage: {
+    type: Number,
+    default: 30
+  },
+  perPageOptions: {
+    type: Array,
+    default: () => [30, 60, 90]
+  },
   vertical: {
     type: Boolean,
     default: false
@@ -108,7 +122,7 @@ const toolbarLayout = computed(() =>
 const defaultCurrency = localStorage.getItem('currency')
   || Enums.Currencies.find(currency => currency.default)?.name
 
-const emits = defineEmits(['update:filters'])
+const emits = defineEmits(['update:filters', 'update:perPage'])
 
 const updateFilter = (key, value) => {
   const updatedFilters = { ...props.filters, [key]: value }
@@ -116,11 +130,24 @@ const updateFilter = (key, value) => {
   emits('update:filters', updatedFilters)
 }
 
+const updatePerPage = (value) => {
+  const perPage = Number(value)
+  emits('update:perPage', perPage)
+  router.push({
+    query: {
+      ...route.query,
+      perPage,
+      page: 1
+    }
+  })
+}
+
 function updateQueryParams(params) {
   router.push({
     query: {
       ...route.query,
-      ...params
+      ...params,
+      page: 1
     }
   })
 }

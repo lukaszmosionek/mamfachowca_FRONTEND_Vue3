@@ -15,24 +15,34 @@
         <Filtering
           :providers="providers"
           :filters="filters"
+          :per-page="offersPerPage"
+          :per-page-options="offerPageSizes"
           :show-provider-filter="false"
           :show-price-filters="false"
           show-products-count
           @update:filters="handleFilters"
+          @update:per-page="changeOffersPerPage"
         />
-        <HomeTile :services="services" :isLoading="isLoading" />
+        <HomeTile :services="visibleServices" :isLoading="isLoading" />
+        <Pagination
+          :pagination="offerPagination"
+          :is-show="services.length > offersPerPage"
+          hide-per-page
+          @page-changed="changeOfferPage"
+        />
       </section>
     </div>
   </div>
 </template>
 
 <script setup>
-import { useRouter, useRoute } from 'vue-router'
-import { ref, onMounted, watch } from "vue"
+import { useRoute } from 'vue-router'
+import { computed, ref, onMounted, watch } from "vue"
 import api from '@/services/api.ts'
 import '@vuepic/vue-datepicker/dist/main.css'
 import HomeTile from '@/components/HomeTile.vue'
 import Filtering from '@/components/Filtering.vue'
+import Pagination from '@/components/Pagination.vue'
 import { useHeaderStore } from '@/stores/useHeaderStore.ts'
 import { toast } from 'vue3-toastify'
 import { serviceSchema } from '@/api/schemas/servicesSchema'
@@ -58,6 +68,13 @@ const filters = ref({
 })
 
 const page = ref(1)
+const currentOfferPage = ref(Math.max(1, Number(route.query.page) || 1))
+const offerPageSizes = [30, 60, 90]
+const getOfferPageSize = (value) => {
+  const pageSize = Number(value)
+  return offerPageSizes.includes(pageSize) ? pageSize : offerPageSizes[0]
+}
+const offersPerPage = ref(getOfferPageSize(route.query.perPage))
 const isLoading = ref(false)
 const services = ref([])
 const servicesInApiOrder = ref([])
@@ -66,6 +83,45 @@ const hasMore = ref(true)
 let debounceTimeout;
 let pendingLoad = false
 let filtersVersion = 0
+
+const offerPageCount = computed(() => Math.max(1, Math.ceil(services.value.length / offersPerPage.value)))
+const offerPagination = computed(() => ({
+  page: currentOfferPage.value,
+  last_page: offerPageCount.value,
+  per_page: offersPerPage.value
+}))
+const visibleServices = computed(() => {
+  const firstItem = (currentOfferPage.value - 1) * offersPerPage.value
+  return services.value.slice(firstItem, firstItem + offersPerPage.value)
+})
+
+watch(offerPageCount, (lastPage) => {
+  if (currentOfferPage.value > lastPage) currentOfferPage.value = lastPage
+})
+
+watch(() => route.query.page, (pageFromRoute) => {
+  const pageNumber = Number(pageFromRoute)
+  if (Number.isInteger(pageNumber) && pageNumber > 0) {
+    currentOfferPage.value = Math.min(pageNumber, offerPageCount.value)
+  }
+})
+
+watch(() => route.query.perPage, (pageSizeFromRoute) => {
+  offersPerPage.value = getOfferPageSize(pageSizeFromRoute)
+  currentOfferPage.value = 1
+})
+
+const changeOfferPage = ({ page: nextPage }) => {
+  if (nextPage < 1 || nextPage > offerPageCount.value) return
+  currentOfferPage.value = nextPage
+  if (scrollContainer.value) scrollContainer.value.scrollTop = 0
+}
+
+const changeOffersPerPage = (pageSize) => {
+  offersPerPage.value = getOfferPageSize(pageSize)
+  currentOfferPage.value = 1
+  if (scrollContainer.value) scrollContainer.value.scrollTop = 0
+}
 
 const filterServicesByPrice = (serviceList) => {
   const minPrice = filters.value.priceFrom === null || filters.value.priceFrom === ''
@@ -230,10 +286,12 @@ const handleFilters = (el) => {
 
   filters.value = el
   if (sortOnlyChanged) {
+    currentOfferPage.value = 1
     services.value = sortServices(servicesInApiOrder.value)
     return
   }
 
+  currentOfferPage.value = 1
   filtersVersion++
   page.value = 1
   hasMore.value = true
@@ -268,6 +326,7 @@ watch(
           page.value =  1
           filters.value.name =  null
           filters.value.provider_id =  null
+          currentOfferPage.value = 1
 
           const container = scrollContainer.value
           if (container) {

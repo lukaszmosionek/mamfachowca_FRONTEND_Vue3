@@ -51,6 +51,81 @@ describe('Home.vue', () => {
     getMock.mockReset()
   })
 
+  it('shows 30 offers per page and navigates to the remaining offers', async () => {
+    const getMock = vi.mocked(api.get)
+    await router.replace({ name: 'Home', query: { currency: 'USD', sortBy: 'popularity', page: '1' } })
+    getMock.mockImplementation(async (url, config) => {
+      if (url !== '/services') return { providers: [] }
+
+      const start = (config.params.page - 1) * 30
+      const end = config.params.page === 1 ? 30 : 35
+      const services = Array.from({ length: end - start }, (_, index) => {
+        const id = start + index + 1
+        return {
+          id,
+          name: `Service ${id}`,
+          price: '50',
+          currency: { code: 'USD' },
+          photos: [],
+          provider: { id: 1, name: 'Provider' },
+          duration_minutes: 30,
+          is_favorited: false
+        }
+      })
+
+      return { services, last_page: 2 }
+    })
+
+    const wrapper = mount(Home)
+    await flushPromises()
+    await flushPromises()
+
+    expect(wrapper.findAll('.service-tile')).toHaveLength(30)
+    const secondPageButton = wrapper.findAll('nav button').find(button => button.text() === '2')
+    expect(secondPageButton).toBeDefined()
+    await secondPageButton.trigger('click')
+
+    expect(wrapper.findAll('.service-tile')).toHaveLength(5)
+    expect(wrapper.find('.service-tile').attributes('data-id')).toBe('31')
+
+    getMock.mockReset()
+  })
+
+  it('lets the Show selector change the number of visible offers', async () => {
+    const getMock = vi.mocked(api.get)
+    await router.replace({ name: 'Home', query: { currency: 'USD', sortBy: 'popularity', page: '1' } })
+    getMock.mockImplementation(async (url) => {
+      if (url !== '/services') return { providers: [] }
+
+      return {
+        services: Array.from({ length: 35 }, (_, index) => ({
+          id: index + 1,
+          name: `Service ${index + 1}`,
+          price: '50',
+          currency: { code: 'USD' },
+          photos: [],
+          provider: { id: 1, name: 'Provider' },
+          duration_minutes: 30,
+          is_favorited: false
+        })),
+        last_page: 1
+      }
+    })
+
+    const wrapper = mount(Home)
+    await flushPromises()
+
+    expect(wrapper.findAll('.service-tile')).toHaveLength(30)
+    await wrapper.find('#offers-per-page').setValue('60')
+    await flushPromises()
+
+    expect(wrapper.findAll('.service-tile')).toHaveLength(35)
+    expect(wrapper.find('nav').exists()).toBe(false)
+    expect(router.currentRoute.value.query.perPage).toBe('60')
+
+    getMock.mockReset()
+  })
+
   it('renders "All providers"', async () => {
     const wrapper = mount(Home)
     await flushPromises()
