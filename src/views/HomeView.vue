@@ -32,7 +32,8 @@ const filters = ref({
   provider_id: Number(route.query.provider_id) || null,
   priceFrom: route.query.priceFrom || null,
   priceTo: route.query.priceTo || null,
-  currency: route.query.currency || localStorage.getItem('currency') || 'PLN'
+  currency: route.query.currency || localStorage.getItem('currency') || 'PLN',
+  sortBy: route.query.sortBy || 'price_asc'
 })
 
 const page = ref(1)
@@ -59,16 +60,58 @@ const filterServicesByPrice = (serviceList) => {
   const targetRate = currencyStore.rates[targetCurrency]
 
   return serviceList.filter((service) => {
-    const price = Number(service.price)
-    if (!Number.isFinite(price)) return false
+    const convertedPrice = getPriceInFilterCurrency(service, targetCurrency, targetRate)
+    if (convertedPrice === null) return true
 
-    const sourceCurrency = service.currency?.code
-    const sourceRate = currencyStore.rates[sourceCurrency]
-    if (!sourceRate || !targetRate) return true
-
-    const convertedPrice = price * sourceRate / targetRate
     return (minPrice === null || !Number.isFinite(minPrice) || convertedPrice >= minPrice)
       && (maxPrice === null || !Number.isFinite(maxPrice) || convertedPrice <= maxPrice)
+  })
+}
+
+const getPriceInFilterCurrency = (service, targetCurrency, targetRate = currencyStore.rates[targetCurrency]) => {
+  const price = Number(service.price)
+  if (!Number.isFinite(price)) return null
+
+  const sourceCurrency = service.currency?.code
+  if (sourceCurrency === targetCurrency) return price
+
+  const sourceRate = currencyStore.rates[sourceCurrency]
+  if (!sourceRate || !targetRate) return null
+
+  return price * sourceRate / targetRate
+}
+
+const sortServices = (serviceList) => {
+  const sortBy = filters.value.sortBy || 'price_asc'
+  const targetCurrency = filters.value.currency || currencyStore.currency
+
+  return [...serviceList].sort((first, second) => {
+    if (sortBy === 'price_asc' || sortBy === 'price_desc') {
+      const firstPrice = getPriceInFilterCurrency(first, targetCurrency)
+      const secondPrice = getPriceInFilterCurrency(second, targetCurrency)
+      if (firstPrice === null && secondPrice !== null) return 1
+      if (secondPrice === null && firstPrice !== null) return -1
+      if (firstPrice !== null && secondPrice !== null && firstPrice !== secondPrice) {
+        return sortBy === 'price_asc' ? firstPrice - secondPrice : secondPrice - firstPrice
+      }
+    } else if (sortBy === 'name_asc' || sortBy === 'name_desc') {
+      const nameOrder = String(first.name ?? '').localeCompare(
+        String(second.name ?? ''),
+        locale.value,
+        { numeric: true, sensitivity: 'base' }
+      )
+      if (nameOrder !== 0) return sortBy === 'name_asc' ? nameOrder : -nameOrder
+    } else if (sortBy === 'newest') {
+      const firstDate = Date.parse(first.created_at ?? '')
+      const secondDate = Date.parse(second.created_at ?? '')
+      if (Number.isFinite(firstDate) && Number.isFinite(secondDate) && firstDate !== secondDate) {
+        return secondDate - firstDate
+      }
+      const idOrder = Number(second.id) - Number(first.id)
+      if (Number.isFinite(idOrder) && idOrder !== 0) return idOrder
+    }
+
+    return String(first.id ?? '').localeCompare(String(second.id ?? ''), undefined, { numeric: true })
   })
 }
 
@@ -100,9 +143,9 @@ const loadServices = async () => {
 
     const matchingServices = filterServicesByPrice(res.services)
     if (requestPage === 1) {
-        services.value = matchingServices
+        services.value = sortServices(matchingServices)
     } else {
-        services.value.push(...matchingServices)
+        services.value = sortServices([...services.value, ...matchingServices])
     }
 
     if (requestPage >= res.last_page) {
@@ -113,7 +156,10 @@ const loadServices = async () => {
 
     const hasPriceFilter = filters.value.priceFrom !== null && filters.value.priceFrom !== ''
       || filters.value.priceTo !== null && filters.value.priceTo !== ''
-    if (hasPriceFilter && matchingServices.length === 0 && hasMore.value) {
+    if (
+      hasMore.value &&
+      ((hasPriceFilter && matchingServices.length === 0) || Boolean(filters.value.sortBy))
+    ) {
       pendingLoad = true
     }
 
@@ -131,7 +177,18 @@ const loadServices = async () => {
 }
 
 const handleFilters = (el) => {
+  const sortOnlyChanged =
+    filters.value.sortBy !== el.sortBy &&
+    Object.keys({ ...filters.value, ...el })
+      .filter(key => key !== 'sortBy')
+      .every(key => filters.value[key] === el[key])
+
   filters.value = el
+  if (sortOnlyChanged) {
+    services.value = sortServices(services.value)
+    return
+  }
+
   filtersVersion++
   page.value = 1
   hasMore.value = true

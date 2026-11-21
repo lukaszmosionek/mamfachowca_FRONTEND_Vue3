@@ -5,7 +5,7 @@
       <div>
         <h2 class="text-xl font-bold mb-2">Mam fachowca</h2>
         <p class="text-gray-400 text-sm">© 2025 Mam fachowca, Inc. {{ $t('footer.allRightReserved') }}</p>
-        <p class="text-gray-400 text-sm mt-2">{{ $t('footer.pageDesignedBy') }} <a href="https://mosioneklukasz.pl"> Łukasz Mosionek</a></p>
+        <p class="text-gray-400 text-sm mt-2">{{ $t('footer.pageDesignedBy') }} <a href="https://lukaszmosionek.pl"> Łukasz Mosionek</a></p>
       </div>
 
       <!-- Navigation Links -->

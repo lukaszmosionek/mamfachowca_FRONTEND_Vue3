@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="{ 'opacity-50': isLoading }" v-for="(s, index) in services" :key="s.id" :data-id="s.id" class="mx-auto bg-white rounded-2xl shadow-md overflow-hidden flex mt-5 w-full relative service-tile">
+    <div :class="{ 'opacity-50': isLoading }" v-for="(s, index) in uniqueServices" :key="s.id ? `service-${s.id}` : `placeholder-${index}`" :data-id="s.id" class="mx-auto bg-white rounded-2xl shadow-md overflow-hidden flex mt-5 w-full relative service-tile">
 
       <!-- Zdjęcie -->
       <div class="w-40 h-40 md:w-80 md:h-80">
@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref, defineEmits, watch } from 'vue'
+import { computed, ref, defineEmits, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '@/services/api.ts'
 import { useAuthStore } from '@/stores/auth.ts'
@@ -63,6 +63,21 @@ const props = defineProps({
     default: false
   }
 });
+
+const uniqueServices = computed(() => {
+  const serviceList = Array.isArray(props.services)
+    ? props.services
+    : Object.values(props.services)
+  const seenIds = new Set()
+
+  return serviceList.filter((service) => {
+    if (service.id === null || service.id === undefined || service.id === 0) return true
+    const id = String(service.id)
+    if (seenIds.has(id)) return false
+    seenIds.add(id)
+    return true
+  })
+})
 
 const toggleFavorite = async (itemId, event) => {
   if (!authStore.token) return toast.info(t('homeTile.notLogged'))

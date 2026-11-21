@@ -3,5 +3,11 @@
   "allProviders": "Wszyscy usługodawcy",
   "inputPlaceholder": "Szukaj usługodawcy",
   "priceFrom": "Cena od",
-  "priceTo": "Cena do"
+  "priceTo": "Cena do",
+  "sortBy": "Sortuj według",
+  "sortPriceAsc": "Cena: od najniższej",
+  "sortPriceDesc": "Cena: od najwyższej",
+  "sortNameAsc": "Nazwa: A–Z",
+  "sortNameDesc": "Nazwa: Z–A",
+  "sortNewest": "Najnowsze"
 }

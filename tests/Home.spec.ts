@@ -132,4 +132,132 @@ describe('Home.vue', () => {
     else localStorage.setItem('currency', previousCurrency)
     vi.useRealTimers()
   })
+
+  it('sorts all pages by converted price from low to high by default', async () => {
+    const getMock = vi.mocked(api.get)
+    localStorage.setItem('currency', 'USD')
+    await router.replace({ name: 'Home', query: { currency: 'USD', sortBy: 'price_asc' } })
+    getMock.mockImplementation(async (url, config) => {
+      if (url !== '/services') return { providers: [] }
+
+      const servicesByPage = {
+        1: [
+          { id: 1, name: 'Fifty USD', price: '50', currency: { code: 'USD' } },
+          { id: 2, name: 'Interior Painting', price: '136', currency: { code: 'PLN' } }
+        ],
+        2: [
+          { id: 3, name: 'Thirty-five USD', price: '35', currency: { code: 'USD' } },
+          { id: 4, name: 'Fifty-one EUR', price: '51', currency: { code: 'EUR' } }
+        ]
+      }
+
+      return {
+        services: servicesByPage[config.params.page].map(service => ({
+          ...service,
+          photos: [],
+          provider: { id: 1, name: 'Provider' },
+          duration_minutes: 30,
+          is_favorited: false
+        })),
+        last_page: 2
+      }
+    })
+
+    const wrapper = mount(Home)
+    await flushPromises()
+    await flushPromises()
+
+    expect(wrapper.findAll('h2.service-title').map(title => title.text())).toEqual([
+      'Thirty-five USD',
+      'Interior Painting',
+      'Fifty USD',
+      'Fifty-one EUR'
+    ])
+
+    getMock.mockReset()
+    vi.useRealTimers()
+  })
+
+  it('re-sorts loaded services when the sort option changes', async () => {
+    const getMock = vi.mocked(api.get)
+    await router.replace({ name: 'Home', query: { currency: 'USD', sortBy: 'price_asc' } })
+    getMock.mockImplementation(async (url) => {
+      if (url !== '/services') return { providers: [] }
+
+      return {
+        services: [
+          { id: 1, name: 'Zulu Service', price: '50', currency: { code: 'USD' } },
+          { id: 2, name: 'Alpha Service', price: '100', currency: { code: 'USD' } }
+        ].map(service => ({
+          ...service,
+          photos: [],
+          provider: { id: 1, name: 'Provider' },
+          duration_minutes: 30,
+          is_favorited: false
+        })),
+        last_page: 1
+      }
+    })
+
+    const wrapper = mount(Home)
+    await flushPromises()
+    expect(wrapper.findAll('h2.service-title').map(title => title.text())).toEqual([
+      'Zulu Service',
+      'Alpha Service'
+    ])
+    const serviceRequestCount = getMock.mock.calls.filter(([url]) => url === '/services').length
+
+    await wrapper.find('select[name="sortBy"]').setValue('name_asc')
+
+    expect(wrapper.findAll('h2.service-title').map(title => title.text())).toEqual([
+      'Alpha Service',
+      'Zulu Service'
+    ])
+    expect(getMock.mock.calls.filter(([url]) => url === '/services')).toHaveLength(serviceRequestCount)
+
+    getMock.mockReset()
+  })
+
+  it('renders overlapping paginated services only once', async () => {
+    const getMock = vi.mocked(api.get)
+    await router.replace({ name: 'Home', query: { currency: 'USD', sortBy: 'price_asc' } })
+    getMock.mockImplementation(async (url, config) => {
+      if (url !== '/services') return { providers: [] }
+
+      const servicesByPage = {
+        1: [
+          { id: 22, name: 'Service 22', price: '10', currency: { code: 'USD' } },
+          { id: 12, name: 'Service 12', price: '20', currency: { code: 'USD' } }
+        ],
+        2: [
+          { id: 22, name: 'Service 22', price: '10', currency: { code: 'USD' } },
+          { id: 24, name: 'Service 24', price: '30', currency: { code: 'USD' } }
+        ]
+      }
+
+      return {
+        services: servicesByPage[config.params.page].map(service => ({
+          ...service,
+          photos: [],
+          provider: { id: 1, name: 'Provider' },
+          duration_minutes: 30,
+          is_favorited: false
+        })),
+        last_page: 2
+      }
+    })
+
+    const wrapper = mount(Home)
+    await flushPromises()
+    await flushPromises()
+
+    expect(wrapper.findAll('.service-tile')).toHaveLength(3)
+    expect(wrapper.findAll('.service-tile').map(tile => tile.attributes('data-id'))).toEqual([
+      '22',
+      '12',
+      '24'
+    ])
+
+    getMock.mockReset()
+  })
 })

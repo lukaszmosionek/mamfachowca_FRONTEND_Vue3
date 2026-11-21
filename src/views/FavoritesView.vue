@@ -2,7 +2,7 @@
   <div class="">
     <h1 class="h1">{{ $t('favorites.title') }}</h1>
       <div v-if="services.length" class="overflow-x-auto">
-          <Filtering :providers="providers" :filters="filters" @update:filters="handleFilters" />
+          <Filtering :providers="providers" :filters="filters" :show-sorting="false" @update:filters="handleFilters" />
           <HomeTile :services="services" :isLoading="isLoading" @service-toggled="handleServiceToggled"/>
           <div class="flex justify-center mt-6">
             <BaseButton class="text-center px-8" :loading="isLoading" v-if="showLoadMore" @click="loadMore">{{ $t('favorites.loadMore') }}</BaseButton>

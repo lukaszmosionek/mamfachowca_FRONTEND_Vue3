@@ -21,6 +21,23 @@
         class="mt-1 md:!w-1/4 !w-full h-10"
       />
 
+      <div v-if="showSorting" class="select-wrap flex flex-col md:!w-1/5 !w-full">
+        <label for="sort-by" class="text-gray-800 mb-1">{{ $t('filtering.sortBy') }}</label>
+        <select
+          id="sort-by"
+          name="sortBy"
+          :value="filters.sortBy || 'price_asc'"
+          class="w-full h-10 px-4 py-2 border border-gray-300 rounded-md text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          @change="event => updateFilter('sortBy', event.target.value)"
+        >
+          <option value="price_asc">{{ $t('filtering.sortPriceAsc') }}</option>
+          <option value="price_desc">{{ $t('filtering.sortPriceDesc') }}</option>
+          <option value="name_asc">{{ $t('filtering.sortNameAsc') }}</option>
+          <option value="name_desc">{{ $t('filtering.sortNameDesc') }}</option>
+          <option value="newest">{{ $t('filtering.sortNewest') }}</option>
+        </select>
+      </div>
+
       <BaseInput type="number" name="price-from" :placeholder="$t('filtering.priceFrom')" :model-value="filters.priceFrom" :suffix="filters.currency || defaultCurrency" @update:modelValue="value => updateFilter('priceFrom', value)" wrapperClass="md:!w-1/6 !w-full" />
       <BaseInput type="number" name="price-to" :placeholder="$t('filtering.priceTo')" :model-value="filters.priceTo" :suffix="filters.currency || defaultCurrency" @update:modelValue="value => updateFilter('priceTo', value)" wrapperClass="md:!w-1/6 !w-full" />
     </div>
@@ -43,6 +60,10 @@ const props = defineProps({
   filters: {
     type: Object,
     required: true
+  },
+  showSorting: {
+    type: Boolean,
+    default: true
   }
 });
 
