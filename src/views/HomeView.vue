@@ -1,7 +1,28 @@
 <template>
   <div class="h-screen overflow-y-auto hide-scrollbar scrollContainer" ref="scrollContainer" @scroll="handleScroll">
-    <Filtering :providers="providers" :filters="filters" @update:filters="handleFilters" />
-      <HomeTile :services="services" :isLoading="isLoading" />
+    <div class="grid grid-cols-1 gap-5 lg:grid-cols-[260px_minmax(0,1fr)]">
+      <aside class="min-w-0 rounded-lg bg-white p-4 shadow-sm lg:sticky lg:top-4 lg:self-start">
+        <Filtering
+          :providers="providers"
+          :filters="filters"
+          vertical
+          :show-name-filter="false"
+          :show-sorting="false"
+          @update:filters="handleFilters"
+        />
+      </aside>
+      <section class="min-w-0">
+        <Filtering
+          :providers="providers"
+          :filters="filters"
+          :show-provider-filter="false"
+          :show-price-filters="false"
+          show-products-count
+          @update:filters="handleFilters"
+        />
+        <HomeTile :services="services" :isLoading="isLoading" />
+      </section>
+    </div>
   </div>
 </template>
 
@@ -33,12 +54,13 @@ const filters = ref({
   priceFrom: route.query.priceFrom || null,
   priceTo: route.query.priceTo || null,
   currency: route.query.currency || localStorage.getItem('currency') || 'PLN',
-  sortBy: route.query.sortBy || 'price_asc'
+  sortBy: route.query.sortBy || 'popularity'
 })
 
 const page = ref(1)
 const isLoading = ref(false)
 const services = ref([])
+const servicesInApiOrder = ref([])
 const providers = ref([])
 const hasMore = ref(true)
 let debounceTimeout;
@@ -82,7 +104,9 @@ const getPriceInFilterCurrency = (service, targetCurrency, targetRate = currency
 }
 
 const sortServices = (serviceList) => {
-  const sortBy = filters.value.sortBy || 'price_asc'
+  const sortBy = filters.value.sortBy || 'popularity'
+  if (sortBy === 'popularity') return [...serviceList]
+
   const targetCurrency = filters.value.currency || currencyStore.currency
 
   return [...serviceList].sort((first, second) => {
@@ -115,6 +139,26 @@ const sortServices = (serviceList) => {
   })
 }
 
+const mergeUniqueServices = (existing, incoming) => {
+  const seenIds = new Set(existing.map(service => String(service.id)))
+  const merged = [...existing]
+
+  for (const service of incoming) {
+    const id = service.id
+    if (id === null || id === undefined || id === 0) {
+      merged.push(service)
+      continue
+    }
+
+    const key = String(id)
+    if (seenIds.has(key)) continue
+    seenIds.add(key)
+    merged.push(service)
+  }
+
+  return merged
+}
+
 const loadServices = async () => {
   if (isLoading.value) {
     pendingLoad = true
@@ -143,10 +187,11 @@ const loadServices = async () => {
 
     const matchingServices = filterServicesByPrice(res.services)
     if (requestPage === 1) {
-        services.value = sortServices(matchingServices)
+        servicesInApiOrder.value = mergeUniqueServices([], matchingServices)
     } else {
-        services.value = sortServices([...services.value, ...matchingServices])
+        servicesInApiOrder.value = mergeUniqueServices(servicesInApiOrder.value, matchingServices)
     }
+    services.value = sortServices(servicesInApiOrder.value)
 
     if (requestPage >= res.last_page) {
         hasMore.value = false
@@ -185,7 +230,7 @@ const handleFilters = (el) => {
 
   filters.value = el
   if (sortOnlyChanged) {
-    services.value = sortServices(services.value)
+    services.value = sortServices(servicesInApiOrder.value)
     return
   }
 
@@ -193,6 +238,7 @@ const handleFilters = (el) => {
   page.value = 1
   hasMore.value = true
   services.value = []
+  servicesInApiOrder.value = []
   clearTimeout(debounceTimeout);
   debounceTimeout = setTimeout(() => {
       loadServices()

@@ -6,6 +6,51 @@ import api from '@/services/api'
 import { router } from './setup'
 
 describe('Home.vue', () => {
+  it('places name search and sorting above the offers and other filters in the sidebar', async () => {
+    const wrapper = mount(Home)
+    await flushPromises()
+
+    expect(wrapper.find('section input#search-box').exists()).toBe(true)
+    expect(wrapper.find('section select#sort-by').exists()).toBe(true)
+    expect(wrapper.find('section').text()).toContain('30 products')
+    expect(wrapper.find('aside input#search-box').exists()).toBe(false)
+    expect(wrapper.find('aside select#sort-by').exists()).toBe(false)
+    expect(wrapper.find('aside input#price-from').exists()).toBe(true)
+  })
+
+  it('defaults to popularity and preserves the API result order', async () => {
+    const getMock = vi.mocked(api.get)
+    await router.replace({ name: 'Home', query: { currency: 'USD' } })
+    getMock.mockImplementation(async (url) => {
+      if (url !== '/services') return { providers: [] }
+
+      return {
+        services: [
+          { id: 1, name: 'Zulu Service', price: '50', currency: { code: 'USD' } },
+          { id: 2, name: 'Alpha Service', price: '10', currency: { code: 'USD' } }
+        ].map(service => ({
+          ...service,
+          photos: [],
+          provider: { id: 1, name: 'Provider' },
+          duration_minutes: 30,
+          is_favorited: false
+        })),
+        last_page: 1
+      }
+    })
+
+    const wrapper = mount(Home)
+    await flushPromises()
+
+    expect(wrapper.find('select[name="sortBy"]').element.value).toBe('popularity')
+    expect(wrapper.findAll('h2.service-title').map(title => title.text())).toEqual([
+      'Zulu Service',
+      'Alpha Service'
+    ])
+
+    getMock.mockReset()
+  })
+
   it('renders "All providers"', async () => {
     const wrapper = mount(Home)
     await flushPromises()
