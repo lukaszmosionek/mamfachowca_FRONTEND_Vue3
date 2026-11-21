@@ -1,27 +1,39 @@
 <template>
   <div class="">
     <div :class="vertical ? 'flex flex-col gap-4' : 'my-6 block md:flex gap-4 justify-center md:mx-0 mx-4'">
-      <BaseInput
+      <fieldset
         v-if="showNameFilter"
-        type="text"
-        name="search-box"
-        :placeholder="$t('filtering.searchByName')"
-        :model-value="filters.name"
-        @update:modelValue="value => updateFilter('name', value)"
-        :wrapperClass="vertical ? 'w-full' : toolbarLayout ? 'md:!w-2/5 !w-full' : 'md:!w-1/4 !w-full'"
-      />
+        :class="vertical ? 'w-full' : toolbarLayout ? 'md:!w-2/5 !w-full' : 'md:!w-1/4 !w-full'"
+        class="filter-fieldset min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:ring-2 focus-within:ring-blue-500"
+      >
+        <legend class="px-1 text-xs text-gray-700">{{ $t('filtering.searchByName') }}</legend>
+        <BaseInput
+          type="text"
+          name="search-box"
+          :placeholder="$t('filtering.searchByName')"
+          :model-value="filters.name"
+          @update:modelValue="value => updateFilter('name', value)"
+          wrapperClass="w-full"
+        />
+      </fieldset>
       <!-- <BaseSelect v-model="filters.provider_id" name="select-provider" @update:modelValue="applyFilters" :options="providersObj" :isAssociativeArray="false" :addFirstOption="$t('filtering.all-providers')" wrapperClass="mt-2 md:!w-1/4 !w-full h-10" class="" /> -->
 
-      <SearchableSelect
+      <fieldset
         v-if="showProviderFilter"
-        :options="providers"
-        name="select-provider"
-        :model-value="filters.provider_id"
-        :inputPlaceholder="$t('filtering.inputPlaceholder')"
-        @update:modelValue="value => updateFilter('provider_id', value)"
-        :addFirstOption="$t('filtering.allProviders')"
-        :class="vertical ? 'w-full' : 'mt-1 md:!w-1/4 !w-full h-10'"
-      />
+        :class="vertical ? 'w-full' : 'md:!w-1/4 !w-full'"
+        class="filter-fieldset min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:ring-2 focus-within:ring-blue-500"
+      >
+        <legend class="px-1 text-xs text-gray-700">{{ $t('filtering.provider') }}</legend>
+        <SearchableSelect
+          :options="providers"
+          name="select-provider"
+          :model-value="filters.provider_id"
+          :inputPlaceholder="$t('filtering.inputPlaceholder')"
+          @update:modelValue="value => updateFilter('provider_id', value)"
+          :addFirstOption="$t('filtering.allProviders')"
+          class="w-full"
+        />
+      </fieldset>
 
       <fieldset v-if="showSorting" :class="vertical ? 'w-full' : toolbarLayout ? 'md:!w-1/4 !w-full' : 'md:!w-1/5 !w-full'" class="min-w-0 rounded border border-gray-400 px-3 pb-1">
         <legend class="px-1 text-xs text-gray-700">{{ $t('filtering.sortBy') }}</legend>
@@ -56,8 +68,20 @@
       </fieldset>
 
       <template v-if="showPriceFilters">
-        <BaseInput type="number" name="price-from" :placeholder="$t('filtering.priceFrom')" :model-value="filters.priceFrom" :suffix="filters.currency || defaultCurrency" @update:modelValue="value => updateFilter('priceFrom', value)" :wrapperClass="vertical ? 'w-full' : 'md:!w-1/6 !w-full'" />
-        <BaseInput type="number" name="price-to" :placeholder="$t('filtering.priceTo')" :model-value="filters.priceTo" :suffix="filters.currency || defaultCurrency" @update:modelValue="value => updateFilter('priceTo', value)" :wrapperClass="vertical ? 'w-full' : 'md:!w-1/6 !w-full'" />
+        <fieldset
+          class="filter-fieldset min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:ring-2 focus-within:ring-blue-500"
+          :class="vertical ? 'w-full' : 'md:!w-1/6 !w-full'"
+        >
+          <legend class="px-1 text-xs text-gray-700">{{ $t('filtering.priceFrom') }}</legend>
+          <BaseInput type="number" name="price-from" :placeholder="$t('filtering.priceFrom')" :model-value="filters.priceFrom" :suffix="filters.currency || defaultCurrency" @update:modelValue="value => updateFilter('priceFrom', value)" wrapperClass="w-full" />
+        </fieldset>
+        <fieldset
+          class="filter-fieldset min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:ring-2 focus-within:ring-blue-500"
+          :class="vertical ? 'w-full' : 'md:!w-1/6 !w-full'"
+        >
+          <legend class="px-1 text-xs text-gray-700">{{ $t('filtering.priceTo') }}</legend>
+          <BaseInput type="number" name="price-to" :placeholder="$t('filtering.priceTo')" :model-value="filters.priceTo" :suffix="filters.currency || defaultCurrency" @update:modelValue="value => updateFilter('priceTo', value)" wrapperClass="w-full" />
+        </fieldset>
       </template>
     </div>
   </div>
@@ -153,3 +177,15 @@ function updateQueryParams(params) {
 }
 
 </script>
+
+<style scoped>
+.filter-fieldset :deep(.relative > input) {
+  border: 0;
+  border-radius: 0;
+  margin-top: 0;
+  padding-left: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  box-shadow: none;
+}
+</style>

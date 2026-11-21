@@ -16,6 +16,12 @@ describe('Home.vue', () => {
     expect(wrapper.find('aside input#search-box').exists()).toBe(false)
     expect(wrapper.find('aside select#sort-by').exists()).toBe(false)
     expect(wrapper.find('aside input#price-from').exists()).toBe(true)
+    expect(wrapper.find('section legend').text()).toContain('Search by name')
+    expect(wrapper.findAll('aside legend').map(legend => legend.text())).toEqual([
+      'Provider',
+      'Price from',
+      'Price to'
+    ])
   })
 
   it('defaults to popularity and preserves the API result order', async () => {

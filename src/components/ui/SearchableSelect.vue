@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-64">
+  <div class="relative w-full">
     <!-- Search box -->
     <input
       type="text"
