@@ -13,7 +13,6 @@
         </h1>
 
         <div class="flex items-center gap-2">
-          <CurrencySwitcher />
           <RouterLink v-if="isLogged" :to="{ name: 'Favorites' }" :aria-label="$t('favorites.title')">
             <font-awesome-icon :icon="['far', 'heart']" />
           </RouterLink>
@@ -71,6 +70,12 @@
         </RouterLink>
 
         <div class="mt-2 border-t border-gray-600 pt-3">
+          <div class="mb-3 px-3">
+            <span class="mb-1 block text-xs font-semibold uppercase tracking-wide text-gray-300">
+              {{ $t('header.currency') }}
+            </span>
+            <CurrencySwitcher :label="$t('header.currency')" />
+          </div>
           <span class="block px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-gray-300">
             {{ $t('header.language') }}
           </span>

@@ -1,7 +1,6 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useCurrencyStore } from '@/stores/useCurrencyStore.ts'
-import BaseSelect from './BaseSelect.vue'
 import { Enums } from '@/enums.ts'
 
 const currencyStore = useCurrencyStore()
@@ -13,6 +12,10 @@ const props = defineProps({
   currencies: {
     type: Array,
     default: () => Enums.Currencies.map(c => c.name)
+  },
+  label: {
+    type: String,
+    default: ''
   }
 })
 
@@ -24,6 +27,13 @@ onMounted(() => {
 const emit = defineEmits(['update:modelValue'])
 
 const selectedCurrency = ref(props.modelValue)
+const currencyOptions = computed(() => props.currencies.map(code => {
+  const currency = Enums.Currencies.find(option => option.name === code)
+  return {
+    code,
+    symbol: currency?.symbol || code
+  }
+}))
 
 function changeCurrency(currency) {
   selectedCurrency.value = currency
@@ -35,7 +45,22 @@ function changeCurrency(currency) {
 </script>
 
 <template>
-  <div class="flex gap-2">
-      <BaseSelect class="!p-0 h-5 bg-white-600 text-xs changeCurrency" :modelValue="selectedCurrency" :options="currencies" @update:modelValue="changeCurrency"></BaseSelect>
+  <div class="flex flex-wrap gap-2" role="group" :aria-label="label || undefined">
+    <button
+      v-for="currency in currencyOptions"
+      :id="`currency-option-${currency.code.toLowerCase()}`"
+      :key="currency.code"
+      type="button"
+      :aria-label="`${currency.code} (${currency.symbol})`"
+      :aria-pressed="selectedCurrency === currency.code"
+      :class="selectedCurrency === currency.code
+        ? 'border-white bg-white text-gray-900 shadow-sm'
+        : 'border-gray-500 bg-transparent text-white hover:border-gray-300 hover:bg-white/10'"
+      class="flex min-h-10 min-w-14 flex-col items-center justify-center rounded-md border px-3 py-1 transition-colors"
+      @click="changeCurrency(currency.code)"
+    >
+      <span class="text-sm font-semibold">{{ currency.symbol }}</span>
+      <span class="text-[10px] leading-none">{{ currency.code }}</span>
+    </button>
   </div>
 </template>
