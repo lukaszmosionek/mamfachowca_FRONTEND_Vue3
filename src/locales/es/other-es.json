@@ -1,0 +1,17 @@
+{
+  "unauthorized": "Acceso solo para usuarios que han iniciado sesión",
+  "sessionExpired": "La sesión ha caducado. Inicia sesión de nuevo",
+  "serverError": "Error del servidor [500]",
+  "tryAgainLater": "Inténtalo de nuevo más tarde",
+  "forbidden": "Sin acceso (403)",
+  "notFound": "No encontrado (404)",
+  "buttons": {
+    "goToLogin": "Ir a iniciar sesión",
+    "ok": "Aceptar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "add": "Añadir",
+    "edit": "Editar"
+  }
+}

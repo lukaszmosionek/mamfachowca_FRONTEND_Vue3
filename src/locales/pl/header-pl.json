@@ -10,7 +10,5 @@
     "messages" : "Wiadomości",
     "currency": "Waluta",
     "language": "Język",
-    "switchToEnglish": "Przełącz na angielski",
-    "switchToPolish": "Przełącz na polski",
     "logged-out-successfully" : "Wylogowano pomyślnie"
 }

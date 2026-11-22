@@ -1,0 +1,21 @@
+{
+  "title": "Editar cuenta",
+  "name": "Nombre",
+  "email": "Correo electrónico",
+  "role": "Rol",
+  "language": "Idioma",
+  "time": "Hora",
+  "successMessage": "Perfil actualizado",
+  "buttons": {
+    "back": "Volver",
+    "submit": "Actualizar cuenta"
+  },
+  "errors": {
+    "loadService": "No se pudo cargar el servicio"
+  },
+  "validation": {
+    "date": "Selecciona una fecha",
+    "time": "Selecciona una hora",
+    "notClient": "Inicia sesión como cliente para reservar el servicio"
+  }
+}

@@ -95,6 +95,34 @@ const i18n = createI18n({
         hour12: false,
       },
     },
+    es: {
+      short: {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: false,
+      },
+      long: {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: false,
+      },
+      timeOnly: {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      },
+      hourOnly: {
+        hour: 'numeric',
+        hour12: false,
+      },
+    },
   },
   numberFormats: {
     en: {
@@ -107,6 +135,12 @@ const i18n = createI18n({
       currency: {
         style: 'currency',
         currency: 'PLN',
+      },
+    },
+    es: {
+      currency: {
+        style: 'currency',
+        currency: 'EUR',
       },
     },
   },

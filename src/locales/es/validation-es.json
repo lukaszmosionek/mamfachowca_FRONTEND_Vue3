@@ -1,0 +1,45 @@
+{
+  "personName": {
+    "required": "El nombre es obligatorio.",
+    "minLength": "El nombre debe tener al menos 3 caracteres."
+  },
+  "serviceName": {
+    "required": "El nombre es obligatorio.",
+    "minLength": "El nombre debe tener al menos 3 caracteres."
+  },
+  "price": {
+    "required": "El precio es obligatorio.",
+    "number": "El precio debe ser un número.",
+    "positive": "El precio debe ser al menos 1."
+  },
+  "time": {
+    "required": "La duración es obligatoria.",
+    "number": "La duración debe ser un número.",
+    "positive": "La duración debe ser al menos 1."
+  },
+  "message": {
+    "required": "El mensaje es obligatorio.",
+    "minLength": "El mensaje debe tener al menos 3 caracteres."
+  },
+  "description": {
+    "required": "La descripción es obligatoria.",
+    "minLength": "La descripción debe tener al menos 3 caracteres."
+  },
+  "email": {
+    "required": "El correo electrónico es obligatorio.",
+    "invalid": "El correo electrónico no es válido."
+  },
+  "password": {
+    "required": "La contraseña es obligatoria.",
+    "minLength": "La contraseña debe tener al menos 3 caracteres.",
+    "uppercase": "La contraseña debe incluir al menos una letra mayúscula.",
+    "lowercase": "La contraseña debe incluir al menos una letra minúscula.",
+    "number": "La contraseña debe incluir al menos un número.",
+    "specialChar": "La contraseña debe incluir al menos un carácter especial."
+  },
+  "passwordConfirmation": {
+    "required": "La confirmación de la contraseña es obligatoria.",
+    "minLength": "La confirmación debe tener al menos 3 caracteres.",
+    "mismatch": "Las contraseñas no coinciden."
+  }
+}

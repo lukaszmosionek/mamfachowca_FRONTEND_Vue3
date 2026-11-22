@@ -1,0 +1,22 @@
+{
+  "title": "Mis citas",
+  "empty": "Todavía no tienes citas.",
+  "service": "Servicio",
+  "provider": "Profesional",
+  "client": "Cliente",
+  "startTime": "Hora de inicio",
+  "status": "Estado",
+  "buttons": {
+    "accept": "Aceptar",
+    "decline": "Rechazar"
+  },
+  "statuses": {
+    "confirmed": "confirmada",
+    "cancelled": "cancelada",
+    "pending": "pendiente"
+  },
+  "errors": {
+    "loadAppointments": "No se pudieron cargar las citas.",
+    "changeStatus": "No se pudo cambiar el estado."
+  }
+}

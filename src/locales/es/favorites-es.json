@@ -1,0 +1,9 @@
+{
+  "title": "Favoritos",
+  "loadMore": "Cargar más",
+  "empty": "Todavía no has añadido ningún favorito",
+  "errors": {
+    "loadService": "No se pudo cargar el servicio",
+    "loadProviders": "No se pudieron cargar los profesionales"
+  }
+}

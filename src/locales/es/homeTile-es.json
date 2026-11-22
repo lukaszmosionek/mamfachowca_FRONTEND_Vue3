@@ -1,0 +1,12 @@
+{
+  "serviceDuration": "Duración del servicio",
+  "provider": "Profesional",
+  "loadingServices": "Cargando servicios...",
+  "noServices": "No hay servicios que coincidan con los filtros seleccionados.",
+  "bookButton": "Reservar",
+  "price": "Precio",
+  "notLogged": "Inicia sesión para añadir a favoritos",
+  "favoritesAdded": "Servicio añadido a favoritos",
+  "favoritesRemoved": "Servicio eliminado de favoritos",
+  "errorTogglingFavorite": "Error al añadir o eliminar de favoritos"
+}

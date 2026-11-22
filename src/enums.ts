@@ -19,6 +19,11 @@ export const Enums = {
         "code" : "en",
         "name" : "English",
         "defaultCurrency" : "USD"
+      },
+      {
+        "code" : "es",
+        "name" : "Español",
+        "defaultCurrency" : "EUR"
       }
     ],
     "Currencies": [

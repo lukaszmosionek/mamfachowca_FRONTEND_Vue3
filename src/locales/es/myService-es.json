@@ -1,0 +1,30 @@
+{
+  "title": "Mis servicios",
+  "titleEditService": "Editar servicio",
+  "titleNewService": "Nuevo servicio",
+  "description": "Descripción",
+  "currency": "Moneda",
+  "timeMinutes": "Duración (minutos)",
+  "save": "Guardar",
+  "goBack": "Volver",
+  "name": "Nombre",
+  "price": "Precio",
+  "deleteServicePrompt": "¿Seguro que quieres eliminarlo?",
+  "buttons": {
+    "new": "Nuevo",
+    "edit": "Editar",
+    "view": "Ver",
+    "delete": "Eliminar",
+    "loadMore": "Cargar más"
+  },
+  "errors": {
+    "deletePhoto": "No se pudo eliminar la foto",
+    "loadService": "No se pudo cargar el servicio",
+    "deleteService": "No se pudo eliminar el servicio"
+  },
+  "success": {
+    "messageSaved": "¡Servicio guardado!",
+    "photoUploaded": "¡Foto subida!",
+    "photoDeleted": "¡Foto eliminada!"
+  }
+}

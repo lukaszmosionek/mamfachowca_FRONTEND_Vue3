@@ -1,40 +1,45 @@
 <template>
-  <div class="text-center py-4 flex justify-center items-center">
+  <div
+    role="group"
+    :aria-label="t('header.language')"
+    class="text-center py-4 flex justify-center items-center gap-2"
+  >
     <button
-      id="changeLanguage-pl"
+      v-for="language in languages"
+      :key="language.code"
       type="button"
-      data-lang="pl"
-      v-if="locale === 'en'"
-      @click="changeLanguage('pl')"
-      :aria-label="t('header.switchToPolish')"
-      class="changeLanguage flex justify-center items-center gap-2 hover:opacity-80"
+      :data-lang="language.code"
+      :aria-label="language.name"
+      :aria-pressed="locale === language.code"
+      :title="language.name"
+      :class="locale === language.code
+        ? 'border-white bg-white text-gray-900 shadow-sm'
+        : 'border-gray-500 text-white hover:bg-white/10'"
+      class="changeLanguage flex items-center justify-center gap-2 rounded-md border px-3 py-2 transition-colors"
+      @click="changeLanguage(language.code)"
     >
-      <img alt="Flag PL" src="@/assets/icons/flag-pl.svg" width="20" height="20" />
-      <span class="text-sm">{{ t('header.switchToPolish') }}</span>
-    </button>
-    <button
-      id="changeLanguage-en"
-      type="button"
-      data-lang="en"
-      v-if="locale === 'pl'"
-      @click="changeLanguage('en')"
-      :aria-label="t('header.switchToEnglish')"
-      class="changeLanguage flex justify-center items-center gap-2 hover:opacity-80"
-    >
-      <img alt="Flag EN" src="@/assets/icons/flag-en.svg" width="20" height="20" />
-      <span class="text-sm">{{ t('header.switchToEnglish') }}</span>
+      <img alt="" :src="languageFlags[language.code]" width="20" height="14" />
+      <span class="text-sm">{{ language.code.toUpperCase() }}</span>
     </button>
   </div>
 </template>
 
 <script setup>
 import { useI18n } from 'vue-i18n'
+import { Enums } from '@/enums.ts'
+import flagEn from '@/assets/icons/flag-en.svg'
+import flagPl from '@/assets/icons/flag-pl.svg'
+import flagEs from '@/assets/icons/flag-es.svg'
 
-// Use vue-i18n locale
 const { locale, t } = useI18n()
+const languages = Enums.Languages
+const languageFlags = {
+  en: flagEn,
+  pl: flagPl,
+  es: flagEs
+}
 
-// Watch for changes to selectedLocale and update i18n + backend
-function changeLanguage(lang){
+function changeLanguage(lang) {
   locale.value = lang
   localStorage.setItem('lang', lang)
 }

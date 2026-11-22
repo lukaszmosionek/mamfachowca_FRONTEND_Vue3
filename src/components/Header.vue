@@ -79,14 +79,14 @@
           <span class="block px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-gray-300">
             {{ $t('header.language') }}
           </span>
-          <ChangeLanguage class="!justify-start !py-0 !text-white" />
+          <ChangeLanguage class="!justify-start !px-3 !py-0 !text-white" />
         </div>
 
         <BaseButton
           v-if="isLogged"
           @click="handleLogout"
           :loading="loading"
-          class="w-fit cursor-pointer rounded bg-red-500 px-3 py-1 text-sm hover:bg-red-700 disabled:opacity-60"
+          class="ml-3 w-fit cursor-pointer rounded bg-red-500 px-3 py-1 text-sm hover:bg-red-700 disabled:opacity-60"
         >
           <font-awesome-icon :icon="['fas', 'right-from-bracket']" />&nbsp;{{ $t('header.logout') }}
         </BaseButton>

@@ -1,0 +1,21 @@
+{
+  "searchByName": "Buscar por nombre",
+  "provider": "Profesional",
+  "priceFrom": "Precio desde",
+  "priceTo": "Precio hasta",
+  "durationFrom": "Duración desde",
+  "durationTo": "Duración hasta",
+  "allProviders": "Todos los profesionales",
+  "inputPlaceholder": "Buscar profesionales",
+  "sortBy": "Ordenar",
+  "showProducts": "Mostrar",
+  "products30": "30 servicios",
+  "products60": "60 servicios",
+  "products90": "90 servicios",
+  "sortPopularity": "Popularidad",
+  "sortPriceAsc": "Precio: de menor a mayor",
+  "sortPriceDesc": "Precio: de mayor a menor",
+  "sortNameAsc": "Nombre: A–Z",
+  "sortNameDesc": "Nombre: Z–A",
+  "sortNewest": "Más recientes"
+}

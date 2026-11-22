@@ -1,0 +1,14 @@
+{
+  "contact": "Contacto",
+  "about": "Sobre nosotros",
+  "login": "Iniciar sesión",
+  "register": "Registrarse",
+  "account": "Cuenta",
+  "appointments": "Citas",
+  "my-services": "Mis servicios",
+  "logout": "Cerrar sesión",
+  "messages": "Mensajes",
+  "currency": "Moneda",
+  "language": "Idioma",
+  "logged-out-successfully": "Has cerrado sesión correctamente"
+}

@@ -1,0 +1,9 @@
+{
+  "title": "Iniciar sesión",
+  "email": "Correo electrónico",
+  "password": "Contraseña",
+  "submit": "Iniciar sesión",
+  "forgot-password": "¿Has olvidado tu contraseña?",
+  "register": "Registrarse",
+  "default-credentials": "Credenciales predeterminadas"
+}

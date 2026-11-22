@@ -1,0 +1,21 @@
+{
+  "title": "Reservar una cita",
+  "provider": "Profesionales",
+  "serviceDuration": "Duración del servicio",
+  "makeReservation": "Hacer una reserva",
+  "date": "Fecha",
+  "time": "Hora",
+  "successMessage": "La reserva se ha realizado correctamente",
+  "buttons": {
+    "back": "Volver",
+    "submit": "Reservar"
+  },
+  "errors": {
+    "loadService": "No se pudo cargar el servicio"
+  },
+  "validation": {
+    "date": "Selecciona una fecha",
+    "time": "Selecciona una hora",
+    "notClient": "Inicia sesión como cliente para reservar el servicio"
+  }
+}
