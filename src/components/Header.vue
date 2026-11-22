@@ -1,82 +1,129 @@
 <template>
+  <div ref="container">
+    <header class="bg-gray-800 py-4 text-white">
+      <div class="wrapper flex items-center justify-between">
+        <h1 class="font-bold md:text-xl" id="logo">
+          <RouterLink
+            class="link-home"
+            :to="{ name: 'Home', params: {}, query: {} }"
+            @click="headerStore.triggerHomeClick()"
+          >
+            <font-awesome-icon :icon="['fas', 'hammer']" title="Home Page" />&nbsp;Mam Fachowca
+          </RouterLink>
+        </h1>
 
-  <header class="bg-gray-800 text-white py-4"  ref="container">
-    <div class="wrapper flex justify-between items-center">
-      <h1 class="md:text-xl  font-bold" id="logo">
-        <RouterLink class="link-home" :to="{ name: 'Home', params: {}, query: {} }" @click="headerStore.triggerHomeClick()"><font-awesome-icon :icon="['fas', 'hammer']" title="Home Page" />&nbsp;Mam Fachowca</RouterLink>
-      </h1>
-
-      <!-- Mobile -->
-      <div class="md:hidden flex gap-2 items-center" v-if="isMobile">
-        <CurrencySwitcher/>
-        <ChangeLanguage />
-        <RouterLink v-if="isLogged" :to="{ name: 'Favorites' }"><font-awesome-icon  class="md:text-2xl" :icon="['far', 'heart']" /></RouterLink>
-        <NotificationDropdown v-if="isLogged" />
-
-        <!-- Hamburger Icon (Mobile only) -->
-        <button class="" @click="mobileMenuOpen = !mobileMenuOpen">
-          <img src="@/assets/icons/hamburger-icon.svg" class="h-6 w-6" alt="Hamburger Icon (Mobile only)">
-        </button>
-      </div>
-      <!-- END Mobile -->
-
-      <!-- Desktop Nav -->
-      <nav class="hidden md:flex items-center lg:gap-4 gap-1 md:text-xl text-sm">
-
-        <CurrencySwitcher/>
-
-        <ChangeLanguage />
-
-        <RouterLink v-if="isLogged" :to="{ name: 'Messages', params: {'userId': 1} }"><font-awesome-icon class="md:text-xl" :icon="['fas', 'envelope']" /></RouterLink>
-        <RouterLink v-if="isLogged" :to="{ name: 'Favorites', params: {} }"><font-awesome-icon class="md:text-xl" :icon="['far', 'heart']" /></RouterLink>
-
-        <NotificationDropdown v-if="isLogged" />
-
-        <RouterLink :to="{ name: 'Contact' }">{{ $t('header.contact') }}</RouterLink>
-        <RouterLink :to="{ name: 'About' }">{{ $t('header.about') }}</RouterLink>
-
-        <RouterLink v-if="!isLogged" :to="{ name: 'Login' }">{{ $t('header.login') }}</RouterLink>
-        <RouterLink v-if="!isLogged" :to="{ name: 'Register' }">{{ $t('header.register') }}</RouterLink>
-
-        <div class="relative  inline-block" v-if="isLogged" @mouseenter="openDropdown" @mouseleave="closeDropdown">
-          <RouterLink v-if="isLogged" class="gap-2" :to="{ name: 'Account' }" :title="authStore.user.name+' #'+authStore.user.id+'('+authStore.user.role+')'">{{ $t('header.account') }}<font-awesome-icon :icon="['fa', 'fa-chevron-down']" /> </RouterLink>
-          <transition name="fade">
-            <div v-if="isOpen" class="text-gray-800 flex-center gap-4 flex-col absolute right-0 p-2 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-50">
-              <RouterLink v-if="authStore.isAdmin" class="hidden md:inline" :to="{ name: 'AdminDashboard', params: {}, query: {} }" @click="headerStore.triggerHomeClick()" title="Admin Panel">Admin Panel</RouterLink>
-              <RouterLink v-if="isLogged" :to="{ name: 'Appointments' }">{{ $t('header.appointments') }}</RouterLink>
-              <RouterLink v-if="isLogged && isProvider" :to="{ name: 'MyServices' }">{{ $t('header.my-services') }}</RouterLink>
-              <BaseButton v-if="isLogged" @click="logout" :loading="loading" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 disabled:opacity-60 cursor-pointer w-fit btn-logout"> <font-awesome-icon :icon="['fas', 'right-from-bracket']" />&nbsp;{{ $t('header.logout') }}</BaseButton>
-            </div>
-          </transition>
+        <div class="flex items-center gap-2">
+          <CurrencySwitcher />
+          <RouterLink v-if="isLogged" :to="{ name: 'Favorites' }" :aria-label="$t('favorites.title')">
+            <font-awesome-icon :icon="['far', 'heart']" />
+          </RouterLink>
+          <NotificationDropdown v-if="isLogged" />
+          <button
+            type="button"
+            aria-label="Menu"
+            aria-controls="site-menu"
+            :aria-expanded="menuOpen"
+            @click="menuOpen = !menuOpen"
+          >
+            <img src="@/assets/icons/hamburger-icon.svg" class="h-6 w-6" alt="">
+          </button>
         </div>
-      </nav>
-      <!-- END Desktop Nav -->
-    </div>
-  </header>
+      </div>
+    </header>
 
-  <!-- Mobile Menu (shown when hamburger is clicked) -->
-  <nav v-if="mobileMenuOpen && isMobile" class="md:hidden bg-gray-700 text-white px-6 py-4 flex flex-col gap-2">
+    <nav v-if="menuOpen" id="site-menu" class="bg-gray-700 px-6 py-4 text-white">
+      <div class="wrapper flex flex-col gap-2">
+        <RouterLink
+          v-if="authStore.isAdmin"
+          :to="{ name: 'AdminDashboard', params: {}, query: {} }"
+          @click="headerStore.triggerHomeClick(); menuOpen = false"
+        >
+          Admin Panel
+        </RouterLink>
 
-    <RouterLink v-if="authStore.isAdmin" class="inline md:hidden" :to="{ name: 'AdminDashboard', params: {}, query: {} }" @click="headerStore.triggerHomeClick()">Admin Panel</RouterLink>
+        <RouterLink v-if="isLogged" :to="{ name: 'Messages', params: { userId: 1 } }" @click="menuOpen = false">
+          {{ $t('header.messages') }}
+        </RouterLink>
+        <RouterLink v-if="isLogged" :to="{ name: 'Favorites' }" @click="menuOpen = false">
+          {{ $t('favorites.title') }}
+        </RouterLink>
+        <RouterLink v-if="isLogged" :to="{ name: 'Appointments' }" @click="menuOpen = false">
+          {{ $t('header.appointments') }}
+        </RouterLink>
+        <RouterLink v-if="isLogged && isProvider" :to="{ name: 'MyServices' }" @click="menuOpen = false">
+          {{ $t('header.my-services') }}
+        </RouterLink>
+        <RouterLink v-if="isLogged" :to="{ name: 'Account' }" @click="menuOpen = false">
+          {{ $t('header.account') }} — {{ authStore.user.name }} #{{ authStore.user.id }} ({{ authStore.user.role }})
+        </RouterLink>
 
-    <RouterLink @click="mobileMenuOpen = false" v-if="!isLogged" :to="{ name: 'Login' }">{{ $t('header.login') }}</RouterLink>
-    <RouterLink @click="mobileMenuOpen = false" v-if="!isLogged" :to="{ name: 'Register' }">{{ $t('header.register') }}</RouterLink>
+        <RouterLink :to="{ name: 'Contact' }" @click="menuOpen = false">
+          {{ $t('header.contact') }}
+        </RouterLink>
+        <RouterLink :to="{ name: 'About' }" @click="menuOpen = false">
+          {{ $t('header.about') }}
+        </RouterLink>
+        <RouterLink v-if="!isLogged" :to="{ name: 'Login' }" @click="menuOpen = false">
+          {{ $t('header.login') }}
+        </RouterLink>
+        <RouterLink v-if="!isLogged" :to="{ name: 'Register' }" @click="menuOpen = false">
+          {{ $t('header.register') }}
+        </RouterLink>
 
-    <RouterLink @click="mobileMenuOpen = false" v-if="isLogged" :to="{ name: 'Messages', params: {'userId': 1} }">{{ $t('header.messages') }}</RouterLink>
-    <RouterLink @click="mobileMenuOpen = false" v-if="isLogged && isClient" :to="{ name: 'Appointments' }">{{$t('header.appointments') }}</RouterLink>
-    <RouterLink @click="mobileMenuOpen = false" v-if="isLogged && isProvider" :to="{ name: 'MyServices' }">{{$t('header.my-services') }}</RouterLink>
+        <div class="mt-2 border-t border-gray-600 pt-3">
+          <span class="block px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-gray-300">
+            {{ $t('header.language') }}
+          </span>
+          <ChangeLanguage class="!justify-start !py-0 !text-white" />
+        </div>
 
-    <RouterLink @click="mobileMenuOpen = false" v-if="isLogged" :to="{ name: 'Account' }"> {{ authStore.user.name }} #{{ authStore.user.id}} ({{ authStore.user.role }})</RouterLink>
-
-    <BaseButton @click="logout" :loading="loading" :name="$t('header.logout')" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-700 btn-logout" v-if="authStore.token"/>
-
-  </nav>
+        <BaseButton
+          v-if="isLogged"
+          @click="handleLogout"
+          :loading="loading"
+          class="w-fit cursor-pointer rounded bg-red-500 px-3 py-1 text-sm hover:bg-red-700 disabled:opacity-60"
+        >
+          <font-awesome-icon :icon="['fas', 'right-from-bracket']" />&nbsp;{{ $t('header.logout') }}
+        </BaseButton>
+      </div>
+    </nav>
+  </div>
 </template>
 
+<style scoped>
+#site-menu a,
+#site-menu :deep(.changeLanguage) {
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+#site-menu a {
+  display: block;
+}
+
+#site-menu :deep(.changeLanguage) {
+  display: flex;
+  align-items: center;
+}
+
+#site-menu a:hover,
+#site-menu a:focus-visible,
+#site-menu :deep(.changeLanguage:hover),
+#site-menu :deep(.changeLanguage:focus-visible) {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+#site-menu a:focus-visible,
+#site-menu :deep(.changeLanguage:focus-visible) {
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+</style>
 
 <script setup>
 import { useRouter, useRoute, RouterLink } from 'vue-router'
-import { computed, ref, watch, onBeforeUnmount, onMounted, onUnmounted } from 'vue'
+import { computed, ref, watch, onBeforeUnmount, onMounted } from 'vue'
 import { toast } from 'vue3-toastify'
 import { useAuthStore } from '@/stores/auth.ts'
 import BaseButton from '@/components/BaseButton.vue'
@@ -84,7 +131,6 @@ import ChangeLanguage from './ChangeLanguage.vue'
 import CurrencySwitcher from './CurrencySwitcher.vue'
 import NotificationDropdown from '@/components/NotificationDropdown.vue'
 import { useHeaderStore } from '@/stores/useHeaderStore.ts'
-import { Enums } from '@/enums.ts'
 import { useI18n } from 'vue-i18n'
 
 const authStore = useAuthStore()
@@ -94,19 +140,13 @@ const headerStore = useHeaderStore()
 const { t } = useI18n()
 
 const isProvider = computed(() => authStore.isProvider)
-const isClient = computed(() => authStore.isClient)
 const isLogged = computed(() => authStore.isLoggedIn )
-const mobileMenuOpen = ref(false)
+const menuOpen = ref(false)
 const container = ref(null)
 const loading = ref(false)
-const isMobile = ref(window.innerWidth < Enums.TAILWIND_BREAKPOINTS.md); // md breakpoint in Tailwind
 
-const isOpen = ref(false);
-let timeoutId = null;
-
-onMounted(async () => {
+onMounted(() => {
   document.addEventListener('click', handleClickOutside)
-  window.addEventListener('resize', handleResize)
 })
 
 const logout = async () => {
@@ -122,9 +162,13 @@ const logout = async () => {
 }
 
 const handleLogout = async () => {
-  mobileMenuOpen.value = false
+  menuOpen.value = false
   await logout()
 }
+
+watch(() => route.fullPath, () => {
+  menuOpen.value = false
+})
 
 watch(() => route.query.successMessage, (newValue) => {
   if (route.query.successMessage) {
@@ -138,33 +182,11 @@ watch(() => route.query.successMessage, (newValue) => {
 //click Outside mobile dropdown menu
 function handleClickOutside(event) {
   if (container.value && !container.value.contains(event.target)) {
-      mobileMenuOpen.value = false
-  }
-}
-
-const handleResize = () => {
-  if (window.innerWidth < Enums.TAILWIND_BREAKPOINTS.md) {
-    showSidebar.value = !showSidebar.value
+      menuOpen.value = false
   }
 }
 
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside)
 })
-
-onUnmounted(() => {
-  window.removeEventListener('resize', handleResize);
-});
-
-function openDropdown() {
-  clearTimeout(timeoutId);
-  isOpen.value = true;
-}
-
-function closeDropdown() {
-  // Delay before closing (e.g., 300ms)
-  timeoutId = setTimeout(() => {
-    isOpen.value = false;
-  }, 300);
-}
 </script>

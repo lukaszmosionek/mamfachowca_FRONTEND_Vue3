@@ -8,5 +8,8 @@
     "my-services" : "Moje usługi",
     "logout" : "Wyloguj",
     "messages" : "Wiadomości",
+    "language": "Język",
+    "switchToEnglish": "Przełącz na angielski",
+    "switchToPolish": "Przełącz na polski",
     "logged-out-successfully" : "Wylogowano pomyślnie"
 }

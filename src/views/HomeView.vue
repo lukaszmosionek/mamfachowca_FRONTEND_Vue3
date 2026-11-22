@@ -24,7 +24,16 @@
           @update:filters="handleFilters"
           @update:per-page="changeOffersPerPage"
         />
-        <HomeTile :services="visibleServices" :isLoading="isLoading" />
+        <div
+          v-if="(isLoading || isDebouncingFilters) && services.length === 0"
+          class="flex flex-col items-center gap-3 py-12 text-gray-600"
+          role="status"
+          aria-live="polite"
+        >
+          <div class="spinner" aria-hidden="true"></div>
+          <span>{{ $t('homeTile.loadingServices') }}</span>
+        </div>
+        <HomeTile v-else :services="visibleServices" :isLoading="isLoading" />
         <p
           v-if="hasLoadedServices && !isLoading && !hasMore && services.length === 0"
           class="mt-8 rounded-lg bg-white py-8 text-center text-gray-600"
@@ -53,9 +62,7 @@ import Filtering from '@/components/Filtering.vue'
 import Pagination from '@/components/Pagination.vue'
 import { useHeaderStore } from '@/stores/useHeaderStore.ts'
 import { toast } from 'vue3-toastify'
-import { serviceSchema } from '@/api/schemas/servicesSchema'
 import { useI18n } from 'vue-i18n'
-import { deepClone } from '@/helpers/deepClone.ts'
 import { useAuthStore } from '@/stores/auth.ts'
 import { useCurrencyStore } from '@/stores/useCurrencyStore.ts'
 
@@ -86,6 +93,7 @@ const getOfferPageSize = (value) => {
 }
 const offersPerPage = ref(getOfferPageSize(route.query.perPage))
 const isLoading = ref(false)
+const isDebouncingFilters = ref(false)
 const hasLoadedServices = ref(false)
 const services = ref([])
 const servicesInApiOrder = ref([])
@@ -251,8 +259,12 @@ const loadServices = async () => {
     pendingLoad = true
     return
   }
-  if (!hasMore.value) return
+  if (!hasMore.value) {
+    isDebouncingFilters.value = false
+    return
+  }
 
+  isDebouncingFilters.value = false
   isLoading.value = true
   const requestPage = page.value
   const requestFiltersVersion = filtersVersion
@@ -348,28 +360,44 @@ const loadProviders = async () => {
 }
 
 onMounted(() => {
-  services.value = deepClone(serviceSchema)
-
   loadServices()
   loadProviders()
+  if (headerStore.homeClicked) headerStore.resetHomeClick()
 })
 
 //Home Clicked
 watch(
   () => headerStore.homeClicked,
-  (newVal) => {
-          page.value =  1
-          filters.value.name =  null
-          filters.value.provider_id =  null
-          currentOfferPage.value = 1
+  (homeClicked) => {
+    if (!homeClicked) return
 
-          const container = scrollContainer.value
-          if (container) {
-            container.scrollTop = 0 // Scroll to top
-          }
+    filters.value = {
+      name: null,
+      provider_id: null,
+      priceFrom: null,
+      priceTo: null,
+      durationFrom: null,
+      durationTo: null,
+      currency: localStorage.getItem('currency') || currencyStore.currency || 'PLN',
+      sortBy: 'popularity'
+    }
+    filtersVersion++
+    page.value = 1
+    currentOfferPage.value = 1
+    offersPerPage.value = offerPageSizes[0]
+    hasMore.value = true
+    hasLoadedServices.value = false
+    isDebouncingFilters.value = true
+    services.value = []
+    servicesInApiOrder.value = []
+    pendingLoad = false
+    isDebouncingFilters.value = false
+    clearTimeout(debounceTimeout)
 
-          headerStore.resetHomeClick()
-          loadServices()
+    if (scrollContainer.value) scrollContainer.value.scrollTop = 0
+
+    headerStore.resetHomeClick()
+    void loadServices()
   }
 )
 

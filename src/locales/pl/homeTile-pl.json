@@ -1,6 +1,7 @@
 {
   "serviceDuration": "Czas trwania usługi",
   "provider": "Dostawca",
+  "loadingServices": "Ładowanie usług...",
   "noServices": "Brak usług spełniających wybrane kryteria.",
   "bookButton": "Zarezerwuj",
   "notLogged": "Zaloguj się, aby dodać do ulubionych",

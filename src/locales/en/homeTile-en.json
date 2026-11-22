@@ -1,6 +1,7 @@
 {
   "serviceDuration": "Service duration",
   "provider": "Providers",
+  "loadingServices": "Loading services...",
   "noServices": "No services match the selected filters.",
   "bookButton": "Book",
   "price": "Price",
