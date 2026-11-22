@@ -5,6 +5,8 @@
   "inputPlaceholder": "Szukaj usługodawcy",
   "priceFrom": "Cena od",
   "priceTo": "Cena do",
+  "durationFrom": "Czas trwania od",
+  "durationTo": "Czas trwania do",
   "sortBy": "Sortuj",
   "showProducts": "Pokaż",
   "products30": "30 produktów",

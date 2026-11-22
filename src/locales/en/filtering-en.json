@@ -3,6 +3,8 @@
   "provider": "Provider",
   "priceFrom": "Price from",
   "priceTo": "Price to",
+  "durationFrom": "Duration from",
+  "durationTo": "Duration to",
   "allProviders": "All Providers",
   "inputPlaceholder": "Search providers",
   "sortBy": "Sort",

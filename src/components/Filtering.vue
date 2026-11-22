@@ -4,7 +4,7 @@
       <fieldset
         v-if="showNameFilter"
         :class="vertical ? 'w-full' : toolbarLayout ? 'md:!w-2/5 !w-full' : 'md:!w-1/4 !w-full'"
-        class="filter-fieldset min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:ring-2 focus-within:ring-blue-500"
+        class="filter-fieldset min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:border-gray-900"
       >
         <legend class="px-1 text-xs text-gray-700">{{ $t('filtering.searchByName') }}</legend>
         <BaseInput
@@ -21,7 +21,7 @@
       <fieldset
         v-if="showProviderFilter"
         :class="vertical ? 'w-full' : 'md:!w-1/4 !w-full'"
-        class="filter-fieldset min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:ring-2 focus-within:ring-blue-500"
+        class="filter-fieldset min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:border-gray-900"
       >
         <legend class="px-1 text-xs text-gray-700">{{ $t('filtering.provider') }}</legend>
         <SearchableSelect
@@ -35,13 +35,13 @@
         />
       </fieldset>
 
-      <fieldset v-if="showSorting" :class="vertical ? 'w-full' : toolbarLayout ? 'md:!w-1/4 !w-full' : 'md:!w-1/5 !w-full'" class="min-w-0 rounded border border-gray-400 px-3 pb-1">
+      <fieldset v-if="showSorting" :class="vertical ? 'w-full' : toolbarLayout ? 'md:!w-1/4 !w-full' : 'md:!w-1/5 !w-full'" class="min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:border-gray-900">
         <legend class="px-1 text-xs text-gray-700">{{ $t('filtering.sortBy') }}</legend>
         <select
           id="sort-by"
           name="sortBy"
           :value="filters.sortBy || 'popularity'"
-          class="h-7 w-full border-0 bg-transparent p-0 text-sm text-gray-800 focus:ring-0"
+          class="h-7 w-full border-0 bg-transparent p-0 text-sm text-gray-800 focus:outline-none focus:ring-0"
           @change="event => updateFilter('sortBy', event.target.value)"
         >
           <option value="popularity">{{ $t('filtering.sortPopularity') }}</option>
@@ -53,12 +53,12 @@
         </select>
       </fieldset>
 
-      <fieldset v-if="showProductsCount" :class="vertical ? 'w-full' : 'md:!w-1/4 !w-full'" class="min-w-0 rounded border border-gray-400 px-3 pb-1">
+      <fieldset v-if="showProductsCount" :class="vertical ? 'w-full' : 'md:!w-1/4 !w-full'" class="min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:border-gray-900">
         <legend class="px-1 text-xs text-gray-700">{{ $t('filtering.showProducts') }}</legend>
         <select
           id="offers-per-page"
           :value="perPage"
-          class="h-7 w-full border-0 bg-transparent p-0 text-sm text-gray-800 focus:ring-0"
+          class="h-7 w-full border-0 bg-transparent p-0 text-sm text-gray-800 focus:outline-none focus:ring-0"
           @change="event => updatePerPage(event.target.value)"
         >
           <option v-for="count in perPageOptions" :key="count" :value="count">
@@ -69,18 +69,35 @@
 
       <template v-if="showPriceFilters">
         <fieldset
-          class="filter-fieldset min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:ring-2 focus-within:ring-blue-500"
+          class="filter-fieldset min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:border-gray-900"
           :class="vertical ? 'w-full' : 'md:!w-1/6 !w-full'"
         >
           <legend class="px-1 text-xs text-gray-700">{{ $t('filtering.priceFrom') }}</legend>
           <BaseInput type="number" name="price-from" :placeholder="$t('filtering.priceFrom')" :model-value="filters.priceFrom" :suffix="filters.currency || defaultCurrency" @update:modelValue="value => updateFilter('priceFrom', value)" wrapperClass="w-full" />
         </fieldset>
         <fieldset
-          class="filter-fieldset min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:ring-2 focus-within:ring-blue-500"
+          class="filter-fieldset min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:border-gray-900"
           :class="vertical ? 'w-full' : 'md:!w-1/6 !w-full'"
         >
           <legend class="px-1 text-xs text-gray-700">{{ $t('filtering.priceTo') }}</legend>
           <BaseInput type="number" name="price-to" :placeholder="$t('filtering.priceTo')" :model-value="filters.priceTo" :suffix="filters.currency || defaultCurrency" @update:modelValue="value => updateFilter('priceTo', value)" wrapperClass="w-full" />
+        </fieldset>
+      </template>
+
+      <template v-if="showDurationFilters">
+        <fieldset
+          class="filter-fieldset min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:border-gray-900"
+          :class="vertical ? 'w-full' : 'md:!w-1/6 !w-full'"
+        >
+          <legend class="px-1 text-xs text-gray-700">{{ $t('filtering.durationFrom') }}</legend>
+          <BaseInput type="number" name="duration-from" min="0" step="1" :placeholder="$t('filtering.durationFrom')" :model-value="filters.durationFrom" suffix="min" @update:modelValue="value => updateFilter('durationFrom', value)" wrapperClass="w-full" />
+        </fieldset>
+        <fieldset
+          class="filter-fieldset min-w-0 rounded border border-gray-400 px-3 pb-1 focus-within:border-gray-900"
+          :class="vertical ? 'w-full' : 'md:!w-1/6 !w-full'"
+        >
+          <legend class="px-1 text-xs text-gray-700">{{ $t('filtering.durationTo') }}</legend>
+          <BaseInput type="number" name="duration-to" min="0" step="1" :placeholder="$t('filtering.durationTo')" :model-value="filters.durationTo" suffix="min" @update:modelValue="value => updateFilter('durationTo', value)" wrapperClass="w-full" />
         </fieldset>
       </template>
     </div>
@@ -120,6 +137,10 @@ const props = defineProps({
   showPriceFilters: {
     type: Boolean,
     default: true
+  },
+  showDurationFilters: {
+    type: Boolean,
+    default: false
   },
   showProductsCount: {
     type: Boolean,

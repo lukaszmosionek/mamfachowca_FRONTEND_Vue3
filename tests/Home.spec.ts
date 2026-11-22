@@ -16,11 +16,14 @@ describe('Home.vue', () => {
     expect(wrapper.find('aside input#search-box').exists()).toBe(false)
     expect(wrapper.find('aside select#sort-by').exists()).toBe(false)
     expect(wrapper.find('aside input#price-from').exists()).toBe(true)
+    expect(wrapper.find('aside input#duration-from').exists()).toBe(true)
     expect(wrapper.find('section legend').text()).toContain('Search by name')
     expect(wrapper.findAll('aside legend').map(legend => legend.text())).toEqual([
       'Provider',
       'Price from',
-      'Price to'
+      'Price to',
+      'Duration from',
+      'Duration to'
     ])
   })
 
@@ -182,7 +185,7 @@ describe('Home.vue', () => {
     vi.useRealTimers()
   })
 
-  it('sends a minimum price without an empty maximum-price parameter', async () => {
+  it('filters by price locally without sending unsupported price parameters', async () => {
     vi.useFakeTimers()
     const getMock = vi.mocked(api.get)
     getMock.mockClear()
@@ -193,17 +196,62 @@ describe('Home.vue', () => {
     await flushPromises()
     await vi.advanceTimersByTimeAsync(500)
 
-    expect(getMock).toHaveBeenCalledWith('/services', expect.objectContaining({
-      params: expect.objectContaining({
-        price_from: '25'
-      })
-    }))
     const serviceRequest = getMock.mock.calls
       .filter(([url]) => url === '/services')
       .map(([, config]) => config)
-      .find(config => config.params.price_from === '25')
+      [0]
+    expect(serviceRequest).toBeDefined()
+    expect(serviceRequest.params).not.toHaveProperty('price_from')
     expect(serviceRequest.params).not.toHaveProperty('price_to')
 
+    vi.useRealTimers()
+  })
+
+  it('filters services by duration locally without sending duration parameters to the API', async () => {
+    vi.useFakeTimers()
+    const getMock = vi.mocked(api.get)
+    await router.replace({ name: 'Home', query: { currency: 'USD' } })
+    getMock.mockImplementation(async (url) => {
+      if (url !== '/services') return { providers: [] }
+
+      return {
+        services: [
+          { id: 1, name: 'Short service', price: '50', duration_minutes: 30, currency: { code: 'USD' } },
+          { id: 2, name: 'Medium service', price: '50', duration_minutes: 60, currency: { code: 'USD' } },
+          { id: 3, name: 'Long service', price: '50', duration_minutes: 90, currency: { code: 'USD' } }
+        ].map(service => ({
+          ...service,
+          photos: [],
+          provider: { id: 1, name: 'Provider' },
+          is_favorited: false
+        })),
+        last_page: 1
+      }
+    })
+
+    const wrapper = mount(Home)
+    await flushPromises()
+    getMock.mockClear()
+    await wrapper.find('#duration-from').setValue('45')
+    await flushPromises()
+    await vi.advanceTimersByTimeAsync(500)
+    await flushPromises()
+
+    expect(wrapper.findAll('h2.service-title').map(title => title.text())).toEqual([
+      'Medium service',
+      'Long service'
+    ])
+    const serviceRequest = getMock.mock.calls
+      .filter(([url]) => url === '/services')
+      .map(([, config]) => config)
+      [0]
+    expect(serviceRequest).toBeDefined()
+    expect(serviceRequest.params).not.toHaveProperty('durationFrom')
+    expect(serviceRequest.params).not.toHaveProperty('durationTo')
+    expect(serviceRequest.params).not.toHaveProperty('duration_from')
+    expect(serviceRequest.params).not.toHaveProperty('duration_to')
+
+    getMock.mockReset()
     vi.useRealTimers()
   })
 

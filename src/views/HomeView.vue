@@ -8,6 +8,7 @@
           vertical
           :show-name-filter="false"
           :show-sorting="false"
+          show-duration-filters
           @update:filters="handleFilters"
         />
       </aside>
@@ -63,6 +64,8 @@ const filters = ref({
   provider_id: Number(route.query.provider_id) || null,
   priceFrom: route.query.priceFrom || null,
   priceTo: route.query.priceTo || null,
+  durationFrom: route.query.durationFrom || null,
+  durationTo: route.query.durationTo || null,
   currency: route.query.currency || localStorage.getItem('currency') || 'PLN',
   sortBy: route.query.sortBy || 'popularity'
 })
@@ -143,6 +146,26 @@ const filterServicesByPrice = (serviceList) => {
 
     return (minPrice === null || !Number.isFinite(minPrice) || convertedPrice >= minPrice)
       && (maxPrice === null || !Number.isFinite(maxPrice) || convertedPrice <= maxPrice)
+  })
+}
+
+const filterServicesByDuration = (serviceList) => {
+  const minDuration = filters.value.durationFrom === null || filters.value.durationFrom === ''
+    ? null
+    : Number(filters.value.durationFrom)
+  const maxDuration = filters.value.durationTo === null || filters.value.durationTo === ''
+    ? null
+    : Number(filters.value.durationTo)
+  const hasDurationFilter = Number.isFinite(minDuration) || Number.isFinite(maxDuration)
+
+  if (!hasDurationFilter) return serviceList
+
+  return serviceList.filter((service) => {
+    const duration = Number(service.duration_minutes)
+    if (!Number.isFinite(duration)) return true
+
+    return (minDuration === null || !Number.isFinite(minDuration) || duration >= minDuration)
+      && (maxDuration === null || !Number.isFinite(maxDuration) || duration <= maxDuration)
   })
 }
 
@@ -228,20 +251,20 @@ const loadServices = async () => {
 
   try {
     const user = authStore.user
-    const { priceFrom, priceTo, ...otherFilters } = filters.value
     const res = await api.get('/services', {
       params: {
         page: requestPage,
-        ...otherFilters,
-        ...(priceFrom !== null && priceFrom !== '' ? { price_from: priceFrom } : {}),
-        ...(priceTo !== null && priceTo !== '' ? { price_to: priceTo } : {}),
+        name: filters.value.name,
+        provider_id: filters.value.provider_id,
+        currency: filters.value.currency,
+        sortBy: filters.value.sortBy,
         user_id: user ? user.id : null
       }
     })
 
     if (requestFiltersVersion !== filtersVersion) return
 
-    const matchingServices = filterServicesByPrice(res.services)
+    const matchingServices = filterServicesByPrice(filterServicesByDuration(res.services))
     if (requestPage === 1) {
         servicesInApiOrder.value = mergeUniqueServices([], matchingServices)
     } else {
@@ -255,11 +278,13 @@ const loadServices = async () => {
         page.value = requestPage + 1
     }
 
-    const hasPriceFilter = filters.value.priceFrom !== null && filters.value.priceFrom !== ''
+    const hasClientSideFilter = filters.value.priceFrom !== null && filters.value.priceFrom !== ''
       || filters.value.priceTo !== null && filters.value.priceTo !== ''
+      || filters.value.durationFrom !== null && filters.value.durationFrom !== ''
+      || filters.value.durationTo !== null && filters.value.durationTo !== ''
     if (
       hasMore.value &&
-      ((hasPriceFilter && matchingServices.length === 0) || Boolean(filters.value.sortBy))
+      ((hasClientSideFilter && matchingServices.length === 0) || Boolean(filters.value.sortBy))
     ) {
       pendingLoad = true
     }

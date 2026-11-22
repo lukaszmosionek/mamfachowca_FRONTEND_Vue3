@@ -5,7 +5,7 @@
       type="text"
       v-model="search"
       :placeholder="inputPlaceholder"
-      class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:border-gray-900 focus:ring-0"
       @focus="open = true; search = ''"
     />
 
