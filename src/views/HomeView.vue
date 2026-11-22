@@ -25,6 +25,13 @@
           @update:per-page="changeOffersPerPage"
         />
         <HomeTile :services="visibleServices" :isLoading="isLoading" />
+        <p
+          v-if="hasLoadedServices && !isLoading && !hasMore && services.length === 0"
+          class="mt-8 rounded-lg bg-white py-8 text-center text-gray-600"
+          role="status"
+        >
+          {{ $t('homeTile.noServices') }}
+        </p>
         <Pagination
           :pagination="offerPagination"
           :is-show="services.length > offersPerPage"
@@ -79,6 +86,7 @@ const getOfferPageSize = (value) => {
 }
 const offersPerPage = ref(getOfferPageSize(route.query.perPage))
 const isLoading = ref(false)
+const hasLoadedServices = ref(false)
 const services = ref([])
 const servicesInApiOrder = ref([])
 const providers = ref([])
@@ -264,6 +272,7 @@ const loadServices = async () => {
 
     if (requestFiltersVersion !== filtersVersion) return
 
+    hasLoadedServices.value = true
     const matchingServices = filterServicesByPrice(filterServicesByDuration(res.services))
     if (requestPage === 1) {
         servicesInApiOrder.value = mergeUniqueServices([], matchingServices)
@@ -318,6 +327,7 @@ const handleFilters = (el) => {
 
   currentOfferPage.value = 1
   filtersVersion++
+  hasLoadedServices.value = false
   page.value = 1
   hasMore.value = true
   services.value = []

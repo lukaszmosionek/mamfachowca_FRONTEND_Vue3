@@ -27,6 +27,13 @@ describe('Home.vue', () => {
     ])
   })
 
+  it('shows an empty state when the services API returns no services', async () => {
+    const wrapper = mount(Home)
+    await flushPromises()
+
+    expect(wrapper.find('[role="status"]').text()).toBe('No services match the selected filters.')
+  })
+
   it('defaults to popularity and preserves the API result order', async () => {
     const getMock = vi.mocked(api.get)
     await router.replace({ name: 'Home', query: { currency: 'USD' } })
@@ -140,6 +147,26 @@ describe('Home.vue', () => {
     await flushPromises()
     await wrapper.find('input[placeholder="Search providers"]').trigger('focus')
     expect(wrapper.text()).toContain('All Providers')
+  })
+
+  it('shows the service count beside each provider in the filter', async () => {
+    const getMock = vi.mocked(api.get)
+    getMock.mockImplementation(async (url) => {
+      if (url === '/providers') {
+        return { providers: [{ id: 1, name: 'Provider One', services_count: 4 }] }
+      }
+      if (url === '/services') return { services: [], last_page: 1 }
+      return {}
+    })
+
+    const wrapper = mount(Home)
+    await flushPromises()
+    await wrapper.find('input[placeholder="Search providers"]').trigger('focus')
+
+    expect(wrapper.text()).toContain('Provider One')
+    expect(wrapper.text()).toContain('(4)')
+
+    getMock.mockReset()
   })
 
   it('sends the entered service name to the services API', async () => {

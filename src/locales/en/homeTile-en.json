@@ -1,6 +1,7 @@
 {
   "serviceDuration": "Service duration",
   "provider": "Providers",
+  "noServices": "No services match the selected filters.",
   "bookButton": "Book",
   "price": "Price",
   "notLogged": "Login to add to favorites",

@@ -20,7 +20,10 @@
         class="px-3 py-2 cursor-pointer hover:bg-blue-500 hover:text-white"
         @click="selectOption(option)"
       >
-       {{ option.name }}
+        {{ option.name }}
+        <span v-if="option.services_count !== undefined && option.services_count !== null" class="ml-1 text-xs opacity-70">
+          ({{ option.services_count }})
+        </span>
       </div>
       <!-- <div v-if="filteredOptions.length === 0" class="px-3 py-2 text-gray-400">
         No results found
