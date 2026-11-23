@@ -1,0 +1,14 @@
+{
+    "title": "Sobre mí",
+    "description": "¡Hola! Soy Lukas, un apasionado desarrollador que ama construir aplicaciones web amigables para el usuario. Disfruto trabajando con herramientas modernas como Vue 3 y Tailwind CSS para crear interfaces limpias y responsivas.",
+    "skills": "Habilidades",
+    "skill1": "Vue 3 & Composition API",
+    "skill2": "Tailwind CSS",
+    "skill3": "JavaScript / TypeScript",
+    "skill4": "APIs REST",
+    "hobbies": "Pasatiempos",
+    "hobby1": "Aprender nuevas tecnologías",
+    "hobby2": "Diseño UI/UX",
+    "hobby3": "Juegos",
+    "hobby4": "Explorando la web"
+}

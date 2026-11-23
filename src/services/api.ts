@@ -40,7 +40,7 @@ api.interceptors.response.use(
     if (!error.response) {
       console.warn('Possible CORS or network issue')
       // Optional: force reload or show toast
-      window.location.reload()
+      //window.location.reload()
       return Promise.reject({ message: 'Network/CORS error', error })
     }
 

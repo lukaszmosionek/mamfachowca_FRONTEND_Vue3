@@ -1,0 +1,14 @@
+{
+    "title": "O mnie",
+    "description": "Witaj! Jestem Lukas, pasjonat programowania, który uwielbia tworzyć przyjazne dla użytkownika aplikacje web. Pracuję z nowoczesnymi narzędziami takimi jak Vue 3 i Tailwind CSS, aby tworzyć czyste i responsywne interfejsy.",
+    "skills": "Umiejętności",
+    "skill1": "Vue 3 & Composition API",
+    "skill2": "Tailwind CSS",
+    "skill3": "JavaScript / TypeScript",
+    "skill4": "REST APIs",
+    "hobbies": "Hobby",
+    "hobby1": "Uczenie się nowych technologii",
+    "hobby2": "Projektowanie UI/UX",
+    "hobby3": "Gry",
+    "hobby4": "Odkrywanie sieci"
+}

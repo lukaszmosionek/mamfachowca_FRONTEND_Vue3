@@ -15,6 +15,7 @@ import pagination from './pagination-es.json'
 import photoGallery from './photoGallery-es.json'
 import register from './register-es.json'
 import validation from './validation-es.json'
+import about from './about-es.json'
 
 export default {
   account,
@@ -33,5 +34,6 @@ export default {
   pagination,
   photoGallery,
   register,
-  validation
+  validation,
+  about
 }

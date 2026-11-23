@@ -15,6 +15,7 @@ import myService from './myService-pl.json'
 import photoGallery from './photoGallery-pl.json'
 import pagination from './pagination-pl.json'
 import other from './other-pl.json'
+import about from './about-pl.json'
 // import service from './service.json'
 
 export default {
@@ -34,6 +35,7 @@ export default {
   photoGallery,
   pagination,
   other,
+  about,
   footer
   // service,
 }
