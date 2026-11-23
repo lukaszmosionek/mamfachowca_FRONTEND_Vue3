@@ -5,5 +5,12 @@
   "submit": "Iniciar sesión",
   "forgot-password": "¿Has olvidado tu contraseña?",
   "register": "Registrarse",
-  "default-credentials": "Credenciales predeterminadas"
+  "default-credentials": "Credenciales predeterminadas",
+  "forgot-password-title": "¿Has olvidado tu contraseña?",
+  "forgot-password-description": "Introduce tu correo electrónico para recibir un enlace para restablecer tu contraseña.",
+  "send-reset-link": "Enviar enlace de restablecimiento",
+  "new-password": "Nueva contraseña",
+  "confirm-password": "Confirmar contraseña",
+  "reset-password": "Restablecer contraseña",
+  "password-requirements": "La contraseña debe tener al menos 8 caracteres y contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial."
 }

@@ -3,7 +3,14 @@
     "email" : "Email",
     "password" : "Hasło",
     "submit" : "Zaloguj się",
-    "forgot-password" : "Zapomniałeś hasła?",
+    "forgot-password" : "Zapomniałem hasła?",
     "register" : "Zarejestruj się",
-    "default-credentials": "Domyślne dane logowania"
+    "default-credentials": "Domyślne dane logowania",
+    "forgot-password-title": "Zapomniałem hasła?",
+    "forgot-password-description": "Podaj adres e-mail, aby otrzymać link do resetowania hasła.",
+    "send-reset-link": "Wyślij link resetujący",
+    "new-password": "Nowe hasło",
+    "confirm-password": "Potwierdź hasło",
+    "reset-password": "Resetuj hasło",
+    "password-requirements": "Hasło musi mieć co najmniej 8 znaków i zawierać jedną wielką literę, jedną małą literę, jedną liczbę i jeden znak specjalny."
 }

@@ -2,9 +2,11 @@
     "unauthorized": "Dostęp tylko dla zalogowanych użytkowników",
     "sessionExpired": "Sesja wygasła. Zaloguj się ponownie",
     "serverError": "Błąd serwera [500]",
+    "error": "Błąd",
     "tryAgainLater": "Spróbuj ponownie później",
     "forbidden": "Brak dostępu (403)",
     "notFound": "Nie znaleziono (404)",
+    "emailNotFound": "Taki email nie istnieje.",
     "buttons": {
         "goToLogin": "Przejdź do logowania",
         "ok": "OK",

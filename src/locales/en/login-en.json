@@ -5,5 +5,12 @@
     "submit" : "Login",
     "forgot-password" : "Forgot Password",
     "register" : "Register",
-    "default-credentials": "Default credentials"
+    "default-credentials": "Default credentials",
+    "forgot-password-title": "Forgot Password",
+    "forgot-password-description": "Please enter your email address to receive a password reset link.",
+    "send-reset-link": "Send Reset Link",
+    "new-password": "New Password",
+    "confirm-password": "Confirm Password",
+    "reset-password": "Reset Password",
+    "password-requirements": "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character."
 }

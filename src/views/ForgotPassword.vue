@@ -2,17 +2,15 @@
 <template>
   <div class="forgot-password-container">
     <div class="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-xl">
-      <h1 class="h1">{{ $t('Forgot Password') }}</h1>
-      <p>Please enter your email address to receive a password reset link.</p>
+      <h1 class="h1">{{ $t('login.forgot-password-title') }}</h1>
+      <p class="text-gray-600 mt-2">{{ $t('login.forgot-password-description') }}</p>
 
-      <div class="form-container mt-4">
-        <form @submit.prevent="submit">
-          <!-- <input v-model="email" type="email" class="border border-gray-300 p-2 rounded" placeholder="Enter your email" required /> -->
-          <BaseInput v-model="email" type="email" :errors="error.email" label="Email" />
-          <BaseButton class="mt-4" :disabled="!email" name="Send Reset Link" />
-          <p v-if="message">{{ message }}</p>
-        </form>
-      </div>
+      <form @submit.prevent="submit" class="mt-4 space-y-4">
+        <BaseInput v-model="email" type="email" :errors="errors?.email" :label="$t('login.email')" />
+        <BaseButton type="submit" class="mt-4" :disabled="!email" :loading="loading">
+          {{ $t('login.send-reset-link') }}
+        </BaseButton>
+      </form>
     </div>
   </div>
 </template>
@@ -20,26 +18,47 @@
 <script setup>
 import BaseInput from '@/components/BaseInput.vue'
 import BaseButton from '@/components/BaseButton.vue'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import api from '@/services/api.ts'
-import { useRoute } from 'vue-router';
+import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import Swal from 'sweetalert2'
 
+const { t } = useI18n()
 const email = ref('')
-const message = ref('')
-const error = ref({})
-const route = useRoute();
+const errors = ref({})
+const loading = ref(false)
+const route = useRoute()
 
-onMounted(() => {
-  email.value = route.query.email || '';
-});
+email.value = route.query.email || ''
 
 const submit = async () => {
+  if (!email.value) {
+    Swal.fire(t('other.error'), t('validation.email.required'), 'error')
+    return
+  }
+  errors.value = {}
+  loading.value = true
   try {
     const res = await api.post('/forgot-password', { email: email.value })
-    message.value = res.data.message
+    Swal.fire({
+      title: 'OK',
+      text: res.data?.message || res.message,
+      icon: 'success',
+      confirmButtonText: t('other.buttons.ok')
+    })
   } catch (err) {
-    console.error(err)
-    error.value = err.response.data.errors
+    const errorData = err
+    errors.value = errorData?.errors || {}
+    const errorCode = errorData?.error_code
+    if (errorCode === 'user_not_found') {
+      Swal.fire(t('other.error'), t('other.emailNotFound'), 'error')
+    } else if (Object.keys(errors.value).length === 0) {
+      const serverMessage = errorData?.message || t('other.tryAgainLater')
+      Swal.fire(t('other.error'), serverMessage, 'error')
+    }
+  } finally {
+    loading.value = false
   }
 }
 </script>
