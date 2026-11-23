@@ -1,5 +1,5 @@
 <template>
-  <div class="h-screen overflow-y-auto hide-scrollbar scrollContainer" ref="scrollContainer" @scroll="handleScroll">
+  <div class="flex-1 overflow-y-auto hide-scrollbar scrollContainer" ref="scrollContainer" @scroll="handleScroll">
     <div class="grid grid-cols-1 gap-5 lg:grid-cols-[260px_minmax(0,1fr)]">
       <aside class="min-w-0 rounded-lg bg-white p-4 shadow-sm lg:sticky lg:top-4 lg:self-start">
         <Filtering
