@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build": "run-p type-check \"build-only {@}\" -- && node fix-dist.cjs",
     "deploy": "npm run build && node deploy.cjs",
     "preview": "vite preview",
     "build-only": "vite build",
